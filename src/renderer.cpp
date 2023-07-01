@@ -1,23 +1,37 @@
 #include "renderer.h"
+#include "SDL_image.h"
+#include "SDL_pixels.h"
+#include "SDL_render.h"
+#include "SDL_ttf.h"
 #include <iostream>
 #include <string>
 
-Renderer::Renderer(const std::size_t screen_width,
-                   const std::size_t screen_height,
+Renderer::Renderer(const std::size_t screen_width, const std::size_t screen_height,
                    const std::size_t grid_width, const std::size_t grid_height)
-    : screen_width(screen_width),
-      screen_height(screen_height),
-      grid_width(grid_width),
-      grid_height(grid_height) {
+    : screen_width(screen_width), screen_height(screen_height), grid_width(grid_width),
+      grid_height(grid_height), sdl_font(nullptr) {
   // Initialize SDL
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {
     std::cerr << "SDL could not initialize.\n";
     std::cerr << "SDL_Error: " << SDL_GetError() << "\n";
   }
 
+  /* Initialize the TTF library */
+  if (TTF_Init() < 0) {
+    std::cerr << "Could not initialize TTF.\n";
+    std::cerr << "SDL_Error: " << SDL_GetError() << "\n";
+  }
+
+  std::cout << "helloooo \n";
+  sdl_font = TTF_OpenFont("../font/lazy.ttf", 500);
+  if (sdl_font == nullptr) {
+    std::cerr << "Could not open the lazy.ttf";
+    std::cerr << " SDL_Error: " << SDL_GetError() << "\n";
+  }
+  // std::cout << font << "helloooo \n";
+
   // Create Window
-  sdl_window = SDL_CreateWindow("Snake Game", SDL_WINDOWPOS_CENTERED,
-                                SDL_WINDOWPOS_CENTERED, screen_width,
+  sdl_window = SDL_CreateWindow("Snake Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, screen_width,
                                 screen_height, SDL_WINDOW_SHOWN);
 
   if (nullptr == sdl_window) {
@@ -35,8 +49,31 @@ Renderer::Renderer(const std::size_t screen_width,
 
 Renderer::~Renderer() {
   SDL_DestroyWindow(sdl_window);
+  TTF_CloseFont(sdl_font);
+  TTF_Quit();
   SDL_Quit();
 }
+
+// Test ----------------------------------------------------
+SDL_Texture *renderText(TTF_Font *font, const std::string &message, const std::string &fontFile,
+                        SDL_Color color, SDL_Renderer *renderer) {
+  // We need to first render to a surface as that's what TTF_RenderText
+  // returns, then load that surface into a texture
+
+  SDL_Surface *surf = TTF_RenderText_Blended(font, message.c_str(), color);
+  if (surf == nullptr) {
+    // logSDLError(std::cout, "TTF_RenderText");
+    return nullptr;
+  }
+  SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surf);
+  if (texture == nullptr) {
+    // logSDLError(std::cout, "CreateTexture");
+  }
+  // Clean up the surface and font
+  SDL_FreeSurface(surf);
+  return texture;
+}
+// Test ----------------------------------------------------
 
 void Renderer::Render(Snake const snake, SDL_Point const &food) {
   SDL_Rect block;
@@ -60,6 +97,33 @@ void Renderer::Render(Snake const snake, SDL_Point const &food) {
     block.y = point.y * block.h;
     SDL_RenderFillRect(sdl_renderer, &block);
   }
+
+  // TEST ----------------------------------------------------
+
+  // const std::string resPath = getResourcePath("Lesson6");
+  // We'll render the string "TTF fonts are cool!" in white
+  // Color is in RGBA format
+  SDL_Color color = {255, 255, 255, 255};
+
+  SDL_Texture *image = renderText(sdl_font, "TTF fonts are cool!", "../font/lazy.ttf", color, sdl_renderer);
+  if (image == nullptr) {
+    // cleanup(sdl_renderer, sdl_window);
+    // TTF_Quit();
+    // SDL_Quit();
+  }
+  // Get the texture w/h so we can center it in the screen
+  int iW, iH;
+  SDL_QueryTexture(image, NULL, NULL, &iW, &iH);
+  int x = 200;
+  int y = 200;
+
+  // Note: This is within the program's main loop
+  // SDL_RenderClear(renderer);
+  // We can draw our message as we do any other texture, since it's been
+  // rendered to a texture
+  SDL_RenderCopy(sdl_renderer, image, nullptr, nullptr);
+
+  // TEST ----------------------------------------------------
 
   // Render snake's head
   block.x = static_cast<int>(snake.head_x) * block.w;
