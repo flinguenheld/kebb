@@ -3,13 +3,14 @@
 #include "SDL_pixels.h"
 #include "SDL_render.h"
 #include "SDL_ttf.h"
+#include <cstddef>
 #include <iostream>
 #include <string>
 
 Renderer::Renderer(const std::size_t screen_width, const std::size_t screen_height,
                    const std::size_t grid_width, const std::size_t grid_height)
     : screen_width(screen_width), screen_height(screen_height), grid_width(grid_width),
-      grid_height(grid_height), sdl_font(nullptr) {
+      grid_height(grid_height), _font(nullptr) {
   // Initialize SDL
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {
     std::cerr << "SDL could not initialize.\n";
@@ -22,58 +23,35 @@ Renderer::Renderer(const std::size_t screen_width, const std::size_t screen_heig
     std::cerr << "SDL_Error: " << SDL_GetError() << "\n";
   }
 
-  std::cout << "helloooo \n";
-  sdl_font = TTF_OpenFont("../font/lazy.ttf", 500);
-  if (sdl_font == nullptr) {
+  _font = TTF_OpenFont("../font/lazy.ttf", 5);
+  if (_font == nullptr) {
     std::cerr << "Could not open the lazy.ttf";
     std::cerr << " SDL_Error: " << SDL_GetError() << "\n";
   }
-  // std::cout << font << "helloooo \n";
 
   // Create Window
-  sdl_window = SDL_CreateWindow("Snake Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, screen_width,
-                                screen_height, SDL_WINDOW_SHOWN);
+  _window = SDL_CreateWindow("Snake Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, screen_width,
+                             screen_height, SDL_WINDOW_SHOWN);
 
-  if (nullptr == sdl_window) {
+  if (nullptr == _window) {
     std::cerr << "Window could not be created.\n";
     std::cerr << " SDL_Error: " << SDL_GetError() << "\n";
   }
 
   // Create renderer
-  sdl_renderer = SDL_CreateRenderer(sdl_window, -1, SDL_RENDERER_ACCELERATED);
-  if (nullptr == sdl_renderer) {
+  _renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED);
+  if (nullptr == _renderer) {
     std::cerr << "Renderer could not be created.\n";
     std::cerr << "SDL_Error: " << SDL_GetError() << "\n";
   }
 }
 
 Renderer::~Renderer() {
-  SDL_DestroyWindow(sdl_window);
-  TTF_CloseFont(sdl_font);
+  TTF_CloseFont(_font);
   TTF_Quit();
+  SDL_DestroyWindow(_window);
   SDL_Quit();
 }
-
-// Test ----------------------------------------------------
-SDL_Texture *renderText(TTF_Font *font, const std::string &message, const std::string &fontFile,
-                        SDL_Color color, SDL_Renderer *renderer) {
-  // We need to first render to a surface as that's what TTF_RenderText
-  // returns, then load that surface into a texture
-
-  SDL_Surface *surf = TTF_RenderText_Blended(font, message.c_str(), color);
-  if (surf == nullptr) {
-    // logSDLError(std::cout, "TTF_RenderText");
-    return nullptr;
-  }
-  SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surf);
-  if (texture == nullptr) {
-    // logSDLError(std::cout, "CreateTexture");
-  }
-  // Clean up the surface and font
-  SDL_FreeSurface(surf);
-  return texture;
-}
-// Test ----------------------------------------------------
 
 void Renderer::Render(Snake const snake, SDL_Point const &food) {
   SDL_Rect block;
@@ -81,47 +59,51 @@ void Renderer::Render(Snake const snake, SDL_Point const &food) {
   block.h = screen_height / grid_height;
 
   // Clear screen
-  SDL_SetRenderDrawColor(sdl_renderer, 0x1E, 0x1E, 0x1E, 0xFF);
-  SDL_RenderClear(sdl_renderer);
+  SDL_SetRenderDrawColor(_renderer, 0x1E, 0x1E, 0x1E, 0xFF);
+  SDL_RenderClear(_renderer);
 
   // Render food
-  SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xCC, 0x00, 0xFF);
+  SDL_SetRenderDrawColor(_renderer, 0xFF, 0xCC, 0x00, 0xFF);
   block.x = food.x * block.w;
   block.y = food.y * block.h;
-  SDL_RenderFillRect(sdl_renderer, &block);
+  SDL_RenderFillRect(_renderer, &block);
 
   // Render snake's body
-  SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+  SDL_SetRenderDrawColor(_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
   for (SDL_Point const &point : snake.body) {
     block.x = point.x * block.w;
     block.y = point.y * block.h;
-    SDL_RenderFillRect(sdl_renderer, &block);
+    SDL_RenderFillRect(_renderer, &block);
   }
 
   // TEST ----------------------------------------------------
+  // TEST ----------------------------------------------------
+  SDL_Color text_color = {255, 255, 255, 255};
+  int x, y;
 
-  // const std::string resPath = getResourcePath("Lesson6");
-  // We'll render the string "TTF fonts are cool!" in white
-  // Color is in RGBA format
-  SDL_Color color = {255, 255, 255, 255};
-
-  SDL_Texture *image = renderText(sdl_font, "TTF fonts are cool!", "../font/lazy.ttf", color, sdl_renderer);
-  if (image == nullptr) {
-    // cleanup(sdl_renderer, sdl_window);
-    // TTF_Quit();
-    // SDL_Quit();
+  if (image != NULL) {
+    SDL_DestroyTexture(image);
   }
-  // Get the texture w/h so we can center it in the screen
-  int iW, iH;
-  SDL_QueryTexture(image, NULL, NULL, &iW, &iH);
-  int x = 200;
-  int y = 200;
 
-  // Note: This is within the program's main loop
-  // SDL_RenderClear(renderer);
-  // We can draw our message as we do any other texture, since it's been
-  // rendered to a texture
-  SDL_RenderCopy(sdl_renderer, image, nullptr, nullptr);
+  SDL_Surface *textSurface = TTF_RenderText_Solid(_font, "X", text_color);
+  if (textSurface == NULL) {
+    printf("Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError());
+  } else {
+    // Create texture from surface pixels
+    image = SDL_CreateTextureFromSurface(_renderer, textSurface);
+    if (image == NULL) {
+      printf("Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError());
+    } else {
+      // Get image dimensions
+      x = textSurface->w;
+      y = textSurface->h;
+    }
+
+    // Get rid of old surface
+    SDL_FreeSurface(textSurface);
+
+    SDL_RenderCopy(_renderer, image, nullptr, nullptr);
+  }
 
   // TEST ----------------------------------------------------
 
@@ -129,17 +111,17 @@ void Renderer::Render(Snake const snake, SDL_Point const &food) {
   block.x = static_cast<int>(snake.head_x) * block.w;
   block.y = static_cast<int>(snake.head_y) * block.h;
   if (snake.alive) {
-    SDL_SetRenderDrawColor(sdl_renderer, 0x00, 0x7A, 0xCC, 0xFF);
+    SDL_SetRenderDrawColor(_renderer, 0x00, 0x7A, 0xCC, 0xFF);
   } else {
-    SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0x00, 0x00, 0xFF);
+    SDL_SetRenderDrawColor(_renderer, 0xFF, 0x00, 0x00, 0xFF);
   }
-  SDL_RenderFillRect(sdl_renderer, &block);
+  SDL_RenderFillRect(_renderer, &block);
 
   // Update Screen
-  SDL_RenderPresent(sdl_renderer);
+  SDL_RenderPresent(_renderer);
 }
 
 void Renderer::UpdateWindowTitle(int score, int fps) {
   std::string title{"Snake Score: " + std::to_string(score) + " FPS: " + std::to_string(fps)};
-  SDL_SetWindowTitle(sdl_window, title.c_str());
+  SDL_SetWindowTitle(_window, title.c_str());
 }
