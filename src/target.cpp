@@ -1,22 +1,33 @@
 #include "target.h"
 
-Target::Target(int h_screen, int w_screen)
-    : _txt(), _font(nullptr), _w_screen(w_screen), _h_screen(h_screen) {}
+Target::Target(int h_screen, int w_screen) : _txt(), _font(nullptr), _w_area(w_screen), _h_aera(h_screen) {
+
+  _center_area.x = _w_area / 2;
+  _center_area.y = _h_aera / 2;
+}
 
 void Target::update() {
-  _x++;
-  _y++;
+  _position.x++;
+  _position.y++;
 
-  std::cout << "x: " << _x << "  screen: " << _w_screen << std::endl;
-  std::cout << "y: " << _y << std::endl;
+  _center_txt.x = _position.x + _w / 2;
+  _center_txt.y = _position.y + _h / 2;
 
-  int x_center = _x + _w / 2;
-  int y_center = _y + _h / 2;
-
-  if (x_center <= 0 || x_center >= _w_screen || y_center <= 0 || y_center >= _h_screen)
+  if (_center_txt.x <= 0 || _center_txt.x >= _w_area || _center_txt.y <= 0 || _center_txt.y >= _h_aera)
     init();
 
-  _color = {0x1E, 0x5E, 0x15, 0xFF};
+  std::cout << _position.distance(_center_area) << std::endl;
+  int d = _position.distance(_center_area);
+  if (d < _w_area / 5)
+    _color = {0x13, 0x2B, 0x55, 0x55};
+  else if (d < _w_area / 4)
+    _color = {0x13, 0x2B, 0x22, 0xFF};
+  else if (d < _w_area / 3)
+    _color = {0x13, 0x5A, 0x55, 0xFF};
+  else if (d < _w_area / 2)
+    _color = {0x13, 0x5A, 0x55, 0xFF};
+  else
+    _color = {0x13, 0x2B, 0xaa, 0xFF};
 }
 
 void Target::setText(std::string txt, TTF_Font *font) {
@@ -26,21 +37,21 @@ void Target::setText(std::string txt, TTF_Font *font) {
 
   std::cout << TTF_SizeText(_font, char_ptr(), &_w, &_h) << "\n";
 
-  _x = _w_screen / 2 + _w / 2;
-  _y = _h_screen / 2 + _h / 2;
+  _position.x = _w_area / 2 + _w / 2;
+  _position.y = _h_aera / 2 + _h / 2;
 }
 
 const char *Target::char_ptr() const { return _txt.c_str(); }
 SDL_Color Target::color() const { return _color; }
 
-int Target::x() const { return _x; }
-int Target::y() const { return _y; }
+point Target::position() const { return _position; };
 
 int Target::h() const { return _h; }
 int Target::w() const { return _w; }
 
 void Target::init() {
 
-  _x = _w_screen / 2 - _w / 2;
-  _y = _h_screen / 2 - _h / 2;
+  _color = {0x1E, 0x5E, 0x15, 0xFF};
+  _position.x = _w_area / 2 - _w / 2;
+  _position.y = _h_aera / 2 - _h / 2;
 }

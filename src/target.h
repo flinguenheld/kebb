@@ -6,7 +6,15 @@
 #include "SDL_ttf.h"
 #include <algorithm>
 #include <iostream>
+#include <math.h>
 #include <string>
+
+struct point {
+  int x;
+  int y;
+
+  float distance(const point &pt) { return sqrt(pow(x - pt.x, 2) + pow(y - pt.y, 2)); };
+};
 
 class Target {
 
@@ -19,8 +27,7 @@ public:
   const char *char_ptr() const;
   SDL_Color color() const;
 
-  int x() const;
-  int y() const;
+  point position() const;
 
   int h() const;
   int w() const;
@@ -32,8 +39,10 @@ private:
   std::string _txt;
   SDL_Color _color;
 
-  const int _w_screen, _h_screen;
-  int _x, _y;
+  const int _w_area, _h_aera;
+  point _center_area;
+  point _center_txt;
+  point _position;
   int _h, _w;
 };
 
