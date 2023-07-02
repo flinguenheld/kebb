@@ -10,7 +10,7 @@
 Renderer::Renderer(const std::size_t screen_width, const std::size_t screen_height,
                    const std::size_t grid_width, const std::size_t grid_height)
     : screen_width(screen_width), screen_height(screen_height), grid_width(grid_width),
-      grid_height(grid_height), _font(nullptr), test_target(screen_height, screen_width) {
+      grid_height(grid_height), _font(nullptr), test_target(screen_height / 2, screen_width / 2, 300) {
   // Initialize SDL
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {
     std::cerr << "SDL could not initialize.\n";
@@ -104,8 +104,8 @@ void Renderer::Render(Snake const snake, SDL_Point const &food) {
     // Get rid of old surface
     SDL_FreeSurface(textSurface);
 
-    SDL_Rect renderQuad = {test_target.top_left_position().x, test_target.top_left_position().y,
-                           test_target.w(), test_target.h()};
+    SDL_Rect renderQuad = {test_target.position().x, test_target.position().y, test_target.w(),
+                           test_target.h()};
     // SDL_Point center = {100, 100};
     SDL_Point center = {};
 
