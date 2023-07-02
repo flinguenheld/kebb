@@ -10,7 +10,7 @@
 Renderer::Renderer(const std::size_t screen_width, const std::size_t screen_height,
                    const std::size_t grid_width, const std::size_t grid_height)
     : screen_width(screen_width), screen_height(screen_height), grid_width(grid_width),
-      grid_height(grid_height), _font(nullptr) {
+      grid_height(grid_height), _font(nullptr), test_target(screen_height, screen_width) {
   // Initialize SDL
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {
     std::cerr << "SDL could not initialize.\n";
@@ -27,7 +27,8 @@ Renderer::Renderer(const std::size_t screen_width, const std::size_t screen_heig
   if (_font == nullptr) {
     std::cerr << "Could not open the lazy.ttf";
     std::cerr << " SDL_Error: " << SDL_GetError() << "\n";
-  }
+  } else
+    test_target.setText("Test", _font);
 
   // Create Window
   _window = SDL_CreateWindow("Snake Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, screen_width,
@@ -78,14 +79,15 @@ void Renderer::Render(Snake const snake, SDL_Point const &food) {
 
   // TEST ----------------------------------------------------
   // TEST ----------------------------------------------------
-  SDL_Color text_color = {255, 255, 255, 255};
   int x, y;
 
   if (image != NULL) {
     SDL_DestroyTexture(image);
   }
 
-  SDL_Surface *textSurface = TTF_RenderText_Solid(_font, "B~", text_color);
+  test_target.update();
+
+  SDL_Surface *textSurface = TTF_RenderText_Solid(_font, test_target.char_ptr(), test_target.color());
   if (textSurface == NULL) {
     printf("Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError());
   } else {
@@ -102,7 +104,7 @@ void Renderer::Render(Snake const snake, SDL_Point const &food) {
     // Get rid of old surface
     SDL_FreeSurface(textSurface);
 
-    SDL_Rect renderQuad = {200, 250, 80, 60};
+    SDL_Rect renderQuad = {test_target.x(), test_target.y(), test_target.w(), test_target.h()};
     // SDL_Point center = {100, 100};
     SDL_Point center = {};
 

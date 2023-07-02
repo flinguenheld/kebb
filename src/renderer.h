@@ -5,6 +5,7 @@
 #include "SDL_render.h"
 #include "SDL_ttf.h"
 #include "snake.h"
+#include "target.h"
 #include <vector>
 
 class Renderer {
@@ -22,6 +23,8 @@ private:
   TTF_Font *_font;
 
   SDL_Texture *image;
+
+  Target test_target;
 
   const std::size_t screen_width;
   const std::size_t screen_height;
