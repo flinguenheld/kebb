@@ -27,7 +27,7 @@ public:
   const char *char_ptr() const;
   SDL_Color color() const;
 
-  point position() const;
+  point top_left_position() const;
 
   int h() const;
   int w() const;
@@ -42,8 +42,8 @@ private:
   const int _w_area, _h_aera;
   point _center_area;
   point _center_txt;
-  point _position;
-  int _h, _w;
+  point _top_left_position; // Current position
+  int _h, _w;               // Textbox size
 };
 
 #endif // !TARGET_H

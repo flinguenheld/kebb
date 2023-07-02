@@ -104,8 +104,8 @@ void Renderer::Render(Snake const snake, SDL_Point const &food) {
     // Get rid of old surface
     SDL_FreeSurface(textSurface);
 
-    SDL_Rect renderQuad = {test_target.position().x, test_target.position().y, test_target.w(),
-                           test_target.h()};
+    SDL_Rect renderQuad = {test_target.top_left_position().x, test_target.top_left_position().y,
+                           test_target.w(), test_target.h()};
     // SDL_Point center = {100, 100};
     SDL_Point center = {};
 
