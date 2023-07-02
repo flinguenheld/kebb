@@ -23,7 +23,7 @@ Renderer::Renderer(const std::size_t screen_width, const std::size_t screen_heig
     std::cerr << "SDL_Error: " << SDL_GetError() << "\n";
   }
 
-  _font = TTF_OpenFont("../font/lazy.ttf", 5);
+  _font = TTF_OpenFont("../font/DejaVuSansMono-Bold.ttf", 60);
   if (_font == nullptr) {
     std::cerr << "Could not open the lazy.ttf";
     std::cerr << " SDL_Error: " << SDL_GetError() << "\n";
@@ -85,7 +85,7 @@ void Renderer::Render(Snake const snake, SDL_Point const &food) {
     SDL_DestroyTexture(image);
   }
 
-  SDL_Surface *textSurface = TTF_RenderText_Solid(_font, "X", text_color);
+  SDL_Surface *textSurface = TTF_RenderText_Solid(_font, "B~", text_color);
   if (textSurface == NULL) {
     printf("Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError());
   } else {
@@ -102,7 +102,13 @@ void Renderer::Render(Snake const snake, SDL_Point const &food) {
     // Get rid of old surface
     SDL_FreeSurface(textSurface);
 
-    SDL_RenderCopy(_renderer, image, nullptr, nullptr);
+    SDL_Rect renderQuad = {200, 250, 80, 60};
+    // SDL_Point center = {100, 100};
+    SDL_Point center = {};
+
+    SDL_RendererFlip flip = {};
+
+    SDL_RenderCopyEx(_renderer, image, nullptr, &renderQuad, 0, &center, flip);
   }
 
   // TEST ----------------------------------------------------
