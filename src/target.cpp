@@ -3,7 +3,7 @@
 #include <iterator>
 
 Target::Target(int x, int y, int radius)
-    : _txt(), _font(nullptr), _center(x, y), _center_txt(x, y), _position(x, y), _radius(radius), _alpha(1) {}
+    : _txt(), _font(nullptr), _center(x, y), _center_txt(x, y), _position(x, y), _radius(radius) {}
 
 void Target::update() {
 
@@ -16,21 +16,22 @@ void Target::update() {
 
   int distance = _center.distance(_center_txt);
 
-  // TODO: Add colour change to turn in red ?
-  // Fade --
-  if (distance <= _radius * 0.2)
-    _alpha += 5;
-  else if (distance >= (_radius * 0.8) && distance <= _radius)
-    _alpha -= 5;
-  else if (distance > _radius) {
+  // Fade & colour --
+  if (distance <= _radius * 0.2) {
+
+    _color.a = _color.a > 200 ? 200 : _color.a + 5;
+
+  } else if (distance >= (_radius * 0.7) && distance <= _radius) {
+
+    _color.a = _color.a <= 5 ? 5 : _color.a - 5;
+
+    _color.g = _color.g <= 50 ? 50 : _color.g - 15;
+    _color.b = _color.b <= 50 ? 50 : _color.b - 15;
+
+  } else if (distance > _radius) {
     init();
     distance = 0;
-    _alpha = 1;
   }
-
-  _alpha = _alpha > 200 ? 200 : (_alpha < 1 ? 1 : _alpha);
-
-  _color = {255, 255, 255, static_cast<Uint8>(_alpha)};
 }
 
 void Target::setText(std::string txt, TTF_Font *font) {
@@ -52,8 +53,7 @@ int Target::w() const { return _w; }
 
 void Target::init() {
 
-  _color = {0x1E, 0x5E, 0x15, 0xFF};
-
+  _color = {255, 255, 255, 1};
   _position.x = _center.x - _w / 2;
   _position.y = _center.y - _h / 2;
 }

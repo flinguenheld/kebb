@@ -3,6 +3,7 @@
 
 #include "SDL.h"
 #include "SDL_pixels.h"
+#include "SDL_stdinc.h"
 #include "SDL_ttf.h"
 #include <algorithm>
 #include <iostream>
@@ -45,7 +46,6 @@ private:
   point _center_txt;
   point _position; // Top left position
   int _h, _w;      // Textbox size
-  int _alpha;
 };
 
 #endif // !TARGET_H
