@@ -40,10 +40,56 @@ Renderer::Renderer(const std::size_t screen_width, const std::size_t screen_heig
 }
 
 Renderer::~Renderer() {
+
+  for (auto i : _images)
+    SDL_DestroyTexture(i);
+
   TTF_CloseFont(_font);
   TTF_Quit();
   SDL_DestroyWindow(_window);
   SDL_Quit();
+}
+
+// TEST ----------------------------------------------------
+// TEST ----------------------------------------------------
+void Renderer::render_targets(std::vector<Target *> targets) {
+  for (std::vector<SDL_Texture *>::iterator it = _images.begin(); it != _images.end();) {
+    SDL_DestroyTexture(*it);
+    it = _images.erase(it);
+  }
+}
+
+void Renderer::render_target(Target &target) {
+
+  int x, y;
+
+  SDL_Surface *textSurface = TTF_RenderText_Solid(_font, target.char_ptr(), target.color());
+  if (textSurface == NULL) {
+    printf("Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError());
+  } else {
+    // Create texture from surface pixels
+    auto new_image = SDL_CreateTextureFromSurface(_renderer, textSurface);
+    if (new_image == NULL) {
+      printf("Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError());
+    } else {
+
+      _images.emplace_back(new_image);
+      // Get image dimensions
+      x = textSurface->w;
+      y = textSurface->h;
+    }
+
+    // Get rid of old surface
+    SDL_FreeSurface(textSurface);
+
+    SDL_Rect renderQuad = {target.position().x, target.position().y, target.w(), target.h()};
+    SDL_Point center = {};
+    SDL_RendererFlip flip = {};
+
+    SDL_RenderCopyEx(_renderer, new_image, nullptr, &renderQuad, 0, &center, flip);
+  }
+
+  // TEST ----------------------------------------------------
 }
 
 TTF_Font *Renderer::font() { return _font; }
@@ -73,40 +119,7 @@ void Renderer::Render(Snake const snake, SDL_Point const &food, Target &test_tar
 
   // TEST ----------------------------------------------------
   // TEST ----------------------------------------------------
-  int x, y;
-
-  if (image != NULL) {
-    SDL_DestroyTexture(image);
-  }
-
-  test_target.update();
-
-  SDL_Surface *textSurface = TTF_RenderText_Solid(_font, test_target.char_ptr(), test_target.color());
-  if (textSurface == NULL) {
-    printf("Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError());
-  } else {
-    // Create texture from surface pixels
-    image = SDL_CreateTextureFromSurface(_renderer, textSurface);
-    if (image == NULL) {
-      printf("Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError());
-    } else {
-      // Get image dimensions
-      x = textSurface->w;
-      y = textSurface->h;
-    }
-
-    // Get rid of old surface
-    SDL_FreeSurface(textSurface);
-
-    SDL_Rect renderQuad = {test_target.position().x, test_target.position().y, test_target.w(),
-                           test_target.h()};
-    // SDL_Point center = {100, 100};
-    SDL_Point center = {};
-
-    SDL_RendererFlip flip = {};
-
-    SDL_RenderCopyEx(_renderer, image, nullptr, &renderQuad, 0, &center, flip);
-  }
+  render_target(test_target);
 
   // TEST ----------------------------------------------------
 

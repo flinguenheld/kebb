@@ -29,8 +29,12 @@ private:
   SDL_Renderer *_renderer;
   TTF_Font *_font;
 
-  SDL_Texture *image;
+  // std::vector<SDL_Texture *> image_targets;
+  SDL_Texture *new_image;
 
+  void render_target(Target &target);
+  void render_targets(std::vector<Target *> targets);
+  std::vector<SDL_Texture *> _images;
   // Target test_target;
 
   const std::size_t screen_width;

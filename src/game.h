@@ -20,6 +20,7 @@ public:
 private:
   Snake snake;
   SDL_Point food;
+
   Target target;
 
   std::random_device dev;

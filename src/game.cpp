@@ -7,7 +7,6 @@ Game::Game(std::size_t grid_width, std::size_t grid_height, int center_target_x,
            int radius_target)
     : snake(grid_width, grid_height), engine(dev()), random_w(0, static_cast<int>(grid_width - 1)),
       random_h(0, static_cast<int>(grid_height - 1)),
-      // target(grid_width / 2, grid_height / 2, grid_width * 0.8) {
       target(center_target_x, center_target_y, radius_target) {
   PlaceFood();
 }
@@ -50,7 +49,7 @@ void Game::Run(Controller const &controller, Renderer &renderer, std::size_t tar
     // if (frame_duration < target_frame_duration) {
     //   SDL_Delay(target_frame_duration - frame_duration);
     // }
-    SDL_Delay(30);
+    SDL_Delay(20);
   }
 }
 
