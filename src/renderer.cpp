@@ -4,6 +4,7 @@ Renderer::Renderer(const std::size_t screen_width, const std::size_t screen_heig
                    const std::size_t grid_width, const std::size_t grid_height)
     : screen_width(screen_width), screen_height(screen_height), grid_width(grid_width),
       grid_height(grid_height), _font(nullptr) {
+
   // Initialize SDL
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {
     std::cerr << "SDL could not initialize.\n";
@@ -41,7 +42,7 @@ Renderer::Renderer(const std::size_t screen_width, const std::size_t screen_heig
 
 Renderer::~Renderer() {
 
-  for (auto i : _images)
+  for (auto &i : _images)
     SDL_DestroyTexture(i);
 
   TTF_CloseFont(_font);
@@ -52,49 +53,44 @@ Renderer::~Renderer() {
 
 // TEST ----------------------------------------------------
 // TEST ----------------------------------------------------
-void Renderer::render_targets(std::vector<Target *> targets) {
+void Renderer::render_targets(const std::vector<Target> &targets) {
   for (std::vector<SDL_Texture *>::iterator it = _images.begin(); it != _images.end();) {
     SDL_DestroyTexture(*it);
     it = _images.erase(it);
   }
-}
 
-void Renderer::render_target(Target &target) {
+  for (auto &target : targets) {
 
-  int x, y;
-
-  SDL_Surface *textSurface = TTF_RenderText_Solid(_font, target.char_ptr(), target.color());
-  if (textSurface == NULL) {
-    printf("Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError());
-  } else {
-    // Create texture from surface pixels
-    auto new_image = SDL_CreateTextureFromSurface(_renderer, textSurface);
-    if (new_image == NULL) {
-      printf("Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError());
+    SDL_Surface *textSurface = TTF_RenderText_Solid(_font, target.char_ptr(), target.color());
+    if (textSurface == NULL) {
+      printf("Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError());
     } else {
 
-      _images.emplace_back(new_image);
-      // Get image dimensions
-      x = textSurface->w;
-      y = textSurface->h;
+      // Create texture from surface pixels
+      auto new_image = SDL_CreateTextureFromSurface(_renderer, textSurface);
+      if (new_image == NULL) {
+        printf("Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError());
+      } else {
+        _images.emplace_back(new_image);
+      }
+
+      // Get rid of old surface
+      SDL_FreeSurface(textSurface);
+
+      SDL_Rect renderQuad = {target.position().x, target.position().y, target.w(), target.h()};
+      SDL_Point center = {};
+      SDL_RendererFlip flip = {};
+
+      SDL_RenderCopyEx(_renderer, new_image, nullptr, &renderQuad, 0, &center, flip);
     }
-
-    // Get rid of old surface
-    SDL_FreeSurface(textSurface);
-
-    SDL_Rect renderQuad = {target.position().x, target.position().y, target.w(), target.h()};
-    SDL_Point center = {};
-    SDL_RendererFlip flip = {};
-
-    SDL_RenderCopyEx(_renderer, new_image, nullptr, &renderQuad, 0, &center, flip);
   }
-
-  // TEST ----------------------------------------------------
 }
+
+// TEST ----------------------------------------------------
 
 TTF_Font *Renderer::font() { return _font; }
 
-void Renderer::Render(Snake const snake, SDL_Point const &food, Target &test_target) {
+void Renderer::Render(Snake const snake, SDL_Point const &food, const std::vector<Target> &targets) {
   SDL_Rect block;
   block.w = screen_width / grid_width;
   block.h = screen_height / grid_height;
@@ -119,7 +115,7 @@ void Renderer::Render(Snake const snake, SDL_Point const &food, Target &test_tar
 
   // TEST ----------------------------------------------------
   // TEST ----------------------------------------------------
-  render_target(test_target);
+  render_targets(targets);
 
   // TEST ----------------------------------------------------
 

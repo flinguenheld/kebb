@@ -21,7 +21,7 @@ private:
   Snake snake;
   SDL_Point food;
 
-  Target target;
+  std::vector<Target> _targets;
 
   std::random_device dev;
   std::mt19937 engine;

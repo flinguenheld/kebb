@@ -6,8 +6,16 @@
 Game::Game(std::size_t grid_width, std::size_t grid_height, int center_target_x, int center_target_y,
            int radius_target)
     : snake(grid_width, grid_height), engine(dev()), random_w(0, static_cast<int>(grid_width - 1)),
-      random_h(0, static_cast<int>(grid_height - 1)),
-      target(center_target_x, center_target_y, radius_target) {
+      random_h(0, static_cast<int>(grid_height - 1)) {
+
+  Target t1(center_target_x, center_target_y, radius_target);
+  Target t2(center_target_x, center_target_y, radius_target);
+  Target t3(center_target_x, center_target_y, radius_target);
+
+  _targets.emplace_back(t1);
+  _targets.emplace_back(t2);
+  _targets.emplace_back(t3);
+
   PlaceFood();
 }
 
@@ -19,7 +27,9 @@ void Game::Run(Controller const &controller, Renderer &renderer, std::size_t tar
   int frame_count = 0;
   bool running = true;
 
-  target.setText("hellooo", renderer.font());
+  for (auto &t : _targets) {
+    t.setText("pouet", renderer.font());
+  }
 
   while (running) {
     frame_start = SDL_GetTicks();
@@ -27,7 +37,7 @@ void Game::Run(Controller const &controller, Renderer &renderer, std::size_t tar
     // Input, Update, Render - the main game loop.
     controller.HandleInput(running, snake);
     Update();
-    renderer.Render(snake, food, target);
+    renderer.Render(snake, food, _targets);
 
     frame_end = SDL_GetTicks();
 
@@ -70,7 +80,10 @@ void Game::PlaceFood() {
 
 void Game::Update() {
 
-  target.update();
+  // NOTE: Normaly useless with threads !
+  for (auto &t : _targets) {
+    t.update();
+  }
 
   if (!snake.alive)
     return;

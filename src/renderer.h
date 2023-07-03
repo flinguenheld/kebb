@@ -19,7 +19,7 @@ public:
            const std::size_t grid_height);
   ~Renderer();
 
-  void Render(Snake const snake, SDL_Point const &food, Target &test_target);
+  void Render(Snake const snake, SDL_Point const &food, const std::vector<Target> &targets);
   void UpdateWindowTitle(int score, int fps);
 
   TTF_Font *font();
@@ -29,13 +29,8 @@ private:
   SDL_Renderer *_renderer;
   TTF_Font *_font;
 
-  // std::vector<SDL_Texture *> image_targets;
-  SDL_Texture *new_image;
-
-  void render_target(Target &target);
-  void render_targets(std::vector<Target *> targets);
+  void render_targets(const std::vector<Target> &targets);
   std::vector<SDL_Texture *> _images;
-  // Target test_target;
 
   const std::size_t screen_width;
   const std::size_t screen_height;
