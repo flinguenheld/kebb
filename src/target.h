@@ -2,10 +2,7 @@
 #define TARGET_H
 
 #include "SDL.h"
-#include "SDL_pixels.h"
-#include "SDL_stdinc.h"
 #include "SDL_ttf.h"
-#include <algorithm>
 #include <iostream>
 #include <math.h>
 #include <string>
@@ -30,7 +27,6 @@ public:
   SDL_Color color() const;
 
   point position() const;
-
   int h() const;
   int w() const;
 
