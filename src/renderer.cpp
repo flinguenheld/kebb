@@ -1,16 +1,9 @@
 #include "renderer.h"
-#include "SDL_image.h"
-#include "SDL_pixels.h"
-#include "SDL_render.h"
-#include "SDL_ttf.h"
-#include <cstddef>
-#include <iostream>
-#include <string>
 
 Renderer::Renderer(const std::size_t screen_width, const std::size_t screen_height,
                    const std::size_t grid_width, const std::size_t grid_height)
     : screen_width(screen_width), screen_height(screen_height), grid_width(grid_width),
-      grid_height(grid_height), _font(nullptr), test_target(screen_height / 2, screen_width / 2, 300) {
+      grid_height(grid_height), _font(nullptr) {
   // Initialize SDL
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {
     std::cerr << "SDL could not initialize.\n";
@@ -27,8 +20,7 @@ Renderer::Renderer(const std::size_t screen_width, const std::size_t screen_heig
   if (_font == nullptr) {
     std::cerr << "Could not open the lazy.ttf";
     std::cerr << " SDL_Error: " << SDL_GetError() << "\n";
-  } else
-    test_target.setText("Test", _font);
+  }
 
   // Create Window
   _window = SDL_CreateWindow("Snake Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, screen_width,
@@ -54,7 +46,9 @@ Renderer::~Renderer() {
   SDL_Quit();
 }
 
-void Renderer::Render(Snake const snake, SDL_Point const &food) {
+TTF_Font *Renderer::font() { return _font; }
+
+void Renderer::Render(Snake const snake, SDL_Point const &food, Target &test_target) {
   SDL_Rect block;
   block.w = screen_width / grid_width;
   block.h = screen_height / grid_height;

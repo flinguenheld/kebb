@@ -1,17 +1,18 @@
 #include "game.h"
-#include <iostream>
 #include "SDL.h"
+#include "SDL_timer.h"
+#include <iostream>
 
-Game::Game(std::size_t grid_width, std::size_t grid_height)
-    : snake(grid_width, grid_height),
-      engine(dev()),
-      random_w(0, static_cast<int>(grid_width - 1)),
-      random_h(0, static_cast<int>(grid_height - 1)) {
+Game::Game(std::size_t grid_width, std::size_t grid_height, int center_target_x, int center_target_y,
+           int radius_target)
+    : snake(grid_width, grid_height), engine(dev()), random_w(0, static_cast<int>(grid_width - 1)),
+      random_h(0, static_cast<int>(grid_height - 1)),
+      // target(grid_width / 2, grid_height / 2, grid_width * 0.8) {
+      target(center_target_x, center_target_y, radius_target) {
   PlaceFood();
 }
 
-void Game::Run(Controller const &controller, Renderer &renderer,
-               std::size_t target_frame_duration) {
+void Game::Run(Controller const &controller, Renderer &renderer, std::size_t target_frame_duration) {
   Uint32 title_timestamp = SDL_GetTicks();
   Uint32 frame_start;
   Uint32 frame_end;
@@ -19,13 +20,15 @@ void Game::Run(Controller const &controller, Renderer &renderer,
   int frame_count = 0;
   bool running = true;
 
+  target.setText("hellooo", renderer.font());
+
   while (running) {
     frame_start = SDL_GetTicks();
 
     // Input, Update, Render - the main game loop.
     controller.HandleInput(running, snake);
     Update();
-    renderer.Render(snake, food);
+    renderer.Render(snake, food, target);
 
     frame_end = SDL_GetTicks();
 
@@ -44,9 +47,10 @@ void Game::Run(Controller const &controller, Renderer &renderer,
     // If the time for this frame is too small (i.e. frame_duration is
     // smaller than the target ms_per_frame), delay the loop to
     // achieve the correct frame rate.
-    if (frame_duration < target_frame_duration) {
-      SDL_Delay(target_frame_duration - frame_duration);
-    }
+    // if (frame_duration < target_frame_duration) {
+    //   SDL_Delay(target_frame_duration - frame_duration);
+    // }
+    SDL_Delay(30);
   }
 }
 
@@ -66,7 +70,11 @@ void Game::PlaceFood() {
 }
 
 void Game::Update() {
-  if (!snake.alive) return;
+
+  target.update();
+
+  if (!snake.alive)
+    return;
 
   snake.Update();
 
