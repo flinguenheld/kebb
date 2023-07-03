@@ -6,7 +6,7 @@
 Game::Game(std::size_t grid_width, std::size_t grid_height, int center_target_x, int center_target_y,
            int radius_target)
     : snake(grid_width, grid_height), engine(dev()), random_w(0, static_cast<int>(grid_width - 1)),
-      random_h(0, static_cast<int>(grid_height - 1)) {
+      random_h(0, static_cast<int>(grid_height - 1)), random_plus(0, 3) {
 
   Target t1(center_target_x, center_target_y, radius_target);
   Target t2(center_target_x, center_target_y, radius_target);
@@ -28,7 +28,7 @@ void Game::Run(Controller const &controller, Renderer &renderer, std::size_t tar
   bool running = true;
 
   for (auto &t : _targets) {
-    t.setText("pouet", renderer.font());
+    t.setText("P", renderer.font(), random_plus(engine), random_plus(engine));
   }
 
   while (running) {
@@ -59,7 +59,7 @@ void Game::Run(Controller const &controller, Renderer &renderer, std::size_t tar
     // if (frame_duration < target_frame_duration) {
     //   SDL_Delay(target_frame_duration - frame_duration);
     // }
-    SDL_Delay(20);
+    SDL_Delay(10);
   }
 }
 

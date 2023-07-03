@@ -17,7 +17,7 @@ Renderer::Renderer(const std::size_t screen_width, const std::size_t screen_heig
     std::cerr << "SDL_Error: " << SDL_GetError() << "\n";
   }
 
-  _font = TTF_OpenFont("../font/DejaVuSansMono-Bold.ttf", 60);
+  _font = TTF_OpenFont("../font/DejaVuSansMono-Bold.ttf", 100);
   if (_font == nullptr) {
     std::cerr << "Could not open the lazy.ttf";
     std::cerr << " SDL_Error: " << SDL_GetError() << "\n";
@@ -38,6 +38,9 @@ Renderer::Renderer(const std::size_t screen_width, const std::size_t screen_heig
     std::cerr << "Renderer could not be created.\n";
     std::cerr << "SDL_Error: " << SDL_GetError() << "\n";
   }
+
+  // FIX: logical size - need an elegant solution !!
+  SDL_RenderSetLogicalSize(_renderer, screen_width * 3, screen_height * 3);
 }
 
 Renderer::~Renderer() {
@@ -128,7 +131,6 @@ void Renderer::Render(Snake const snake, SDL_Point const &food, const std::vecto
     SDL_SetRenderDrawColor(_renderer, 0xFF, 0x00, 0x00, 0xFF);
   }
   SDL_RenderFillRect(_renderer, &block);
-
   // Update Screen
   SDL_RenderPresent(_renderer);
 }

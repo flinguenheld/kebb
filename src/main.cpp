@@ -11,11 +11,15 @@ int main() {
   constexpr std::size_t kGridWidth{32};
   constexpr std::size_t kGridHeight{32};
 
-  constexpr int TARGET_CENTER_X{kScreenWidth / 2};
-  constexpr int TARGET_CENTER_Y{kScreenHeight / 2};
-  constexpr int TARGET_RADIUS{int(kScreenWidth * 0.7)};
+  // FIX: More elegant ? and set the font size !!
+  constexpr int TARGET_CENTER_X{kScreenWidth * 3 / 2};
+  constexpr int TARGET_CENTER_Y{kScreenHeight * 3 / 2};
+  constexpr int TARGET_RADIUS{int(kScreenWidth * 3 * 0.7)};
 
   Renderer renderer(kScreenWidth, kScreenHeight, kGridWidth, kGridHeight);
+
+  // SDL_RenderSetLogicalSize(renderer, , 15);
+
   Controller controller;
   Game game(kGridWidth, kGridHeight, TARGET_CENTER_X, TARGET_CENTER_Y, TARGET_RADIUS);
   game.Run(controller, renderer, kMsPerFrame);

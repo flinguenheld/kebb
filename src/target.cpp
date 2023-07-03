@@ -1,7 +1,8 @@
 #include "target.h"
 
 Target::Target(int x, int y, int radius)
-    : _txt(), _font(nullptr), _center(x, y), _center_txt(x, y), _position(x, y), _radius(radius) {}
+    : _txt(), _font(nullptr), _center(x, y), _center_txt(x, y), _position(x, y), _radius(radius), _plus_x(1),
+      _plus_y(1) {}
 
 /*
  * Move the target and adapt fields according to the distance to the center
@@ -9,8 +10,8 @@ Target::Target(int x, int y, int radius)
 void Target::update() {
 
   // TODO: Add severals moving styles
-  _position.x++;
-  _position.y--;
+  _position.x += 5;
+  _position.y += -3;
 
   _center_txt.x = _position.x + _w / 2;
   _center_txt.y = _position.y + _h / 2;
@@ -36,10 +37,13 @@ void Target::update() {
 /*
  * Set the text and update the textbox size.
  */
-void Target::setText(std::string txt, TTF_Font *font) {
+void Target::setText(std::string txt, TTF_Font *font, int plus_x, int plus_y) {
 
   _font = font;
   _txt = txt;
+
+  _plus_x = plus_x;
+  _plus_y = plus_y == plus_x == 0 ? 1 : 0;
 
   TTF_SizeText(_font, char_ptr(), &_w, &_h);
   init();

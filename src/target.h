@@ -21,7 +21,7 @@ public:
   Target(int x, int y, int radius);
   void update();
 
-  void setText(std::string txt, TTF_Font *font);
+  void setText(std::string txt, TTF_Font *font, int plus_x, int plus_y);
 
   const char *char_ptr() const;
   SDL_Color color() const;
@@ -42,6 +42,8 @@ private:
   point _center_txt;
   point _position; // Top left position
   int _h, _w;      // Textbox size
+
+  int _plus_x, _plus_y;
 };
 
 #endif // !TARGET_H
