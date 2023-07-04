@@ -8,6 +8,7 @@
 #include "target.h"
 #include <cstddef>
 #include <random>
+#include <thread>
 
 class Game {
 public:

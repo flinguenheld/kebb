@@ -20,6 +20,7 @@ class Target {
 public:
   Target(int x_area, int y_area, int radius_area);
   void update();
+  void stop();
 
   void setText(std::string txt, TTF_Font *font, int angle);
 
@@ -32,6 +33,7 @@ public:
 
 private:
   void init();
+  bool _active;
 
   TTF_Font *_font;
   std::string _txt;

@@ -1,34 +1,44 @@
 #include "target.h"
+#include <chrono>
+#include <thread>
 
 Target::Target(int x_area, int y_area, int radius_area)
-    : _txt(), _font(nullptr), _center_area(x_area, y_area), _position(x_area, y_area),
+    : _active(true), _txt(), _font(nullptr), _center_area(x_area, y_area), _position(x_area, y_area),
       _radius_area(radius_area), _move_x(1), _move_y(1) {}
+
+void Target::stop() { _active = false; }
 
 /*
  * Move the target and adapt fields according to the distance to the center
  */
 void Target::update() {
 
-  // move values are set in the setText method
-  _position.x += _move_x;
-  _position.y += _move_y;
+  while (_active) {
 
-  // Distance from the text center
-  int distance = _center_area.distance(point{_position.x + _w / 2, _position.y + _h / 2});
+    // move values are set in the setText method
+    _position.x += _move_x;
+    _position.y += _move_y;
+    // std::cout << "in update:  x:" << _position.x << std::endl;
 
-  // Fade & colour --
-  if (distance <= _radius_area * 0.2) {
-    _color.a = _color.a > 200 ? 200 : _color.a + 5;
+    // Distance from the text center
+    int distance = _center_area.distance(point{_position.x + _w / 2, _position.y + _h / 2});
 
-  } else if (distance >= (_radius_area * 0.8) && distance <= _radius_area) {
+    // Fade & colour --
+    if (distance <= _radius_area * 0.2) {
+      _color.a = _color.a > 200 ? 200 : _color.a + 5;
 
-    _color.a = _color.a <= 5 ? 5 : _color.a - 3;
-    _color.g = _color.g <= 50 ? 50 : _color.g - 15;
-    _color.b = _color.b <= 50 ? 50 : _color.b - 15;
+    } else if (distance >= (_radius_area * 0.8) && distance <= _radius_area) {
 
-  } else if (distance > _radius_area) {
-    init();
-    distance = 0;
+      _color.a = _color.a <= 5 ? 5 : _color.a - 3;
+      _color.g = _color.g <= 50 ? 50 : _color.g - 15;
+      _color.b = _color.b <= 50 ? 50 : _color.b - 15;
+
+    } else if (distance > _radius_area) {
+      init();
+      distance = 0;
+    }
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(5));
   }
 }
 

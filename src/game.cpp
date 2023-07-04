@@ -1,26 +1,17 @@
 #include "game.h"
 #include "SDL.h"
 #include "SDL_timer.h"
+#include <exception>
 #include <iostream>
+#include <string>
 
 Game::Game(std::size_t grid_width, std::size_t grid_height, int center_target_x, int center_target_y,
            int radius_target)
     : snake(grid_width, grid_height), engine(dev()), random_w(0, static_cast<int>(grid_width - 1)),
       random_h(0, static_cast<int>(grid_height - 1)), random_plus(0, 359) {
 
-  Target t1(center_target_x, center_target_y, radius_target);
-  Target t2(center_target_x, center_target_y, radius_target);
-  Target t3(center_target_x, center_target_y, radius_target);
-  Target t4(center_target_x, center_target_y, radius_target);
-  Target t5(center_target_x, center_target_y, radius_target);
-  Target t6(center_target_x, center_target_y, radius_target);
-
-  _targets.emplace_back(t1);
-  _targets.emplace_back(t2);
-  _targets.emplace_back(t3);
-  _targets.emplace_back(t4);
-  _targets.emplace_back(t5);
-  _targets.emplace_back(t6);
+  for (int i = 0; i < 20; ++i)
+    _targets.emplace_back(Target(center_target_x, center_target_y, radius_target));
 
   PlaceFood();
 }
@@ -33,8 +24,12 @@ void Game::Run(Controller const &controller, Renderer &renderer, std::size_t tar
   int frame_count = 0;
   bool running = true;
 
+  std::vector<std::thread> threads;
+
   for (auto &t : _targets) {
-    t.setText("Pieeeeeeei", renderer.font(), random_plus(engine));
+    t.setText(std::to_string(random_plus(engine)), renderer.font(), random_plus(engine));
+    threads.emplace_back(std::thread(&Target::update, &t));
+    // t.setText("A", renderer.font(), random_plus(engine));
   }
 
   while (running) {
@@ -67,6 +62,13 @@ void Game::Run(Controller const &controller, Renderer &renderer, std::size_t tar
     // }
     SDL_Delay(10);
   }
+
+  for (auto &t : _targets) {
+    t.stop();
+  }
+  for (auto &t : threads) {
+    t.join();
+  }
 }
 
 void Game::PlaceFood() {
@@ -87,9 +89,9 @@ void Game::PlaceFood() {
 void Game::Update() {
 
   // NOTE: Normaly useless with threads !
-  for (auto &t : _targets) {
-    t.update();
-  }
+  // for (auto &t : _targets) {
+  //   t.update();
+  // }
 
   if (!snake.alive)
     return;
