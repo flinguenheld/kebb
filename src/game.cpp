@@ -3,15 +3,18 @@
 #include "SDL_timer.h"
 #include <exception>
 #include <iostream>
+#include <memory>
 #include <string>
 
 Game::Game(std::size_t grid_width, std::size_t grid_height, int center_target_x, int center_target_y,
            int radius_target)
     : snake(grid_width, grid_height), engine(dev()), random_w(0, static_cast<int>(grid_width - 1)),
-      random_h(0, static_cast<int>(grid_height - 1)), random_plus(0, 359) {
+      random_h(0, static_cast<int>(grid_height - 1)), random_plus(0, 359),
+      _dispatcher(std::make_shared<Dispatcher>()) {
 
+  // FIX:: Remove from constructor to take directly the Font ptr
   for (int i = 0; i < 20; ++i)
-    _targets.emplace_back(Target(center_target_x, center_target_y, radius_target));
+    _targets.emplace_back(Target(center_target_x, center_target_y, radius_target, _dispatcher));
 
   PlaceFood();
 }
@@ -24,12 +27,14 @@ void Game::Run(Controller const &controller, Renderer &renderer, std::size_t tar
   int frame_count = 0;
   bool running = true;
 
+  // for (int i = 0; i < 2; ++i)
+  //   _targets.emplace_back(Target(600, 300, 300, _dispatcher));
+
   std::vector<std::thread> threads;
 
   for (auto &t : _targets) {
-    t.setText(std::to_string(random_plus(engine)), renderer.font(), random_plus(engine));
+    t.setFont(renderer.font());
     threads.emplace_back(std::thread(&Target::update, &t));
-    // t.setText("A", renderer.font(), random_plus(engine));
   }
 
   while (running) {

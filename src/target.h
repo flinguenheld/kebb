@@ -3,8 +3,10 @@
 
 #include "SDL.h"
 #include "SDL_ttf.h"
+#include "dispatcher.h"
 #include <iostream>
 #include <math.h>
+#include <memory>
 #include <string>
 
 struct point {
@@ -18,11 +20,12 @@ struct point {
 class Target {
 
 public:
-  Target(int x_area, int y_area, int radius_area);
+  Target(int x_area, int y_area, int radius_area, std::shared_ptr<Dispatcher> dispatcher);
+
   void update();
   void stop();
 
-  void setText(std::string txt, TTF_Font *font, int angle);
+  void setFont(TTF_Font *font);
 
   const char *char_ptr() const;
   SDL_Color color() const;
@@ -34,6 +37,9 @@ public:
 private:
   void init();
   bool _active;
+
+  std::shared_ptr<Dispatcher> _dispatcher;
+  int _angle;
 
   TTF_Font *_font;
   std::string _txt;

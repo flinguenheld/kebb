@@ -2,9 +2,9 @@
 #include <chrono>
 #include <thread>
 
-Target::Target(int x_area, int y_area, int radius_area)
-    : _active(true), _txt(), _font(nullptr), _center_area(x_area, y_area), _position(x_area, y_area),
-      _radius_area(radius_area), _move_x(1), _move_y(1) {}
+Target::Target(int x_area, int y_area, int radius_area, std::shared_ptr<Dispatcher> dispatcher)
+    : _active(true), _txt("FAIL"), _font(nullptr), _center_area(x_area, y_area), _position(x_area, y_area),
+      _radius_area(radius_area), _move_x(1), _move_y(1), _dispatcher(dispatcher), _angle(-1) {}
 
 void Target::stop() { _active = false; }
 
@@ -12,6 +12,8 @@ void Target::stop() { _active = false; }
  * Move the target and adapt fields according to the distance to the center
  */
 void Target::update() {
+
+  init();
 
   while (_active) {
 
@@ -34,6 +36,10 @@ void Target::update() {
       _color.b = _color.b <= 50 ? 50 : _color.b - 15;
 
     } else if (distance > _radius_area) {
+
+      _dispatcher->release_angle(_angle);
+      // _dispatcher->release_txt(_txt);
+
       init();
       distance = 0;
     }
@@ -45,23 +51,7 @@ void Target::update() {
 /*
  * Set the text and update the textbox size.
  */
-void Target::setText(std::string txt, TTF_Font *font, int angle) {
-
-  // TODO: Validate the precision, see with the screen size and the scale !
-  float angle_rad = angle * 3.14 / 180; // Hight precision is useless
-
-  // Floats are impossible, so keep 2 numbers and use a scale (see renderer)
-  _move_x = std::cos(angle_rad) * 10;
-  _move_y = std::sin(angle_rad) * 10;
-
-  std::cout << "_move x: " << _move_x << std::endl;
-
-  _font = font;
-  _txt = txt;
-
-  TTF_SizeText(_font, char_ptr(), &_w, &_h);
-  init();
-}
+void Target::setFont(TTF_Font *font) { _font = font; }
 
 /*
  * Reset fields (keep the current text)
@@ -70,6 +60,20 @@ void Target::init() {
   _color = {255, 255, 255, 1};
   _position.x = _center_area.x - _w / 2;
   _position.y = _center_area.y - _h / 2;
+
+  _angle = _dispatcher->get_angle();
+
+  float angle_rad = _angle * 3.14 / 180; // Hight precision is useless
+
+  // TODO: Validate the precision, see with the screen size and the scale !
+  // Floats are impossible, so keep 2 numbers and use a scale (see renderer)
+  _move_x = std::cos(angle_rad) * 10;
+  _move_y = std::sin(angle_rad) * 10;
+
+  std::this_thread::sleep_for(std::chrono::milliseconds(10));
+  // --
+  _txt = _dispatcher->get_txt();
+  std::cout << "message: " << TTF_SizeText(_font, char_ptr(), &_w, &_h) << std::endl;
 }
 
 // --

@@ -3,6 +3,7 @@
 
 #include "SDL.h"
 #include "controller.h"
+#include "dispatcher.h"
 #include "renderer.h"
 #include "snake.h"
 #include "target.h"
@@ -23,6 +24,7 @@ private:
   SDL_Point food;
 
   std::vector<Target> _targets;
+  std::shared_ptr<Dispatcher> _dispatcher;
 
   std::random_device dev;
   std::mt19937 engine;
