@@ -12,9 +12,9 @@ int main() {
   constexpr std::size_t kGridHeight{32};
 
   // FIX: More elegant ? and set the font size !!
-  constexpr int TARGET_CENTER_X{kScreenWidth * 3 / 2};
-  constexpr int TARGET_CENTER_Y{kScreenHeight * 3 / 2};
-  constexpr int TARGET_RADIUS{int(kScreenWidth * 3 * 0.7)};
+  constexpr int TARGET_CENTER_X{kScreenWidth * 100 / 2};
+  constexpr int TARGET_CENTER_Y{kScreenHeight * 100 / 2};
+  constexpr int TARGET_RADIUS{int(kScreenWidth * 100 * 0.4)};
 
   Renderer renderer(kScreenWidth, kScreenHeight, kGridWidth, kGridHeight);
 

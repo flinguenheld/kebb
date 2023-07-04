@@ -10,8 +10,8 @@ Target::Target(int x, int y, int radius)
 void Target::update() {
 
   // TODO: Add severals moving styles
-  _position.x += 5;
-  _position.y += -3;
+  _position.x += _plus_x;
+  _position.y += _plus_y;
 
   _center_txt.x = _position.x + _w / 2;
   _center_txt.y = _position.y + _h / 2;
@@ -37,13 +37,15 @@ void Target::update() {
 /*
  * Set the text and update the textbox size.
  */
-void Target::setText(std::string txt, TTF_Font *font, int plus_x, int plus_y) {
+void Target::setText(std::string txt, TTF_Font *font, int angle) {
+
+  // FIX: Validate the precision, see with the screen size and the scale !
+  float angle_rad = angle * 3.14 / 180; // Hight precision is useless
+  _plus_x = std::cos(angle_rad) * 100;
+  _plus_y = std::sin(angle_rad) * 100;
 
   _font = font;
   _txt = txt;
-
-  _plus_x = plus_x;
-  _plus_y = plus_y == plus_x == 0 ? 1 : 0;
 
   TTF_SizeText(_font, char_ptr(), &_w, &_h);
   init();

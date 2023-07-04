@@ -1,4 +1,5 @@
 #include "renderer.h"
+#include "SDL_render.h"
 
 Renderer::Renderer(const std::size_t screen_width, const std::size_t screen_height,
                    const std::size_t grid_width, const std::size_t grid_height)
@@ -17,7 +18,7 @@ Renderer::Renderer(const std::size_t screen_width, const std::size_t screen_heig
     std::cerr << "SDL_Error: " << SDL_GetError() << "\n";
   }
 
-  _font = TTF_OpenFont("../font/DejaVuSansMono-Bold.ttf", 100);
+  _font = TTF_OpenFont("../font/DejaVuSansMono-Bold.ttf", 3000);
   if (_font == nullptr) {
     std::cerr << "Could not open the lazy.ttf";
     std::cerr << " SDL_Error: " << SDL_GetError() << "\n";
@@ -40,7 +41,16 @@ Renderer::Renderer(const std::size_t screen_width, const std::size_t screen_heig
   }
 
   // FIX: logical size - need an elegant solution !!
-  SDL_RenderSetLogicalSize(_renderer, screen_width * 3, screen_height * 3);
+
+  if (SDL_RenderSetLogicalSize(_renderer, screen_width * 100, screen_height * 100) != 0) {
+    std::cerr << "Renderer could not be scale.\n";
+    std::cerr << "SDL_Error: " << SDL_GetError() << "\n";
+  }
+
+  // std::cout << "logical: " << SDL_RenderSetLogicalSize(_renderer, screen_width * 100, screen_height * 100)
+  //           << "\n";
+  // std::cout << SDL_RenderSetScale(_renderer, screen_width * 100, screen_height * 100) << "\n";
+  // std::cout << SDL_RenderSetIntegerScale(_renderer, SDL_bool::SDL_TRUE) << "\n";
 }
 
 Renderer::~Renderer() {

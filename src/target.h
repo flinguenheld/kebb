@@ -21,7 +21,7 @@ public:
   Target(int x, int y, int radius);
   void update();
 
-  void setText(std::string txt, TTF_Font *font, int plus_x, int plus_y);
+  void setText(std::string txt, TTF_Font *font, int angle);
 
   const char *char_ptr() const;
   SDL_Color color() const;
