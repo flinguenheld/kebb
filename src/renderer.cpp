@@ -1,10 +1,10 @@
 #include "renderer.h"
 #include "SDL_render.h"
 
-Renderer::Renderer(const std::size_t screen_width, const std::size_t screen_height,
+Renderer::Renderer(int screen_width, int screen_height, int scale_factor, int font_size,
                    const std::size_t grid_width, const std::size_t grid_height)
-    : screen_width(screen_width), screen_height(screen_height), grid_width(grid_width),
-      grid_height(grid_height), _font(nullptr) {
+    : _screen_width(screen_width), _screen_height(screen_height), _scale_factor(scale_factor),
+      grid_width(grid_width), grid_height(grid_height), _font(nullptr) {
 
   // Initialize SDL
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -18,7 +18,8 @@ Renderer::Renderer(const std::size_t screen_width, const std::size_t screen_heig
     std::cerr << "SDL_Error: " << SDL_GetError() << "\n";
   }
 
-  _font = TTF_OpenFont("../font/DejaVuSansMono-Bold.ttf", 3000);
+  // TODO: Manage the font file and the font size
+  _font = TTF_OpenFont("../font/DejaVuSansMono-Bold.ttf", font_size);
   if (_font == nullptr) {
     std::cerr << "Could not open the lazy.ttf";
     std::cerr << " SDL_Error: " << SDL_GetError() << "\n";
@@ -40,9 +41,10 @@ Renderer::Renderer(const std::size_t screen_width, const std::size_t screen_heig
     std::cerr << "SDL_Error: " << SDL_GetError() << "\n";
   }
 
-  // FIX: logical size - need an elegant solution !!
+  // TODO: logical size - need an elegant solution !!
 
-  if (SDL_RenderSetLogicalSize(_renderer, screen_width * 100, screen_height * 100) != 0) {
+  // Set a logical scale, mandatory to move in all directions
+  if (SDL_RenderSetLogicalSize(_renderer, screen_width * _scale_factor, screen_height * _scale_factor) != 0) {
     std::cerr << "Renderer could not be scale.\n";
     std::cerr << "SDL_Error: " << SDL_GetError() << "\n";
   }
@@ -105,8 +107,8 @@ TTF_Font *Renderer::font() { return _font; }
 
 void Renderer::Render(Snake const snake, SDL_Point const &food, const std::vector<Target> &targets) {
   SDL_Rect block;
-  block.w = screen_width / grid_width;
-  block.h = screen_height / grid_height;
+  block.w = _screen_width / grid_width;
+  block.h = _screen_height / grid_height;
 
   // Clear screen
   SDL_SetRenderDrawColor(_renderer, 0x1E, 0x1E, 0x1E, 0xFF);

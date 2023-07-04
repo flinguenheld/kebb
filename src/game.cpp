@@ -11,10 +11,16 @@ Game::Game(std::size_t grid_width, std::size_t grid_height, int center_target_x,
   Target t1(center_target_x, center_target_y, radius_target);
   Target t2(center_target_x, center_target_y, radius_target);
   Target t3(center_target_x, center_target_y, radius_target);
+  Target t4(center_target_x, center_target_y, radius_target);
+  Target t5(center_target_x, center_target_y, radius_target);
+  Target t6(center_target_x, center_target_y, radius_target);
 
   _targets.emplace_back(t1);
   _targets.emplace_back(t2);
   _targets.emplace_back(t3);
+  _targets.emplace_back(t4);
+  _targets.emplace_back(t5);
+  _targets.emplace_back(t6);
 
   PlaceFood();
 }
@@ -28,10 +34,7 @@ void Game::Run(Controller const &controller, Renderer &renderer, std::size_t tar
   bool running = true;
 
   for (auto &t : _targets) {
-    std::cout << "random : " << random_plus(engine) << std::endl;
-    std::cout << "random : " << random_plus(engine) << std::endl;
-    std::cout << "random : " << random_plus(engine) << std::endl;
-    t.setText("P", renderer.font(), random_plus(engine));
+    t.setText("Pieeeeeeei", renderer.font(), random_plus(engine));
   }
 
   while (running) {

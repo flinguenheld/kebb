@@ -6,22 +6,23 @@
 int main() {
   constexpr std::size_t kFramesPerSecond{60};
   constexpr std::size_t kMsPerFrame{1000 / kFramesPerSecond};
-  constexpr std::size_t kScreenWidth{640};
-  constexpr std::size_t kScreenHeight{640};
   constexpr std::size_t kGridWidth{32};
   constexpr std::size_t kGridHeight{32};
 
-  // FIX: More elegant ? and set the font size !!
-  constexpr int TARGET_CENTER_X{kScreenWidth * 100 / 2};
-  constexpr int TARGET_CENTER_Y{kScreenHeight * 100 / 2};
-  constexpr int TARGET_RADIUS{int(kScreenWidth * 100 * 0.4)};
+  // TODO: More elegant ?
+  constexpr int screen_width{640};
+  constexpr int screen_height{640};
+  constexpr int scale_factor = 10;
 
-  Renderer renderer(kScreenWidth, kScreenHeight, kGridWidth, kGridHeight);
+  constexpr int target_center_x = screen_width * scale_factor / 2;
+  constexpr int target_center_y = screen_height * scale_factor / 2;
+  constexpr int target_radius = int(screen_width * scale_factor * 0.4);
+  constexpr int font_size = int(target_radius * 0.1);
 
-  // SDL_RenderSetLogicalSize(renderer, , 15);
+  Renderer renderer(screen_width, screen_height, scale_factor, font_size, kGridWidth, kGridHeight);
 
   Controller controller;
-  Game game(kGridWidth, kGridHeight, TARGET_CENTER_X, TARGET_CENTER_Y, TARGET_RADIUS);
+  Game game(kGridWidth, kGridHeight, target_center_x, target_center_y, target_radius);
   game.Run(controller, renderer, kMsPerFrame);
   std::cout << "Game has terminated successfully!\n";
   std::cout << "Score: " << game.GetScore() << "\n";

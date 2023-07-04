@@ -15,7 +15,7 @@
 
 class Renderer {
 public:
-  Renderer(const std::size_t screen_width, const std::size_t screen_height, const std::size_t grid_width,
+  Renderer(int screen_width, int screen_height, int scale_factor, int font_size, const std::size_t grid_width,
            const std::size_t grid_height);
   ~Renderer();
 
@@ -32,8 +32,11 @@ private:
   void render_targets(const std::vector<Target> &targets);
   std::vector<SDL_Texture *> _images;
 
-  const std::size_t screen_width;
-  const std::size_t screen_height;
+  const int _screen_width;
+  const int _screen_height;
+  const int _scale_factor;
+
+  // TODO: Remove :
   const std::size_t grid_width;
   const std::size_t grid_height;
 };

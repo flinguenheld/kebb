@@ -12,13 +12,13 @@ struct point {
   int y;
 
   point(int x, int y) : x(x), y(y){};
-  float distance(const point &pt) { return sqrt(pow(x - pt.x, 2) + pow(y - pt.y, 2)); };
+  float distance(const point &pt) const { return sqrt(pow(x - pt.x, 2) + pow(y - pt.y, 2)); };
 };
 
 class Target {
 
 public:
-  Target(int x, int y, int radius);
+  Target(int x_area, int y_area, int radius_area);
   void update();
 
   void setText(std::string txt, TTF_Font *font, int angle);
@@ -37,13 +37,13 @@ private:
   std::string _txt;
   SDL_Color _color;
 
-  point _center;
-  int _radius;
-  point _center_txt;
-  point _position; // Top left position
+  const point _center_area;
+  const int _radius_area;
+
+  point _position; // Real position (top left)
   int _h, _w;      // Textbox size
 
-  int _plus_x, _plus_y;
+  int _move_x, _move_y;
 };
 
 #endif // !TARGET_H
