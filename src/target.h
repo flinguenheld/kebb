@@ -27,6 +27,7 @@ public:
 
   void setFont(TTF_Font *font);
 
+  std::string current_text() const;
   const char *char_ptr() const;
   SDL_Color color() const;
 
@@ -42,7 +43,7 @@ private:
   int _angle;
 
   TTF_Font *_font;
-  std::string _txt;
+  std::string _current_text;
   SDL_Color _color;
 
   const point _center_area;

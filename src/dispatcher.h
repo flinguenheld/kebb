@@ -3,6 +3,7 @@
 
 #include <algorithm>
 #include <iostream>
+#include <mutex>
 #include <random>
 #include <string>
 #include <vector>
@@ -18,12 +19,14 @@ public:
   void release_angle(int angle);
 
   std::string get_txt();
-  void release_txt();
+  void release_txt(std::string letter);
 
 private:
   std::vector<int> _used_angles;
-  std::vector<std::string> _used_txt;
-  std::vector<char> _chars;
+  std::vector<std::string> _used_texts;
+  std::string _char_list;
+
+  std::mutex _mutex;
 
   // --
   std::random_device _seed;

@@ -1,10 +1,12 @@
 #include "target.h"
 #include <chrono>
+#include <string>
 #include <thread>
 
 Target::Target(int x_area, int y_area, int radius_area, std::shared_ptr<Dispatcher> dispatcher)
-    : _active(true), _txt("FAIL"), _font(nullptr), _center_area(x_area, y_area), _position(x_area, y_area),
-      _radius_area(radius_area), _move_x(1), _move_y(1), _dispatcher(dispatcher), _angle(-1) {}
+    : _active(true), _current_text("Error"), _font(nullptr), _center_area(x_area, y_area),
+      _position(x_area, y_area), _radius_area(radius_area), _move_x(1), _move_y(1), _dispatcher(dispatcher),
+      _angle(-1) {}
 
 void Target::stop() { _active = false; }
 
@@ -38,7 +40,7 @@ void Target::update() {
     } else if (distance > _radius_area) {
 
       _dispatcher->release_angle(_angle);
-      // _dispatcher->release_txt(_txt);
+      _dispatcher->release_txt(_current_text);
 
       init();
       distance = 0;
@@ -72,12 +74,16 @@ void Target::init() {
 
   std::this_thread::sleep_for(std::chrono::milliseconds(10));
   // --
-  _txt = _dispatcher->get_txt();
-  std::cout << "message: " << TTF_SizeText(_font, char_ptr(), &_w, &_h) << std::endl;
+  _current_text = _dispatcher->get_txt();
+  std::cout << "new letter: " << _current_text << std::endl;
+  // _text = "A";
+  // std::cout << "ttf size text return: " << TTF_SizeText(_font, char_ptr(), &_w, &_h) << std::endl;
+  TTF_SizeText(_font, char_ptr(), &_w, &_h);
 }
 
 // --
-const char *Target::char_ptr() const { return _txt.c_str(); }
+std::string Target::current_text() const { return _current_text; }
+const char *Target::char_ptr() const { return _current_text.c_str(); }
 SDL_Color Target::color() const { return _color; }
 
 point Target::position() const { return _position; };

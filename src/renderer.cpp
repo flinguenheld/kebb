@@ -1,5 +1,7 @@
 #include "renderer.h"
+#include "SDL_pixels.h"
 #include "SDL_render.h"
+#include "SDL_ttf.h"
 
 Renderer::Renderer(int screen_width, int screen_height, int scale_factor, int font_size,
                    const std::size_t grid_width, const std::size_t grid_height)
@@ -76,7 +78,12 @@ void Renderer::render_targets(const std::vector<Target> &targets) {
 
   for (auto &target : targets) {
 
-    SDL_Surface *textSurface = TTF_RenderText_Solid(_font, target.char_ptr(), target.color());
+    // NOTE: test with TTF_RenderUTF8_Solid - see the doc
+    SDL_Color bg = {255, 255, 255, 1};
+    // SDL_Surface *textSurface = TTF_RenderUTF8_Shaded(_font, target.char_ptr(), target.color(), bg);
+    SDL_Surface *textSurface =
+        TTF_RenderUTF8_Shaded(_font, target.current_text().c_str(), target.color(), bg);
+    // SDL_Surface *textSurface = TTF_RenderText_Solid(_font, target.char_ptr(), target.color());
     if (textSurface == NULL) {
       printf("Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError());
     } else {
