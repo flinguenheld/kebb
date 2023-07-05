@@ -7,14 +7,15 @@
 #include <string>
 
 Game::Game(std::size_t grid_width, std::size_t grid_height, int center_target_x, int center_target_y,
-           int radius_target)
+           int radius_target, int target_h, int target_w)
     : snake(grid_width, grid_height), engine(dev()), random_w(0, static_cast<int>(grid_width - 1)),
-      random_h(0, static_cast<int>(grid_height - 1)), random_plus(0, 359),
-      _dispatcher(std::make_shared<Dispatcher>()) {
+      random_h(0, static_cast<int>(grid_height - 1)), random_plus(0, 359), _dispatcher(nullptr) {
 
-  // FIX:: Remove from constructor to take directly the Font ptr
-  for (int i = 0; i < 20; ++i)
-    _targets.emplace_back(Target(center_target_x, center_target_y, radius_target, _dispatcher));
+  _dispatcher = std::make_shared<Dispatcher>();
+
+  for (int i = 0; i < 50; ++i)
+    _targets.emplace_back(
+        Target(center_target_x, center_target_y, radius_target, _dispatcher, target_h, target_w));
 
   PlaceFood();
 }
@@ -33,7 +34,6 @@ void Game::Run(Controller const &controller, Renderer &renderer, std::size_t tar
   std::vector<std::thread> threads;
 
   for (auto &t : _targets) {
-    t.setFont(renderer.font());
     threads.emplace_back(std::thread(&Target::update, &t));
   }
 

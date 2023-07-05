@@ -14,7 +14,7 @@
 class Game {
 public:
   Game(std::size_t grid_width, std::size_t grid_height, int center_target_x, int center_target_y,
-       int radius_target);
+       int radius_target, int target_h, int target_w);
   void Run(Controller const &controller, Renderer &renderer, std::size_t target_frame_duration);
   int GetScore() const;
   int GetSize() const;

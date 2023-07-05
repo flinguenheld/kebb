@@ -20,7 +20,8 @@ struct point {
 class Target {
 
 public:
-  Target(int x_area, int y_area, int radius_area, std::shared_ptr<Dispatcher> dispatcher);
+  Target(int x_area, int y_area, int radius_area, std::shared_ptr<Dispatcher> dispatcher, int target_h,
+         int target_w);
 
   void update();
   void stop();
@@ -42,15 +43,14 @@ private:
   std::shared_ptr<Dispatcher> _dispatcher;
   int _angle;
 
-  TTF_Font *_font;
   std::string _current_text;
   SDL_Color _color;
 
   const point _center_area;
   const int _radius_area;
 
-  point _position; // Real position (top left)
-  int _h, _w;      // Textbox size
+  point _position;          // Real position (top left)
+  int _target_h, _target_w; // Textbox size
 
   int _move_x, _move_y;
 };

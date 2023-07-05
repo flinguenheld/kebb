@@ -6,7 +6,7 @@
 
 Dispatcher::Dispatcher()
     // : _engine(_seed()), _chars{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'}, _random_angle(0, 359),
-    : _engine(_seed()), _char_list("abcdefghijklmnop~_/\\"), _random_angle(0, 359),
+    : _engine(_seed()), _char_list("abcDEFghijklmnop~_/\\"), _random_angle(0, 359),
       _random_txt(0, _char_list.size() - 1) {}
 
 int Dispatcher::get_angle() {
@@ -30,6 +30,7 @@ void Dispatcher::release_angle(int angle) {
 
 std::string Dispatcher::get_txt() {
 
+  // FIX: NO NO NO NO NO NO !!!
   int attempts(0);
   std::string new_text;
 
