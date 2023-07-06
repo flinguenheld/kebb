@@ -14,9 +14,9 @@ int Dispatcher::get_angle() {
   std::unique_lock<std::mutex> ul(_mutex);
   int angle;
 
-  do
-    angle = _random_angle(_engine);
-  while (std::find(_used_angles.begin(), _used_angles.end(), angle) != _used_angles.end());
+  // do
+  angle = _random_angle(_engine);
+  // while (std::find(_used_angles.begin(), _used_angles.end(), angle) != _used_angles.end());
 
   _used_angles.emplace_back(angle);
   return angle;
@@ -30,22 +30,24 @@ void Dispatcher::release_angle(int angle) {
 
 std::string Dispatcher::get_txt() {
 
+  return "X";
+
   // FIX: NO NO NO NO NO NO !!!
-  int attempts(0);
-  std::string new_text;
-
-  do {
-    new_text = _char_list[_random_txt(_engine)];
-
-    attempts++;
-    if (attempts >= 1)
-      break;
-  } while (std::find(_used_texts.begin(), _used_texts.end(), new_text) != _used_texts.end());
-
-  std::cout << "lettre : " << new_text << std::endl;
-
-  _used_texts.emplace_back(new_text);
-  return new_text;
+  // int attempts(0);
+  // std::string new_text;
+  //
+  // do {
+  //   new_text = _char_list[_random_txt(_engine)];
+  //
+  //   attempts++;
+  //   if (attempts >= 1)
+  //     break;
+  // } while (std::find(_used_texts.begin(), _used_texts.end(), new_text) != _used_texts.end());
+  //
+  // std::cout << "lettre : " << new_text << std::endl;
+  //
+  // _used_texts.emplace_back(new_text);
+  // return new_text;
 };
 void Dispatcher::release_txt(std::string letter) {
 

@@ -17,16 +17,12 @@ int main() {
   constexpr int target_center_x = screen_width * scale_factor / 2;
   constexpr int target_center_y = screen_height * scale_factor / 2;
   constexpr int target_radius = int(screen_width * scale_factor * 0.4);
-  constexpr int font_size = int(target_radius * 0.3);
-  constexpr int target_h = int(font_size * 1.16);
-  constexpr int target_w = int(font_size * 0.6);
-
-  std::cout << "font size: " << font_size << std::endl;
+  constexpr int font_size = int(target_radius * 0.15);
 
   Renderer renderer(screen_width, screen_height, scale_factor, font_size, kGridWidth, kGridHeight);
 
   Controller controller;
-  Game game(kGridWidth, kGridHeight, target_center_x, target_center_y, target_radius, target_h, target_w);
+  Game game(kGridWidth, kGridHeight, target_center_x, target_center_y, target_radius, font_size);
   game.Run(controller, renderer, kMsPerFrame);
   std::cout << "Game has terminated successfully!\n";
   std::cout << "Score: " << game.GetScore() << "\n";

@@ -1,21 +1,14 @@
 #include "game.h"
-#include "SDL.h"
-#include "SDL_timer.h"
-#include <exception>
-#include <iostream>
-#include <memory>
-#include <string>
 
 Game::Game(std::size_t grid_width, std::size_t grid_height, int center_target_x, int center_target_y,
-           int radius_target, int target_h, int target_w)
+           int radius_target, int font_size)
     : snake(grid_width, grid_height), engine(dev()), random_w(0, static_cast<int>(grid_width - 1)),
       random_h(0, static_cast<int>(grid_height - 1)), random_plus(0, 359), _dispatcher(nullptr) {
 
   _dispatcher = std::make_shared<Dispatcher>();
 
-  for (int i = 0; i < 50; ++i)
-    _targets.emplace_back(
-        Target(center_target_x, center_target_y, radius_target, _dispatcher, target_h, target_w));
+  for (int i = 0; i < 20; ++i)
+    _targets.emplace_back(Target(center_target_x, center_target_y, radius_target, font_size, _dispatcher));
 
   PlaceFood();
 }

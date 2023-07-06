@@ -4,10 +4,12 @@
 #include "SDL.h"
 #include "SDL_ttf.h"
 #include "dispatcher.h"
+#include <chrono>
 #include <iostream>
 #include <math.h>
 #include <memory>
 #include <string>
+#include <thread>
 
 struct point {
   int x;
@@ -20,8 +22,7 @@ struct point {
 class Target {
 
 public:
-  Target(int x_area, int y_area, int radius_area, std::shared_ptr<Dispatcher> dispatcher, int target_h,
-         int target_w);
+  Target(int x_area, int y_area, int radius_area, int font_size, std::shared_ptr<Dispatcher> dispatcher);
 
   void update();
   void stop();
@@ -29,7 +30,6 @@ public:
   void setFont(TTF_Font *font);
 
   std::string current_text() const;
-  const char *char_ptr() const;
   SDL_Color color() const;
 
   point position() const;
@@ -43,6 +43,7 @@ private:
   std::shared_ptr<Dispatcher> _dispatcher;
   int _angle;
 
+  char _test_chaaaaarr;
   std::string _current_text;
   SDL_Color _color;
 

@@ -1,13 +1,9 @@
 #include "target.h"
-#include <chrono>
-#include <string>
-#include <thread>
 
-Target::Target(int x_area, int y_area, int radius_area, std::shared_ptr<Dispatcher> dispatcher, int target_h,
-               int target_w)
+Target::Target(int x_area, int y_area, int radius_area, int font_size, std::shared_ptr<Dispatcher> dispatcher)
     : _active(true), _current_text("Error"), _center_area(x_area, y_area), _position(x_area, y_area),
       _radius_area(radius_area), _move_x(1), _move_y(1), _dispatcher(dispatcher), _angle(-1),
-      _target_h(target_h), _target_w(target_w) {}
+      _target_h(font_size * 1.16), _target_w(font_size * 0.6), _test_chaaaaarr('L') {}
 
 void Target::stop() { _active = false; }
 
@@ -70,13 +66,16 @@ void Target::init() {
 
   // --
   // _current_text = _dispatcher->get_txt();
-  _current_text = "B";
+  // _current_text = "B";
+  _test_chaaaaarr = 'a';
   std::cout << "new letter: " << _current_text << std::endl;
 }
 
 // --
-std::string Target::current_text() const { return _current_text; }
-const char *Target::char_ptr() const { return _current_text.c_str(); }
+std::string Target::current_text() const {
+  std::string t(1, _test_chaaaaarr);
+  return t;
+}
 SDL_Color Target::color() const { return _color; }
 
 point Target::position() const { return _position; };
