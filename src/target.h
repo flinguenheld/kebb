@@ -41,10 +41,9 @@ private:
   bool _active;
 
   std::shared_ptr<Dispatcher> _dispatcher;
-  int _angle;
 
-  char _test_chaaaaarr;
-  std::string _current_text;
+  char _char;
+  int _angle;
   SDL_Color _color;
 
   const point _center_area;

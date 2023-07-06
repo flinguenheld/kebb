@@ -1,9 +1,16 @@
 #include "target.h"
 
+// clang-format off
 Target::Target(int x_area, int y_area, int radius_area, int font_size, std::shared_ptr<Dispatcher> dispatcher)
-    : _active(true), _current_text("Error"), _center_area(x_area, y_area), _position(x_area, y_area),
-      _radius_area(radius_area), _move_x(1), _move_y(1), _dispatcher(dispatcher), _angle(-1),
-      _target_h(font_size * 1.16), _target_w(font_size * 0.6), _test_chaaaaarr('L') {}
+    : _active(true),
+      _center_area(x_area, y_area), _position(x_area, y_area), _radius_area(radius_area),
+      _target_h(font_size * 1.16), _target_w(font_size * 0.6),
+      _dispatcher(dispatcher),
+      _move_x(1), _move_y(1),
+      _char('L'), _angle(-1)
+{}
+
+// clang-format on
 
 void Target::stop() { _active = false; }
 
@@ -36,7 +43,7 @@ void Target::update() {
     } else if (distance > _radius_area) {
 
       // _dispatcher->release_angle(_angle);
-      // _dispatcher->release_txt(_current_text);
+      _dispatcher->release_char(_char);
 
       init();
       distance = 0;
@@ -65,15 +72,15 @@ void Target::init() {
   _move_y = std::sin(angle_rad) * 10;
 
   // --
-  // _current_text = _dispatcher->get_txt();
+  _char = _dispatcher->get_char();
   // _current_text = "B";
-  _test_chaaaaarr = 'a';
-  std::cout << "new letter: " << _current_text << std::endl;
+  // _test_chaaaaarr = 'a';
+  // std::cout << "new letter: " << _current_text << std::endl;
 }
 
 // --
 std::string Target::current_text() const {
-  std::string t(1, _test_chaaaaarr);
+  std::string t(1, _char);
   return t;
 }
 SDL_Color Target::color() const { return _color; }

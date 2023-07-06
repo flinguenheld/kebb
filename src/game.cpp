@@ -7,7 +7,7 @@ Game::Game(std::size_t grid_width, std::size_t grid_height, int center_target_x,
 
   _dispatcher = std::make_shared<Dispatcher>();
 
-  for (int i = 0; i < 20; ++i)
+  for (int i = 0; i < 15; ++i)
     _targets.emplace_back(Target(center_target_x, center_target_y, radius_target, font_size, _dispatcher));
 
   PlaceFood();
