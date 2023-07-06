@@ -21,8 +21,13 @@ public:
   void release_char(char c);
 
 private:
-  std::vector<int> _used_angles;
+  std::vector<int> _angles;
   std::string _char_list;
+
+  std::string _letters;
+  std::string _capitals;
+  std::string _symbols;
+  std::string _numbers;
 
   std::mutex _mutex;
 

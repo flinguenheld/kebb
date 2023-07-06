@@ -42,7 +42,7 @@ void Target::update() {
 
     } else if (distance > _radius_area) {
 
-      // _dispatcher->release_angle(_angle);
+      _dispatcher->release_angle(_angle);
       _dispatcher->release_char(_char);
 
       init();
