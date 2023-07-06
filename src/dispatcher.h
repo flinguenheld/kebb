@@ -3,14 +3,18 @@
 
 #include <algorithm>
 #include <iostream>
-#include <iterator>
 #include <mutex>
 #include <random>
 #include <string>
 #include <vector>
 
+/*
+ * Dispatcher class: its role is to distribute random chars and angles to threads in a
+ * safe way.
+ * Once a thread takes a char/angle, they are erase from lists.
+ * This thread has to get it back with relase methods.
+ */
 class Dispatcher {
-
 public:
   Dispatcher();
 
@@ -22,12 +26,12 @@ public:
 
 private:
   std::vector<int> _angles;
-  std::string _char_list;
 
-  std::string _letters;
-  std::string _capitals;
-  std::string _symbols;
-  std::string _numbers;
+  const std::string _letters;
+  const std::string _capitals;
+  const std::string _symbols;
+  const std::string _numbers;
+  std::string _char_list;
 
   std::mutex _mutex;
 

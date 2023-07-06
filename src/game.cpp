@@ -1,13 +1,16 @@
 #include "game.h"
+#include <chrono>
+#include <thread>
 
 Game::Game(std::size_t grid_width, std::size_t grid_height, int center_target_x, int center_target_y,
            int radius_target, int font_size)
-    : snake(grid_width, grid_height), engine(dev()), random_w(0, static_cast<int>(grid_width - 1)),
-      random_h(0, static_cast<int>(grid_height - 1)), random_plus(0, 359), _dispatcher(nullptr) {
+    : snake(grid_width, grid_height), _engine(_seed()), random_w(0, static_cast<int>(grid_width - 1)),
+      random_h(0, static_cast<int>(grid_height - 1)), random_plus(0, 359), _random_threads(0, 5),
+      _dispatcher(nullptr) {
 
   _dispatcher = std::make_shared<Dispatcher>();
 
-  for (int i = 0; i < 15; ++i)
+  for (int i = 0; i < 5; ++i)
     _targets.emplace_back(Target(center_target_x, center_target_y, radius_target, font_size, _dispatcher));
 
   PlaceFood();
@@ -21,11 +24,8 @@ void Game::Run(Controller const &controller, Renderer &renderer, std::size_t tar
   int frame_count = 0;
   bool running = true;
 
-  // for (int i = 0; i < 2; ++i)
-  //   _targets.emplace_back(Target(600, 300, 300, _dispatcher));
-
+  // Start threads
   std::vector<std::thread> threads;
-
   for (auto &t : _targets) {
     threads.emplace_back(std::thread(&Target::update, &t));
   }
@@ -72,8 +72,8 @@ void Game::Run(Controller const &controller, Renderer &renderer, std::size_t tar
 void Game::PlaceFood() {
   int x, y;
   while (true) {
-    x = random_w(engine);
-    y = random_h(engine);
+    x = random_w(_engine);
+    y = random_h(_engine);
     // Check that the location is not occupied by a snake item before placing
     // food.
     if (!snake.SnakeCell(x, y)) {

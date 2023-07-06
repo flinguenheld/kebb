@@ -9,9 +9,8 @@ int main() {
   constexpr std::size_t kGridWidth{32};
   constexpr std::size_t kGridHeight{32};
 
-  // TODO: More elegant ?
-  constexpr int screen_width{640};
-  constexpr int screen_height{640};
+  constexpr int screen_width = 640;
+  constexpr int screen_height = 640;
   constexpr int scale_factor = 10;
 
   constexpr int target_center_x = screen_width * scale_factor / 2;

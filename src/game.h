@@ -31,8 +31,10 @@ private:
   std::vector<Target> _targets;
   std::shared_ptr<Dispatcher> _dispatcher;
 
-  std::random_device dev;
-  std::mt19937 engine;
+  std::random_device _seed;
+  std::mt19937 _engine;
+  std::uniform_int_distribution<int> _random_threads;
+
   std::uniform_int_distribution<int> random_w;
   std::uniform_int_distribution<int> random_h;
   std::uniform_int_distribution<int> random_plus;

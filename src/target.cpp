@@ -2,20 +2,18 @@
 
 // clang-format off
 Target::Target(int x_area, int y_area, int radius_area, int font_size, std::shared_ptr<Dispatcher> dispatcher)
-    : _active(true),
+    :
+      _active(true),
       _center_area(x_area, y_area), _position(x_area, y_area), _radius_area(radius_area),
       _target_h(font_size * 1.16), _target_w(font_size * 0.6),
       _dispatcher(dispatcher),
       _move_x(1), _move_y(1),
-      _char('L'), _angle(-1)
+      _char('X'), _angle(-1)
+// clang-format on
 {}
 
-// clang-format on
-
-void Target::stop() { _active = false; }
-
 /*
- * Move the target and adapt fields according to the distance to the center
+ * Method for threads
  */
 void Target::update() {
 
@@ -54,37 +52,38 @@ void Target::update() {
 }
 
 /*
- * Reset fields (keep the current text)
+ * Stop the update while loop.
+ */
+void Target::stop() { _active = false; }
+
+/*
+ * Init the target, set the default position, ask information to the dispatcher
+ * and calculate the new move increments.
  */
 void Target::init() {
   _color = {255, 255, 255, 1};
   _position.x = _center_area.x - _target_w / 2;
   _position.y = _center_area.y - _target_h / 2;
 
+  _char = _dispatcher->get_char();
   _angle = _dispatcher->get_angle();
-  // _angle = 50;
 
-  float angle_rad = _angle * 3.14 / 180; // Hight precision is useless
+  const float angle_rad = _angle * 3.14 / 180; // Hight precision is useless
 
-  // TODO: Validate the precision, see with the screen size and the scale !
   // Floats are impossible, so keep 2 numbers and use a scale (see renderer)
   _move_x = std::cos(angle_rad) * 10;
   _move_y = std::sin(angle_rad) * 10;
-
-  // --
-  _char = _dispatcher->get_char();
-  // _current_text = "B";
-  // _test_chaaaaarr = 'a';
-  // std::cout << "new letter: " << _current_text << std::endl;
 }
 
-// --
+/*
+ * Convert the char into a string for the renderer.
+ */
 std::string Target::current_text() const {
-  std::string t(1, _char);
+  const std::string t(1, _char);
   return t;
 }
-SDL_Color Target::color() const { return _color; }
 
+SDL_Color Target::color() const { return _color; }
 point Target::position() const { return _position; };
 int Target::h() const { return _target_h; }
 int Target::w() const { return _target_w; }
