@@ -1,5 +1,6 @@
 #include "game.h"
 #include <chrono>
+#include <memory>
 #include <thread>
 
 Game::Game(std::size_t grid_width, std::size_t grid_height, int center_target_x, int center_target_y,
@@ -9,9 +10,10 @@ Game::Game(std::size_t grid_width, std::size_t grid_height, int center_target_x,
       _dispatcher(nullptr) {
 
   _dispatcher = std::make_shared<Dispatcher>();
+  _targets = std::make_shared<std::vector<Target>>();
 
   for (int i = 0; i < 5; ++i)
-    _targets.emplace_back(Target(center_target_x, center_target_y, radius_target, font_size, _dispatcher));
+    _targets->emplace_back(Target(center_target_x, center_target_y, radius_target, font_size, _dispatcher));
 
   PlaceFood();
 }
@@ -26,7 +28,7 @@ void Game::Run(Controller const &controller, Renderer &renderer, std::size_t tar
 
   // Start threads
   std::vector<std::thread> threads;
-  for (auto &t : _targets) {
+  for (auto &t : *_targets) {
     threads.emplace_back(std::thread(&Target::update, &t));
   }
 
@@ -36,7 +38,7 @@ void Game::Run(Controller const &controller, Renderer &renderer, std::size_t tar
     // Input, Update, Render - the main game loop.
     controller.HandleInput(running, snake);
     Update();
-    renderer.Render(snake, food, _targets);
+    renderer.Render(snake, food, *_targets);
 
     frame_end = SDL_GetTicks();
 
@@ -61,7 +63,7 @@ void Game::Run(Controller const &controller, Renderer &renderer, std::size_t tar
     SDL_Delay(10);
   }
 
-  for (auto &t : _targets) {
+  for (auto &t : *_targets) {
     t.stop();
   }
   for (auto &t : threads) {
