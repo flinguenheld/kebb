@@ -32,6 +32,8 @@ public:
   void update();
   void stop();
 
+  bool check_input(char c);
+
   std::string current_text() const;
   SDL_Color color() const;
 
@@ -42,6 +44,7 @@ public:
 private:
   void init();
   bool _active;
+  bool _ok;
 
   std::shared_ptr<Dispatcher> _dispatcher;
 

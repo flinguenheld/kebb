@@ -3,7 +3,7 @@
 // clang-format off
 Target::Target(int x_area, int y_area, int radius_area, int font_size, std::shared_ptr<Dispatcher> dispatcher)
     :
-      _active(true),
+      _active(true), _ok(false),
       _center_area(x_area, y_area), _position(x_area, y_area), _radius_area(radius_area),
       _target_h(font_size * 1.16), _target_w(font_size * 0.6),
       _dispatcher(dispatcher),
@@ -18,36 +18,55 @@ Target::Target(int x_area, int y_area, int radius_area, int font_size, std::shar
 void Target::update() {
 
   init();
+  int distance = 0;
+  bool set_green = false;
 
   while (_active) {
 
-    // move values are set in the setText method
-    _position.x += _move_x;
-    _position.y += _move_y;
+    if (_ok) {
+      if (!set_green) {
+        _color = {50, 255, 50, 255};
+        set_green = true;
+      } else {
+        _color.a = _color.a <= 5 ? 5 : _color.a - 3; // Fade away 🎵
 
-    // Distance from the text center
-    int distance = _center_area.distance(point{_position.x + _target_w / 2, _position.y + _target_h / 2});
+        if (_color.a <= 5) {
+          _dispatcher->release_angle(_angle);
+          _dispatcher->release_char(_char);
 
-    // Fade & colour --
-    if (distance <= _radius_area * 0.2) {
-      _color.a = _color.a > 200 ? 200 : _color.a + 5;
+          set_green = false;
+          _ok = false;
 
-    } else if (distance >= (_radius_area * 0.8) && distance <= _radius_area) {
+          distance = 0;
+          init();
+        }
+      }
+    } else {
+      _position.x += _move_x; // Move values are set in the init method
+      _position.y += _move_y;
 
-      _color.a = _color.a <= 5 ? 5 : _color.a - 3;
-      _color.g = _color.g <= 50 ? 50 : _color.g - 15;
-      _color.b = _color.b <= 50 ? 50 : _color.b - 15;
+      // Distance to the text center
+      distance = _center_area.distance(point{_position.x + _target_w / 2, _position.y + _target_h / 2});
 
-    } else if (distance > _radius_area) {
+      if (distance <= _radius_area * 0.2) {
+        _color.a = _color.a > 200 ? 200 : _color.a + 5;
 
-      _dispatcher->release_angle(_angle);
-      _dispatcher->release_char(_char);
+      } else if (distance >= (_radius_area * 0.8) && distance <= _radius_area) {
+        _color.a = _color.a <= 5 ? 5 : _color.a - 3;
+        _color.g = _color.g <= 50 ? 50 : _color.g - 15;
+        _color.b = _color.b <= 50 ? 50 : _color.b - 15;
 
-      init();
-      distance = 0;
+      } else if (distance > _radius_area) {
+        _dispatcher->release_angle(_angle);
+        _dispatcher->release_char(_char);
+
+        init();
+        distance = 0;
+        // TODO: Up score -1
+      }
     }
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(5));
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
   }
 }
 
@@ -81,6 +100,16 @@ void Target::init() {
 std::string Target::current_text() const {
   const std::string t(1, _char);
   return t;
+}
+
+// FIX: Mutex ??
+bool Target::check_input(char c) {
+  if (_char == c) {
+    // return _ok = true;
+    _ok = true;
+    return true;
+  }
+  return false;
 }
 
 SDL_Color Target::color() const { return _color; }

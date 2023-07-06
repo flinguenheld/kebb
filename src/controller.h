@@ -3,17 +3,15 @@
 
 #include "snake.h"
 #include "target.h"
+#include <vector>
 
 class Controller {
 public:
-  void HandleInput(bool &running, Snake &snake) const;
+  void HandleInput(bool &running, Snake &snake, std::vector<Target> &targets) const;
 
 private:
+  void check_targets(std::vector<Target> &targets, char c) const;
   void ChangeDirection(Snake &snake, Snake::Direction input, Snake::Direction opposite) const;
-
-  void check_targets(char c);
-
-  // std::shared_ptr<std::vector<Target>> _targets;
 };
 
 #endif

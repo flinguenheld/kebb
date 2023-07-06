@@ -13,7 +13,8 @@ Dispatcher::Dispatcher() :
   // NOTE: Add a security in case of more threads than char ?
   // TODO: Set the list according to future options
 
-  _char_list = _letters + _capitals + _numbers + _symbols;
+  // _char_list = _letters + _capitals + _numbers + _symbols;
+  _char_list = _letters;
 
   for (int i = 0; i < 360; i += 5)
     _angles.emplace_back(i);

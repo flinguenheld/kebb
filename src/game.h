@@ -28,7 +28,7 @@ private:
   Snake snake;
   SDL_Point food;
 
-  std::shared_ptr<std::vector<Target>> _targets;
+  std::vector<Target> _targets;
   std::shared_ptr<Dispatcher> _dispatcher;
 
   std::random_device _seed;
