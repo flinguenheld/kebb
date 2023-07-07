@@ -14,7 +14,8 @@ Dispatcher::Dispatcher() :
   // TODO: Set the list according to future options
 
   // _char_list = _letters + _capitals + _numbers + _symbols;
-  _char_list = _letters;
+  // _char_list = _letters;
+  _char_list = _symbols;
 
   for (int i = 0; i < 360; i += 5)
     _angles.emplace_back(i);

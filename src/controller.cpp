@@ -1,5 +1,8 @@
 #include "controller.h"
 #include "SDL.h"
+#include "SDL_events.h"
+#include "SDL_keyboard.h"
+#include "SDL_keycode.h"
 #include "snake.h"
 #include <iostream>
 #include <vector>
@@ -22,14 +25,55 @@ void Controller::check_targets(std::vector<Target> &targets, char c) const {
   // If not, fail
 }
 
+char Controller::convert_us(SDL_Event &e) const {
+
+  if (e.key.keysym.mod == 4097) {
+
+    std::cout << "SHIFT" << std::endl;
+    switch (e.key.keysym.sym) {
+
+    case SDLK_SLASH:
+      return '?';
+    case SDLK_2:
+      return '@';
+    }
+  }
+
+  return 'a';
+}
+
+char Controller::convert_fr(SDL_Event &e) const {
+
+  if (e.key.keysym.mod == 4097) {
+
+    // std::cout << "SHIFT" << std::endl;
+    switch (e.key.keysym.sym) {
+
+    case SDLK_SLASH:
+      return '?';
+    case SDLK_2:
+      return '@';
+    }
+  } else {
+
+    switch (e.key.keysym.sym) {
+
+    case SDLK_1:
+      return '&';
+    case SDLK_3:
+      return '"';
+    }
+  }
+
+  return 'a';
+}
+
 void Controller::HandleInput(bool &running, Snake &snake, std::vector<Target> &targets) const {
   SDL_Event e;
   while (SDL_PollEvent(&e)) {
     if (e.type == SDL_QUIT) {
       running = false;
     } else if (e.type == SDL_KEYDOWN) {
-
-      std::cout << "value: " << e.key.keysym.sym << std::endl;
 
       switch (e.key.keysym.sym) {
       case SDLK_UP:
@@ -48,13 +92,14 @@ void Controller::HandleInput(bool &running, Snake &snake, std::vector<Target> &t
         ChangeDirection(snake, Snake::Direction::kRight, Snake::Direction::kLeft);
         break;
 
-      case SDLK_d:
-        check_targets(targets, 'd');
-        break;
+        // case SDLK_a:
+        //   check_targets(targets, 'a');
+        //   break;
 
-      case SDLK_e:
-        check_targets(targets, 'e');
-        break;
+      default:
+
+        // check_targets(targets, convert_us(e));
+        check_targets(targets, convert_fr(e));
       }
     }
   }
