@@ -1,14 +1,16 @@
 #include "target.h"
+#include "keycodes.h"
+#include <cstdint>
 
 // clang-format off
-Target::Target(int x_area, int y_area, int radius_area, int font_size, std::shared_ptr<Dispatcher> dispatcher)
-    :
+Target::Target(uint16_t x_area, uint16_t y_area, uint16_t radius_area, uint16_t font_size,
+    std::shared_ptr<Dispatcher> dispatcher) :
       _active(true), _ok(false),
       _center_area(x_area, y_area), _position(x_area, y_area), _radius_area(radius_area),
       _target_h(font_size * 1.16), _target_w(font_size * 0.6),
       _dispatcher(dispatcher),
       _move_x(1), _move_y(1),
-      _char('X'), _angle(-1)
+      _keycode(0), _angle(-1)
 // clang-format on
 {}
 
@@ -18,7 +20,7 @@ Target::Target(int x_area, int y_area, int radius_area, int font_size, std::shar
 void Target::update() {
 
   init();
-  int distance = 0;
+  uint16_t distance = 0;
   bool set_green = false;
 
   while (_active) {
@@ -32,7 +34,7 @@ void Target::update() {
 
         if (_color.a <= 5) {
           _dispatcher->release_angle(_angle);
-          _dispatcher->release_keycode(_char);
+          _dispatcher->release_keycode(_keycode);
 
           set_green = false;
           _ok = false;
@@ -46,7 +48,8 @@ void Target::update() {
       _position.y += _move_y;
 
       // Distance to the text center
-      distance = _center_area.distance(point{_position.x + _target_w / 2, _position.y + _target_h / 2});
+      distance = _center_area.distance(point{static_cast<uint16_t>(_position.x + _target_w / 2),
+                                             static_cast<uint16_t>(_position.y + _target_h / 2)});
 
       if (distance <= _radius_area * 0.2) {
         _color.a = _color.a > 200 ? 200 : _color.a + 5;
@@ -58,7 +61,7 @@ void Target::update() {
 
       } else if (distance > _radius_area) {
         _dispatcher->release_angle(_angle);
-        _dispatcher->release_keycode(_char);
+        _dispatcher->release_keycode(_keycode);
 
         init();
         distance = 0;
@@ -84,7 +87,7 @@ void Target::init() {
   _position.x = _center_area.x - _target_w / 2;
   _position.y = _center_area.y - _target_h / 2;
 
-  _char = _dispatcher->get_keycode();
+  _keycode = _dispatcher->get_keycode();
   _angle = _dispatcher->get_angle();
 
   const float angle_rad = _angle * 3.14 / 180; // Hight precision is useless
@@ -94,25 +97,17 @@ void Target::init() {
   _move_y = std::sin(angle_rad) * 10;
 }
 
-/*
- * Convert the char into a string for the renderer.
- */
-std::string Target::current_text() const {
-  const std::string t(1, _char);
-  return t;
-}
-
 // FIX: Mutex ??
-bool Target::check_input(char c) {
-  if (_char == c) {
-    // return _ok = true;
+bool Target::check_keycode(uint16_t k) {
+  if (_keycode == k) {
     _ok = true;
     return true;
   }
   return false;
 }
 
+std::string Target::current_text() const { return keycode_to_string(_keycode); }
 SDL_Color Target::color() const { return _color; }
 point Target::position() const { return _position; };
-int Target::h() const { return _target_h; }
-int Target::w() const { return _target_w; }
+uint16_t Target::h() const { return _target_h; }
+uint16_t Target::w() const { return _target_w; }

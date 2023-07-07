@@ -1,7 +1,7 @@
 #include "keycodes.h"
 
 // clang-format off
-std::string keycode(uint16_t val) {
+std::string keycode_to_string(uint16_t val) {
 
   switch (val) {
 
