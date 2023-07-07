@@ -106,7 +106,10 @@ bool Target::check_keycode(uint16_t k) {
   return false;
 }
 
-std::string Target::current_text() const { return keycode_to_string(_keycode); }
+std::string Target::current_text() const {
+  // std::cout << "num in target:" << _keycode << std::endl;
+  return keycode_to_string(_keycode);
+}
 SDL_Color Target::color() const { return _color; }
 point Target::position() const { return _position; };
 uint16_t Target::h() const { return _target_h; }
