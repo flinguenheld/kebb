@@ -32,7 +32,7 @@ void Target::update() {
 
         if (_color.a <= 5) {
           _dispatcher->release_angle(_angle);
-          _dispatcher->release_char(_char);
+          _dispatcher->release_keycode(_char);
 
           set_green = false;
           _ok = false;
@@ -58,7 +58,7 @@ void Target::update() {
 
       } else if (distance > _radius_area) {
         _dispatcher->release_angle(_angle);
-        _dispatcher->release_char(_char);
+        _dispatcher->release_keycode(_char);
 
         init();
         distance = 0;
@@ -84,7 +84,7 @@ void Target::init() {
   _position.x = _center_area.x - _target_w / 2;
   _position.y = _center_area.y - _target_h / 2;
 
-  _char = _dispatcher->get_char();
+  _char = _dispatcher->get_keycode();
   _angle = _dispatcher->get_angle();
 
   const float angle_rad = _angle * 3.14 / 180; // Hight precision is useless

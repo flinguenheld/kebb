@@ -1,36 +1,29 @@
 #include "dispatcher.h"
+#include <cstdint>
+#include <vector>
 
-// clang-format off
-Dispatcher::Dispatcher() :
-  _engine(_seed()),
-  _letters("abcdefghijklmnopqrstuvwxyz"),
-  _capitals("ABCDEFGHIJKLMNOPQRSTUVWXYZ"),
-  _symbols("!\"#$%&'*+,_./:;<>=?@^-`|~\\[]{}()"),
-  _numbers("0123456789")
-{
-  // clang-format on
+// NOTE: Add a security in case of more threads than keycodes ?
+// TODO: Set the list according to future options
 
-  // NOTE: Add a security in case of more threads than char ?
-  // TODO: Set the list according to future options
+Dispatcher::Dispatcher() : _engine(_seed()) {
 
-  // _char_list = _letters + _capitals + _numbers + _symbols;
-  // _char_list = _letters;
-  _char_list = _symbols;
+  for (uint16_t i = 10; i < 36; ++i) // Add letters
+    _keycodes.emplace_back(i);
 
-  for (int i = 0; i < 360; i += 5)
+  for (uint16_t i = 0; i < 360; i += 5)
     _angles.emplace_back(i);
 }
 
 /*
  * Select an angle in the list, erase and return it.
  */
-int Dispatcher::get_angle() {
+uint16_t Dispatcher::get_angle() {
   std::unique_lock<std::mutex> ul(_mutex);
 
-  std::uniform_int_distribution<int> random(0, _angles.size() - 1);
-  std::vector<int>::iterator it = std::next(_angles.begin(), random(_engine));
+  std::uniform_int_distribution<uint16_t> random(0, _angles.size() - 1);
+  std::vector<uint16_t>::iterator it = std::next(_angles.begin(), random(_engine));
 
-  const int selected_angle = *it;
+  const uint16_t selected_angle = *it;
   _angles.erase(it);
 
   return selected_angle;
@@ -39,30 +32,30 @@ int Dispatcher::get_angle() {
 /*
  * Get it back in the angle list
  */
-void Dispatcher::release_angle(int angle) {
+void Dispatcher::release_angle(uint16_t angle) {
   std::unique_lock<std::mutex> ul(_mutex);
   _angles.emplace_back(angle);
 }
 
 /*
- * Select a char in the list, erase and return it.
+ * Select a keycode in the list, erase and return it.
  */
-char Dispatcher::get_char() {
+uint16_t Dispatcher::get_keycode() {
   std::unique_lock<std::mutex> ul(_mutex);
 
-  std::uniform_int_distribution<int> random_txt(0, _char_list.size() - 1);
-  std::string::iterator it = std::next(_char_list.begin(), random_txt(_engine));
+  std::uniform_int_distribution<uint16_t> random_keycodes(0, _keycodes.size() - 1);
+  std::vector<uint16_t>::iterator it = std::next(_keycodes.begin(), random_keycodes(_engine));
 
-  const char selected_char = *it;
-  _char_list.erase(it);
+  const char selected_keycode = *it;
+  _keycodes.erase(it);
 
-  return selected_char;
+  return selected_keycode;
 };
 
 /*
  * Get it back in the char list
  */
-void Dispatcher::release_char(char c) {
+void Dispatcher::release_keycode(uint16_t k) {
   std::unique_lock<std::mutex> ul(_mutex);
-  _char_list += c;
+  _keycodes.emplace_back(k);
 }

@@ -2,6 +2,7 @@
 #define DISPATCHER_H
 
 #include <algorithm>
+#include <cstdint>
 #include <iostream>
 #include <mutex>
 #include <random>
@@ -9,36 +10,30 @@
 #include <vector>
 
 /*
- * Dispatcher class: its role is to distribute random chars and angles to threads in a
+ * Dispatcher class: its role is to distribute random keycodes and angles to threads in a
  * safe way.
- * Once a thread takes a char/angle, they are erase from lists.
- * This thread has to get it back with relase methods.
+ * Once a thread has taken a keycode/angle, they are erase from lists.
+ * This latter has to get it back with relase methods.
  */
 class Dispatcher {
 public:
   Dispatcher();
 
-  int get_angle();
-  void release_angle(int angle);
+  uint16_t get_angle();
+  void release_angle(uint16_t angle);
 
-  char get_char();
-  void release_char(char c);
+  uint16_t get_keycode();
+  void release_keycode(uint16_t k);
 
 private:
-  std::vector<int> _angles;
-
-  const std::string _letters;
-  const std::string _capitals;
-  const std::string _symbols;
-  const std::string _numbers;
-  std::string _char_list;
+  std::vector<uint16_t> _angles;
+  std::vector<uint16_t> _keycodes;
 
   std::mutex _mutex;
 
   // --
   std::random_device _seed;
   std::mt19937 _engine;
-  std::uniform_int_distribution<int> _random_angle;
 };
 
 #endif // DISPATCHER_H
