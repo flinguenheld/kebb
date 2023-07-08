@@ -1,13 +1,12 @@
 #include "target.h"
-#include "keycodes.h"
-#include <cstdint>
 
 // clang-format off
 Target::Target(uint16_t x_area, uint16_t y_area, uint16_t radius_area, uint16_t font_size,
     std::shared_ptr<Dispatcher> dispatcher) :
+
+  WidgetBase({x_area,y_area}, {static_cast<uint16_t>(font_size * 0.6), static_cast<uint16_t>(font_size * 1.16) }),
       _active(true), _ok(false),
-      _center_area(x_area, y_area), _position(x_area, y_area), _radius_area(radius_area),
-      _target_h(font_size * 1.16), _target_w(font_size * 0.6),
+      _center_area(x_area, y_area),  _radius_area(radius_area),
       _dispatcher(dispatcher),
       _move_x(1), _move_y(1),
       _keycode(0), _angle(-1)
@@ -26,30 +25,26 @@ void Target::update() {
   while (_active) {
 
     if (_ok) {
-      if (!set_green) {
+      if (_color.r != (50) || _color.g != (255) || _color.b != (50)) // Set opaque green
         _color = {50, 255, 50, 255};
-        set_green = true;
-      } else {
-        _color.a = _color.a <= 5 ? 5 : _color.a - 3; // Fade away 🎵
 
-        if (_color.a <= 5) {
-          _dispatcher->release_angle(_angle);
-          _dispatcher->release_keycode(_keycode);
+      _color.a = _color.a <= 5 ? 5 : _color.a - 3; // Then fade away 🎵
 
-          set_green = false;
-          _ok = false;
+      if (_color.a <= 5) {
+        _dispatcher->release_angle(_angle);
+        _dispatcher->release_keycode(_keycode);
 
-          distance = 0;
-          init();
-        }
+        _ok = false;
+        distance = 0;
+        init();
       }
     } else {
       _position.x += _move_x; // Move values are set in the init method
       _position.y += _move_y;
 
       // Distance to the text center
-      distance = _center_area.distance(point{static_cast<uint16_t>(_position.x + _target_w / 2),
-                                             static_cast<uint16_t>(_position.y + _target_h / 2)});
+      distance = _center_area.distance(point{static_cast<uint16_t>(_position.x + _size.w / 2),
+                                             static_cast<uint16_t>(_position.y + _size.h / 2)});
 
       if (distance <= _radius_area * 0.2) {
         _color.a = _color.a > 200 ? 200 : _color.a + 5;
@@ -74,18 +69,13 @@ void Target::update() {
 }
 
 /*
- * Stop the update while loop.
- */
-void Target::stop() { _active = false; }
-
-/*
  * Init the target, set the default position, ask information to the dispatcher
  * and calculate the new move increments.
  */
 void Target::init() {
   _color = {255, 255, 255, 1};
-  _position.x = _center_area.x - _target_w / 2;
-  _position.y = _center_area.y - _target_h / 2;
+  _position.x = _center_area.x - _size.w / 2;
+  _position.y = _center_area.y - _size.h / 2;
 
   _keycode = _dispatcher->get_keycode();
   _angle = _dispatcher->get_angle();
@@ -106,11 +96,5 @@ bool Target::check_keycode(uint16_t k) {
   return false;
 }
 
-std::string Target::current_text() const {
-  // std::cout << "num in target:" << _keycode << std::endl;
-  return keycode_to_string(_keycode);
-}
-SDL_Color Target::color() const { return _color; }
-point Target::position() const { return _position; };
-uint16_t Target::h() const { return _target_h; }
-uint16_t Target::w() const { return _target_w; }
+std::string Target::current_text() const { return keycode_to_string(_keycode); }
+void Target::stop() { _active = false; }

@@ -99,7 +99,7 @@ void Renderer::render_targets(const std::vector<Target> &targets) {
       // Get rid of old surface
       SDL_FreeSurface(textSurface);
 
-      SDL_Rect renderQuad = {target.position().x, target.position().y, target.w(), target.h()};
+      SDL_Rect renderQuad = {target.position().x, target.position().y, target.size().w, target.size().h};
       SDL_Point center = {};
       SDL_RendererFlip flip = {};
 

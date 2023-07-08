@@ -16,19 +16,19 @@ struct point {
 };
 
 struct boxsize {
-  uint16_t h;
   uint16_t w;
+  uint16_t h;
 };
 
 class WidgetBase {
 public:
   WidgetBase(point position, boxsize size);
-  SDL_Color color() const;
 
   point position() const;
   boxsize size() const;
+  SDL_Color color() const;
 
-private:
+protected:
   point _position;
   boxsize _size;
 
