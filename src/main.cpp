@@ -2,6 +2,7 @@
 #include "game.h"
 #include "renderer.h"
 #include <iostream>
+#include <memory>
 
 int main() {
   constexpr std::size_t kFramesPerSecond{60};
@@ -18,10 +19,13 @@ int main() {
   constexpr int target_radius = int(screen_width * scale_factor * 0.4);
   constexpr int font_size = int(target_radius * 0.15);
 
-  Renderer renderer(screen_width, screen_height, scale_factor, font_size, kGridWidth, kGridHeight);
+  point p = {1000, 1000};
+  std::shared_ptr<Score> score = std::make_shared<Score>(p, 500);
 
-  Controller controller;
-  Game game(kGridWidth, kGridHeight, target_center_x, target_center_y, target_radius, font_size);
+  Renderer renderer(screen_width, screen_height, scale_factor, font_size, kGridWidth, kGridHeight, score);
+
+  Controller controller(score);
+  Game game(kGridWidth, kGridHeight, target_center_x, target_center_y, target_radius, font_size, score);
   game.Run(controller, renderer, kMsPerFrame);
   std::cout << "Game has terminated successfully!\n";
   std::cout << "Score: " << game.GetScore() << "\n";

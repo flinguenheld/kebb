@@ -39,14 +39,4 @@ protected:
   SDL_Color _color;
 };
 
-class WidgetTextBoxBase : public WidgetBase {
-public:
-  WidgetTextBoxBase(point pos, boxsize size);
-  virtual void render(SDL_Renderer *renderer, TTF_Font *font) const;
-
-protected:
-  std::string _text;
-  SDL_Color _color_text;
-};
-
-#endif // WIDGET_BASE_H
+#endif // !WIDGET_BASE_H

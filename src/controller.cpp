@@ -1,12 +1,6 @@
 #include "controller.h"
-#include "SDL.h"
-#include "SDL_events.h"
-#include "SDL_keyboard.h"
-#include "SDL_keycode.h"
-#include "snake.h"
-#include <cstdint>
-#include <iostream>
-#include <vector>
+
+Controller::Controller(std::shared_ptr<Score> score) : _score(score) {}
 
 void Controller::ChangeDirection(Snake &snake, Snake::Direction input, Snake::Direction opposite) const {
   if (snake.direction != opposite || snake.size == 1)
@@ -22,8 +16,8 @@ void Controller::check_targets(std::vector<Target> &targets, uint16_t k) const {
       return;
   }
 
-  std::cout << "Perdu !!!!! " << k << std::endl;
-  // If not, fail
+  // FIX: It takes the modificators !! add a filter !!!
+  _score->up_fail();
 }
 
 void Controller::HandleInput(bool &running, Snake &snake, std::vector<Target> &targets) const {
@@ -54,6 +48,7 @@ void Controller::HandleInput(bool &running, Snake &snake, std::vector<Target> &t
         ChangeDirection(snake, Snake::Direction::kRight, Snake::Direction::kLeft);
         break;
 
+        // FIX: It takes the modificators !! add a filter !!!
       default:
         check_targets(targets, convert_us(e));
         // check_targets(targets, convert_fr(e));

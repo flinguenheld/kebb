@@ -4,15 +4,18 @@
 #include <thread>
 
 Game::Game(std::size_t grid_width, std::size_t grid_height, int center_target_x, int center_target_y,
-           int radius_target, int font_size)
+           int radius_target, int font_size, std::shared_ptr<Score> score)
     : snake(grid_width, grid_height), _engine(_seed()), random_w(0, static_cast<int>(grid_width - 1)),
       random_h(0, static_cast<int>(grid_height - 1)), random_plus(0, 359), _random_threads(0, 5),
-      _dispatcher(nullptr) {
+      _score(score) {
 
   _dispatcher = std::make_shared<Dispatcher>();
 
+  point p = {1000, 1000};
+
   for (int i = 0; i < 5; ++i)
-    _targets.emplace_back(Target(center_target_x, center_target_y, radius_target, font_size, _dispatcher));
+    _targets.emplace_back(
+        Target(center_target_x, center_target_y, radius_target, font_size, _dispatcher, _score));
 
   PlaceFood();
 }

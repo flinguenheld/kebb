@@ -2,12 +2,12 @@
 
 // clang-format off
 Target::Target(uint16_t x_area, uint16_t y_area, uint16_t radius_area, uint16_t font_size,
-    std::shared_ptr<Dispatcher> dispatcher) :
+    std::shared_ptr<Dispatcher> dispatcher, std::shared_ptr<Score> score) :
 
-  WidgetTextBoxBase({x_area,y_area}, {static_cast<uint16_t>(font_size * 0.6), static_cast<uint16_t>(font_size * 1.16) }),
+  WidgetTextBox({x_area,y_area}, {static_cast<uint16_t>(font_size * 0.6), static_cast<uint16_t>(font_size * 1.16) }),
       _active(true), _ok(false),
       _center_area(x_area, y_area),  _radius_area(radius_area),
-      _dispatcher(dispatcher),
+      _dispatcher(dispatcher), _score(score),
       _move_x(1), _move_y(1),
       _keycode(0), _angle(-1)
 // clang-format on
@@ -25,8 +25,10 @@ void Target::update() {
   while (_active) {
 
     if (_ok) {
-      if (_color_text.r != (50) || _color_text.g != (255) || _color_text.b != (50)) // Set opaque green
-        _color_text = {50, 255, 50, 255};
+      if (_color_text.r != (50) || _color_text.g != (255) || _color_text.b != (50)) {
+        _color_text = {50, 255, 50, 255}; // Set opaque green
+        _score->up_sucess();
+      }
 
       _color_text.a = _color_text.a <= 5 ? 5 : _color_text.a - 3; // Then fade away 🎵
 
@@ -58,9 +60,9 @@ void Target::update() {
         _dispatcher->release_angle(_angle);
         _dispatcher->release_keycode(_keycode);
 
+        _score->up_miss();
         init();
         distance = 0;
-        // TODO: Up score -1
       }
     }
 

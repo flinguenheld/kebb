@@ -4,7 +4,8 @@
 #include "SDL.h"
 #include "dispatcher.h"
 #include "keycodes.h"
-#include "widget/widget_base.h"
+#include "score.h"
+#include "widget/widget_textbox.h"
 #include <chrono>
 #include <cstdint>
 #include <iostream>
@@ -20,10 +21,10 @@
  * Once it's necessary, the init method is called. The latter will call the dispatcher to release the current
  * keycode/angle and ask for new ones.
  */
-class Target : public WidgetTextBoxBase {
+class Target : public WidgetTextBox {
 public:
   Target(uint16_t x_area, uint16_t y_area, uint16_t radius_area, uint16_t font_size,
-         std::shared_ptr<Dispatcher> dispatcher);
+         std::shared_ptr<Dispatcher> dispatcher, std::shared_ptr<Score> score);
 
   void update();
   void stop();
@@ -36,6 +37,7 @@ private:
   bool _ok;
 
   std::shared_ptr<Dispatcher> _dispatcher;
+  std::shared_ptr<Score> _score;
 
   uint16_t _keycode;
   uint16_t _angle;

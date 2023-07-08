@@ -6,6 +6,7 @@
 #include "controller.h"
 #include "dispatcher.h"
 #include "renderer.h"
+#include "score.h"
 #include "snake.h"
 #include "target.h"
 #include <cstddef>
@@ -19,7 +20,7 @@
 class Game {
 public:
   Game(std::size_t grid_width, std::size_t grid_height, int center_target_x, int center_target_y,
-       int radius_target, int font_size);
+       int radius_target, int font_size, std::shared_ptr<Score> score);
   void Run(Controller const &controller, Renderer &renderer, std::size_t target_frame_duration);
   int GetScore() const;
   int GetSize() const;
@@ -30,6 +31,7 @@ private:
 
   std::vector<Target> _targets;
   std::shared_ptr<Dispatcher> _dispatcher;
+  std::shared_ptr<Score> _score;
 
   std::random_device _seed;
   std::mt19937 _engine;

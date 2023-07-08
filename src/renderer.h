@@ -6,6 +6,7 @@
 #include "SDL_pixels.h"
 #include "SDL_render.h"
 #include "SDL_ttf.h"
+#include "score.h"
 #include "snake.h"
 #include "target.h"
 #include <cstddef>
@@ -16,7 +17,7 @@
 class Renderer {
 public:
   Renderer(int screen_width, int screen_height, int scale_factor, int font_size, const std::size_t grid_width,
-           const std::size_t grid_height);
+           const std::size_t grid_height, std::shared_ptr<Score> score);
   ~Renderer();
 
   void Render(Snake const snake, SDL_Point const &food, const std::vector<Target> &targets);
@@ -32,6 +33,8 @@ private:
   const int _screen_width;
   const int _screen_height;
   const int _scale_factor;
+
+  std::shared_ptr<Score> _score;
 
   // TODO: Remove :
   const std::size_t grid_width;
