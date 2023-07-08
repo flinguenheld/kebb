@@ -59,56 +59,11 @@ Renderer::Renderer(int screen_width, int screen_height, int scale_factor, int fo
 
 Renderer::~Renderer() {
 
-  for (auto &i : _images)
-    SDL_DestroyTexture(i);
-
   TTF_CloseFont(_font);
   TTF_Quit();
   SDL_DestroyWindow(_window);
   SDL_Quit();
 }
-
-// TEST ----------------------------------------------------
-// TEST ----------------------------------------------------
-void Renderer::render_targets(const std::vector<Target> &targets) {
-  for (std::vector<SDL_Texture *>::iterator it = _images.begin(); it != _images.end();) {
-    SDL_DestroyTexture(*it);
-    it = _images.erase(it);
-  }
-
-  for (auto &target : targets) {
-
-    // NOTE: test with TTF_RenderUTF8_Solid - see the doc
-    SDL_Color bg = {255, 255, 255, 1};
-    // SDL_Surface *textSurface = TTF_RenderUTF8_Shaded(_font, target.char_ptr(), target.color(), bg);
-    SDL_Surface *textSurface =
-        TTF_RenderUTF8_Shaded(_font, target.current_text().c_str(), target.color(), bg);
-    // SDL_Surface *textSurface = TTF_RenderText_Solid(_font, target.char_ptr(), target.color());
-    if (textSurface == NULL) {
-      printf("Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError());
-    } else {
-
-      // Create texture from surface pixels
-      auto new_image = SDL_CreateTextureFromSurface(_renderer, textSurface);
-      if (new_image == NULL) {
-        printf("Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError());
-      } else {
-        _images.emplace_back(new_image);
-      }
-
-      // Get rid of old surface
-      SDL_FreeSurface(textSurface);
-
-      SDL_Rect renderQuad = {target.position().x, target.position().y, target.size().w, target.size().h};
-      SDL_Point center = {};
-      SDL_RendererFlip flip = {};
-
-      SDL_RenderCopyEx(_renderer, new_image, nullptr, &renderQuad, 0, &center, flip);
-    }
-  }
-}
-
-// TEST ----------------------------------------------------
 
 TTF_Font *Renderer::font() { return _font; }
 
@@ -137,8 +92,10 @@ void Renderer::Render(Snake const snake, SDL_Point const &food, const std::vecto
 
   // TEST ----------------------------------------------------
   // TEST ----------------------------------------------------
-  render_targets(targets);
 
+  for (auto &target : targets) {
+    target.render(_renderer, _font);
+  }
   // TEST ----------------------------------------------------
 
   // Render snake's head

@@ -20,7 +20,7 @@
  * Once it's necessary, the init method is called. The latter will call the dispatcher to release the current
  * keycode/angle and ask for new ones.
  */
-class Target : public WidgetBase {
+class Target : public WidgetTextBoxBase {
 public:
   Target(uint16_t x_area, uint16_t y_area, uint16_t radius_area, uint16_t font_size,
          std::shared_ptr<Dispatcher> dispatcher);
@@ -29,7 +29,6 @@ public:
   void stop();
 
   bool check_keycode(uint16_t k);
-  std::string current_text() const;
 
 private:
   void init();

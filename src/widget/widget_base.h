@@ -2,10 +2,13 @@
 #define WIDGET_BASE_H
 
 #include "SDL.h"
+#include "SDL_render.h"
+#include "SDL_ttf.h"
 #include <cstdint>
 #include <math.h>
 #include <string>
 #include <sys/types.h>
+#include <vector>
 
 struct point {
   uint16_t x;
@@ -23,6 +26,7 @@ struct boxsize {
 class WidgetBase {
 public:
   WidgetBase(point position, boxsize size);
+  virtual void render(SDL_Renderer *renderer, TTF_Font *font) const = 0;
 
   point position() const;
   boxsize size() const;
@@ -35,13 +39,14 @@ protected:
   SDL_Color _color;
 };
 
-// class WidgetTextBoxBase : public WidgetBase {
-//
-// public:
-//   WidgetTextBoxBase(point pos, boxsize size, uint16_t font_size);
-//
-// private:
-//   SDL_Color _color_fg;
-// };
+class WidgetTextBoxBase : public WidgetBase {
+public:
+  WidgetTextBoxBase(point pos, boxsize size);
+  virtual void render(SDL_Renderer *renderer, TTF_Font *font) const;
+
+protected:
+  std::string _text;
+  SDL_Color _color_text;
+};
 
 #endif // WIDGET_BASE_H
