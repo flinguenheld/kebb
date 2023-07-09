@@ -1,4 +1,6 @@
 #include "controller.h"
+#include "SDL_keycode.h"
+#include <iostream>
 
 Controller::Controller(std::shared_ptr<Score> score) : _score(score) {}
 
@@ -16,7 +18,6 @@ void Controller::check_targets(std::vector<Target> &targets, uint16_t k) const {
       return;
   }
 
-  // FIX: It takes the modificators !! add a filter !!!
   _score->up_fail();
 }
 
@@ -48,7 +49,16 @@ void Controller::HandleInput(bool &running, Snake &snake, std::vector<Target> &t
         ChangeDirection(snake, Snake::Direction::kRight, Snake::Direction::kLeft);
         break;
 
-        // FIX: It takes the modificators !! add a filter !!!
+      case SDLK_LSHIFT:
+      case SDLK_RSHIFT:
+      case SDLK_LALT:
+      case SDLK_RALT:
+      case SDLK_LCTRL:
+      case SDLK_RCTRL:
+      case SDLK_LGUI:
+      case SDLK_RGUI:
+        break;
+
       default:
         check_targets(targets, convert_us(e));
         // check_targets(targets, convert_fr(e));
