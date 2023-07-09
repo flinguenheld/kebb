@@ -11,6 +11,7 @@ public:
 
   // NOTE: Keep move ?
   void set_text(std::string &&txt);
+  void set_color_text(SDL_Color &&color);
 
 protected:
   std::string _text;

@@ -2,6 +2,7 @@
 #define SCORE_H
 
 #include "widget/widget_textbox.h"
+#include <chrono>
 #include <cstdint>
 #include <memory>
 #include <mutex>
@@ -17,6 +18,8 @@ public:
   void up_fail();
   void up_miss();
 
+  void start_timer();
+
 private:
   std::unique_ptr<WidgetTextBox> _textbox_time;
   std::unique_ptr<WidgetTextBox> _textbox_success;
@@ -28,6 +31,7 @@ private:
   uint16_t _miss;
 
   std::mutex _mutex;
+  std::chrono::time_point<std::chrono::steady_clock> _timer_start;
 };
 
 #endif // DEBUG

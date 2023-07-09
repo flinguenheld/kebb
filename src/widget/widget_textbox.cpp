@@ -3,6 +3,7 @@
 WidgetTextBox::WidgetTextBox(point position, boxsize size) : WidgetBase(position, size) {}
 
 void WidgetTextBox::set_text(std::string &&text) { _text = std::move(text); }
+void WidgetTextBox::set_color_text(SDL_Color &&color) { _color_text = std::move(color); }
 
 void WidgetTextBox::render(SDL_Renderer *renderer, TTF_Font *font) const {
 
