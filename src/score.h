@@ -5,8 +5,10 @@
 #include "widget/widget_textbox.h"
 #include <chrono>
 #include <cstdint>
+#include <iostream>
 #include <memory>
 #include <mutex>
+#include <string>
 
 class Score {
 

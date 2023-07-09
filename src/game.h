@@ -7,9 +7,11 @@
 #include "dispatcher.h"
 #include "renderer.h"
 #include "score.h"
-#include "snake.h"
 #include "target.h"
+#include "widget/widget_base.h"
+#include <chrono>
 #include <cstddef>
+#include <cstdint>
 #include <exception>
 #include <iostream>
 #include <memory>
@@ -19,32 +21,14 @@
 
 class Game {
 public:
-  Game(std::size_t grid_width, std::size_t grid_height, int center_target_x, int center_target_y,
-       int radius_target, int font_size, std::shared_ptr<Score> score);
+  Game(point target_center_aera, uint16_t target_radius_aera, boxsize target_char_size,
+       std::shared_ptr<Score> score);
   void Run(Controller const &controller, Renderer &renderer, std::size_t target_frame_duration);
-  int GetScore() const;
-  int GetSize() const;
 
 private:
-  Snake snake;
-  SDL_Point food;
-
   std::vector<Target> _targets;
   std::shared_ptr<Dispatcher> _dispatcher;
   std::shared_ptr<Score> _score;
-
-  std::random_device _seed;
-  std::mt19937 _engine;
-  std::uniform_int_distribution<int> _random_threads;
-
-  std::uniform_int_distribution<int> random_w;
-  std::uniform_int_distribution<int> random_h;
-  std::uniform_int_distribution<int> random_plus;
-
-  int score{0};
-
-  void PlaceFood();
-  void Update();
 };
 
 #endif

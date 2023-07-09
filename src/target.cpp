@@ -1,17 +1,29 @@
 #include "target.h"
+#include "widget/widget_base.h"
 
 // clang-format off
-Target::Target(uint16_t x_area, uint16_t y_area, uint16_t radius_area, uint16_t font_size,
+Target::Target(point center_area, uint16_t radius_area, boxsize char_size,
     std::shared_ptr<Dispatcher> dispatcher, std::shared_ptr<Score> score) :
 
-  WidgetTextBox({x_area,y_area}, {static_cast<uint16_t>(font_size * 0.6), static_cast<uint16_t>(font_size * 1.16) }),
+  WidgetTextBox(center_area, char_size),
       _active(true), _ok(false),
-      _center_area(x_area, y_area),  _radius_area(radius_area),
+      _center_area(center_area),  _radius_area(radius_area),
       _dispatcher(dispatcher), _score(score),
       _move_x(1), _move_y(1),
       _keycode(0), _angle(-1)
 // clang-format on
 {}
+
+bool Target::check_keycode(uint16_t k) {
+
+  if (_keycode == k) { // FIX: Need mutex ??
+    _ok = true;
+    return true;
+  }
+  return false;
+}
+
+void Target::stop() { _active = false; }
 
 /*
  * Method for threads
@@ -75,6 +87,7 @@ void Target::update() {
  * and calculate the new move increments.
  */
 void Target::init() {
+
   _color_text = {255, 255, 255, 1};
   _position.x = _center_area.x - _size.w / 2;
   _position.y = _center_area.y - _size.h / 2;
@@ -89,14 +102,3 @@ void Target::init() {
   _move_x = std::cos(angle_rad) * 10;
   _move_y = std::sin(angle_rad) * 10;
 }
-
-// FIX: Mutex ??
-bool Target::check_keycode(uint16_t k) {
-  if (_keycode == k) {
-    _ok = true;
-    return true;
-  }
-  return false;
-}
-
-void Target::stop() { _active = false; }

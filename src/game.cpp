@@ -1,23 +1,13 @@
 #include "game.h"
-#include <chrono>
-#include <memory>
-#include <thread>
 
-Game::Game(std::size_t grid_width, std::size_t grid_height, int center_target_x, int center_target_y,
-           int radius_target, int font_size, std::shared_ptr<Score> score)
-    : snake(grid_width, grid_height), _engine(_seed()), random_w(0, static_cast<int>(grid_width - 1)),
-      random_h(0, static_cast<int>(grid_height - 1)), random_plus(0, 359), _random_threads(0, 5),
-      _score(score) {
-
+Game::Game(point target_center_aera, uint16_t target_radius_aera, boxsize target_char_size,
+           std::shared_ptr<Score> score)
+    : _score(score) {
   _dispatcher = std::make_shared<Dispatcher>();
 
-  point p = {1000, 1000};
-
-  for (int i = 0; i < 5; ++i)
+  for (uint8_t i = 0; i < 5; ++i)
     _targets.emplace_back(
-        Target(center_target_x, center_target_y, radius_target, font_size, _dispatcher, _score));
-
-  PlaceFood();
+        Target(target_center_aera, target_radius_aera, target_char_size, _dispatcher, _score));
 }
 
 void Game::Run(Controller const &controller, Renderer &renderer, std::size_t target_frame_duration) {
@@ -38,9 +28,8 @@ void Game::Run(Controller const &controller, Renderer &renderer, std::size_t tar
     frame_start = SDL_GetTicks();
 
     // Input, Update, Render - the main game loop.
-    controller.HandleInput(running, snake, _targets);
-    Update();
-    renderer.Render(snake, food, _targets);
+    controller.HandleInput(running, _targets);
+    renderer.Render(_targets);
 
     frame_end = SDL_GetTicks();
 
@@ -51,7 +40,7 @@ void Game::Run(Controller const &controller, Renderer &renderer, std::size_t tar
 
     // After every second, update the window title.
     if (frame_end - title_timestamp >= 1000) {
-      renderer.UpdateWindowTitle(score, frame_count);
+      renderer.UpdateWindowTitle(frame_count);
       frame_count = 0;
       title_timestamp = frame_end;
     }
@@ -72,46 +61,3 @@ void Game::Run(Controller const &controller, Renderer &renderer, std::size_t tar
     t.join();
   }
 }
-
-void Game::PlaceFood() {
-  int x, y;
-  while (true) {
-    x = random_w(_engine);
-    y = random_h(_engine);
-    // Check that the location is not occupied by a snake item before placing
-    // food.
-    if (!snake.SnakeCell(x, y)) {
-      food.x = x;
-      food.y = y;
-      return;
-    }
-  }
-}
-
-void Game::Update() {
-
-  // NOTE: Normaly useless with threads !
-  // for (auto &t : _targets) {
-  //   t.update();
-  // }
-
-  if (!snake.alive)
-    return;
-
-  snake.Update();
-
-  int new_x = static_cast<int>(snake.head_x);
-  int new_y = static_cast<int>(snake.head_y);
-
-  // Check if there's food over here
-  if (food.x == new_x && food.y == new_y) {
-    score++;
-    PlaceFood();
-    // Grow snake and increase speed.
-    snake.GrowBody();
-    snake.speed += 0.02;
-  }
-}
-
-int Game::GetScore() const { return score; }
-int Game::GetSize() const { return snake.size; }

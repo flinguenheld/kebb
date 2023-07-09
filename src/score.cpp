@@ -1,12 +1,4 @@
 #include "score.h"
-#include "widget/widget_base.h"
-#include "widget/widget_textbox.h"
-#include <chrono>
-#include <cstdint>
-#include <iostream>
-#include <memory>
-#include <mutex>
-#include <string>
 
 Score::Score(uint16_t screen_width, boxsize char_size) : _sucess(0), _fail(0), _miss(0) {
 

@@ -5,12 +5,9 @@
 #include "dispatcher.h"
 #include "keycodes.h"
 #include "score.h"
+#include "widget/widget_base.h"
 #include "widget/widget_textbox.h"
-#include <chrono>
-#include <cstdint>
 #include <iostream>
-#include <math.h>
-#include <memory>
 #include <string>
 #include <thread>
 
@@ -23,8 +20,8 @@
  */
 class Target : public WidgetTextBox {
 public:
-  Target(uint16_t x_area, uint16_t y_area, uint16_t radius_area, uint16_t font_size,
-         std::shared_ptr<Dispatcher> dispatcher, std::shared_ptr<Score> score);
+  Target(point center_area, uint16_t radius_area, boxsize char_size, std::shared_ptr<Dispatcher> dispatcher,
+         std::shared_ptr<Score> score);
 
   void update();
   void stop();

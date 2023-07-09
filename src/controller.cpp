@@ -1,14 +1,6 @@
 #include "controller.h"
-#include "SDL_keycode.h"
-#include <iostream>
 
 Controller::Controller(std::shared_ptr<Score> score) : _score(score) {}
-
-void Controller::ChangeDirection(Snake &snake, Snake::Direction input, Snake::Direction opposite) const {
-  if (snake.direction != opposite || snake.size == 1)
-    snake.direction = input;
-  return;
-}
 
 void Controller::check_targets(std::vector<Target> &targets, uint16_t k) const {
   // Loop in all targets, if ok, up the loop
@@ -21,9 +13,10 @@ void Controller::check_targets(std::vector<Target> &targets, uint16_t k) const {
   _score->up_fail();
 }
 
-void Controller::HandleInput(bool &running, Snake &snake, std::vector<Target> &targets) const {
+void Controller::HandleInput(bool &running, std::vector<Target> &targets) const {
   SDL_Event e;
   while (SDL_PollEvent(&e)) {
+
     if (e.type == SDL_QUIT) {
       running = false;
     } else if (e.type == SDL_KEYDOWN) {
@@ -34,19 +27,19 @@ void Controller::HandleInput(bool &running, Snake &snake, std::vector<Target> &t
         running = false;
 
       case SDLK_UP:
-        ChangeDirection(snake, Snake::Direction::kUp, Snake::Direction::kDown);
+        // ChangeDirection(snake, Snake::Direction::kUp, Snake::Direction::kDown);
         break;
 
       case SDLK_DOWN:
-        ChangeDirection(snake, Snake::Direction::kDown, Snake::Direction::kUp);
+        // ChangeDirection(snake, Snake::Direction::kDown, Snake::Direction::kUp);
         break;
 
       case SDLK_LEFT:
-        ChangeDirection(snake, Snake::Direction::kLeft, Snake::Direction::kRight);
+        // ChangeDirection(snake, Snake::Direction::kLeft, Snake::Direction::kRight);
         break;
 
       case SDLK_RIGHT:
-        ChangeDirection(snake, Snake::Direction::kRight, Snake::Direction::kLeft);
+        // ChangeDirection(snake, Snake::Direction::kRight, Snake::Direction::kLeft);
         break;
 
       case SDLK_LSHIFT:

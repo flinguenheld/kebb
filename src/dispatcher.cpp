@@ -53,8 +53,6 @@ uint16_t Dispatcher::get_keycode() {
   const uint16_t selected_keycode = *it;
   _keycodes.erase(it);
 
-  std::cout << "selected keycode: " << selected_keycode << std::endl;
-
   return selected_keycode;
 };
 

@@ -26,7 +26,6 @@ add_executable(Kepp src/main.cpp
                     src/game.cpp
                     src/controller.cpp
                     src/renderer.cpp
-                    src/snake.cpp
                     src/target.cpp
                     src/dispatcher.cpp
                     src/keycodes.cpp
