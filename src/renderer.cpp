@@ -8,7 +8,7 @@
 Renderer::Renderer(int screen_width, int screen_height, int scale_factor, int font_size,
                    const std::size_t grid_width, const std::size_t grid_height, std::shared_ptr<Score> score)
     : _screen_width(screen_width), _screen_height(screen_height), _scale_factor(scale_factor),
-      grid_width(grid_width), grid_height(grid_height), _font(nullptr), _score(score) {
+      grid_width(grid_width), grid_height(grid_height), _font(nullptr), _font_scores(nullptr), _score(score) {
 
   // Initialize SDL
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -24,7 +24,8 @@ Renderer::Renderer(int screen_width, int screen_height, int scale_factor, int fo
 
   // TODO: Manage the font file and the font size
   _font = TTF_OpenFont("../font/DejaVuSansMono-Bold.ttf", font_size);
-  if (_font == nullptr) {
+  _font_scores = TTF_OpenFont("../font/DejaVuSansMono-Bold.ttf", font_size);
+  if (_font == nullptr || _font_scores == nullptr) {
     std::cerr << "Could not open the lazy.ttf";
     std::cerr << " SDL_Error: " << SDL_GetError() << "\n";
   }
@@ -62,6 +63,7 @@ Renderer::Renderer(int screen_width, int screen_height, int scale_factor, int fo
 Renderer::~Renderer() {
 
   TTF_CloseFont(_font);
+  TTF_CloseFont(_font_scores);
   TTF_Quit();
   SDL_DestroyWindow(_window);
   SDL_Quit();
@@ -96,7 +98,7 @@ void Renderer::Render(Snake const snake, SDL_Point const &food, const std::vecto
   // TEST ----------------------------------------------------
 
   // FIX: his own font ???
-  _score->render(_renderer, _font);
+  _score->render(_renderer, _font_scores);
 
   for (auto &target : targets) {
     target.render(_renderer, _font);
