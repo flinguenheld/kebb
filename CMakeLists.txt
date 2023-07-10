@@ -29,6 +29,7 @@ add_executable(Kepp src/main.cpp
                     src/game/target.cpp
                     src/game/dispatcher.cpp
                     src/game/keycodes.cpp
+                    src/game/window_game.cpp
                     src/score.cpp
                     src/widget/widget_base.cpp
                     src/widget/widget_textbox.cpp

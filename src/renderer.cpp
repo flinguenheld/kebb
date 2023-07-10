@@ -65,6 +65,8 @@ Renderer::~Renderer() {
 }
 
 TTF_Font *Renderer::font() { return _font_target; }
+TTF_Font *Renderer::font_score() { return _font_score; }
+SDL_Renderer *Renderer::renderer() { return _renderer; }
 
 void Renderer::Render(const std::vector<Target> &targets) {
 

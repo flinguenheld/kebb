@@ -2,7 +2,8 @@
 
 Game::Game(point target_center_aera, uint16_t target_radius_aera, boxsize target_char_size,
            std::shared_ptr<Score> score)
-    : _score(score) {
+
+    : _score(score), _w_game({640, 640}, 10, score) { // TODO: USE general vars
   _dispatcher = std::make_shared<Dispatcher>();
 
   for (uint8_t i = 0; i < 5; ++i)
@@ -19,17 +20,22 @@ void Game::Run(Controller const &controller, Renderer &renderer, std::size_t tar
   bool running = true;
 
   // Start threads
-  std::vector<std::thread> threads;
-  for (auto &t : _targets) {
-    threads.emplace_back(std::thread(&Target::update, &t));
-  }
+  // std::vector<std::thread> threads;
+  // for (auto &t : _targets) {
+  //   threads.emplace_back(std::thread(&Target::update, &t));
+  // }
+
+  _w_game.start_threads();
 
   while (running) {
     frame_start = SDL_GetTicks();
 
     // Input, Update, Render - the main game loop.
-    controller.HandleInput(running, _targets);
-    renderer.Render(_targets);
+    // controller.HandleInput(running, _targets);
+    // renderer.Render(_targets);
+
+    _w_game.render(renderer.renderer(), renderer.font(),
+                   renderer.font_score()); // FIX: Logic to call the ptr ??
 
     frame_end = SDL_GetTicks();
 
@@ -54,10 +60,11 @@ void Game::Run(Controller const &controller, Renderer &renderer, std::size_t tar
     SDL_Delay(5);
   }
 
-  for (auto &t : _targets) {
-    t.stop();
-  }
-  for (auto &t : threads) {
-    t.join();
-  }
+  _w_game.stop_threads();
+  // for (auto &t : _targets) {
+  //   t.stop();
+  // }
+  // for (auto &t : threads) {
+  //   t.join();
+  // }
 }

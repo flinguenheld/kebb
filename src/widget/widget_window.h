@@ -10,6 +10,7 @@ public:
   virtual void control_enter(){};
   virtual void control_escape(){};
 
+  virtual void controller(){};
   virtual void render(){};
 
 private:
