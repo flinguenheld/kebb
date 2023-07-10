@@ -4,10 +4,10 @@
 #include "SDL.h"
 #include "SDL_timer.h"
 #include "controller.h"
-#include "dispatcher.h"
+#include "game/dispatcher.h"
+#include "game/target.h"
 #include "renderer.h"
 #include "score.h"
-#include "target.h"
 #include "widget/widget_base.h"
 #include <chrono>
 #include <cstddef>

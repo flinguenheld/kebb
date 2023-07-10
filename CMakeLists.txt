@@ -26,12 +26,13 @@ add_executable(Kepp src/main.cpp
                     src/game.cpp
                     src/controller.cpp
                     src/renderer.cpp
-                    src/target.cpp
-                    src/dispatcher.cpp
-                    src/keycodes.cpp
+                    src/game/target.cpp
+                    src/game/dispatcher.cpp
+                    src/game/keycodes.cpp
                     src/score.cpp
                     src/widget/widget_base.cpp
-                    src/widget/widget_textbox.cpp)
+                    src/widget/widget_textbox.cpp
+                    src/widget/widget_window.cpp)
 
 string(STRIP ${SDL2_LIBRARIES} SDL2_LIBRARIES)
 target_link_libraries(Kepp ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARY} ${SDL2_TTF_LIBRARY} ${CMAKE_THREAD_LIBS_INIT})

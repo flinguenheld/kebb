@@ -6,8 +6,8 @@
 #include "SDL_pixels.h"
 #include "SDL_render.h"
 #include "SDL_ttf.h"
+#include "game/target.h"
 #include "score.h"
-#include "target.h"
 #include "widget/widget_base.h"
 #include <cstddef>
 #include <cstdint>
