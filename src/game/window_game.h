@@ -3,19 +3,21 @@
 
 #include "SDL_render.h"
 #include "SDL_ttf.h"
+#include "renderer.h"
 #include "score.h"
 #include "target.h"
 #include "widget/widget_base.h"
 #include "widget/widget_window.h"
 #include <cstdint>
 #include <memory>
+#include <sys/types.h>
 
 class WindowGame : public WidgetWindow {
 
 public:
   WindowGame(boxsize screen_size, uint16_t scale_factor, std::shared_ptr<Score> score);
 
-  virtual void controller();
+  virtual void control_others(uint16_t keycode);
   virtual void render(SDL_Renderer *_renderer, TTF_Font *font_target, TTF_Font *font_score);
 
   void start_threads();
@@ -27,11 +29,11 @@ private:
   std::shared_ptr<Score> _score;
   std::shared_ptr<Dispatcher> _dispatcher;
 
-  // TODO: rename them
-  const point target_center_aera;
-  const uint16_t target_radius_aera;
-  const uint16_t target_font_size;
-  const boxsize target_char_size;
+  // TODO: Usefull or not ?
+  const point _target_center_aera;
+  const uint16_t _target_radius_aera;
+  const uint16_t _target_font_size;
+  const boxsize _target_char_size;
 };
 
 #endif // !WINDOW_GAME_H

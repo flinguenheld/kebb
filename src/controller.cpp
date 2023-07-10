@@ -1,19 +1,9 @@
 #include "controller.h"
+#include "SDL_keycode.h"
+#include "widget/widget_window.h"
 
-Controller::Controller(std::shared_ptr<Score> score) : _score(score) {}
-
-void Controller::check_targets(std::vector<Target> &targets, uint16_t k) const {
-  // Loop in all targets, if ok, up the loop
-  for (auto &target : targets) {
-
-    if (target.check_keycode(k))
-      return;
-  }
-
-  _score->up_fail();
-}
-
-void Controller::HandleInput(bool &running, std::vector<Target> &targets) const {
+// NOTE: use ptr or ref ?
+void Controller::HandleInput(bool &running, WidgetWindow *window) const {
   SDL_Event e;
   while (SDL_PollEvent(&e)) {
 
@@ -24,22 +14,30 @@ void Controller::HandleInput(bool &running, std::vector<Target> &targets) const 
       switch (e.key.keysym.sym) {
 
       case SDLK_ESCAPE:
-        running = false;
+        running = false; // TODO: Remove
+        window->control_escape();
+        break;
+
+      case SDLK_RETURN:
+      case SDLK_RETURN2: // NOTE: What is that ?
+      case SDLK_KP_ENTER:
+        window->control_enter();
+        break;
 
       case SDLK_UP:
-        // ChangeDirection(snake, Snake::Direction::kUp, Snake::Direction::kDown);
+        window->control_up();
         break;
 
       case SDLK_DOWN:
-        // ChangeDirection(snake, Snake::Direction::kDown, Snake::Direction::kUp);
+        window->control_down();
         break;
 
       case SDLK_LEFT:
-        // ChangeDirection(snake, Snake::Direction::kLeft, Snake::Direction::kRight);
+        window->control_left();
         break;
 
       case SDLK_RIGHT:
-        // ChangeDirection(snake, Snake::Direction::kRight, Snake::Direction::kLeft);
+        window->control_right();
         break;
 
       case SDLK_LSHIFT:
@@ -53,7 +51,8 @@ void Controller::HandleInput(bool &running, std::vector<Target> &targets) const 
         break;
 
       default:
-        check_targets(targets, convert_us(e));
+        // check_targets(targets, convert_us(e));
+        window->control_others(convert_us(e));
         // check_targets(targets, convert_fr(e));
       }
     }

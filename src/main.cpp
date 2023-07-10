@@ -13,6 +13,7 @@ int main() {
   constexpr boxsize screen_size = {640, 640};
   constexpr uint16_t scale_factor = 10;
 
+  // TODO: Remove that, but the renderer needs the font size
   const point target_center_aera = {screen_size.w * scale_factor / 2, screen_size.h * scale_factor / 2};
   constexpr uint16_t target_radius_aera = uint16_t(screen_size.w * scale_factor * 0.4);
   constexpr uint16_t target_font_size = uint16_t(target_radius_aera * 0.18);
@@ -27,8 +28,8 @@ int main() {
 
   Renderer renderer(screen_size, scale_factor, target_font_size, score_font_size, score);
 
-  Controller controller(score);
-  Game game(target_center_aera, target_radius_aera, target_char_size, score);
+  Controller controller;
+  Game game(screen_size, scale_factor, score);
   game.Run(controller, renderer, kMsPerFrame);
 
   std::cout << "Game has terminated successfully!\n";

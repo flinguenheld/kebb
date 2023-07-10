@@ -6,6 +6,7 @@
 #include "SDL_keyboard.h"
 #include "SDL_keycode.h"
 #include "game/target.h"
+#include "widget/widget_window.h"
 #include <cstdint>
 #include <iostream>
 #include <memory>
@@ -13,14 +14,10 @@
 
 class Controller {
 public:
-  Controller(std::shared_ptr<Score> score);
-  void HandleInput(bool &running, std::vector<Target> &targets) const;
+  void HandleInput(bool &running, WidgetWindow *window) const;
 
 private:
-  void check_targets(std::vector<Target> &targets, uint16_t k) const;
-
   uint16_t convert_us(SDL_Event &e) const;
-  std::shared_ptr<Score> _score;
 };
 
 #endif

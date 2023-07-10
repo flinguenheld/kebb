@@ -22,8 +22,7 @@
 
 class Game {
 public:
-  Game(point target_center_aera, uint16_t target_radius_aera, boxsize target_char_size,
-       std::shared_ptr<Score> score);
+  Game(boxsize screen_size, uint16_t scale_factor, std::shared_ptr<Score> score);
   void Run(Controller const &controller, Renderer &renderer, std::size_t target_frame_duration);
 
 private:
