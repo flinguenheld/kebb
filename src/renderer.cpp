@@ -18,9 +18,12 @@ Renderer::Renderer(boxsize screen_size, uint16_t scale_factor, uint16_t font_siz
   }
 
   // TODO: Manage the fonts files
-  // TODO: Use a different font for score or use only one font
-  _font_target = TTF_OpenFont("../font/DejaVuSansMono-Bold.ttf", font_size_target);
-  _font_score = TTF_OpenFont("../font/DejaVuSansMono-Bold.ttf", font_size_score);
+  // TODO: Use a different font for score or use only one font ?
+  _font_target = TTF_OpenFont("../font/dejavu-sans-mono.bold.ttf", font_size_target);
+  // _font_target = TTF_OpenFont("../font/cmu.typewriter-text-bold.ttf", font_size_target);
+  _font_score = TTF_OpenFont("../font/charybdis.regular.ttf", font_size_score);
+  // _font_score = TTF_OpenFont("../font/intelone-mono.regular.ttf", font_size_score);
+
   if (_font_target == nullptr || _font_score == nullptr) {
     std::cerr << "Could not open the lazy.ttf";
     std::cerr << " SDL_Error: " << SDL_GetError() << "\n";

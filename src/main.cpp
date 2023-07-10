@@ -15,7 +15,7 @@ int main() {
 
   const point target_center_aera = {screen_size.w * scale_factor / 2, screen_size.h * scale_factor / 2};
   constexpr uint16_t target_radius_aera = uint16_t(screen_size.w * scale_factor * 0.4);
-  constexpr uint16_t target_font_size = uint16_t(target_radius_aera * 0.15);
+  constexpr uint16_t target_font_size = uint16_t(target_radius_aera * 0.18);
   constexpr boxsize target_char_size = {static_cast<uint16_t>(target_font_size * 0.6),
                                         static_cast<uint16_t>(target_font_size * 1.15)};
 

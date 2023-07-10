@@ -4,7 +4,7 @@ Score::Score(uint16_t screen_width, boxsize char_size) : _sucess(0), _fail(0), _
 
   // Geometry
   // Success, fail and miss on the right --
-  boxsize bs = {static_cast<uint16_t>(char_size.w * 12), static_cast<uint16_t>(char_size.h)};
+  boxsize bs = {static_cast<uint16_t>(char_size.w * 13), static_cast<uint16_t>(char_size.h)};
   point pt = {static_cast<uint16_t>(screen_width - bs.w - char_size.h * 0.1),
               static_cast<uint16_t>(char_size.h * 0.1)};
 
@@ -23,10 +23,13 @@ Score::Score(uint16_t screen_width, boxsize char_size) : _sucess(0), _fail(0), _
   _textbox_time = std::make_unique<WidgetTextBox>(pt, bs);
 
   // Colors : Catpuccin Latte
-  _textbox_time->set_color_text({137, 180, 250, 200});  // Blue
-  _textbox_success->set_color_text({64, 160, 43, 150}); // Green
-  _textbox_fail->set_color_text({254, 100, 11, 150});   // Peach
-  _textbox_miss->set_color_text({230, 69, 83, 150});    // Maroon
+  _textbox_time->set_color_text({137, 180, 250, 200});    // Blue
+  _textbox_success->set_color_text({137, 180, 250, 200}); // Blue
+  _textbox_fail->set_color_text({137, 180, 250, 200});    // Blue
+  _textbox_miss->set_color_text({137, 180, 250, 200});    // Blue
+  // _textbox_success->set_color_text({64, 160, 43, 150}); // Green
+  // _textbox_fail->set_color_text({254, 100, 11, 150});   // Peach
+  // _textbox_miss->set_color_text({230, 69, 83, 150});    // Maroon
 
   // TODO: Start the timer when the game is launch
   start_timer();
@@ -46,8 +49,8 @@ void Score::render(SDL_Renderer *renderer, TTF_Font *font) {
 
   std::unique_lock<std::mutex> ul(_mutex);
   _textbox_success->set_text("Success: " + int_to_string(_sucess, 4));
-  _textbox_fail->set_text("Fail: " + int_to_string(_fail, 6));
-  _textbox_miss->set_text("Miss: " + int_to_string(_miss, 6));
+  _textbox_fail->set_text("Fail: " + int_to_string(_fail, 7));
+  _textbox_miss->set_text("Miss: " + int_to_string(_miss, 7));
   ul.unlock();
 
   auto duration =
