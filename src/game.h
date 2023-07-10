@@ -10,6 +10,7 @@
 #include "renderer.h"
 #include "score.h"
 #include "widget/widget_base.h"
+#include "widget/widget_window.h"
 #include <chrono>
 #include <cstddef>
 #include <cstdint>
@@ -22,16 +23,24 @@
 
 class Game {
 public:
-  Game(boxsize screen_size, uint16_t scale_factor, std::shared_ptr<Score> score);
-  void Run(Controller const &controller, Renderer &renderer, std::size_t target_frame_duration);
+  Game(boxsize screen_size, uint16_t scale_factor, std::shared_ptr<Score> score,
+       std::shared_ptr<Renderer> renderer);
+  ~Game();
+
+  void Run(Controller const &controller, std::size_t target_frame_duration);
 
 private:
   // TODO: Regroup with other windows
-  WindowGame _w_game;
+
+  WidgetWindow *_current_window;
 
   std::vector<Target> _targets;
   std::shared_ptr<Dispatcher> _dispatcher;
   std::shared_ptr<Score> _score;
+  std::shared_ptr<Renderer> _renderer;
+
+  const boxsize _screen_size;
+  const uint16_t _scale_factor;
 };
 
 #endif

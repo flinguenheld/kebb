@@ -64,7 +64,7 @@ Renderer::~Renderer() {
   SDL_Quit();
 }
 
-TTF_Font *Renderer::font() { return _font_target; }
+TTF_Font *Renderer::font_target() { return _font_target; }
 TTF_Font *Renderer::font_score() { return _font_score; }
 SDL_Renderer *Renderer::renderer() { return _renderer; }
 

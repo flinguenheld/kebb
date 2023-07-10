@@ -14,7 +14,7 @@ void Controller::HandleInput(bool &running, WidgetWindow *window) const {
       switch (e.key.keysym.sym) {
 
       case SDLK_ESCAPE:
-        running = false; // TODO: Remove
+        // running = false; // TODO: Remove
         window->control_escape();
         break;
 

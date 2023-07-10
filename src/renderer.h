@@ -25,7 +25,7 @@ public:
   void Render(const std::vector<Target> &targets);
   void UpdateWindowTitle(uint16_t fps); // TODO: Up title
 
-  TTF_Font *font();
+  TTF_Font *font_target();
   TTF_Font *font_score();
   SDL_Renderer *renderer();
 

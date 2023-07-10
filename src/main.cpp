@@ -24,13 +24,13 @@ int main() {
   constexpr boxsize score_char_size = {static_cast<uint16_t>(score_font_size * 0.6),
                                        static_cast<uint16_t>(score_font_size * 1.15)};
 
-  std::shared_ptr<Score> score = std::make_shared<Score>(screen_size.w * scale_factor, score_char_size);
-
-  Renderer renderer(screen_size, scale_factor, target_font_size, score_font_size, score);
+  auto score = std::make_shared<Score>(screen_size.w * scale_factor, score_char_size);
+  auto renderer =
+      std::make_shared<Renderer>(screen_size, scale_factor, target_font_size, score_font_size, score);
 
   Controller controller;
-  Game game(screen_size, scale_factor, score);
-  game.Run(controller, renderer, kMsPerFrame);
+  Game game(screen_size, scale_factor, score, renderer);
+  game.Run(controller, kMsPerFrame);
 
   std::cout << "Game has terminated successfully!\n";
   return 0;

@@ -1,8 +1,11 @@
 #include "window_game.h"
+#include "renderer.h"
+#include "widget/widget_window.h"
 
 // clang-format off
-WindowGame::WindowGame(boxsize screen_size, uint16_t scale_factor, std::shared_ptr<Score> score)
-    : _target_center_aera({static_cast<uint16_t>(screen_size.w * scale_factor / 2),
+WindowGame::WindowGame(boxsize screen_size, uint16_t scale_factor,std::shared_ptr<WindowName> next_window, std::shared_ptr<Score> score)
+    : WidgetWindow(next_window),
+      _target_center_aera({static_cast<uint16_t>(screen_size.w * scale_factor / 2),
                            static_cast<uint16_t>(screen_size.h * scale_factor / 2)}),
       _target_radius_aera(int16_t(screen_size.w * scale_factor * 0.4)),
       _target_font_size(uint16_t(_target_radius_aera * 0.18)),
@@ -17,14 +20,14 @@ WindowGame::WindowGame(boxsize screen_size, uint16_t scale_factor, std::shared_p
   for (uint8_t i = 0; i < 5; ++i)
     _targets.emplace_back(
         Target(_target_center_aera, _target_radius_aera, _target_char_size, _dispatcher, _score));
-}
 
-void WindowGame::start_threads() {
-
+  // Start !
   for (auto &t : _targets) {
     _threads.emplace_back(std::thread(&Target::update, &t));
   }
 }
+WindowGame::~WindowGame() {}
+
 void WindowGame::stop_threads() {
 
   for (auto &t : _targets) {
@@ -37,6 +40,13 @@ void WindowGame::stop_threads() {
 
 // ----------------------------------------------------------------------------------------------------
 // CONTROLER ------------------------------------------------------------------------------------------
+void WindowGame::control_escape() {
+
+  stop_threads();
+  *_next_window = WindowName::W_Pause;
+
+  // TODO: message to ??
+}
 void WindowGame::control_others(uint16_t keycode) {
 
   // Loop in all targets, if ok, up the loop
@@ -51,16 +61,16 @@ void WindowGame::control_others(uint16_t keycode) {
 
 // ----------------------------------------------------------------------------------------------------
 // RENDER ---------------------------------------------------------------------------------------------
-void WindowGame::render(SDL_Renderer *_renderer, TTF_Font *font_target, TTF_Font *font_score) {
+void WindowGame::render(std::shared_ptr<Renderer> renderer) {
   // Clear screen
-  SDL_SetRenderDrawColor(_renderer, 0x1E, 0x1E, 0x1E, 0xFF);
-  SDL_RenderClear(_renderer);
+  SDL_SetRenderDrawColor(renderer->renderer(), 0x1E, 0x1E, 0x1E, 0xFF);
+  SDL_RenderClear(renderer->renderer());
 
-  _score->render(_renderer, font_score);
+  _score->render(renderer->renderer(), renderer->font_score());
 
   for (auto &target : _targets)
-    target.render(_renderer, font_target);
+    target.render(renderer->renderer(), renderer->font_target());
 
   // Update Screen
-  SDL_RenderPresent(_renderer);
+  SDL_RenderPresent(renderer->renderer());
 }

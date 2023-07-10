@@ -15,12 +15,14 @@
 class WindowGame : public WidgetWindow {
 
 public:
-  WindowGame(boxsize screen_size, uint16_t scale_factor, std::shared_ptr<Score> score);
+  WindowGame(boxsize screen_size, uint16_t scale_factor, std::shared_ptr<WindowName> next_window,
+             std::shared_ptr<Score> score);
+  virtual ~WindowGame();
 
+  virtual void control_escape();
   virtual void control_others(uint16_t keycode);
-  virtual void render(SDL_Renderer *_renderer, TTF_Font *font_target, TTF_Font *font_score);
+  virtual void render(std::shared_ptr<Renderer> renderer);
 
-  void start_threads();
   void stop_threads();
 
 private:

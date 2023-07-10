@@ -1,13 +1,31 @@
 #include "game.h"
+#include "game/window_game.h"
+#include "pause/window_pause.h"
+#include "renderer.h"
 #include "widget/widget_base.h"
+#include "widget/widget_window.h"
+#include <memory>
 
-Game::Game(boxsize screen_size, uint16_t scale_factor, std::shared_ptr<Score> score)
+// clang-format off
+Game::Game(boxsize screen_size, uint16_t scale_factor, std::shared_ptr<Score> score,
+           std::shared_ptr<Renderer> renderer) :
 
-    : _score(score), _w_game(screen_size, scale_factor, score) { // TODO: USE general vars
+      _screen_size(screen_size),
+      _scale_factor(scale_factor),
+      _score(score),
+      _renderer(renderer),
+      _current_window(nullptr)
+{
   _dispatcher = std::make_shared<Dispatcher>();
 }
 
-void Game::Run(Controller const &controller, Renderer &renderer, std::size_t target_frame_duration) {
+Game::~Game() {
+  if (_current_window != nullptr)
+    delete _current_window;
+}
+// clang-format on
+
+void Game::Run(Controller const &controller, std::size_t target_frame_duration) {
   Uint32 title_timestamp = SDL_GetTicks();
   Uint32 frame_start;
   Uint32 frame_end;
@@ -15,17 +33,39 @@ void Game::Run(Controller const &controller, Renderer &renderer, std::size_t tar
   int frame_count = 0;
   bool running = true;
 
-  // FIX: Can't be here
-  _w_game.start_threads();
+  auto next_window = std::make_shared<WindowName>(WindowName::W_None);
+  _current_window = new WindowGame(_screen_size, _scale_factor, next_window, _score);
 
   while (running) {
     frame_start = SDL_GetTicks();
 
     // Input, Update, Render - the main game loop.
-    controller.HandleInput(running, &_w_game);
+    controller.HandleInput(running, _current_window);
+    _current_window->render(_renderer);
 
-    _w_game.render(renderer.renderer(), renderer.font(),
-                   renderer.font_score()); // FIX: Logic to call the ptr ??
+    // FIX: Use a unique ptr ?
+    if (*next_window != WindowName::W_None) {
+      delete _current_window;
+      _current_window = nullptr;
+
+      switch (*next_window) {
+      case WindowName::W_Game:
+        _current_window = new WindowGame(_screen_size, _scale_factor, next_window, _score);
+        break;
+      case WindowName::W_Pause:
+        _current_window = new WindowPause(_screen_size, _scale_factor, next_window, _score);
+        break;
+      case WindowName::W_Reception:
+        break;
+      case WindowName::W_Option:
+        break;
+      default: // W_Ouit
+        running = false;
+        break;
+      }
+
+      *next_window = WindowName::W_None;
+    }
 
     frame_end = SDL_GetTicks();
 
@@ -36,7 +76,7 @@ void Game::Run(Controller const &controller, Renderer &renderer, std::size_t tar
 
     // After every second, update the window title.
     if (frame_end - title_timestamp >= 1000) {
-      renderer.UpdateWindowTitle(frame_count);
+      _renderer->UpdateWindowTitle(frame_count);
       frame_count = 0;
       title_timestamp = frame_end;
     }
@@ -49,12 +89,4 @@ void Game::Run(Controller const &controller, Renderer &renderer, std::size_t tar
     // }
     SDL_Delay(5);
   }
-
-  _w_game.stop_threads();
-  // for (auto &t : _targets) {
-  //   t.stop();
-  // }
-  // for (auto &t : threads) {
-  //   t.join();
-  // }
 }
