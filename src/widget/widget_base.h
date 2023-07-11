@@ -20,10 +20,13 @@ public:
   boxsize size() const;
   SDL_Color color() const;
 
+  void set_position(const point &p);
+  void set_size(const boxsize &s);
+  void set_color(const SDL_Color &c);
+
 protected:
   point _position;
   boxsize _size;
-
   SDL_Color _color;
 };
 

@@ -1,7 +1,8 @@
 #ifndef WINDOW_PAUSE_H
 #define WINDOW_PAUSE_H
 
-#include "score.h"
+#include "score/score.h"
+#include "score/widget_score.h"
 #include "widget/widget_base.h"
 #include "widget/widget_window.h"
 
@@ -20,6 +21,7 @@ public:
 
 private:
   std::shared_ptr<Score> _score;
+  std::unique_ptr<WidgetScore> _widget_score;
 };
 
 #endif // !WINDOW_PAUSE_H

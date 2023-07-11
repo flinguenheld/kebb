@@ -3,7 +3,7 @@
 
 #include "SDL.h"
 #include "dispatcher.h"
-#include "score.h"
+#include "score/score.h"
 #include "utils.h"
 #include "widget/widget_base.h"
 #include "widget/widget_textbox.h"

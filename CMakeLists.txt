@@ -30,7 +30,8 @@ add_executable(Kepp src/main.cpp
                     src/game/target.cpp
                     src/game/dispatcher.cpp
                     src/game/window_game.cpp
-                    src/score.cpp
+                    src/score/score.cpp
+                    src/score/widget_score.cpp
                     src/pause/window_pause.cpp
                     src/widget/widget_base.cpp
                     src/widget/widget_textbox.cpp

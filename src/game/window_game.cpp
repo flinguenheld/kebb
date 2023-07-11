@@ -1,9 +1,11 @@
 #include "window_game.h"
 #include "renderer.h"
 #include "widget/widget_window.h"
+#include <memory>
 
 // clang-format off
-WindowGame::WindowGame(boxsize screen_size, uint16_t scale_factor,std::shared_ptr<WindowName> next_window,std::shared_ptr<Renderer> renderer, std::shared_ptr<Score> score)
+WindowGame::WindowGame(boxsize screen_size, uint16_t scale_factor,std::shared_ptr<WindowName> next_window,
+                       std::shared_ptr<Renderer> renderer, std::shared_ptr<Score> score)
     : WidgetWindow(next_window, renderer),
       _target_center_aera({static_cast<uint16_t>(screen_size.w * scale_factor / 2),
                            static_cast<uint16_t>(screen_size.h * scale_factor / 2)}),
@@ -12,6 +14,8 @@ WindowGame::WindowGame(boxsize screen_size, uint16_t scale_factor,std::shared_pt
   // clang-format on
 
   _dispatcher = std::make_shared<Dispatcher>();
+  _widget_score =
+      std::make_unique<WidgetScore>(WidgetScoreType::Top, screen_size.scale(scale_factor), score, renderer);
 
   // TODO: Move to easily start/restart according to options or just delete the window ?
   for (uint8_t i = 0; i < 5; ++i)
@@ -63,7 +67,8 @@ void WindowGame::render() {
   SDL_SetRenderDrawColor(_renderer->renderer(), 0x1E, 0x1E, 0x1E, 0xFF);
   SDL_RenderClear(_renderer->renderer());
 
-  _score->render();
+  // _score->render();
+  _widget_score->render();
 
   for (auto &target : _targets)
     target.render(_renderer->renderer(), _renderer->font_target());

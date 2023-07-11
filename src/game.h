@@ -8,7 +8,7 @@
 #include "game/target.h"
 #include "game/window_game.h"
 #include "renderer.h"
-#include "score.h"
+#include "score/score.h"
 #include "widget/widget_base.h"
 #include "widget/widget_window.h"
 #include <chrono>

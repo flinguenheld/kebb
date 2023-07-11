@@ -2,12 +2,13 @@
 
 WindowPause::WindowPause(boxsize screen_size, uint16_t scale_factor, std::shared_ptr<WindowName> next_window,
                          std::shared_ptr<Renderer> renderer, std::shared_ptr<Score> score)
-    : WidgetWindow(next_window, renderer), _score(score) {}
-WindowPause::~WindowPause() {
+    : WidgetWindow(next_window, renderer), _score(score) {
 
-  // title_char_size({static_cast<uint16_t>(_target_font_size * 0.6),
-  //                    static_cast<uint16_t>(_target_font_size * 1.15)}),
+  _widget_score = std::make_unique<WidgetScore>(WidgetScoreType::FullScreen, screen_size.scale(scale_factor),
+                                                score, renderer);
 }
+
+WindowPause::~WindowPause() {}
 
 void WindowPause::control_escape() {
   *_next_window = WindowName::W_Quit; // TODO: Change to reception
@@ -22,7 +23,7 @@ void WindowPause::render() {
   SDL_SetRenderDrawColor(_renderer->renderer(), 0x1E, 0x1E, 0x1E, 0xFF);
   SDL_RenderClear(_renderer->renderer());
 
-  _score->render();
+  _widget_score->render();
 
   // Update Screen
   SDL_RenderPresent(_renderer->renderer());

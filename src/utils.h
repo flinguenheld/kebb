@@ -13,6 +13,7 @@ struct point {
   uint16_t x;
   uint16_t y;
 
+  point() : x(0), y(0){};
   point(uint16_t x, uint16_t y) : x(x), y(y){};
   float distance(const point &pt) const { return sqrt(pow(x - pt.x, 2) + pow(y - pt.y, 2)); };
 };
@@ -21,7 +22,8 @@ struct boxsize {
   uint16_t w;
   uint16_t h;
 
-  void scale(uint16_t s) {
+  boxsize scale(float s) const { return boxsize{static_cast<uint16_t>(w * s), static_cast<uint16_t>(h * s)}; }
+  void set_scale(float s) {
     w = w * s;
     h = h * s;
   };

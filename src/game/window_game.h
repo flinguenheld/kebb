@@ -4,7 +4,8 @@
 #include "SDL_render.h"
 #include "SDL_ttf.h"
 #include "renderer.h"
-#include "score.h"
+#include "score/score.h"
+#include "score/widget_score.h"
 #include "target.h"
 #include "widget/widget_base.h"
 #include "widget/widget_window.h"
@@ -28,8 +29,10 @@ public:
 private:
   std::vector<Target> _targets;
   std::vector<std::thread> _threads;
-  std::shared_ptr<Score> _score;
   std::shared_ptr<Dispatcher> _dispatcher;
+
+  std::shared_ptr<Score> _score;
+  std::unique_ptr<WidgetScore> _widget_score;
 
   // TODO: Usefull or not ?
   const point _target_center_aera;
