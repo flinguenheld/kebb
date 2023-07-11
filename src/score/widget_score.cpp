@@ -70,14 +70,14 @@ WidgetScore::WidgetScore(WidgetScoreType type, boxsize screen_size, std::shared_
   _textbox_miss->set_color_text({137, 180, 250, 200});    // Blue
 }
 
-void WidgetScore::render() {
+void WidgetScore::render(uint16_t time_seconds) {
 
   _textbox_success->set_text("Success " + int_to_string(_score->success(), 5));
   _textbox_fail->set_text("Fail " + int_to_string(_score->fail(), 8));
   _textbox_miss->set_text("Miss " + int_to_string(_score->miss(), 8));
 
-  auto duration = _score->duration();
-  _textbox_time->set_text(int_to_string(duration / 60, 2, '0') + ":" + int_to_string(duration % 60, 2, '0'));
+  _textbox_time->set_text(int_to_string(time_seconds / 60, 2, '0') + ":" +
+                          int_to_string(time_seconds % 60, 2, '0'));
 
   _textbox_time->render(_renderer->renderer(), _renderer->font_score());
   _textbox_success->render(_renderer->renderer(), _renderer->font_score());

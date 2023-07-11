@@ -15,8 +15,6 @@ public:
   virtual void control_escape();
   virtual void control_enter();
 
-  virtual void control_up();
-  virtual void control_down();
   virtual void render();
 
 private:

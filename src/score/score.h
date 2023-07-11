@@ -22,16 +22,17 @@ public:
   uint16_t miss() const;
 
   void start_timer();
-  long duration() const;
+  int seconds_spent();
+  int seconds_until_stop() const;
 
 private:
   uint16_t _sucess;
   uint16_t _fail;
   uint16_t _miss;
-  long _duration;
 
   std::mutex _mutex;
   std::chrono::time_point<std::chrono::steady_clock> _timer_start;
+  std::chrono::time_point<std::chrono::steady_clock> _timer_last_check;
 };
 
 #endif // DEBUG

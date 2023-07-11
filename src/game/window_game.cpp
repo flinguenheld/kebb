@@ -10,7 +10,8 @@ WindowGame::WindowGame(boxsize screen_size, std::shared_ptr<WindowName> next_win
       _target_center_aera({static_cast<uint16_t>(screen_size.w / 2),
                            static_cast<uint16_t>(screen_size.h / 2)}),
       _target_radius_aera(int16_t(screen_size.w * 0.4)),
-      _score(score) {
+      _score(score),
+      _countdown_value(60) { // TODO: Set timer with options
   // clang-format on
 
   _dispatcher = std::make_shared<Dispatcher>();
@@ -25,7 +26,10 @@ WindowGame::WindowGame(boxsize screen_size, std::shared_ptr<WindowName> next_win
   for (auto &t : _targets) {
     _threads.emplace_back(std::thread(&Target::update, &t));
   }
+
+  _score->start_timer();
 }
+
 WindowGame::~WindowGame() {}
 
 void WindowGame::stop_threads() {
@@ -44,8 +48,6 @@ void WindowGame::control_escape() {
 
   stop_threads();
   *_next_window = WindowName::W_Pause;
-
-  // TODO: message to ??
 }
 void WindowGame::control_others(uint16_t keycode) {
 
@@ -62,12 +64,18 @@ void WindowGame::control_others(uint16_t keycode) {
 // ----------------------------------------------------------------------------------------------------
 // RENDER ---------------------------------------------------------------------------------------------
 void WindowGame::render() {
+
+  // Up timer
+  int16_t time_seconds = _countdown_value - _score->seconds_spent();
+  if (time_seconds <= 0) {
+    control_escape();
+  }
+
   // Clear screen
   SDL_SetRenderDrawColor(_renderer->renderer(), 0x1E, 0x1E, 0x1E, 0xFF);
   SDL_RenderClear(_renderer->renderer());
 
-  // _score->render();
-  _widget_score->render();
+  _widget_score->render(time_seconds);
 
   for (auto &target : _targets)
     target.render(_renderer->renderer(), _renderer->font_target());

@@ -16,7 +16,7 @@ class WidgetScore {
 public:
   WidgetScore(WidgetScoreType type, boxsize screen_size, std::shared_ptr<Score> score,
               std::shared_ptr<Renderer> renderer);
-  void render();
+  void render(uint16_t time_seconds);
 
 private:
   std::unique_ptr<WidgetTextBox> _textbox_time;

@@ -32,7 +32,8 @@ void WindowPause::render() {
   SDL_SetRenderDrawColor(_renderer->renderer(), 0x1E, 0x1E, 0x1E, 0xFF);
   SDL_RenderClear(_renderer->renderer());
 
-  _widget_score->render();
+  // Reverse the timer
+  _widget_score->render(_score->seconds_until_stop());
   _widget_menu->render(_renderer->renderer(), _renderer->font_menu());
 
   // Update Screen

@@ -37,6 +37,8 @@ private:
   // TODO: Usefull or not ?
   const point _target_center_aera;
   const uint16_t _target_radius_aera;
+
+  uint16_t _countdown_value; // Seconds
 };
 
 #endif // !WINDOW_GAME_H
