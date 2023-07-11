@@ -4,18 +4,17 @@
 #include <memory>
 
 // clang-format off
-WindowGame::WindowGame(boxsize screen_size, uint16_t scale_factor,std::shared_ptr<WindowName> next_window,
+WindowGame::WindowGame(boxsize screen_size, std::shared_ptr<WindowName> next_window,
                        std::shared_ptr<Renderer> renderer, std::shared_ptr<Score> score)
     : WidgetWindow(next_window, renderer),
-      _target_center_aera({static_cast<uint16_t>(screen_size.w * scale_factor / 2),
-                           static_cast<uint16_t>(screen_size.h * scale_factor / 2)}),
-      _target_radius_aera(int16_t(screen_size.w * scale_factor * 0.4)),
+      _target_center_aera({static_cast<uint16_t>(screen_size.w / 2),
+                           static_cast<uint16_t>(screen_size.h / 2)}),
+      _target_radius_aera(int16_t(screen_size.w * 0.4)),
       _score(score) {
   // clang-format on
 
   _dispatcher = std::make_shared<Dispatcher>();
-  _widget_score =
-      std::make_unique<WidgetScore>(WidgetScoreType::Top, screen_size.scale(scale_factor), score, renderer);
+  _widget_score = std::make_unique<WidgetScore>(WidgetScoreType::Top, screen_size, score, renderer);
 
   // TODO: Move to easily start/restart according to options or just delete the window ?
   for (uint8_t i = 0; i < 5; ++i)

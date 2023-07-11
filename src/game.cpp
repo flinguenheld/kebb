@@ -7,11 +7,10 @@
 #include <memory>
 
 // clang-format off
-Game::Game(boxsize screen_size, uint16_t scale_factor, std::shared_ptr<Score> score,
+Game::Game(boxsize screen_size, std::shared_ptr<Score> score,
            std::shared_ptr<Renderer> renderer) :
 
       _screen_size(screen_size),
-      _scale_factor(scale_factor),
       _score(score),
       _renderer(renderer),
       _current_window(nullptr)
@@ -34,7 +33,7 @@ void Game::Run(Controller const &controller, std::size_t target_frame_duration) 
   bool running = true;
 
   auto next_window = std::make_shared<WindowName>(WindowName::W_None);
-  _current_window = new WindowGame(_screen_size, _scale_factor, next_window, _renderer, _score);
+  _current_window = new WindowGame(_screen_size, next_window, _renderer, _score);
 
   while (running) {
     frame_start = SDL_GetTicks();
@@ -50,10 +49,10 @@ void Game::Run(Controller const &controller, std::size_t target_frame_duration) 
 
       switch (*next_window) {
       case WindowName::W_Game:
-        _current_window = new WindowGame(_screen_size, _scale_factor, next_window, _renderer, _score);
+        _current_window = new WindowGame(_screen_size, next_window, _renderer, _score);
         break;
       case WindowName::W_Pause:
-        _current_window = new WindowPause(_screen_size, _scale_factor, next_window, _renderer, _score);
+        _current_window = new WindowPause(_screen_size, next_window, _renderer, _score);
         break;
       case WindowName::W_Reception:
         break;

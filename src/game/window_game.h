@@ -16,8 +16,8 @@
 class WindowGame : public WidgetWindow {
 
 public:
-  WindowGame(boxsize screen_size, uint16_t scale_factor, std::shared_ptr<WindowName> next_window,
-             std::shared_ptr<Renderer> renderer, std::shared_ptr<Score> score);
+  WindowGame(boxsize screen_size, std::shared_ptr<WindowName> next_window, std::shared_ptr<Renderer> renderer,
+             std::shared_ptr<Score> score);
   virtual ~WindowGame();
 
   virtual void control_escape();

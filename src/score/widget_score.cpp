@@ -68,9 +68,6 @@ WidgetScore::WidgetScore(WidgetScoreType type, boxsize screen_size, std::shared_
   _textbox_success->set_color_text({137, 180, 250, 200}); // Blue
   _textbox_fail->set_color_text({137, 180, 250, 200});    // Blue
   _textbox_miss->set_color_text({137, 180, 250, 200});    // Blue
-  // _textbox_success->set_color_text({64, 160, 43, 150}); // Green
-  // _textbox_fail->set_color_text({254, 100, 11, 150});   // Peach
-  // _textbox_miss->set_color_text({230, 69, 83, 150});    // Maroon
 }
 
 void WidgetScore::render() {

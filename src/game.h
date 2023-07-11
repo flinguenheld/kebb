@@ -23,8 +23,7 @@
 
 class Game {
 public:
-  Game(boxsize screen_size, uint16_t scale_factor, std::shared_ptr<Score> score,
-       std::shared_ptr<Renderer> renderer);
+  Game(boxsize screen_size, std::shared_ptr<Score> score, std::shared_ptr<Renderer> renderer);
   ~Game();
 
   void Run(Controller const &controller, std::size_t target_frame_duration);
@@ -40,7 +39,6 @@ private:
   std::shared_ptr<Renderer> _renderer;
 
   const boxsize _screen_size;
-  const uint16_t _scale_factor;
 };
 
 #endif
