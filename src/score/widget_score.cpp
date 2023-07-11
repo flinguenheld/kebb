@@ -1,4 +1,5 @@
 #include "widget_score.h"
+#include "renderer.h"
 #include "utils.h"
 #include <cstdint>
 #include <iostream>
@@ -8,7 +9,7 @@ WidgetScore::WidgetScore(WidgetScoreType type, boxsize screen_size, std::shared_
     : _score(score), _renderer(renderer) {
 
   // Geometry
-  boxsize char_size = _renderer->char_size_score();
+  boxsize char_size = _renderer->font_char_size(FontName::F_Score);
   boxsize line_size;
   point pt;
 
@@ -40,7 +41,7 @@ WidgetScore::WidgetScore(WidgetScoreType type, boxsize screen_size, std::shared_
 
   // ------------------------------------------------------------------------
   // Timer ------------------------------------------------------------------
-  char_size = _renderer->char_size_score();
+  char_size = _renderer->font_char_size(FontName::F_Score);
 
   if (type == WidgetScoreType::FullScreen) {
 
@@ -79,10 +80,10 @@ void WidgetScore::render(uint16_t time_seconds) {
   _textbox_time->set_text(int_to_string(time_seconds / 60, 2, '0') + ":" +
                           int_to_string(time_seconds % 60, 2, '0'));
 
-  _textbox_time->render(_renderer->renderer(), _renderer->font_score());
-  _textbox_success->render(_renderer->renderer(), _renderer->font_score());
-  _textbox_fail->render(_renderer->renderer(), _renderer->font_score());
-  _textbox_miss->render(_renderer->renderer(), _renderer->font_score());
+  _textbox_time->render(_renderer->renderer(), _renderer->font(FontName::F_Score));
+  _textbox_success->render(_renderer->renderer(), _renderer->font(FontName::F_Score));
+  _textbox_fail->render(_renderer->renderer(), _renderer->font(FontName::F_Score));
+  _textbox_miss->render(_renderer->renderer(), _renderer->font(FontName::F_Score));
 }
 
 std::string WidgetScore::int_to_string(uint16_t i, uint8_t text_length, char c) {

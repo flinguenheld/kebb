@@ -1,4 +1,5 @@
 #include "window_pause.h"
+#include "renderer.h"
 #include <memory>
 
 WindowPause::WindowPause(boxsize screen_size, std::shared_ptr<WindowName> next_window,
@@ -9,7 +10,7 @@ WindowPause::WindowPause(boxsize screen_size, std::shared_ptr<WindowName> next_w
 
   // ------------------------------------------------------------------------
   // Menu -------------------------------------------------------------------
-  boxsize char_size = _renderer->char_size_menu();
+  boxsize char_size = _renderer->font_char_size(FontName::F_Menu);
   boxsize line_size = {static_cast<uint16_t>(char_size.w * 28), char_size.h};
   point pt = {static_cast<uint16_t>(screen_size.w / 2 - line_size.w / 2),
               static_cast<uint16_t>(screen_size.h - char_size.h * 2)};
@@ -34,7 +35,7 @@ void WindowPause::render() {
 
   // Reverse the timer
   _widget_score->render(_score->seconds_until_stop());
-  _widget_menu->render(_renderer->renderer(), _renderer->font_menu());
+  _widget_menu->render(_renderer->renderer(), _renderer->font(FontName::F_Menu));
 
   // Update Screen
   SDL_RenderPresent(_renderer->renderer());

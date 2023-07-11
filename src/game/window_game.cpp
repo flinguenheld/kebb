@@ -19,8 +19,8 @@ WindowGame::WindowGame(boxsize screen_size, std::shared_ptr<WindowName> next_win
 
   // TODO: Move to easily start/restart according to options or just delete the window ?
   for (uint8_t i = 0; i < 5; ++i)
-    _targets.emplace_back(
-        Target(_target_center_aera, _target_radius_aera, _renderer->char_size_target(), _dispatcher, _score));
+    _targets.emplace_back(Target(_target_center_aera, _target_radius_aera,
+                                 _renderer->font_char_size(FontName::F_Target), _dispatcher, _score));
 
   // Start !
   for (auto &t : _targets) {
@@ -78,7 +78,7 @@ void WindowGame::render() {
   _widget_score->render(time_seconds);
 
   for (auto &target : _targets)
-    target.render(_renderer->renderer(), _renderer->font_target());
+    target.render(_renderer->renderer(), _renderer->font(FontName::F_Target));
 
   // Update Screen
   SDL_RenderPresent(_renderer->renderer());

@@ -76,16 +76,32 @@ Renderer::~Renderer() {
   SDL_Quit();
 }
 
-TTF_Font *Renderer::font_target() { return _font_target; }
-TTF_Font *Renderer::font_score() { return _font_score; }
-TTF_Font *Renderer::font_menu() { return _font_menu; }
-boxsize Renderer::char_size_target() const { return _char_size_target; }
-boxsize Renderer::char_size_score() const { return _char_size_score; }
-boxsize Renderer::char_size_menu() const { return _char_size_menu; }
-
 SDL_Renderer *Renderer::renderer() { return _renderer; }
 
 void Renderer::UpdateWindowTitle(uint16_t fps) {
   std::string title{"Kepp - FPS: " + std::to_string(fps)};
   SDL_SetWindowTitle(_window, title.c_str());
+}
+
+// ----------------------------------------------------------------------------------------------------
+// FONTS ----------------------------------------------------------------------------------------------
+TTF_Font *Renderer::font(FontName fn) {
+  switch (fn) {
+  case FontName::F_Target:
+    return _font_target;
+  case FontName::F_Menu:
+    return _font_menu;
+  default: // F_Score
+    return _font_score;
+  }
+}
+boxsize Renderer::font_char_size(FontName fn) const {
+  switch (fn) {
+  case FontName::F_Target:
+    return _char_size_target;
+  case FontName::F_Menu:
+    return _char_size_menu;
+  default: // F_Score
+    return _char_size_score;
+  }
 }
