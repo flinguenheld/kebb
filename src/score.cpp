@@ -1,9 +1,11 @@
 #include "score.h"
 
-Score::Score(uint16_t screen_width, boxsize char_size) : _sucess(0), _fail(0), _miss(0) {
+Score::Score(uint16_t screen_width, std::shared_ptr<Renderer> renderer)
+    : _renderer(renderer), _sucess(0), _fail(0), _miss(0) {
 
   // Geometry
   // Success, fail and miss on the right --
+  auto char_size = _renderer->char_size_score();
   boxsize bs = {static_cast<uint16_t>(char_size.w * 13), static_cast<uint16_t>(char_size.h)};
   point pt = {static_cast<uint16_t>(screen_width - bs.w - char_size.h * 0.1),
               static_cast<uint16_t>(char_size.h * 0.1)};
@@ -45,7 +47,7 @@ std::string Score::int_to_string(uint16_t i, uint8_t text_length, char c) {
   return text;
 }
 
-void Score::render(SDL_Renderer *renderer, TTF_Font *font) {
+void Score::render() {
 
   std::unique_lock<std::mutex> ul(_mutex);
   _textbox_success->set_text("Success: " + int_to_string(_sucess, 4));
@@ -59,10 +61,10 @@ void Score::render(SDL_Renderer *renderer, TTF_Font *font) {
 
   _textbox_time->set_text(int_to_string(duration / 60, 2, '0') + ":" + int_to_string(duration % 60, 2, '0'));
 
-  _textbox_time->render(renderer, font);
-  _textbox_success->render(renderer, font);
-  _textbox_fail->render(renderer, font);
-  _textbox_miss->render(renderer, font);
+  _textbox_time->render(_renderer->renderer(), _renderer->font_score());
+  _textbox_success->render(_renderer->renderer(), _renderer->font_score());
+  _textbox_fail->render(_renderer->renderer(), _renderer->font_score());
+  _textbox_miss->render(_renderer->renderer(), _renderer->font_score());
 }
 
 void Score::up_sucess() {

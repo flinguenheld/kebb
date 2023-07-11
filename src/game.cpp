@@ -34,14 +34,14 @@ void Game::Run(Controller const &controller, std::size_t target_frame_duration) 
   bool running = true;
 
   auto next_window = std::make_shared<WindowName>(WindowName::W_None);
-  _current_window = new WindowGame(_screen_size, _scale_factor, next_window, _score);
+  _current_window = new WindowGame(_screen_size, _scale_factor, next_window, _renderer, _score);
 
   while (running) {
     frame_start = SDL_GetTicks();
 
     // Input, Update, Render - the main game loop.
     controller.HandleInput(running, _current_window);
-    _current_window->render(_renderer);
+    _current_window->render();
 
     // FIX: Use a unique ptr ?
     if (*next_window != WindowName::W_None) {
@@ -50,10 +50,10 @@ void Game::Run(Controller const &controller, std::size_t target_frame_duration) 
 
       switch (*next_window) {
       case WindowName::W_Game:
-        _current_window = new WindowGame(_screen_size, _scale_factor, next_window, _score);
+        _current_window = new WindowGame(_screen_size, _scale_factor, next_window, _renderer, _score);
         break;
       case WindowName::W_Pause:
-        _current_window = new WindowPause(_screen_size, _scale_factor, next_window, _score);
+        _current_window = new WindowPause(_screen_size, _scale_factor, next_window, _renderer, _score);
         break;
       case WindowName::W_Reception:
         break;

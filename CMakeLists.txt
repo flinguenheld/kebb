@@ -24,11 +24,11 @@ include_directories(${SDL2_TTF_INCLUDE_DIR})
 
 add_executable(Kepp src/main.cpp
                     src/game.cpp
+                    src/utils.cpp
                     src/controller.cpp
                     src/renderer.cpp
                     src/game/target.cpp
                     src/game/dispatcher.cpp
-                    src/game/keycodes.cpp
                     src/game/window_game.cpp
                     src/score.cpp
                     src/pause/window_pause.cpp

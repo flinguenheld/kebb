@@ -3,8 +3,8 @@
 
 #include "SDL.h"
 #include "dispatcher.h"
-#include "keycodes.h"
 #include "score.h"
+#include "utils.h"
 #include "widget/widget_base.h"
 #include "widget/widget_textbox.h"
 #include <iostream>

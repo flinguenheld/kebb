@@ -1,6 +1,7 @@
 #ifndef SCORE_H
 #define SCORE_H
 
+#include "renderer.h"
 #include "widget/widget_base.h"
 #include "widget/widget_textbox.h"
 #include <chrono>
@@ -13,9 +14,9 @@
 class Score {
 
 public:
-  Score(uint16_t screen_width, boxsize char_size);
+  Score(uint16_t screen_width, std::shared_ptr<Renderer> renderer);
 
-  void render(SDL_Renderer *renderer, TTF_Font *font);
+  void render();
 
   void up_sucess();
   void up_fail();
@@ -32,6 +33,8 @@ private:
   uint16_t _sucess;
   uint16_t _fail;
   uint16_t _miss;
+
+  std::shared_ptr<Renderer> _renderer;
 
   std::mutex _mutex;
   std::chrono::time_point<std::chrono::steady_clock> _timer_start;

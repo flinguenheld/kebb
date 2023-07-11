@@ -5,18 +5,9 @@
 #include "widget/widget_base.h"
 #include <memory>
 
-enum class WindowName {
-  W_None,
-  W_Reception,
-  W_Game,
-  W_Pause,
-  W_Option,
-  W_Quit,
-};
-
 class WidgetWindow {
 public:
-  WidgetWindow(std::shared_ptr<WindowName> next_window);
+  WidgetWindow(std::shared_ptr<WindowName> next_window, std::shared_ptr<Renderer> renderer);
   virtual ~WidgetWindow(){};
 
   virtual void control_left(){};
@@ -30,13 +21,14 @@ public:
   virtual void control_others(uint16_t keycode){};
 
   virtual void controller(){};
-  virtual void render(std::shared_ptr<Renderer> renderer){};
+  virtual void render(){};
 
 protected:
   boxsize _screen_size;
   uint16_t _scale_factor;
 
   std::shared_ptr<WindowName> _next_window;
+  std::shared_ptr<Renderer> _renderer;
 };
 
 #endif // !WIDGET_WINDOW_H

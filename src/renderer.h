@@ -6,8 +6,6 @@
 #include "SDL_pixels.h"
 #include "SDL_render.h"
 #include "SDL_ttf.h"
-#include "game/target.h"
-#include "score.h"
 #include "widget/widget_base.h"
 #include <cstddef>
 #include <cstdint>
@@ -18,15 +16,16 @@
 
 class Renderer {
 public:
-  Renderer(boxsize screen_size, uint16_t scale_factor, uint16_t font_size_target, uint16_t font_size_score,
-           std::shared_ptr<Score> score);
+  Renderer(boxsize screen_size, uint16_t scale_factor, uint16_t font_size_target, uint16_t font_size_score);
   ~Renderer();
 
-  void Render(const std::vector<Target> &targets);
   void UpdateWindowTitle(uint16_t fps); // TODO: Up title
 
   TTF_Font *font_target();
   TTF_Font *font_score();
+  boxsize char_size_target() const;
+  boxsize char_size_score() const;
+
   SDL_Renderer *renderer();
 
 private:
@@ -36,10 +35,11 @@ private:
   TTF_Font *_font_target;
   TTF_Font *_font_score;
 
+  boxsize _char_size_target;
+  boxsize _char_size_score;
+
   const boxsize _screen_size;
   const uint16_t _scale_factor;
-
-  std::shared_ptr<Score> _score;
 };
 
 #endif

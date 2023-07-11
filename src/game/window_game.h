@@ -16,12 +16,12 @@ class WindowGame : public WidgetWindow {
 
 public:
   WindowGame(boxsize screen_size, uint16_t scale_factor, std::shared_ptr<WindowName> next_window,
-             std::shared_ptr<Score> score);
+             std::shared_ptr<Renderer> renderer, std::shared_ptr<Score> score);
   virtual ~WindowGame();
 
   virtual void control_escape();
   virtual void control_others(uint16_t keycode);
-  virtual void render(std::shared_ptr<Renderer> renderer);
+  virtual void render();
 
   void stop_threads();
 
@@ -34,8 +34,6 @@ private:
   // TODO: Usefull or not ?
   const point _target_center_aera;
   const uint16_t _target_radius_aera;
-  const uint16_t _target_font_size;
-  const boxsize _target_char_size;
 };
 
 #endif // !WINDOW_GAME_H

@@ -8,7 +8,7 @@
 class WindowPause : public WidgetWindow {
 public:
   WindowPause(boxsize screen_size, uint16_t scale_factor, std::shared_ptr<WindowName> next_window,
-              std::shared_ptr<Score> score);
+              std::shared_ptr<Renderer> renderer, std::shared_ptr<Score> score);
   virtual ~WindowPause();
 
   virtual void control_escape();
@@ -16,7 +16,7 @@ public:
 
   virtual void control_up();
   virtual void control_down();
-  virtual void render(std::shared_ptr<Renderer> renderer);
+  virtual void render();
 
 private:
   std::shared_ptr<Score> _score;

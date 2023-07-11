@@ -1,9 +1,10 @@
 #include "renderer.h"
+#include "SDL_ttf.h"
+#include <cstdint>
 
 Renderer::Renderer(boxsize screen_size, uint16_t scale_factor, uint16_t font_size_target,
-                   uint16_t font_size_score, std::shared_ptr<Score> score)
-    : _screen_size(screen_size), _scale_factor(scale_factor), _font_target(nullptr), _font_score(nullptr),
-      _score(score) {
+                   uint16_t font_size_score)
+    : _screen_size(screen_size), _scale_factor(scale_factor), _font_target(nullptr), _font_score(nullptr) {
 
   // Initialize SDL
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -18,7 +19,6 @@ Renderer::Renderer(boxsize screen_size, uint16_t scale_factor, uint16_t font_siz
   }
 
   // TODO: Manage the fonts files
-  // TODO: Use a different font for score or use only one font ?
   _font_target = TTF_OpenFont("../font/dejavu-sans-mono.bold.ttf", font_size_target);
   // _font_target = TTF_OpenFont("../font/cmu.typewriter-text-bold.ttf", font_size_target);
   _font_score = TTF_OpenFont("../font/charybdis.regular.ttf", font_size_score);
@@ -27,6 +27,16 @@ Renderer::Renderer(boxsize screen_size, uint16_t scale_factor, uint16_t font_siz
   if (_font_target == nullptr || _font_score == nullptr) {
     std::cerr << "Could not open the lazy.ttf";
     std::cerr << " SDL_Error: " << SDL_GetError() << "\n";
+  } else {
+
+    int w = 0; // Get the size for one char here
+    int h = 0;
+
+    TTF_SizeUTF8(_font_target, "X", &w, &h); // NOTE: Add a check ?
+    _char_size_target = {static_cast<uint16_t>(w), static_cast<uint16_t>(h)};
+
+    TTF_SizeUTF8(_font_score, "X", &w, &h);
+    _char_size_score = {static_cast<uint16_t>(w), static_cast<uint16_t>(h)};
   }
 
   // Create Window
@@ -45,8 +55,6 @@ Renderer::Renderer(boxsize screen_size, uint16_t scale_factor, uint16_t font_siz
     std::cerr << "SDL_Error: " << SDL_GetError() << "\n";
   }
 
-  // TODO: logical size - need an elegant solution !!
-
   // Set a logical scale, mandatory to move in all directions
   if (SDL_RenderSetLogicalSize(_renderer, _screen_size.w * _scale_factor, _screen_size.h * _scale_factor) !=
       0) {
@@ -56,7 +64,6 @@ Renderer::Renderer(boxsize screen_size, uint16_t scale_factor, uint16_t font_siz
 }
 
 Renderer::~Renderer() {
-
   TTF_CloseFont(_font_target);
   TTF_CloseFont(_font_score);
   TTF_Quit();
@@ -66,22 +73,10 @@ Renderer::~Renderer() {
 
 TTF_Font *Renderer::font_target() { return _font_target; }
 TTF_Font *Renderer::font_score() { return _font_score; }
+boxsize Renderer::char_size_target() const { return _char_size_target; }
+boxsize Renderer::char_size_score() const { return _char_size_score; }
+
 SDL_Renderer *Renderer::renderer() { return _renderer; }
-
-void Renderer::Render(const std::vector<Target> &targets) {
-
-  // Clear screen
-  SDL_SetRenderDrawColor(_renderer, 0x1E, 0x1E, 0x1E, 0xFF);
-  SDL_RenderClear(_renderer);
-
-  _score->render(_renderer, _font_score);
-
-  for (auto &target : targets)
-    target.render(_renderer, _font_target);
-
-  // Update Screen
-  SDL_RenderPresent(_renderer);
-}
 
 void Renderer::UpdateWindowTitle(uint16_t fps) {
   std::string title{"Kepp - FPS: " + std::to_string(fps)};
