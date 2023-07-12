@@ -24,9 +24,6 @@ public:
   virtual void render(){};
 
 protected:
-  boxsize _screen_size;
-  uint16_t _scale_factor;
-
   std::shared_ptr<WindowName> _next_window;
   std::shared_ptr<Renderer> _renderer;
 };
