@@ -1,4 +1,5 @@
 #include "renderer.h"
+#include "SDL_blendmode.h"
 #include "SDL_ttf.h"
 #include <cstdint>
 
@@ -57,6 +58,12 @@ Renderer::Renderer(boxsize screen_size, uint16_t scale_factor, uint16_t font_siz
   _renderer = SDL_CreateRenderer(_window, -1, SDL_RENDERER_ACCELERATED);
   if (nullptr == _renderer) {
     std::cerr << "Renderer could not be created.\n";
+    std::cerr << "SDL_Error: " << SDL_GetError() << "\n";
+  }
+
+  // Add transparency // FIX: Is it ok ?
+  if (SDL_SetRenderDrawBlendMode(_renderer, SDL_BLENDMODE_BLEND) != 0) {
+    std::cerr << "Transparency management could not be set.\n";
     std::cerr << "SDL_Error: " << SDL_GetError() << "\n";
   }
 

@@ -14,10 +14,11 @@ public:
   virtual ~WidgetLogo();
 
   void update();
+  void stop();
   virtual void render(SDL_Renderer *renderer, TTF_Font *font) const;
 
 private:
-  std::vector<std::vector<bool>> _tab;
+  std::vector<std::vector<int16_t>> _tab;
   const uint16_t _nb_cases;
   const uint16_t _nb_lines;
 
@@ -27,6 +28,8 @@ private:
   uint16_t _space_w;
   uint16_t _space_h;
 
+  bool _continue;
+  void fill(uint8_t line, uint8_t column_start);
   // --
   std::random_device _seed;
   std::mt19937 _engine;

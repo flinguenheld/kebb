@@ -7,6 +7,7 @@
 #include "widget/widget_textbox.h"
 #include "widget/widget_window.h"
 #include <memory>
+#include <thread>
 
 class WindowWelcome : public WidgetWindow {
 public:
@@ -22,7 +23,9 @@ public:
 private:
   std::unique_ptr<WidgetTextBox> _widget_title;
   std::unique_ptr<WidgetMenu> _widget_menu;
-  std::unique_ptr<WidgetLogo> _widget_logo;
+  std::shared_ptr<WidgetLogo> _widget_logo;
+
+  std::thread _thread;
 };
 
 #endif // !WINDOW_WELCOME_H

@@ -1,13 +1,16 @@
 #include "widget_logo.h"
 #include "SDL_rect.h"
+#include "SDL_render.h"
 #include "widget/widget_base.h"
 #include <cstdint>
+#include <functional>
 #include <iostream>
+#include <thread>
 #include <vector>
 
 WidgetLogo::WidgetLogo(point position, boxsize size)
-    : WidgetBase(position, size), _nb_cases(10), _nb_lines(4), random_case(0, _nb_cases - 1),
-      random_line(0, _nb_lines - 1) {
+    : WidgetBase(position, size), _nb_cases(12), _nb_lines(4), random_case(0, _nb_cases - 1),
+      random_line(0, _nb_lines - 1), _continue(true) {
 
   _border_thickness = size.w / 50;
 
@@ -17,30 +20,48 @@ WidgetLogo::WidgetLogo(point position, boxsize size)
   _space_w = (size.w - (2 * _border_thickness) - (_key_size.w * _nb_cases)) / (_nb_cases + 1);
   _space_h = (size.h - (2 * _border_thickness) - (_key_size.h * _nb_lines)) / (_nb_lines + 1);
 
-  std::cout << "key size w: " << _key_size.w << std::endl;
-  std::cout << "space w" << _space_w << std::endl;
-
-  for (uint8_t i = 0; i < _nb_lines; ++i) {
-    std::vector<bool> v;
-    for (uint8_t j = 0; j < _nb_cases; ++j) {
-      v.emplace_back(true);
+  // Fill
+  for (int16_t i = 0; i < _nb_lines; ++i) {
+    std::vector<int16_t> v;
+    for (int16_t j = 0; j < _nb_cases; ++j) {
+      v.emplace_back(0);
     }
     _tab.emplace_back(v);
   }
 
-  std::cout << "message" << position.x << "-" << position.y << std::endl;
+  // TODO: Add a random cool choice ?
+
+  // Set the first picture
+  int16_t j = 3;
+  for (int16_t i = 0; i < 4; ++i) {
+    fill(i, j);
+    --j;
+  }
 }
 WidgetLogo::~WidgetLogo() {}
 
+void WidgetLogo::fill(uint8_t line, uint8_t column_start) {
+
+  uint8_t nb = 1;
+  for (uint8_t i = column_start; i < column_start + 3; ++i) {
+    _tab[line][i] = nb;
+    ++nb;
+  }
+}
+
 void WidgetLogo::update() {
 
-  const auto l = random_line(_engine);
-  const auto c = random_case(_engine);
+  while (_continue) {
 
-  std::cout << "l" << l << std::endl;
-  std::cout << "c" << c << std::endl;
-  _tab[l][c] = !_tab[l][c];
+    for (uint8_t i = 0; i < _tab.size(); ++i) {
+      auto val = _tab[i].back();
+      _tab[i].pop_back();
+      _tab[i].emplace(_tab[i].begin(), val);
+    }
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+  }
 }
+void WidgetLogo::stop() { _continue = false; }
 
 void WidgetLogo::render(SDL_Renderer *renderer, TTF_Font *font) const { // FIX: remove font
 
@@ -52,7 +73,7 @@ void WidgetLogo::render(SDL_Renderer *renderer, TTF_Font *font) const { // FIX: 
   border_background.x = _position.x;
   border_background.y = _position.y;
 
-  SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+  SDL_SetRenderDrawColor(renderer, 69, 71, 90, 200); // Surface1
   SDL_RenderFillRect(renderer, &border_background);
   // ------------------------------------------------------------------------
   // Background -------------------------------------------------------------
@@ -77,10 +98,22 @@ void WidgetLogo::render(SDL_Renderer *renderer, TTF_Font *font) const { // FIX: 
   for (const auto &v : _tab) {
     for (const auto &c : v) {
 
-      if (c) {
-        SDL_SetRenderDrawColor(renderer, 0xFF, 0xCC, 0x00, 0xFF);
-        SDL_RenderFillRect(renderer, &keys);
+      switch (c) {
+      case 3:
+        SDL_SetRenderDrawColor(renderer, 250, 179, 135, 150); // Peach
+        break;
+      case 2:
+        SDL_SetRenderDrawColor(renderer, 250, 179, 135, 100); // Peach
+        break;
+      case 1:
+        SDL_SetRenderDrawColor(renderer, 250, 179, 135, 50); // Peach
+        break;
+      default:
+        SDL_SetRenderDrawColor(renderer, 49, 50, 68, 200); // Surface0
+        break;
       }
+
+      SDL_RenderFillRect(renderer, &keys);
       keys.x += _key_size.w + _space_w;
     }
     keys.y += _key_size.h + _space_h;

@@ -33,18 +33,20 @@ WindowWelcome::WindowWelcome(boxsize screen_size, std::shared_ptr<WindowName> ne
 
   // ------------------------------------------------------------------------
   // Logo -------------------------------------------------------------------
-  boxsize bs = {static_cast<uint16_t>(screen_size.w / 3), static_cast<uint16_t>(screen_size.w / 7)};
+  boxsize bs = {static_cast<uint16_t>(screen_size.w / 2.6), static_cast<uint16_t>(screen_size.w / 7)};
   pt.x = screen_size.w / 2 - bs.w / 2;
   pt.y = screen_size.h / 3;
 
-  _widget_logo = std::make_unique<WidgetLogo>(pt, bs);
+  _widget_logo = std::make_shared<WidgetLogo>(pt, bs);
+  _thread = std::thread(&WidgetLogo::update, _widget_logo);
 }
 
-WindowWelcome::~WindowWelcome() {}
+WindowWelcome::~WindowWelcome() {
+  _widget_logo->stop();
+  _thread.join();
+}
 
 void WindowWelcome::render() {
-
-  _widget_logo->update();
 
   // Clear screen
   SDL_SetRenderDrawColor(_renderer->renderer(), 0x1E, 0x1E, 0x1E, 0xFF);
