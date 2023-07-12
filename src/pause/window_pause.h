@@ -4,6 +4,7 @@
 #include "score/score.h"
 #include "score/widget_score.h"
 #include "widget/widget_base.h"
+#include "widget/widget_menu.h"
 #include "widget/widget_window.h"
 
 class WindowPause : public WidgetWindow {
@@ -20,7 +21,7 @@ public:
 private:
   std::shared_ptr<Score> _score;
   std::unique_ptr<WidgetScore> _widget_score;
-  std::unique_ptr<WidgetTextBox> _widget_menu;
+  std::unique_ptr<WidgetMenu> _widget_menu;
 };
 
 #endif // !WINDOW_PAUSE_H

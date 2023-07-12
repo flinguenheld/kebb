@@ -1,5 +1,6 @@
 #include "window_pause.h"
 #include "renderer.h"
+#include "widget/widget_menu.h"
 #include <memory>
 
 WindowPause::WindowPause(boxsize screen_size, std::shared_ptr<WindowName> next_window,
@@ -7,17 +8,7 @@ WindowPause::WindowPause(boxsize screen_size, std::shared_ptr<WindowName> next_w
     : WidgetWindow(next_window, renderer), _score(score) {
 
   _widget_score = std::make_unique<WidgetScore>(WidgetScoreType::FullScreen, screen_size, score, renderer);
-
-  // ------------------------------------------------------------------------
-  // Menu -------------------------------------------------------------------
-  boxsize char_size = _renderer->font_char_size(FontName::F_Menu);
-  boxsize line_size = {static_cast<uint16_t>(char_size.w * 28), char_size.h};
-  point pt = {static_cast<uint16_t>(screen_size.w / 2 - line_size.w / 2),
-              static_cast<uint16_t>(screen_size.h - char_size.h * 2)};
-
-  _widget_menu = std::make_unique<WidgetTextBox>(pt, line_size);
-  _widget_menu->set_text("<ESC> Quit - <ENTER> Restart");
-  _widget_menu->set_color_text({137, 180, 250, 200}); // Blue
+  _widget_menu = std::make_unique<WidgetMenu>(screen_size, renderer, "<ESC> Quit      <ENTER> Restart");
 }
 
 WindowPause::~WindowPause() {}
@@ -35,7 +26,7 @@ void WindowPause::render() {
 
   // Reverse the timer
   _widget_score->render(_score->seconds_until_stop());
-  _widget_menu->render(_renderer->renderer(), _renderer->font(FontName::F_Menu));
+  _widget_menu->render();
 
   // Update Screen
   SDL_RenderPresent(_renderer->renderer());

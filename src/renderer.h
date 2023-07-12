@@ -7,7 +7,6 @@
 #include "SDL_render.h"
 #include "SDL_ttf.h"
 #include "utils.h"
-#include "widget/widget_base.h"
 #include <cstddef>
 #include <cstdint>
 #include <iostream>

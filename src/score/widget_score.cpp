@@ -1,8 +1,4 @@
 #include "widget_score.h"
-#include "renderer.h"
-#include "utils.h"
-#include <cstdint>
-#include <iostream>
 
 WidgetScore::WidgetScore(WidgetScoreType type, boxsize screen_size, std::shared_ptr<Score> score,
                          std::shared_ptr<Renderer> renderer)
@@ -22,7 +18,7 @@ WidgetScore::WidgetScore(WidgetScoreType type, boxsize screen_size, std::shared_
     line_size.h = char_size.h;
 
     pt.x = screen_size.w / 2 - line_size.w / 2;
-    pt.y = line_size.h * 4.5;
+    pt.y = line_size.h * 5;
 
   } else {
 
@@ -45,17 +41,17 @@ WidgetScore::WidgetScore(WidgetScoreType type, boxsize screen_size, std::shared_
 
   if (type == WidgetScoreType::FullScreen) {
 
-    char_size.set_scale(4);
+    char_size.set_scale(5);
     line_size.w = char_size.w * 5;
     line_size.h = char_size.h;
 
     pt.x = screen_size.w / 2 - line_size.w / 2;
-    pt.y = char_size.h * 0.7;
+    pt.y = char_size.h * 0.5;
 
   } else {
 
     // Timer bigger and on the left --
-    char_size.set_scale(1.5);
+    char_size.set_scale(1.7);
     line_size.w = char_size.w * 5;
     line_size.h = char_size.h;
 
@@ -64,8 +60,12 @@ WidgetScore::WidgetScore(WidgetScoreType type, boxsize screen_size, std::shared_
   }
   _textbox_time = std::make_unique<WidgetTextBox>(pt, line_size);
 
-  // Colors : Catpuccin Latte
-  _textbox_time->set_color_text({137, 180, 250, 200});    // Blue
+  // Catppuccin: Mocha
+  _textbox_time->set_color_text({250, 179, 135, 200}); // Peach
+  // _textbox_time->set_color_text({242, 205, 205, 200}); // Flamingo
+  // _textbox_time->set_color_text({180, 190, 254, 200}); // Lavender
+  // _textbox_time->set_color_text({148, 226, 213, 200}); // Teal
+
   _textbox_success->set_color_text({137, 180, 250, 200}); // Blue
   _textbox_fail->set_color_text({137, 180, 250, 200});    // Blue
   _textbox_miss->set_color_text({137, 180, 250, 200});    // Blue

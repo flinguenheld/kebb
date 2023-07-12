@@ -35,6 +35,7 @@ add_executable(Kepp src/main.cpp
                     src/pause/window_pause.cpp
                     src/widget/widget_base.cpp
                     src/widget/widget_textbox.cpp
+                    src/widget/widget_menu.cpp
                     src/widget/widget_window.cpp)
 
 string(STRIP ${SDL2_LIBRARIES} SDL2_LIBRARIES)
