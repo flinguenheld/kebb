@@ -2,6 +2,7 @@
 #include "game/window_game.h"
 #include "pause/window_pause.h"
 #include "renderer.h"
+#include "welcome/window_welcome.h"
 #include "widget/widget_base.h"
 #include "widget/widget_window.h"
 #include <memory>
@@ -33,7 +34,8 @@ void Game::Run(Controller const &controller, std::size_t target_frame_duration) 
   bool running = true;
 
   auto next_window = std::make_shared<WindowName>(WindowName::W_None);
-  _current_window = new WindowGame(_screen_size, next_window, _renderer, _score);
+  _current_window = new WindowWelcome(_screen_size, next_window, _renderer);
+  // _current_window = new WindowGame(_screen_size, next_window, _renderer, _score);
 
   while (running) {
     frame_start = SDL_GetTicks();
@@ -54,7 +56,8 @@ void Game::Run(Controller const &controller, std::size_t target_frame_duration) 
       case WindowName::W_Pause:
         _current_window = new WindowPause(_screen_size, next_window, _renderer, _score);
         break;
-      case WindowName::W_Reception:
+      case WindowName::W_Welcome:
+        _current_window = new WindowWelcome(_screen_size, next_window, _renderer);
         break;
       case WindowName::W_Option:
         break;

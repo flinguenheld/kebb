@@ -43,25 +43,6 @@ void WindowGame::stop_threads() {
 }
 
 // ----------------------------------------------------------------------------------------------------
-// CONTROLER ------------------------------------------------------------------------------------------
-void WindowGame::control_escape() {
-
-  stop_threads();
-  *_next_window = WindowName::W_Pause;
-}
-void WindowGame::control_others(uint16_t keycode) {
-
-  // Loop in all targets, if ok, up the loop
-  for (auto &target : _targets) {
-
-    if (target.check_keycode(keycode))
-      return;
-  }
-
-  _score->up_fail();
-}
-
-// ----------------------------------------------------------------------------------------------------
 // RENDER ---------------------------------------------------------------------------------------------
 void WindowGame::render() {
 
@@ -82,4 +63,22 @@ void WindowGame::render() {
 
   // Update Screen
   SDL_RenderPresent(_renderer->renderer());
+}
+
+// ----------------------------------------------------------------------------------------------------
+// CONTROLS -------------------------------------------------------------------------------------------
+void WindowGame::control_escape() {
+  stop_threads();
+  *_next_window = WindowName::W_Pause;
+}
+void WindowGame::control_others(uint16_t keycode) {
+
+  // Loop in all targets, if ok, up the loop
+  for (auto &target : _targets) {
+
+    if (target.check_keycode(keycode))
+      return;
+  }
+
+  _score->up_fail();
 }

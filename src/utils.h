@@ -33,7 +33,7 @@ struct boxsize {
 // WINDOWNAME (used to navigate) ----------------------------------------------------------------------
 enum class WindowName {
   W_None,
-  W_Reception,
+  W_Welcome,
   W_Game,
   W_Pause,
   W_Option,

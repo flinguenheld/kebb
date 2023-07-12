@@ -2,6 +2,8 @@
 #define WINDOW_WELCOME_H
 
 #include "utils.h"
+#include "widget/widget_menu.h"
+#include "widget/widget_textbox.h"
 #include "widget/widget_window.h"
 #include <memory>
 
@@ -17,7 +19,7 @@ public:
   virtual void render();
 
 private:
-  std::unique_ptr<WidgetTextBox> _widget_menu;
+  std::unique_ptr<WidgetMenu> _widget_menu;
 };
 
 #endif // !WINDOW_WELCOME_H

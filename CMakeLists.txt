@@ -27,6 +27,7 @@ add_executable(Kepp src/main.cpp
                     src/utils.cpp
                     src/controller.cpp
                     src/renderer.cpp
+                    src/welcome/window_welcome.cpp
                     src/game/target.cpp
                     src/game/dispatcher.cpp
                     src/game/window_game.cpp

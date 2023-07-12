@@ -13,11 +13,6 @@ WindowPause::WindowPause(boxsize screen_size, std::shared_ptr<WindowName> next_w
 
 WindowPause::~WindowPause() {}
 
-void WindowPause::control_escape() {
-  *_next_window = WindowName::W_Quit; // TODO: Change to reception
-}
-void WindowPause::control_enter() { *_next_window = WindowName::W_Game; }
-
 void WindowPause::render() {
 
   // Clear screen
@@ -31,3 +26,8 @@ void WindowPause::render() {
   // Update Screen
   SDL_RenderPresent(_renderer->renderer());
 }
+
+// ----------------------------------------------------------------------------------------------------
+// CONTROLS -------------------------------------------------------------------------------------------
+void WindowPause::control_escape() { *_next_window = WindowName::W_Welcome; }
+void WindowPause::control_enter() { *_next_window = WindowName::W_Game; }
