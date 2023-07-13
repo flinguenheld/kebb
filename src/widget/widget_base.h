@@ -14,7 +14,8 @@
 class WidgetBase {
 public:
   WidgetBase(point position, boxsize size);
-  virtual void render(SDL_Renderer *renderer, TTF_Font *font) const = 0;
+  virtual void render(SDL_Renderer *renderer, TTF_Font *font) const {}
+  virtual void render(SDL_Renderer *renderer) const {}
 
   point position() const;
   boxsize size() const;

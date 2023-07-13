@@ -53,7 +53,7 @@ void WindowWelcome::render() {
   SDL_RenderClear(_renderer->renderer());
 
   _widget_title->render(_renderer->renderer(), _renderer->font(FontName::F_Menu));
-  _widget_logo->render(_renderer->renderer(), _renderer->font(FontName::F_Menu));
+  _widget_logo->render(_renderer->renderer());
   _widget_menu->render();
 
   // Update Screen
