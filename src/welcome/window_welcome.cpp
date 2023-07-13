@@ -1,28 +1,26 @@
 #include "window_welcome.h"
-#include "welcome/widget_logo.h"
-#include <memory>
 
 WindowWelcome::WindowWelcome(boxsize screen_size, std::shared_ptr<WindowName> next_window,
                              std::shared_ptr<Renderer> renderer)
-    : WidgetWindow(next_window, renderer) {
+    : WidgetWindowSelection(next_window, renderer) {
 
   _widget_menu = std::make_unique<WidgetMenu>(screen_size, renderer, "<ESC> Quit      <ENTER> Valid");
 
   // Geometry
   boxsize char_size = _renderer->font_char_size(FontName::F_Menu); // NOTE: Use font menu ?
-  boxsize line_size;
+  boxsize bs_title;
   point pt;
 
   // ------------------------------------------------------------------------
   // Title ------------------------------------------------------------------
   char_size.set_scale(5);
-  line_size.w = char_size.w * 4;
-  line_size.h = char_size.h;
+  bs_title.w = char_size.w * 4;
+  bs_title.h = char_size.h;
 
-  pt.x = screen_size.w / 2 - line_size.w / 2;
-  pt.y = line_size.h * 0.2;
+  pt.x = screen_size.w / 2 - bs_title.w / 2;
+  pt.y = bs_title.h * 0.05;
 
-  _widget_title = std::make_unique<WidgetTextBox>(pt, line_size);
+  _widget_title = std::make_unique<WidgetTextBox>(pt, bs_title);
   _widget_title->set_text("Kebb");
 
   // Catppuccin: Mocha
@@ -33,12 +31,24 @@ WindowWelcome::WindowWelcome(boxsize screen_size, std::shared_ptr<WindowName> ne
 
   // ------------------------------------------------------------------------
   // Logo -------------------------------------------------------------------
-  boxsize bs = {static_cast<uint16_t>(screen_size.w / 2.6), static_cast<uint16_t>(screen_size.w / 7)};
-  pt.x = screen_size.w / 2 - bs.w / 2;
-  pt.y = screen_size.h / 3;
+  boxsize bs_logo = {static_cast<uint16_t>(screen_size.w / 3), static_cast<uint16_t>(screen_size.w / 7.5)};
+  pt.x = screen_size.w / 2 - bs_logo.w / 2;
+  pt.y += bs_title.h * 1.05;
 
-  _widget_logo = std::make_shared<WidgetLogo>(pt, bs);
+  _widget_logo = std::make_shared<WidgetLogo>(pt, bs_logo);
   _thread = std::thread(&WidgetLogo::update, _widget_logo);
+
+  // ------------------------------------------------------------------------
+  // Selection fields -------------------------------------------------------
+  boxsize bs_field = renderer->font_char_size(FontName::F_Menu).scale(1.7);
+  pt.x = screen_size.w / 2;
+  pt.y += bs_logo.h * 1.7;
+
+  _widget_select_fields.emplace_back(std::make_unique<WidgetSelection>(pt, bs_field, "Play", true));
+  pt.y += bs_field.h * 1.1;
+  _widget_select_fields.emplace_back(std::make_unique<WidgetSelection>(pt, bs_field, "Options"));
+  pt.y += bs_field.h * 1.1;
+  _widget_select_fields.emplace_back(std::make_unique<WidgetSelection>(pt, bs_field, "About"));
 }
 
 WindowWelcome::~WindowWelcome() {
@@ -54,6 +64,10 @@ void WindowWelcome::render() {
 
   _widget_title->render(_renderer->renderer(), _renderer->font(FontName::F_Menu));
   _widget_logo->render(_renderer->renderer());
+
+  for (auto &w : _widget_select_fields)
+    w->render(_renderer->renderer(), _renderer->font(FontName::F_Menu));
+
   _widget_menu->render();
 
   // Update Screen
@@ -64,5 +78,11 @@ void WindowWelcome::render() {
 // CONTROLS -------------------------------------------------------------------------------------------
 void WindowWelcome::control_escape() { *_next_window = WindowName::W_Quit; }
 void WindowWelcome::control_enter() {
-  *_next_window = WindowName::W_Game;
-} // TODO: Change according to selection
+
+  if (_widget_select_fields[0]->is_selected())
+    *_next_window = WindowName::W_Game;
+  else if (_widget_select_fields[1]->is_selected())
+    *_next_window = WindowName::W_Game; // TODO: change
+  else if (_widget_select_fields[2]->is_selected())
+    *_next_window = WindowName::W_Game;
+}

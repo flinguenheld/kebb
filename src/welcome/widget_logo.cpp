@@ -1,31 +1,23 @@
 #include "widget_logo.h"
-#include "SDL_rect.h"
-#include "SDL_render.h"
-#include "widget/widget_base.h"
-#include <cstdint>
-#include <functional>
-#include <iostream>
-#include <thread>
-#include <vector>
 
 WidgetLogo::WidgetLogo(point position, boxsize size)
-    : WidgetBase(position, size), _nb_cases(12), _nb_lines(4), _engine(_seed()), _continue(true) {
+    : WidgetBase(position, size), _nb_colums(12), _nb_lines(4), _engine(_seed()), _continue(true) {
 
   // ------------------------------------------------------------------------
   // Geometry ---------------------------------------------------------------
   _border_thickness = size.w / 50;
 
-  _key_size.w = (size.w - (2 * _border_thickness)) / (_nb_cases + 2);
+  _key_size.w = (size.w - (2 * _border_thickness)) / (_nb_colums + 2);
   _key_size.h = (size.h - (2 * _border_thickness)) / (_nb_lines + 2);
 
-  _space_w = (size.w - (2 * _border_thickness) - (_key_size.w * _nb_cases)) / (_nb_cases + 1);
+  _space_w = (size.w - (2 * _border_thickness) - (_key_size.w * _nb_colums)) / (_nb_colums + 1);
   _space_h = (size.h - (2 * _border_thickness) - (_key_size.h * _nb_lines)) / (_nb_lines + 1);
 
   // ------------------------------------------------------------------------
   // Table of values --------------------------------------------------------
   for (int16_t i = 0; i < _nb_lines; ++i) {
     std::vector<uint16_t> v;
-    for (int16_t j = 0; j < _nb_cases; ++j) {
+    for (int16_t j = 0; j < _nb_colums; ++j) {
       v.emplace_back(0);
     }
     _tab.emplace_back(v);
@@ -73,7 +65,7 @@ WidgetLogo::WidgetLogo(point position, boxsize size)
   // Filling table according to the animation -------------------------------
   if (_type_animation == 0) {
 
-    std::uniform_int_distribution<uint16_t> random_start(0, _nb_cases - 4);
+    std::uniform_int_distribution<uint16_t> random_start(0, _nb_colums - 4);
 
     for (int16_t i = 0; i < _nb_lines; ++i) {
       uint16_t start = random_start(_engine);
@@ -124,7 +116,7 @@ void WidgetLogo::update() {
     case 2: // Set randomly some cases to 3 and decrease their value up to 0
 
       std::uniform_int_distribution<uint16_t> random_line(0, _nb_lines - 1);
-      std::uniform_int_distribution<uint16_t> random_case(0, _nb_cases - 1);
+      std::uniform_int_distribution<uint16_t> random_case(0, _nb_colums - 1);
 
       if (random_case(_engine) % 2 == 0) {
         auto l = random_line(_engine);
@@ -136,7 +128,7 @@ void WidgetLogo::update() {
       }
 
       for (int16_t i = 0; i < _nb_lines; ++i) {
-        for (int16_t j = 0; j < _nb_cases; ++j) {
+        for (int16_t j = 0; j < _nb_colums; ++j) {
           if (_tab[i][j] != 0)
             _tab[i][j]--;
         }

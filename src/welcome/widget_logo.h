@@ -1,15 +1,20 @@
 #ifndef WIDGET_LOGO_H
 #define WIDGET_LOGO_H
 
+#include "SDL_rect.h"
+#include "SDL_render.h"
 #include "utils.h"
 #include "widget/widget_base.h"
 #include <cstdint>
+#include <functional>
+#include <iostream>
 #include <random>
 #include <sys/types.h>
+#include <thread>
 #include <vector>
 
 /*
- * Render a keyboard (4 lines, 12 columns) and play randomly animations.
+ * Render a keyboard (4 lines, 12 columns) and play animations randomly.
  * Launch a thread with update() to use it.
  */
 class WidgetLogo : public WidgetBase {
@@ -24,7 +29,7 @@ public:
 
 private:
   std::vector<std::vector<uint16_t>> _tab;
-  const uint16_t _nb_cases;
+  const uint16_t _nb_colums;
   const uint16_t _nb_lines;
 
   boxsize _key_size;
