@@ -1,11 +1,4 @@
 #include "game.h"
-#include "game/window_game.h"
-#include "pause/window_pause.h"
-#include "renderer.h"
-#include "welcome/window_welcome.h"
-#include "widget/widget_base.h"
-#include "widget/widget_window.h"
-#include <memory>
 
 // clang-format off
 Game::Game(boxsize screen_size, std::shared_ptr<Score> score,
@@ -60,6 +53,7 @@ void Game::Run(Controller const &controller, std::size_t target_frame_duration) 
         _current_window = new WindowWelcome(_screen_size, next_window, _renderer);
         break;
       case WindowName::W_Option:
+        _current_window = new WindowOption(_screen_size, next_window, _renderer);
         break;
       default: // W_Ouit
         running = false;

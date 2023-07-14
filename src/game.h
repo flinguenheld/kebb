@@ -7,6 +7,8 @@
 #include "game/dispatcher.h"
 #include "game/target.h"
 #include "game/window_game.h"
+#include "option/window_option.h"
+#include "pause/window_pause.h"
 #include "renderer.h"
 #include "score/score.h"
 #include "welcome/window_welcome.h"

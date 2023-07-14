@@ -82,7 +82,7 @@ void WindowWelcome::control_enter() {
   if (_widget_select_fields[0]->is_selected())
     *_next_window = WindowName::W_Game;
   else if (_widget_select_fields[1]->is_selected())
-    *_next_window = WindowName::W_Game; // TODO: change
+    *_next_window = WindowName::W_Option;
   else if (_widget_select_fields[2]->is_selected())
     *_next_window = WindowName::W_Game;
 }

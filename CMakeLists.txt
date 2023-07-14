@@ -23,21 +23,22 @@ find_package(SDL2_ttf REQUIRED)
 include_directories(${SDL2_TTF_INCLUDE_DIR})
 
 add_executable(Kebb src/main.cpp
+                    src/controller.cpp
                     src/game.cpp
                     src/utils.cpp
-                    src/controller.cpp
                     src/renderer.cpp
-                    src/welcome/window_welcome.cpp
-                    src/welcome/widget_logo.cpp
                     src/game/target.cpp
                     src/game/dispatcher.cpp
                     src/game/window_game.cpp
+                    src/option/window_option.cpp
+                    src/pause/window_pause.cpp
                     src/score/score.cpp
                     src/score/widget_score.cpp
-                    src/pause/window_pause.cpp
+                    src/welcome/widget_logo.cpp
+                    src/welcome/window_welcome.cpp
                     src/widget/widget_base.cpp
-                    src/widget/widget_selection.cpp
                     src/widget/widget_menu.cpp
+                    src/widget/widget_selection.cpp
                     src/widget/widget_textbox.cpp
                     src/widget/widget_window.cpp)
 
