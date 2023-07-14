@@ -2,6 +2,7 @@
 #define WINDOW_OPTION_H
 
 #include "widget/button/widget_boolean.h"
+#include "widget/button/widget_list.h"
 #include "widget/widget_menu.h"
 #include "widget/widget_window.h"
 

@@ -1,4 +1,5 @@
 #include "window_option.h"
+#include "widget/button/widget_list.h"
 
 WindowOption::WindowOption(boxsize screen_size, std::shared_ptr<WindowName> next_window,
                            std::shared_ptr<Renderer> renderer)
@@ -35,13 +36,14 @@ WindowOption::WindowOption(boxsize screen_size, std::shared_ptr<WindowName> next
   pt.x = screen_size.w / 2;
   pt.y += bs_title.h * 1.7;
 
-  _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "Keyboard layout", true));
+  _widget_select_fields.emplace_back(std::make_unique<WidgetList>(
+      pt, bs_field, "Keyboard layout:", std::vector<std::string>{"US", "Francais", "Bepo"}, true));
   pt.y += bs_field.h * 1.7;
-  _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "Simultaneous targets"));
+  _widget_select_fields.emplace_back(std::make_unique<WidgetList>(pt, bs_field, "Nb targets:", 1, 20, 1));
   pt.y += bs_field.h * 1;
-  _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "Countdown"));
+  _widget_select_fields.emplace_back(std::make_unique<WidgetList>(pt, bs_field, "Countdown:", 1, 15, 1.5));
   pt.y += bs_field.h * 1;
-  _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "Speed"));
+  _widget_select_fields.emplace_back(std::make_unique<WidgetList>(pt, bs_field, "Speed:", 1, 10, 1));
   pt.y += bs_field.h * 1.7;
   _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "Letters"));
   pt.y += bs_field.h * 1;
