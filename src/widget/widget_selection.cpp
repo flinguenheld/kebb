@@ -1,4 +1,5 @@
 #include "widget_selection.h"
+#include "widget/widget_textbox.h"
 
 // clang-format off
 WidgetSelection::WidgetSelection(point pos_center, boxsize size_char, std::string &&text, bool selected)
