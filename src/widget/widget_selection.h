@@ -17,7 +17,10 @@ public:
   void set_selected(bool val);
   bool is_selected() const;
 
-private:
+  virtual void action_left(){};
+  virtual void action_right(){};
+
+protected:
   bool _selected;
   const SDL_Color _color_on;
   const SDL_Color _color_off;

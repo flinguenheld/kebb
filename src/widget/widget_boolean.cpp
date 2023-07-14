@@ -8,11 +8,12 @@ WidgetBoolean::WidgetBoolean(point pos_center, boxsize size_char, std::string &&
     : WidgetSelection(pos_center, size_char, std::move(text), selected), _status(status) {
 
   // Catppucin - Mocha
-  _color_on = {166, 227, 161, 200}; // Green
-  // _color_off = {186, 194, 222, 200};    // Subtext1
-  _color_off = {49, 50, 68, 200};       // Surface0
-  _color_border = {108, 112, 134, 200}; // Overlay0
-  _color_bg = {147, 153, 178, 200};     // Overlay2
+  // _color_bt_green = {166, 227, 161, 150}; // Green
+  // _color_bt_green = {148, 226, 213, 200}; // Teal
+  _color_bt_on = {148, 226, 213, 200}; // Sky
+  _color_bt = {49, 50, 68, 200};       // Surface0
+  _color_bg = {88, 91, 112, 200};      // Surface2
+  _color_border = {69, 71, 90, 200};   // Surface1
 
   // ------------------------------------------------------------------------
   // Geometry ---------------------------------------------------------------
@@ -29,7 +30,7 @@ WidgetBoolean::WidgetBoolean(point pos_center, boxsize size_char, std::string &&
   // -------------------------------------------
   // ------------------------------
   _bt_background.w = _bt_border.w * 0.90;
-  _bt_background.h = _bt_border.h * 0.90;
+  _bt_background.h = _bt_border.h * 0.80;
   _bt_background.x = _bt_border.x + (_bt_border.w - _bt_background.w) / 2;
   _bt_background.y = _bt_border.y + (_bt_border.h - _bt_background.h) / 2;
 
@@ -52,6 +53,9 @@ bool WidgetBoolean::status() const { return _status; }
 void WidgetBoolean::set_on() { _status = true; }
 void WidgetBoolean::set_off() { _status = false; }
 
+void WidgetBoolean::action_left() { set_off(); }
+void WidgetBoolean::action_right() { set_on(); }
+
 // ------------------------------------------------------------------------
 // Render -----------------------------------------------------------------
 void WidgetBoolean::render(SDL_Renderer *renderer, TTF_Font *font) const {
@@ -61,18 +65,23 @@ void WidgetBoolean::render(SDL_Renderer *renderer, TTF_Font *font) const {
   WidgetTextBox::render(renderer, font);
 
   // ------------------------------------------------------------------------
-  // Border -----------------------------------------------------------------
-  SDL_SetRenderDrawColor(renderer, _color_border.r, _color_border.g, _color_border.b, _color_border.a);
+  // Button -----------------------------------------------------------------
+  if (_selected)
+    SDL_SetRenderDrawColor(renderer, _color_on.r, _color_on.g, _color_on.b, _color_on.a);
+  else
+    SDL_SetRenderDrawColor(renderer, _color_border.r, _color_border.g, _color_border.b, _color_border.a);
   SDL_RenderFillRect(renderer, &_bt_border);
 
   SDL_SetRenderDrawColor(renderer, _color_bg.r, _color_bg.g, _color_bg.b, _color_bg.a);
   SDL_RenderFillRect(renderer, &_bt_background);
 
   if (_status) {
-    SDL_SetRenderDrawColor(renderer, _color_on.r, _color_on.g, _color_on.b, _color_on.a);
+    SDL_SetRenderDrawColor(renderer, _color_bt_on.r, _color_bt_on.g, _color_bt_on.b, _color_bt_on.a);
     SDL_RenderFillRect(renderer, &_bt_part_right);
-  } else {
-    SDL_SetRenderDrawColor(renderer, _color_off.r, _color_off.g, _color_off.b, _color_off.a);
+    SDL_SetRenderDrawColor(renderer, _color_bt.r, _color_bt.g, _color_bt.b, _color_bt.a);
     SDL_RenderFillRect(renderer, &_bt_part_left);
+  } else {
+    SDL_SetRenderDrawColor(renderer, _color_bt.r, _color_bt.g, _color_bt.b, _color_bt.a);
+    SDL_RenderFillRect(renderer, &_bt_part_right);
   }
 }

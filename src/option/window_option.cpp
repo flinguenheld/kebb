@@ -43,13 +43,13 @@ WindowOption::WindowOption(boxsize screen_size, std::shared_ptr<WindowName> next
   pt.y += bs_field.h * 1;
   _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "Speed"));
   pt.y += bs_field.h * 1.7;
-  _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "Include letters"));
+  _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "Letters"));
   pt.y += bs_field.h * 1;
-  _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "Include capitals"));
+  _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "Capitals"));
   pt.y += bs_field.h * 1;
-  _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "Include numbers"));
+  _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "Numbers"));
   pt.y += bs_field.h * 1;
-  _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "Include symbols"));
+  _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "Symbols"));
 }
 
 WindowOption::~WindowOption() {}
@@ -77,4 +77,21 @@ void WindowOption::control_escape() { *_next_window = WindowName::W_Welcome; }
 void WindowOption::control_enter() {
   // TODO: check and Save
   *_next_window = WindowName::W_Welcome;
+}
+
+void WindowOption::control_left() {
+  for (auto &w : _widget_select_fields) {
+    if (w->is_selected()) {
+      w->action_left();
+      return;
+    }
+  }
+}
+void WindowOption::control_right() {
+  for (auto &w : _widget_select_fields) {
+    if (w->is_selected()) {
+      w->action_right();
+      return;
+    }
+  }
 }
