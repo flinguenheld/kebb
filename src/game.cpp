@@ -27,8 +27,9 @@ void Game::Run(Controller const &controller, std::size_t target_frame_duration) 
   bool running = true;
 
   auto next_window = std::make_shared<WindowName>(WindowName::W_None);
-  _current_window = new WindowWelcome(_screen_size, next_window, _renderer);
+  // _current_window = new WindowWelcome(_screen_size, next_window, _renderer);
   // _current_window = new WindowGame(_screen_size, next_window, _renderer, _score);
+  _current_window = new WindowOption(_screen_size, next_window, _renderer);
 
   while (running) {
     frame_start = SDL_GetTicks();

@@ -7,6 +7,7 @@ class WidgetTextBox : public WidgetBase {
 
 public:
   WidgetTextBox(point pos, boxsize size);
+  ~WidgetTextBox();
   virtual void render(SDL_Renderer *renderer, TTF_Font *font) const;
 
   // NOTE: Keep move ?

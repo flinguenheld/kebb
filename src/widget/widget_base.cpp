@@ -2,6 +2,7 @@
 
 WidgetBase::WidgetBase(point position, boxsize size)
     : _position(position), _size(size), _color({255, 255, 255, 1}) {}
+WidgetBase::~WidgetBase() {}
 
 point WidgetBase::position() const { return _position; };
 boxsize WidgetBase::size() const { return _size; }

@@ -39,6 +39,7 @@ add_executable(Kebb src/main.cpp
                     src/widget/widget_base.cpp
                     src/widget/widget_menu.cpp
                     src/widget/widget_selection.cpp
+                    src/widget/widget_boolean.cpp
                     src/widget/widget_textbox.cpp
                     src/widget/widget_window.cpp)
 

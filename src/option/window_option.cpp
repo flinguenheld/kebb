@@ -35,22 +35,21 @@ WindowOption::WindowOption(boxsize screen_size, std::shared_ptr<WindowName> next
   pt.x = screen_size.w / 2;
   pt.y += bs_title.h * 1.7;
 
-  _widget_select_fields.emplace_back(
-      std::make_unique<WidgetSelection>(pt, bs_field, "Keyboard layout", true));
+  _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "Keyboard layout", true));
   pt.y += bs_field.h * 1.7;
-  _widget_select_fields.emplace_back(std::make_unique<WidgetSelection>(pt, bs_field, "Simultaneous targets"));
+  _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "Simultaneous targets"));
   pt.y += bs_field.h * 1;
-  _widget_select_fields.emplace_back(std::make_unique<WidgetSelection>(pt, bs_field, "Countdown"));
+  _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "Countdown"));
   pt.y += bs_field.h * 1;
-  _widget_select_fields.emplace_back(std::make_unique<WidgetSelection>(pt, bs_field, "Speed"));
+  _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "Speed"));
   pt.y += bs_field.h * 1.7;
-  _widget_select_fields.emplace_back(std::make_unique<WidgetSelection>(pt, bs_field, "Include letters"));
+  _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "Include letters"));
   pt.y += bs_field.h * 1;
-  _widget_select_fields.emplace_back(std::make_unique<WidgetSelection>(pt, bs_field, "Include capitals"));
+  _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "Include capitals"));
   pt.y += bs_field.h * 1;
-  _widget_select_fields.emplace_back(std::make_unique<WidgetSelection>(pt, bs_field, "Include numbers"));
+  _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "Include numbers"));
   pt.y += bs_field.h * 1;
-  _widget_select_fields.emplace_back(std::make_unique<WidgetSelection>(pt, bs_field, "Include symbols"));
+  _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "Include symbols"));
 }
 
 WindowOption::~WindowOption() {}

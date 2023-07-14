@@ -12,7 +12,7 @@
 class WidgetSelection : public WidgetTextBox {
 public:
   WidgetSelection(point pos_center, boxsize size_char, std::string &&text, bool selected = false);
-  ~WidgetSelection();
+  virtual ~WidgetSelection();
 
   void set_selected(bool val);
   bool is_selected() const;
