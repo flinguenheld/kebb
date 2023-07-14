@@ -86,7 +86,7 @@ Renderer::~Renderer() {
 SDL_Renderer *Renderer::renderer() { return _renderer; }
 
 void Renderer::UpdateWindowTitle(uint16_t fps) {
-  std::string title{"Kepp - FPS: " + std::to_string(fps)};
+  std::string title{"Kebb - FPS: " + std::to_string(fps)};
   SDL_SetWindowTitle(_window, title.c_str());
 }
 

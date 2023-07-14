@@ -60,7 +60,7 @@ void Controller::HandleInput(bool &running, WidgetWindow *window) const {
 }
 
 /*
- * Convert the current SDL keycode event to the Kepp keycode for the US version
+ * Convert the current SDL keycode event to the Kebb keycode for the US version
  */
 uint16_t Controller::convert_us(SDL_Event &e) const {
 
