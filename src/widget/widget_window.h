@@ -2,8 +2,8 @@
 #define WIDGET_WINDOW_H
 
 #include "renderer.h"
+#include "widget/button/widget_selection.h"
 #include "widget/widget_base.h"
-#include "widget/widget_selection.h"
 #include <memory>
 
 /*

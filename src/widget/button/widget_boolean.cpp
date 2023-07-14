@@ -1,7 +1,4 @@
 #include "widget_boolean.h"
-#include "SDL_render.h"
-#include "widget/widget_textbox.h"
-#include <iostream>
 
 WidgetBoolean::WidgetBoolean(point pos_center, boxsize size_char, std::string &&text, bool selected,
                              bool status)

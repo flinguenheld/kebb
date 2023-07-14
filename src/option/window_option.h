@@ -1,7 +1,7 @@
 #ifndef WINDOW_OPTION_H
 #define WINDOW_OPTION_H
 
-#include "widget/widget_boolean.h"
+#include "widget/button/widget_boolean.h"
 #include "widget/widget_menu.h"
 #include "widget/widget_window.h"
 

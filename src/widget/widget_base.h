@@ -5,10 +5,9 @@
 #include "SDL_render.h"
 #include "SDL_ttf.h"
 #include "utils.h"
-#include <cstdint>
+#include <iostream>
 #include <math.h>
 #include <string>
-#include <sys/types.h>
 #include <vector>
 
 class WidgetBase {

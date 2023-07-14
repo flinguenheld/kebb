@@ -4,8 +4,8 @@
 #include "renderer.h"
 #include "utils.h"
 #include "welcome/widget_logo.h"
+#include "widget/button/widget_selection.h"
 #include "widget/widget_menu.h"
-#include "widget/widget_selection.h"
 #include "widget/widget_textbox.h"
 #include "widget/widget_window.h"
 #include <iterator>
