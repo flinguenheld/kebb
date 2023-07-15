@@ -1,8 +1,7 @@
 #include "window_option.h"
-#include "widget/button/widget_list.h"
 
 WindowOption::WindowOption(boxsize screen_size, std::shared_ptr<WindowName> next_window,
-                           std::shared_ptr<Renderer> renderer)
+                           std::shared_ptr<Renderer> renderer, std::shared_ptr<OptionFile> options)
     : WidgetWindowSelection(next_window, renderer) {
 
   _widget_menu = std::make_unique<WidgetMenu>(screen_size, renderer, "<ESC> Cancel     <ENTER> Save");

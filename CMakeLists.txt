@@ -31,6 +31,7 @@ add_executable(Kebb src/main.cpp
                     src/game/dispatcher.cpp
                     src/game/window_game.cpp
                     src/option/window_option.cpp
+                    src/option/option_file.cpp
                     src/pause/window_pause.cpp
                     src/score/score.cpp
                     src/score/widget_score.cpp

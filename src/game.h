@@ -7,6 +7,7 @@
 #include "game/dispatcher.h"
 #include "game/target.h"
 #include "game/window_game.h"
+#include "option/option_file.h"
 #include "option/window_option.h"
 #include "pause/window_pause.h"
 #include "renderer.h"
@@ -26,7 +27,8 @@
 
 class Game {
 public:
-  Game(boxsize screen_size, std::shared_ptr<Score> score, std::shared_ptr<Renderer> renderer);
+  Game(boxsize screen_size, std::shared_ptr<Score> score, std::shared_ptr<Renderer> renderer,
+       std::shared_ptr<OptionFile> options);
   ~Game();
 
   void Run(Controller const &controller, std::size_t target_frame_duration);
@@ -40,6 +42,7 @@ private:
   std::shared_ptr<Dispatcher> _dispatcher;
   std::shared_ptr<Score> _score;
   std::shared_ptr<Renderer> _renderer;
+  std::shared_ptr<OptionFile> _options;
 
   const boxsize _screen_size;
 };

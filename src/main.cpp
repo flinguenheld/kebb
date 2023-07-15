@@ -1,5 +1,6 @@
 #include "controller.h"
 #include "game.h"
+#include "option/option_file.h"
 #include "renderer.h"
 #include "widget/widget_base.h"
 #include <cstdint>
@@ -19,12 +20,13 @@ int main() {
 
   // NOTE: Put the color menu somewhere ?
 
+  auto options = std::make_shared<OptionFile>();
   auto renderer = std::make_shared<Renderer>(screen_size, scale_factor, target_font_size, score_font_size,
                                              menu_font_size);
   auto score = std::make_shared<Score>();
 
   Controller controller;
-  Game game(screen_size.scale(scale_factor), score, renderer);
+  Game game(screen_size.scale(scale_factor), score, renderer, options);
   game.Run(controller, kMsPerFrame);
 
   std::cout << "Game has terminated successfully!\n";

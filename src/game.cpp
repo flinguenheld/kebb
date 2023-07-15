@@ -1,12 +1,14 @@
 #include "game.h"
+#include "option/option_file.h"
 
 // clang-format off
 Game::Game(boxsize screen_size, std::shared_ptr<Score> score,
-           std::shared_ptr<Renderer> renderer) :
+           std::shared_ptr<Renderer> renderer, std::shared_ptr<OptionFile> options) :
 
       _screen_size(screen_size),
       _score(score),
       _renderer(renderer),
+      _options(options),
       _current_window(nullptr)
 {
   _dispatcher = std::make_shared<Dispatcher>();
@@ -29,7 +31,7 @@ void Game::Run(Controller const &controller, std::size_t target_frame_duration) 
   auto next_window = std::make_shared<WindowName>(WindowName::W_None);
   // _current_window = new WindowWelcome(_screen_size, next_window, _renderer);
   // _current_window = new WindowGame(_screen_size, next_window, _renderer, _score);
-  _current_window = new WindowOption(_screen_size, next_window, _renderer);
+  _current_window = new WindowOption(_screen_size, next_window, _renderer, _options);
 
   while (running) {
     frame_start = SDL_GetTicks();
@@ -54,7 +56,7 @@ void Game::Run(Controller const &controller, std::size_t target_frame_duration) 
         _current_window = new WindowWelcome(_screen_size, next_window, _renderer);
         break;
       case WindowName::W_Option:
-        _current_window = new WindowOption(_screen_size, next_window, _renderer);
+        _current_window = new WindowOption(_screen_size, next_window, _renderer, _options);
         break;
       default: // W_Ouit
         running = false;
