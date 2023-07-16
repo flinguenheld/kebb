@@ -1,11 +1,4 @@
 #include "widget_list.h"
-#include "renderer.h"
-#include "utils.h"
-#include "widget/widget_textbox.h"
-#include <algorithm>
-#include <cstdint>
-#include <memory>
-#include <vector>
 
 WidgetList::WidgetList(point pos_center, boxsize size_char, std::string &&text,
                        std::vector<std::string> &&choices, bool selected)
@@ -54,12 +47,16 @@ void WidgetList::init(point pos_center) {
 
 // ------------------------------------------------------------------------
 // Actions ----------------------------------------------------------------
-std::string WidgetList::current_selection() const { return *_it; }
-void WidgetList::set_selection(const std::string &text) {
+void WidgetList::set_value(int16_t index) {
 
-  _it = std::find(_choices.begin(), _choices.end(), text);
+  if (index >= _choices.size()) // Simple check
+    _it = _choices.begin();
+  else
+    _it = _choices.begin() + index;
+
   display_current_it();
 }
+int16_t WidgetList::get_value() const { return _it - _choices.begin(); }
 
 void WidgetList::action_left() {
 

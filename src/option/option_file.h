@@ -18,10 +18,10 @@ enum class OptionName {
 };
 
 class OptionFile {
-
 public:
   OptionFile();
 
+  // NOTE: Put everything in uint16_t ?
   template <typename T> void set_value(OptionName type, T val) {
     switch (type) {
     case OptionName::Layout:
@@ -75,7 +75,7 @@ public:
   void read();
 
 private:
-  const std::string _filename;
+  const std::string _filename; // TODO: delete ?
 
   uint16_t _layout;
 

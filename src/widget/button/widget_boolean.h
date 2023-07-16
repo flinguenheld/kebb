@@ -17,9 +17,8 @@ public:
                 bool status = false);
   virtual ~WidgetBoolean();
 
-  bool status() const;
-  void set_on();
-  void set_off();
+  virtual void set_value(int16_t val);
+  virtual int16_t get_value() const;
 
   virtual void action_left();
   virtual void action_right();

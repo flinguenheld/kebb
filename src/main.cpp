@@ -21,6 +21,8 @@ int main() {
   // NOTE: Put the color menu somewhere ?
 
   auto options = std::make_shared<OptionFile>();
+  options->read();
+
   auto renderer = std::make_shared<Renderer>(screen_size, scale_factor, target_font_size, score_font_size,
                                              menu_font_size);
   auto score = std::make_shared<Score>();

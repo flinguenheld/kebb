@@ -3,6 +3,7 @@
 
 #include "SDL_pixels.h"
 #include "widget/widget_textbox.h"
+#include <cstdint>
 
 /*
  * This widget allows to display a text and set a selected status. This latter changes the text's color.
@@ -19,6 +20,9 @@ public:
 
   virtual void action_left(){};
   virtual void action_right(){};
+
+  virtual void set_value(int16_t val){};
+  virtual int16_t get_value() const { return 0; };
 
 protected:
   bool _selected;

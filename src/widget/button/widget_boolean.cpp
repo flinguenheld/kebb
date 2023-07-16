@@ -1,4 +1,5 @@
 #include "widget_boolean.h"
+#include <cstdint>
 
 WidgetBoolean::WidgetBoolean(point pos_center, boxsize size_char, std::string &&text, bool selected,
                              bool status)
@@ -46,12 +47,11 @@ WidgetBoolean::~WidgetBoolean() {}
 
 // ------------------------------------------------------------------------
 // Actions ----------------------------------------------------------------
-bool WidgetBoolean::status() const { return _status; }
-void WidgetBoolean::set_on() { _status = true; }
-void WidgetBoolean::set_off() { _status = false; }
+void WidgetBoolean::set_value(int16_t val) { _status = val; }
+int16_t WidgetBoolean::get_value() const { return _status; }
 
-void WidgetBoolean::action_left() { set_off(); }
-void WidgetBoolean::action_right() { set_on(); }
+void WidgetBoolean::action_left() { set_value(0); }
+void WidgetBoolean::action_right() { set_value(1); }
 
 // ------------------------------------------------------------------------
 // Render -----------------------------------------------------------------

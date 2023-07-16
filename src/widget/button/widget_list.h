@@ -1,10 +1,11 @@
 #ifndef WIDGET_LIST_H
 #define WIDGET_LIST_H
 
+#include "renderer.h"
 #include "utils.h"
 #include "widget/button/widget_selection.h"
-#include <cstdint>
-#include <cstdlib>
+#include "widget/widget_textbox.h"
+#include <algorithm>
 #include <memory>
 #include <vector>
 
@@ -20,11 +21,13 @@ public:
              int16_t step, bool selected = false);
   virtual ~WidgetList();
 
-  std::string current_selection() const;
-  void set_selection(const std::string &text);
-
   virtual void action_left();
   virtual void action_right();
+
+  // TODO: Add methods to work with values instead of index ?
+
+  virtual void set_value(int16_t index);
+  virtual int16_t get_value() const;
 
   virtual void render(SDL_Renderer *renderer, TTF_Font *font) const;
 
