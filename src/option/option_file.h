@@ -19,7 +19,7 @@ enum class OptionName {
 
 /*
  * Allows to read and save the option file.
- * All options are numbers.
+ * All entries are saved in string format.
  */
 class OptionFile {
 public:
@@ -28,23 +28,23 @@ public:
   void save() const;
   void read();
 
-  void set(OptionName type, int16_t val);
-  int16_t get(OptionName type);
+  void set(OptionName type, const std::string &val);
+  std::string get(OptionName type);
 
 private:
   const std::string _filename;
 
-  uint16_t _resolution;
-  uint16_t _layout;
+  std::string _resolution;
+  std::string _layout;
 
-  uint16_t _nb_targets;
-  uint16_t _countdown;
-  uint16_t _speed;
+  std::string _nb_targets;
+  std::string _countdown;
+  std::string _speed;
 
-  bool _letters;
-  bool _capitals;
-  bool _numbers;
-  bool _symbols;
+  std::string _letters;
+  std::string _capitals;
+  std::string _numbers;
+  std::string _symbols;
 };
 
 #endif // !OPTION_FILE_H

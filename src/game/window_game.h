@@ -3,6 +3,7 @@
 
 #include "SDL_render.h"
 #include "SDL_ttf.h"
+#include "option/option_file.h"
 #include "renderer.h"
 #include "score/score.h"
 #include "score/widget_score.h"
@@ -17,7 +18,7 @@ class WindowGame : public WidgetWindow {
 
 public:
   WindowGame(boxsize screen_size, std::shared_ptr<WindowName> next_window, std::shared_ptr<Renderer> renderer,
-             std::shared_ptr<Score> score);
+             std::shared_ptr<Score> score, std::shared_ptr<OptionFile> options);
   virtual ~WindowGame();
 
   virtual void control_escape();

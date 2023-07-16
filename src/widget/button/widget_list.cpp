@@ -1,7 +1,9 @@
 #include "widget_list.h"
+#include "widget/button/widget_selection.h"
+#include <algorithm>
 
 WidgetList::WidgetList(point pos_center, boxsize size_char, std::string &&text,
-                       std::vector<std::string> &&choices, bool selected)
+                       std::vector<SelectionItem> &&choices, bool selected)
     : WidgetSelection(pos_center, size_char, std::move(text), selected), _choices(std::move(choices)),
       _it(_choices.begin()), _size_char(size_char), _longest_choice_width(0), _space(0) {
 
@@ -15,7 +17,7 @@ WidgetList::WidgetList(point pos_center, boxsize size_char, std::string &&text, 
       _longest_choice_width(0), _space(0) {
 
   for (; range_start <= range_stop; range_start += step)
-    _choices.emplace_back(std::to_string(range_start));
+    _choices.emplace_back(SelectionItem{std::to_string(range_start), std::to_string(range_start)});
 
   _it = _choices.begin();
 
@@ -28,9 +30,9 @@ void WidgetList::init(point pos_center) {
 
   // Geometry --
   // Find the longest word
-  for (const auto &txt : _choices) {
-    if (txt.length() * _size_char.w > _longest_choice_width)
-      _longest_choice_width = txt.length() * _size_char.w;
+  for (const auto &item : _choices) {
+    if (item.text.length() * _size_char.w > _longest_choice_width)
+      _longest_choice_width = item.text.length() * _size_char.w;
   }
 
   _space = _size_char.w * 2;
@@ -47,16 +49,22 @@ void WidgetList::init(point pos_center) {
 
 // ------------------------------------------------------------------------
 // Actions ----------------------------------------------------------------
-void WidgetList::set_value(int16_t index) {
+void WidgetList::set_choice_by_value(const std::string &value) {
 
-  if (index >= _choices.size()) // Simple check
-    _it = _choices.begin();
-  else
-    _it = _choices.begin() + index;
+  _it = _choices.begin();
+  while (_it != _choices.end()) {
 
-  display_current_it();
+    if ((*_it).value == value) {
+      display_current_it();
+      return;
+    }
+    ++_it;
+  }
+
+  _it = _choices.begin();
 }
-int16_t WidgetList::get_value() const { return _it - _choices.begin(); }
+
+SelectionItem WidgetList::get_choice() const { return *_it; }
 
 void WidgetList::action_left() {
 
@@ -80,7 +88,7 @@ void WidgetList::action_right() {
  * Take the current text, resize tb_choice and set the text.
  */
 void WidgetList::display_current_it() {
-  std::string new_choice(*_it);
+  std::string new_choice((*_it).text);
 
   uint16_t new_width = new_choice.length() * _size_char.w;
 

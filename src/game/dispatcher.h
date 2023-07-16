@@ -1,9 +1,11 @@
 #ifndef DISPATCHER_H
 #define DISPATCHER_H
 
+#include "option/option_file.h"
 #include <algorithm>
 #include <cstdint>
 #include <iostream>
+#include <memory>
 #include <mutex>
 #include <random>
 #include <string>
@@ -17,7 +19,7 @@
  */
 class Dispatcher {
 public:
-  Dispatcher();
+  Dispatcher(std::shared_ptr<OptionFile> options);
 
   uint16_t get_angle();
   void release_angle(uint16_t angle);
@@ -25,9 +27,13 @@ public:
   uint16_t get_keycode();
   void release_keycode(uint16_t k);
 
+  uint16_t number_of_chars() const;
+
 private:
   std::vector<uint16_t> _angles;
   std::vector<uint16_t> _keycodes;
+
+  uint16_t _number_of_chars;
 
   std::mutex _mutex;
 

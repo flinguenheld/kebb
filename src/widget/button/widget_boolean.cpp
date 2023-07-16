@@ -47,11 +47,11 @@ WidgetBoolean::~WidgetBoolean() {}
 
 // ------------------------------------------------------------------------
 // Actions ----------------------------------------------------------------
-void WidgetBoolean::set_value(int16_t val) { _status = val; }
-int16_t WidgetBoolean::get_value() const { return _status; }
+bool WidgetBoolean::get_bool() const { return _status; }
+void WidgetBoolean::set_bool(bool val) { _status = val; }
 
-void WidgetBoolean::action_left() { set_value(0); }
-void WidgetBoolean::action_right() { set_value(1); }
+void WidgetBoolean::action_left() { _status = false; }
+void WidgetBoolean::action_right() { _status = true; }
 
 // ------------------------------------------------------------------------
 // Render -----------------------------------------------------------------

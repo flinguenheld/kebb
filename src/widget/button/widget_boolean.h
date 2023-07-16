@@ -8,7 +8,7 @@
 /*
  * Based on a WidgetSelection which is itself based on WidgetTextBox, this class displays a text and a button
  * ont its right.
- * The status can be changed with the setter and with action_left/right for polymorphism.
+ * The status can be changed with the setter and with action_left/right.
  */
 class WidgetBoolean : public WidgetSelection {
 
@@ -17,8 +17,8 @@ public:
                 bool status = false);
   virtual ~WidgetBoolean();
 
-  virtual void set_value(int16_t val);
-  virtual int16_t get_value() const;
+  virtual bool get_bool() const;
+  virtual void set_bool(bool val);
 
   virtual void action_left();
   virtual void action_right();

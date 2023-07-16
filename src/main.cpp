@@ -6,6 +6,7 @@
 #include <cstdint>
 #include <iostream>
 #include <memory>
+#include <string>
 
 int main() {
   constexpr std::size_t kFramesPerSecond{60};
@@ -14,18 +15,19 @@ int main() {
   auto options = std::make_shared<OptionFile>();
   options->read();
 
+  std::cout << "Resolution: " << options->get(OptionName::Resolution) << std::endl;
   boxsize screen_size;
   uint16_t scale_factor;
-  switch (options->get(OptionName::Resolution)) {
-  case 0:
+  switch (std::stoi(options->get(OptionName::Resolution))) {
+  case 480:
     screen_size = {480, 480};
-    scale_factor = 20; // FIX: Adjust factor
+    scale_factor = 20; // FIX: Adjust factor ?, otherwise, remove switch
     break;
-  case 1:
+  case 640:
     screen_size = {640, 640};
     scale_factor = 10;
     break;
-  case 2:
+  case 800:
     screen_size = {800, 800};
     scale_factor = 10;
     break;

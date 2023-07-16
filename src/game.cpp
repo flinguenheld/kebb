@@ -11,7 +11,7 @@ Game::Game(boxsize screen_size, std::shared_ptr<Score> score,
       _options(options),
       _current_window(nullptr)
 {
-  _dispatcher = std::make_shared<Dispatcher>();
+  _dispatcher = std::make_shared<Dispatcher>(_options);
 }
 
 Game::~Game() {
@@ -47,7 +47,7 @@ void Game::Run(Controller const &controller, std::size_t target_frame_duration) 
 
       switch (*next_window) {
       case WindowName::W_Game:
-        _current_window = new WindowGame(_screen_size, next_window, _renderer, _score);
+        _current_window = new WindowGame(_screen_size, next_window, _renderer, _score, _options);
         break;
       case WindowName::W_Pause:
         _current_window = new WindowPause(_screen_size, next_window, _renderer, _score);

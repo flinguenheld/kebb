@@ -1,24 +1,30 @@
 #include "window_game.h"
-#include "renderer.h"
-#include "widget/widget_window.h"
-#include <memory>
+#include "option/option_file.h"
+#include <cstdint>
+#include <string>
 
 // clang-format off
-WindowGame::WindowGame(boxsize screen_size, std::shared_ptr<WindowName> next_window,
-                       std::shared_ptr<Renderer> renderer, std::shared_ptr<Score> score)
+WindowGame::WindowGame(boxsize screen_size,
+                       std::shared_ptr<WindowName> next_window,
+                       std::shared_ptr<Renderer> renderer,
+                       std::shared_ptr<Score> score,
+                       std::shared_ptr<OptionFile> options)
     : WidgetWindow(next_window, renderer),
       _target_center_aera({static_cast<uint16_t>(screen_size.w / 2),
                            static_cast<uint16_t>(screen_size.h / 2)}),
       _target_radius_aera(int16_t(screen_size.w * 0.4)),
-      _score(score),
-      _countdown_value(60) { // TODO: Set timer with options
+      _score(score) {
   // clang-format on
 
-  _dispatcher = std::make_shared<Dispatcher>();
+  _dispatcher = std::make_shared<Dispatcher>(options);
   _widget_score = std::make_unique<WidgetScore>(WidgetScoreType::Top, screen_size, score, renderer);
 
-  // TODO: Move to easily start/restart according to options or just delete the window ?
-  for (uint8_t i = 0; i < 5; ++i)
+  // Limit the amount of threads if needed
+  uint16_t nb_targets = std::stoi(options->get(OptionName::Target));
+  if (nb_targets > _dispatcher->number_of_chars())
+    nb_targets = _dispatcher->number_of_chars() - 3; // Remove 3 to create a difficulty
+
+  for (uint8_t i = 0; i < nb_targets; ++i)
     _targets.emplace_back(Target(_target_center_aera, _target_radius_aera,
                                  _renderer->font_char_size(FontName::F_Target), _dispatcher, _score));
 
@@ -27,6 +33,7 @@ WindowGame::WindowGame(boxsize screen_size, std::shared_ptr<WindowName> next_win
     _threads.emplace_back(std::thread(&Target::update, &t));
   }
 
+  _countdown_value = std::stoi(options->get(OptionName::Countdown));
   _score->start_timer();
 }
 

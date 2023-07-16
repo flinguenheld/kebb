@@ -5,6 +5,12 @@
 #include "widget/widget_textbox.h"
 #include <cstdint>
 
+// Use by child WidgetList
+struct SelectionItem {
+  std::string text;
+  std::string value;
+};
+
 /*
  * This widget allows to display a text and set a selected status. This latter changes the text's color.
  * WidgetSelection had been created to work with WidgetWindowSelection which allows to navigate in a vector
@@ -21,8 +27,11 @@ public:
   virtual void action_left(){};
   virtual void action_right(){};
 
-  virtual void set_value(int16_t val){};
-  virtual int16_t get_value() const { return 0; };
+  virtual bool get_bool() const { return false; };
+  virtual void set_bool(bool val){};
+
+  virtual SelectionItem get_choice() const { return {"", ""}; };
+  virtual void set_choice_by_value(const std::string &value){};
 
 protected:
   bool _selected;

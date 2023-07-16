@@ -11,11 +11,12 @@
 
 /*
  * Based on WidgetSelection, this class add another WidgetTextBox to display an range of strings.
+ * Values are stored in a vector of SelectionItem struct (see the mother).
  * Use action_left/action_right methods to change the current value.
  */
 class WidgetList : public WidgetSelection {
 public:
-  WidgetList(point pos_center, boxsize size_char, std::string &&text, std::vector<std::string> &&choices,
+  WidgetList(point pos_center, boxsize size_char, std::string &&text, std::vector<SelectionItem> &&choices,
              bool selected = false);
   WidgetList(point pos_center, boxsize size_char, std::string &&text, int16_t range_start, int16_t range_stop,
              int16_t step, bool selected = false);
@@ -24,16 +25,16 @@ public:
   virtual void action_left();
   virtual void action_right();
 
-  virtual void set_value(int16_t index); // Set/get work with indexes only
-  virtual int16_t get_value() const;
+  virtual SelectionItem get_choice() const;
+  virtual void set_choice_by_value(const std::string &value);
 
   virtual void render(SDL_Renderer *renderer, TTF_Font *font) const;
 
 private:
   void init(point pos_center);
 
-  std::vector<std::string> _choices;
-  std::vector<std::string>::iterator _it;
+  std::vector<SelectionItem> _choices;
+  std::vector<SelectionItem>::iterator _it;
   std::unique_ptr<WidgetTextBox> _tb_choice;
   void display_current_it();
 
