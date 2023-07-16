@@ -24,9 +24,7 @@ public:
   virtual void action_left();
   virtual void action_right();
 
-  // TODO: Add methods to work with values instead of index ?
-
-  virtual void set_value(int16_t index);
+  virtual void set_value(int16_t index); // Set/get work with indexes only
   virtual int16_t get_value() const;
 
   virtual void render(SDL_Renderer *renderer, TTF_Font *font) const;
