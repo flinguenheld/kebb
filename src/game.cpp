@@ -86,6 +86,6 @@ void Game::Run(Controller const &controller, std::size_t target_frame_duration) 
     // if (frame_duration < target_frame_duration) {
     //   SDL_Delay(target_frame_duration - frame_duration);
     // }
-    SDL_Delay(10);
+    SDL_Delay(3);
   }
 }

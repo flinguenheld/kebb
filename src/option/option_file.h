@@ -6,6 +6,7 @@
 #include <string>
 
 enum class OptionName {
+  Resolution,
   Layout,
   Target,
   Countdown,
@@ -27,12 +28,13 @@ public:
   void save() const;
   void read();
 
-  void set_value(OptionName type, int16_t val);
-  int16_t get_value(OptionName type);
+  void set(OptionName type, int16_t val);
+  int16_t get(OptionName type);
 
 private:
   const std::string _filename;
 
+  uint16_t _resolution;
   uint16_t _layout;
 
   uint16_t _nb_targets;

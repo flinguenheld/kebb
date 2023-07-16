@@ -6,20 +6,24 @@ OptionFile::OptionFile()
 
 void OptionFile::save() const {
   std::ofstream ostrm(_filename);
-  ostrm << _layout << ' ' << _nb_targets << ' ' << _countdown << ' ' << _speed << ' ' << _letters << ' '
-        << _capitals << ' ' << _numbers << ' ' << _symbols;
+  ostrm << _resolution << ' ' << _layout << ' ' << _nb_targets << ' ' << _countdown << ' ' << _speed << ' '
+        << _letters << ' ' << _capitals << ' ' << _numbers << ' ' << _symbols;
 }
 
 void OptionFile::read() {
   std::ifstream istrm(_filename);
-  istrm >> _layout >> _nb_targets >> _countdown >> _speed >> _letters >> _capitals >> _numbers >> _symbols;
+  istrm >> _resolution >> _layout >> _nb_targets >> _countdown >> _speed >> _letters >> _capitals >>
+      _numbers >> _symbols;
 }
 
 // ----------------------------------------------------------------------------------------------------
 // ASSESSORS ------------------------------------------------------------------------------------------
 
-void OptionFile::set_value(OptionName type, int16_t val) {
+void OptionFile::set(OptionName type, int16_t val) {
   switch (type) {
+  case OptionName::Resolution:
+    _resolution = val;
+    break;
   case OptionName::Layout:
     _layout = val;
     break;
@@ -46,8 +50,10 @@ void OptionFile::set_value(OptionName type, int16_t val) {
   }
 }
 
-int16_t OptionFile::get_value(OptionName type) {
+int16_t OptionFile::get(OptionName type) {
   switch (type) {
+  case OptionName::Resolution:
+    return _resolution;
   case OptionName::Layout:
     return _layout;
   case OptionName::Target:
