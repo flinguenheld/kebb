@@ -1,13 +1,15 @@
 #include "target.h"
 #include "widget/widget_base.h"
+#include <cstdint>
 
 // clang-format off
-Target::Target(point center_area, uint16_t radius_area, boxsize char_size,
+Target::Target(point center_area, uint16_t radius_area, boxsize char_size, uint16_t waiting_time,
     std::shared_ptr<Dispatcher> dispatcher, std::shared_ptr<Score> score) :
 
   WidgetTextBox(center_area, char_size),
       _active(true), _ok(false),
       _center_area(center_area),  _radius_area(radius_area),
+      _waiting_time(waiting_time),
       _dispatcher(dispatcher), _score(score),
       _move_x(1), _move_y(1),
       _keycode(0), _angle(-1)
@@ -78,7 +80,7 @@ void Target::update() {
       }
     }
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    std::this_thread::sleep_for(std::chrono::milliseconds(_waiting_time));
   }
 }
 

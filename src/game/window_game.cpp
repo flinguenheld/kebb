@@ -21,19 +21,20 @@ WindowGame::WindowGame(boxsize screen_size,
 
   // Limit the amount of threads if needed
   uint16_t nb_targets = std::stoi(options->get(OptionName::Target));
-  if (nb_targets > _dispatcher->number_of_chars())
+  if (nb_targets >= _dispatcher->number_of_chars())
     nb_targets = _dispatcher->number_of_chars() - 3; // Remove 3 to create a difficulty
 
   for (uint8_t i = 0; i < nb_targets; ++i)
     _targets.emplace_back(Target(_target_center_aera, _target_radius_aera,
-                                 _renderer->font_char_size(FontName::F_Target), _dispatcher, _score));
+                                 _renderer->font_char_size(FontName::F_Target),
+                                 std::stoi(options->get(OptionName::Speed)), _dispatcher, _score));
 
   // Start !
-  for (auto &t : _targets) {
+  for (auto &t : _targets)
     _threads.emplace_back(std::thread(&Target::update, &t));
-  }
 
   _countdown_value = std::stoi(options->get(OptionName::Countdown));
+  _score->reset();
   _score->start_timer();
 }
 

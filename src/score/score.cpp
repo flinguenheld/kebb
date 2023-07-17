@@ -18,6 +18,12 @@ void Score::up_miss() {
   _miss++;
 }
 
+void Score::reset() {
+  _sucess = 0;
+  _fail = 0;
+  _miss = 0;
+};
+
 uint16_t Score::success() const { return _sucess; }
 uint16_t Score::fail() const { return _fail; }
 uint16_t Score::miss() const { return _miss; }

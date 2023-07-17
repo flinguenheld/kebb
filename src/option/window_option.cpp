@@ -3,6 +3,7 @@
 #include "widget/button/widget_selection.h"
 #include <cstdint>
 #include <string>
+#include <vector>
 
 WindowOption::WindowOption(boxsize screen_size, std::shared_ptr<WindowName> next_window,
                            std::shared_ptr<Renderer> renderer, std::shared_ptr<OptionFile> options)
@@ -75,7 +76,17 @@ WindowOption::WindowOption(boxsize screen_size, std::shared_ptr<WindowName> next
   _widget_select_fields.back()->set_choice_by_value(_options->get(OptionName::Countdown));
 
   pt.y += bs_field.h * 1;
-  _widget_select_fields.emplace_back(std::make_unique<WidgetList>(pt, bs_field, "Speed:", 1, 10, 1));
+  _widget_select_fields.emplace_back(std::make_unique<WidgetList>(pt, bs_field, "Speed:",
+                                                                  std::vector<SelectionItem>{{"1", "20"},
+                                                                                             {"2", "18"},
+                                                                                             {"3", "16"},
+                                                                                             {"4", "14"},
+                                                                                             {"5", "12"},
+                                                                                             {"6", "10"},
+                                                                                             {"7", "8"},
+                                                                                             {"8", "6"},
+                                                                                             {"9", "4"},
+                                                                                             {"10", "2"}}));
   _widget_select_fields.back()->set_choice_by_value(_options->get(OptionName::Speed));
 
   pt.y += bs_field.h * 1.5;
@@ -118,8 +129,8 @@ void WindowOption::render() {
 void WindowOption::control_escape() { *_next_window = WindowName::W_Welcome; }
 void WindowOption::control_enter() {
   // Use has to select at least one target type // NOTE: Add a message ?
-  if (_widget_select_fields[5]->get_bool() == false || _widget_select_fields[6]->get_bool() == false ||
-      _widget_select_fields[7]->get_bool() == false || _widget_select_fields[8]->get_bool() == false) {
+  if (_widget_select_fields[5]->get_bool() == true || _widget_select_fields[6]->get_bool() == true ||
+      _widget_select_fields[7]->get_bool() == true || _widget_select_fields[8]->get_bool() == true) {
 
     // Up options, save and quit
     _options->set(OptionName::Resolution, _widget_select_fields[0]->get_choice().value);

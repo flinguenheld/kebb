@@ -21,6 +21,7 @@ public:
   uint16_t fail() const;
   uint16_t miss() const;
 
+  void reset();
   void start_timer();
   int seconds_spent();
   int seconds_until_stop() const;

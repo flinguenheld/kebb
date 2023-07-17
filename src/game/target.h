@@ -7,6 +7,7 @@
 #include "utils.h"
 #include "widget/widget_base.h"
 #include "widget/widget_textbox.h"
+#include <cstdint>
 #include <iostream>
 #include <string>
 #include <thread>
@@ -20,8 +21,8 @@
  */
 class Target : public WidgetTextBox {
 public:
-  Target(point center_area, uint16_t radius_area, boxsize char_size, std::shared_ptr<Dispatcher> dispatcher,
-         std::shared_ptr<Score> score);
+  Target(point center_area, uint16_t radius_area, boxsize char_size, uint16_t waiting_time,
+         std::shared_ptr<Dispatcher> dispatcher, std::shared_ptr<Score> score);
 
   void update();
   void stop();
@@ -39,6 +40,7 @@ private:
   uint16_t _keycode;
   uint16_t _angle;
 
+  const uint16_t _waiting_time;
   const point _center_area;
   const uint16_t _radius_area;
 
