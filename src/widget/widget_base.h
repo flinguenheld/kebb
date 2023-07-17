@@ -25,7 +25,6 @@ public:
   void set_y(uint16_t y);
   void set_w(uint16_t w);
   void set_h(uint16_t h);
-  void set_position(const point &p); // TODO: Useless ?
   void set_size(const boxsize &s);
   void set_color(const SDL_Color &c);
 

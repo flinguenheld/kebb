@@ -35,10 +35,6 @@ private:
   std::shared_ptr<Score> _score;
   std::unique_ptr<WidgetScore> _widget_score;
 
-  // TODO: Usefull or not ?
-  const point _target_center_aera;
-  const uint16_t _target_radius_aera;
-
   uint16_t _countdown_value; // Seconds
 };
 

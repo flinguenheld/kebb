@@ -1,6 +1,5 @@
 #include "controller.h"
 
-// NOTE: use ptr or ref ?
 void Controller::handle_input(bool &running, std::shared_ptr<WidgetWindow> window) const {
   SDL_Event e;
   while (SDL_PollEvent(&e)) {
@@ -12,7 +11,6 @@ void Controller::handle_input(bool &running, std::shared_ptr<WidgetWindow> windo
       switch (e.key.keysym.sym) {
 
       case SDLK_ESCAPE:
-        // running = false; // TODO: Remove
         window->control_escape();
         break;
 

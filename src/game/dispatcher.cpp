@@ -2,9 +2,6 @@
 #include <cstdint>
 #include <string>
 
-// NOTE: Add a security in case of more threads than keycodes ?
-// TODO: Set the list according to future options
-
 Dispatcher::Dispatcher(std::shared_ptr<OptionFile> options) : _engine(_seed()), _number_of_chars(0) {
 
   if (std::stoi(options->get(OptionName::Letters))) {

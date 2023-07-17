@@ -11,13 +11,13 @@ Renderer::Renderer(boxsize screen_size, uint16_t scale_factor, uint16_t font_siz
     std::cerr << "SDL_Error: " << SDL_GetError() << "\n";
   }
 
-  /* Initialize the TTF library */
+  // Initialize the TTF library
   if (TTF_Init() < 0) {
     std::cerr << "Could not initialize TTF.\n";
     std::cerr << "SDL_Error: " << SDL_GetError() << "\n";
   }
 
-  // TODO: Manage the fonts files
+  // Fonts --
   _font_target = TTF_OpenFont("../font/dejavu-sans-mono.bold.ttf", font_size_target);
   // _font_target = TTF_OpenFont("../font/cmu.typewriter-text-bold.ttf", font_size_target);
   _font_score = TTF_OpenFont("../font/charybdis.regular.ttf", font_size_score);
@@ -58,7 +58,7 @@ Renderer::Renderer(boxsize screen_size, uint16_t scale_factor, uint16_t font_siz
     std::cerr << "SDL_Error: " << SDL_GetError() << "\n";
   }
 
-  // Add transparency // FIX: Is it ok ?
+  // Add transparency
   if (SDL_SetRenderDrawBlendMode(_renderer, SDL_BLENDMODE_BLEND) != 0) {
     std::cerr << "Transparency management could not be set.\n";
     std::cerr << "SDL_Error: " << SDL_GetError() << "\n";

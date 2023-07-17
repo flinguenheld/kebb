@@ -9,14 +9,16 @@ WindowGame::WindowGame(boxsize screen_size,
                        std::shared_ptr<Score> score,
                        std::shared_ptr<OptionFile> options)
     : WidgetWindow(next_window, renderer),
-      _target_center_aera({static_cast<uint16_t>(screen_size.w / 2),
-                           static_cast<uint16_t>(screen_size.h / 2)}),
-      _target_radius_aera(int16_t(screen_size.w * 0.4)),
       _score(score) {
   // clang-format on
 
   _dispatcher = std::make_shared<Dispatcher>(options);
   _widget_score = std::make_unique<WidgetScore>(WidgetScoreType::Top, screen_size, score, renderer);
+
+  // Geometry
+  const point target_center_aera(
+      {static_cast<uint16_t>(screen_size.w / 2), static_cast<uint16_t>(screen_size.h / 2)});
+  const uint16_t target_radius_aera(int16_t(screen_size.w * 0.4));
 
   // Limit the amount of threads if needed
   uint16_t nb_targets = std::stoi(options->get(OptionName::Targets));
@@ -24,7 +26,7 @@ WindowGame::WindowGame(boxsize screen_size,
     nb_targets = _dispatcher->number_of_chars() - 3; // Remove 3 to create a difficulty
 
   for (uint8_t i = 0; i < nb_targets; ++i)
-    _targets.emplace_back(Target(_target_center_aera, _target_radius_aera,
+    _targets.emplace_back(Target(target_center_aera, target_radius_aera,
                                  _renderer->font_char_size(FontName::F_Target),
                                  std::stoi(options->get(OptionName::Speed)), _dispatcher, _score));
 

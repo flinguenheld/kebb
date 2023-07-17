@@ -1,5 +1,4 @@
 #include "game.h"
-#include <memory>
 
 // clang-format off
 Game::Game(boxsize screen_size, std::shared_ptr<Score> score,
@@ -30,6 +29,8 @@ void Game::Run(Controller const &controller) {
 
     // Window management
     if (*next_window_name != WindowName::W_None) {
+
+      _current_window.reset(); // NOTE: Mandatory/usefull or not ?
 
       switch (*next_window_name) {
       case WindowName::W_Game:
