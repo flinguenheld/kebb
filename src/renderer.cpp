@@ -1,7 +1,4 @@
 #include "renderer.h"
-#include "SDL_blendmode.h"
-#include "SDL_ttf.h"
-#include <cstdint>
 
 Renderer::Renderer(boxsize screen_size, uint16_t scale_factor, uint16_t font_size_target,
                    uint16_t font_size_score, uint16_t font_size_menu)
@@ -46,7 +43,7 @@ Renderer::Renderer(boxsize screen_size, uint16_t scale_factor, uint16_t font_siz
   }
 
   // Create Window
-  _window = SDL_CreateWindow("Snake Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _screen_size.w,
+  _window = SDL_CreateWindow("Kebb", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _screen_size.w,
                              _screen_size.h, SDL_WINDOW_SHOWN);
 
   if (nullptr == _window) {
@@ -86,7 +83,9 @@ Renderer::~Renderer() {
 SDL_Renderer *Renderer::renderer() { return _renderer; }
 
 void Renderer::UpdateWindowTitle(uint16_t fps) {
-  std::string title{"Kebb - FPS: " + std::to_string(fps)};
+  // std::string title{"Kebb - " + std::to_string(_screen_size.w) + "x" + std::to_string(_screen_size.h) +
+  //                   " - fps: " + std::to_string(fps)};
+  std::string title{"Kebb - [" + std::to_string(fps) + (" fps]")};
   SDL_SetWindowTitle(_window, title.c_str());
 }
 

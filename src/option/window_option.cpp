@@ -42,8 +42,10 @@ WindowOption::WindowOption(boxsize screen_size, std::shared_ptr<WindowName> next
 
   _widget_select_fields.emplace_back(std::make_unique<WidgetList>(
       pt, bs_field, "Resolution:",
-      std::vector<SelectionItem>{
-          {"480x480", "480"}, {"640x640", "640"}, {"800x800", "800"}, {"1024x1024", "1024"}},
+      std::vector<SelectionItem>{{"480x480", "480-20"},
+                                 {"640x640", "640-15"},
+                                 {"800x800", "800-10"},
+                                 {"1024x1024", "1024-5"}}, // TODO: Scales have to be validated
       true));
   _widget_select_fields.back()->set_choice_by_value(_options->get(OptionName::Resolution));
 

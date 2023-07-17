@@ -2,7 +2,9 @@
 #define GAME_H
 
 #include "SDL.h"
+#include "SDL_blendmode.h"
 #include "SDL_timer.h"
+#include "SDL_ttf.h"
 #include "controller.h"
 #include "game/dispatcher.h"
 #include "game/target.h"
@@ -31,7 +33,7 @@ public:
        std::shared_ptr<OptionFile> options);
   ~Game();
 
-  void Run(Controller const &controller, std::size_t target_frame_duration);
+  void Run(Controller const &controller);
 
 private:
   // TODO: Regroup with other windows
