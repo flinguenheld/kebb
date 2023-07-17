@@ -1,7 +1,4 @@
 #include "window_pause.h"
-#include "renderer.h"
-#include "widget/widget_menu.h"
-#include <memory>
 
 WindowPause::WindowPause(boxsize screen_size, std::shared_ptr<WindowName> next_window,
                          std::shared_ptr<Renderer> renderer, std::shared_ptr<Score> score)

@@ -1,4 +1,5 @@
 #include "window_about.h"
+#include "utils.h"
 
 WindowAbout::WindowAbout(boxsize screen_size, std::shared_ptr<WindowName> next_window,
                          std::shared_ptr<Renderer> renderer)
@@ -23,10 +24,7 @@ WindowAbout::WindowAbout(boxsize screen_size, std::shared_ptr<WindowName> next_w
 
   _widget_title = std::make_unique<WidgetTextBox>(pt, bs);
   _widget_title->set_text("About");
-  _widget_title->set_color_text({250, 179, 135, 200}); // Peach
-  // _widget_title->set_color_text({242, 205, 205, 200}); // Flamingo
-  // _widget_title->set_color_text({180, 190, 254, 200}); // Lavender
-  // _textbox_time->set_color_text({148, 226, 213, 200}); // Teal
+  _widget_title->set_color_text(kebb::color(kebb::ColorName::C_Peach));
 
   // ------------------------------------------------------------------------
   // Text -------------------------------------------------------------------
@@ -39,8 +37,7 @@ WindowAbout::WindowAbout(boxsize screen_size, std::shared_ptr<WindowName> next_w
   pt.y += bs.h * 8;
   _widget_github = std::make_unique<WidgetTextBox>(pt, bs);
   _widget_github->set_text("https://github.com/flinguenheld/kebb");
-  // _widget_github->set_color_text({180, 190, 254, 200}); // Lavender
-  _widget_github->set_color_text({148, 226, 213, 200}); // Teal
+  _widget_github->set_color_text(kebb::color(kebb::ColorName::C_Teal));
 
   bs.w = char_size.w * 22;
   bs.h = char_size.h;
@@ -48,8 +45,7 @@ WindowAbout::WindowAbout(boxsize screen_size, std::shared_ptr<WindowName> next_w
   pt.y += bs.h * 2;
   _widget_email = std::make_unique<WidgetTextBox>(pt, bs);
   _widget_email->set_text("florent@linguenheld.fr");
-  // _widget_email->set_color_text({180, 190, 254, 200}); // Lavender
-  _widget_email->set_color_text({148, 226, 213, 200}); // Teal
+  _widget_email->set_color_text(kebb::color(kebb::ColorName::C_Teal));
 }
 
 WindowAbout::~WindowAbout() {}

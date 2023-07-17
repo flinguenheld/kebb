@@ -1,11 +1,13 @@
 #ifndef WINDOW_PAUSE_H
 #define WINDOW_PAUSE_H
 
+#include "renderer.h"
 #include "score/score.h"
 #include "score/widget_score.h"
 #include "widget/widget_base.h"
 #include "widget/widget_menu.h"
 #include "widget/widget_window.h"
+#include <memory>
 
 class WindowPause : public WidgetWindow {
 public:

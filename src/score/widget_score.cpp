@@ -1,4 +1,5 @@
 #include "widget_score.h"
+#include "utils.h"
 
 WidgetScore::WidgetScore(WidgetScoreType type, boxsize screen_size, std::shared_ptr<Score> score,
                          std::shared_ptr<Renderer> renderer)
@@ -60,15 +61,11 @@ WidgetScore::WidgetScore(WidgetScoreType type, boxsize screen_size, std::shared_
   }
   _textbox_time = std::make_unique<WidgetTextBox>(pt, line_size);
 
-  // Catppuccin: Mocha
-  _textbox_time->set_color_text({250, 179, 135, 200}); // Peach
-  // _textbox_time->set_color_text({242, 205, 205, 200}); // Flamingo
-  // _textbox_time->set_color_text({180, 190, 254, 200}); // Lavender
-  // _textbox_time->set_color_text({148, 226, 213, 200}); // Teal
+  _textbox_time->set_color_text(kebb::color(kebb::ColorName::C_Peach));
 
-  _textbox_success->set_color_text({137, 180, 250, 200}); // Blue
-  _textbox_fail->set_color_text({137, 180, 250, 200});    // Blue
-  _textbox_miss->set_color_text({137, 180, 250, 200});    // Blue
+  _textbox_success->set_color_text(kebb::color(kebb::ColorName::C_Blue));
+  _textbox_fail->set_color_text(kebb::color(kebb::ColorName::C_Blue));
+  _textbox_miss->set_color_text(kebb::color(kebb::ColorName::C_Blue));
 }
 
 void WidgetScore::render(uint16_t time_seconds) {

@@ -5,13 +5,10 @@ WidgetBoolean::WidgetBoolean(point pos_center, boxsize size_char, std::string &&
                              bool status)
     : WidgetSelection(pos_center, size_char, std::move(text), selected), _status(status) {
 
-  // Catppucin - Mocha
-  // _color_bt_green = {166, 227, 161, 150}; // Green
-  // _color_bt_green = {148, 226, 213, 200}; // Teal
-  _color_bt_on = {148, 226, 213, 200}; // Sky
-  _color_bt = {49, 50, 68, 200};       // Surface0
-  _color_bg = {88, 91, 112, 200};      // Surface2
-  _color_border = {69, 71, 90, 200};   // Surface1
+  _color_bt_on = kebb::color(kebb::ColorName::C_Sky);
+  _color_bt = kebb::color(kebb::ColorName::C_Surface0);
+  _color_bg = kebb::color(kebb::ColorName::C_Surface2);
+  _color_border = kebb::color(kebb::ColorName::C_Surface1);
 
   // ------------------------------------------------------------------------
   // Geometry ---------------------------------------------------------------

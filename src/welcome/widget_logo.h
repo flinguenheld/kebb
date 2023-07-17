@@ -9,7 +9,6 @@
 #include <functional>
 #include <iostream>
 #include <random>
-#include <sys/types.h>
 #include <thread>
 #include <vector>
 
@@ -40,11 +39,15 @@ private:
 
   bool _continue;
   uint16_t _type_animation;
-  uint8_t _r, _g, _b;
 
   // --
   std::random_device _seed;
   std::mt19937 _engine;
+
+  // --
+  SDL_Color _color_border;
+  SDL_Color _color_key;
+  SDL_Color _color_current;
 };
 
 #endif // !WIDGET_LOGO_H

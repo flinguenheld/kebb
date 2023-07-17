@@ -3,6 +3,9 @@
 WidgetLogo::WidgetLogo(point position, boxsize size)
     : WidgetBase(position, size), _nb_colums(12), _nb_lines(4), _engine(_seed()), _continue(true) {
 
+  _color_border = kebb::color(kebb::ColorName::C_Surface1);
+  _color_key = kebb::color(kebb::ColorName::C_Surface0);
+
   // ------------------------------------------------------------------------
   // Geometry ---------------------------------------------------------------
   _border_thickness = size.w / 50;
@@ -28,37 +31,24 @@ WidgetLogo::WidgetLogo(point position, boxsize size)
   std::uniform_int_distribution<uint16_t> _random_animation(0, 2); // Which animation ?
   _type_animation = _random_animation(_engine);
 
-  std::uniform_int_distribution<uint16_t> _random_color(0, 5); // Which color ? - Catppuccin Mocha
+  std::uniform_int_distribution<uint16_t> _random_color(0, 13); // Which color ?
   switch (_random_color(_engine)) {
-  case 0: // Mauve
-    _r = 203;
-    _g = 166;
-    _b = 247;
-    break;
-  case 1: // Peach
-    _r = 250;
-    _g = 179;
-    _b = 135;
-    break;
-  case 2: // Green
-    _r = 166;
-    _g = 227;
-    _b = 161;
-    break;
-  case 3: // Sky
-    _r = 137;
-    _g = 220;
-    _b = 235;
-    break;
-  case 4: // Blue
-    _r = 137;
-    _g = 180;
-    _b = 250;
-    break;
-  default: // Text
-    _r = 205;
-    _g = 214;
-    _b = 244;
+    // clang-format off
+    case 0:  _color_current = kebb::color(kebb::ColorName::C_Flamingo); break;
+    case 1:  _color_current = kebb::color(kebb::ColorName::C_Pink); break;
+    case 2:  _color_current = kebb::color(kebb::ColorName::C_Mauve); break;
+    case 3:  _color_current = kebb::color(kebb::ColorName::C_Red); break;
+    case 4:  _color_current = kebb::color(kebb::ColorName::C_Maroon); break;
+    case 5:  _color_current = kebb::color(kebb::ColorName::C_Peach); break;
+    case 6:  _color_current = kebb::color(kebb::ColorName::C_Yellow); break;
+    case 7:  _color_current = kebb::color(kebb::ColorName::C_Green); break;
+    case 8:  _color_current = kebb::color(kebb::ColorName::C_Teal); break;
+    case 9:  _color_current = kebb::color(kebb::ColorName::C_Sky); break;
+    case 10: _color_current = kebb::color(kebb::ColorName::C_Sapphire); break;
+    case 11: _color_current = kebb::color(kebb::ColorName::C_Blue); break;
+    case 12: _color_current = kebb::color(kebb::ColorName::C_Lavender); break;
+    default: _color_current = kebb::color(kebb::ColorName::C_Text); break;
+    // clang-format on
   }
 
   // ------------------------------------------------------------------------
@@ -114,7 +104,6 @@ void WidgetLogo::update() {
       break;
 
     case 2: // Set randomly some cases to 3 and decrease their value up to 0
-
       std::uniform_int_distribution<uint16_t> random_line(0, _nb_lines - 1);
       std::uniform_int_distribution<uint16_t> random_case(0, _nb_colums - 1);
 
@@ -152,12 +141,11 @@ void WidgetLogo::render(SDL_Renderer *renderer) const {
   border_background.x = _position.x;
   border_background.y = _position.y;
 
-  SDL_SetRenderDrawColor(renderer, 69, 71, 90, 200); // Surface1
+  SDL_SetRenderDrawColor(renderer, _color_border.r, _color_border.g, _color_border.b, 200);
   SDL_RenderFillRect(renderer, &border_background);
+
   // ------------------------------------------------------------------------
   // Background -------------------------------------------------------------
-  // const uint16_t border_thickness = border.w / 50;
-
   border_background.w -= _border_thickness * 2;
   border_background.h -= _border_thickness * 2;
   border_background.x += _border_thickness;
@@ -179,16 +167,16 @@ void WidgetLogo::render(SDL_Renderer *renderer) const {
 
       switch (c) {
       case 3:
-        SDL_SetRenderDrawColor(renderer, _r, _g, _b, 150);
+        SDL_SetRenderDrawColor(renderer, _color_current.r, _color_current.g, _color_current.b, 150);
         break;
       case 2:
-        SDL_SetRenderDrawColor(renderer, _r, _g, _b, 100);
+        SDL_SetRenderDrawColor(renderer, _color_current.r, _color_current.g, _color_current.b, 100);
         break;
       case 1:
-        SDL_SetRenderDrawColor(renderer, _r, _g, _b, 50);
+        SDL_SetRenderDrawColor(renderer, _color_current.r, _color_current.g, _color_current.b, 50);
         break;
       default:
-        SDL_SetRenderDrawColor(renderer, 49, 50, 68, 200); // Surface0
+        SDL_SetRenderDrawColor(renderer, _color_key.r, _color_key.g, _color_key.b, 200);
         break;
       }
 

@@ -10,11 +10,7 @@ WidgetMenu::WidgetMenu(boxsize screen_size, std::shared_ptr<Renderer> renderer, 
 
   _widget_textbox = std::make_unique<WidgetTextBox>(pt, line_size);
   _widget_textbox->set_text(std::move(text));
-
-  // Catppuccin: Mocha
-  // _widget_textbox->set_color_text({137, 180, 250, 200}); // Blue
-  // _widget_textbox->set_color_text({148, 226, 213, 200}); // Teal
-  _widget_textbox->set_color_text({166, 173, 200, 200}); // Subtext0
+  _widget_textbox->set_color_text(kebb::color(kebb::ColorName::C_Overlay2));
 }
 
 void WidgetMenu::render() {

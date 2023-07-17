@@ -1,10 +1,9 @@
+/* Regroup general structs and the keycode list. */
+
 #ifndef UTILS_H
 #define UTILS_H
 
-/*
- * Regroup general structs and the keycode list.
- */
-
+#include "SDL_pixels.h"
 #include <cstdint>
 #include <math.h>
 #include <string>
@@ -46,4 +45,33 @@ enum class WindowName {
 // KEYCODES -------------------------------------------------------------------------------------------
 std::string keycode_to_string(uint16_t val);
 
+namespace kebb {
+// ----------------------------------------------------------------------------------------------------
+// COLORS - Catppucin Mocha ---------------------------------------------------------------------------
+enum class ColorName {
+  C_Flamingo,
+  C_Pink,
+  C_Mauve,
+  C_Red,
+  C_Maroon,
+  C_Peach,
+  C_Yellow,
+  C_Green,
+  C_Teal,
+  C_Sky,
+  C_Sapphire,
+  C_Blue,
+  C_Lavender,
+  C_Text,
+  C_Overlay2,
+  C_Overlay1,
+  C_Overlay0,
+  C_Surface2,
+  C_Surface1,
+  C_Surface0,
+  C_Base,
+};
+
+SDL_Color color(ColorName name);
+} // namespace kebb
 #endif // !UTILS_H

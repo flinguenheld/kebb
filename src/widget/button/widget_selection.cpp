@@ -3,15 +3,12 @@
 
 // clang-format off
 WidgetSelection::WidgetSelection(point pos_center, boxsize size_char, std::string &&text, bool selected)
-    : WidgetTextBox(pos_center, size_char),
-
-    // _color_on({250, 179, 135, 200}), // Peach
-    // _color_on({148, 226, 213, 200}), // Teal
-    _color_on({137, 180, 250, 200}), // Blue
-    _color_off({205, 214, 244, 200}) // Text
-
+    : WidgetTextBox(pos_center, size_char)
 {
   // clang-format on
+
+  _color_on = kebb::color(kebb::ColorName::C_Blue);
+  _color_off = kebb::color(kebb::ColorName::C_Text);
 
   set_text(std::move(text));
   set_selected(selected);

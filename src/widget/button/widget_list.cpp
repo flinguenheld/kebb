@@ -43,7 +43,7 @@ void WidgetList::init(point pos_center) {
   // The _tb_choice position and width will be updated by display_current_it()
   boxsize size_choices = {_longest_choice_width, _size_char.h};
   _tb_choice = std::make_unique<WidgetTextBox>(_position, size_choices);
-  _tb_choice->set_color_text({148, 226, 213, 200}); // Teal
+  _tb_choice->set_color_text(kebb::color(kebb::ColorName::C_Teal));
   display_current_it();
 }
 

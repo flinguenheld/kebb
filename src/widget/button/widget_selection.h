@@ -35,8 +35,8 @@ public:
 
 protected:
   bool _selected;
-  const SDL_Color _color_on;
-  const SDL_Color _color_off;
+  SDL_Color _color_on;
+  SDL_Color _color_off;
 };
 
 #endif // !WIDGET_SELECTION_H

@@ -26,8 +26,6 @@ int main() {
   const uint16_t score_font_size = uint16_t(screen_size.w * scale_factor * 0.04);
   const uint16_t menu_font_size = uint16_t(screen_size.w * scale_factor * 0.05);
 
-  // NOTE: Manage colours here ?
-
   auto renderer = std::make_shared<Renderer>(screen_size, scale_factor, target_font_size, score_font_size,
                                              menu_font_size);
   auto score = std::make_shared<Score>();

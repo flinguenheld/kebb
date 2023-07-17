@@ -23,12 +23,7 @@ WindowOption::WindowOption(boxsize screen_size, std::shared_ptr<WindowName> next
 
   _widget_title = std::make_unique<WidgetTextBox>(pt, bs_title);
   _widget_title->set_text("Options");
-
-  // Catppuccin: Mocha
-  _widget_title->set_color_text({250, 179, 135, 200}); // Peach
-  // _widget_title->set_color_text({242, 205, 205, 200}); // Flamingo
-  // _widget_title->set_color_text({180, 190, 254, 200}); // Lavender
-  // _textbox_time->set_color_text({148, 226, 213, 200}); // Teal
+  _widget_title->set_color_text(kebb::color(kebb::ColorName::C_Peach));
 
   // ------------------------------------------------------------------------
   // Selection fields -------------------------------------------------------
@@ -107,8 +102,8 @@ WindowOption::WindowOption(boxsize screen_size, std::shared_ptr<WindowName> next
   // Message ----------------------------------------------------------------
   pt.y += bs_field.h * 2;
   _widget_message = std::make_unique<WidgetTextBox>(pt, bs_field);
-  _widget_message->set_color_text({30, 30, 46, 200}); // Base
-  _widget_message->set_color({249, 226, 175, 200});   // Yellow
+  _widget_message->set_color_text(kebb::color(kebb::ColorName::C_Base));
+  _widget_message->set_color(kebb::color(kebb::ColorName::C_Yellow));
 }
 
 WindowOption::~WindowOption() {}
