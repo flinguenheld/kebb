@@ -1,9 +1,4 @@
 #include "window_option.h"
-#include "option/option_file.h"
-#include "widget/button/widget_selection.h"
-#include <cstdint>
-#include <string>
-#include <vector>
 
 WindowOption::WindowOption(boxsize screen_size, std::shared_ptr<WindowName> next_window,
                            std::shared_ptr<Renderer> renderer, std::shared_ptr<OptionFile> options)
@@ -57,7 +52,7 @@ WindowOption::WindowOption(boxsize screen_size, std::shared_ptr<WindowName> next
 
   pt.y += bs_field.h * 1.5;
   _widget_select_fields.emplace_back(std::make_unique<WidgetList>(pt, bs_field, "Nb targets:", 1, 20, 1));
-  _widget_select_fields.back()->set_choice_by_value(_options->get(OptionName::Target));
+  _widget_select_fields.back()->set_choice_by_value(_options->get(OptionName::Targets));
 
   pt.y += bs_field.h * 1;
   _widget_select_fields.emplace_back(
@@ -101,11 +96,11 @@ WindowOption::WindowOption(boxsize screen_size, std::shared_ptr<WindowName> next
 
   pt.y += bs_field.h * 1;
   _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "Numbers"));
-  _widget_select_fields.back()->set_bool(std::stoi(_options->get(OptionName::Number)));
+  _widget_select_fields.back()->set_bool(std::stoi(_options->get(OptionName::Numbers)));
 
   pt.y += bs_field.h * 1;
   _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "Symbols"));
-  _widget_select_fields.back()->set_bool(std::stoi(_options->get(OptionName::Symbol)));
+  _widget_select_fields.back()->set_bool(std::stoi(_options->get(OptionName::Symbols)));
 }
 
 WindowOption::~WindowOption() {}
@@ -137,13 +132,13 @@ void WindowOption::control_enter() {
     // Up options, save and quit
     _options->set(OptionName::Resolution, _widget_select_fields[0]->get_choice().value);
     _options->set(OptionName::Layout, _widget_select_fields[1]->get_choice().value);
-    _options->set(OptionName::Target, _widget_select_fields[2]->get_choice().value);
+    _options->set(OptionName::Targets, _widget_select_fields[2]->get_choice().value);
     _options->set(OptionName::Countdown, _widget_select_fields[3]->get_choice().value);
     _options->set(OptionName::Speed, _widget_select_fields[4]->get_choice().value);
     _options->set(OptionName::Letters, std::to_string(_widget_select_fields[5]->get_bool()));
     _options->set(OptionName::Capitals, std::to_string(_widget_select_fields[6]->get_bool()));
-    _options->set(OptionName::Number, std::to_string(_widget_select_fields[7]->get_bool()));
-    _options->set(OptionName::Symbol, std::to_string(_widget_select_fields[8]->get_bool()));
+    _options->set(OptionName::Numbers, std::to_string(_widget_select_fields[7]->get_bool()));
+    _options->set(OptionName::Symbols, std::to_string(_widget_select_fields[8]->get_bool()));
 
     _options->save();
     *_next_window = WindowName::W_Welcome;

@@ -1,5 +1,5 @@
 #include "game.h"
-#include <cstdint>
+#include <memory>
 
 // clang-format off
 Game::Game(boxsize screen_size, std::shared_ptr<Score> score,
@@ -7,15 +7,9 @@ Game::Game(boxsize screen_size, std::shared_ptr<Score> score,
       _screen_size(screen_size),
       _score(score),
       _renderer(renderer),
-      _options(options),
-      _current_window(nullptr)
+      _options(options)
 {
   _dispatcher = std::make_shared<Dispatcher>(_options);
-}
-
-Game::~Game() {
-  if (_current_window != nullptr)
-    delete _current_window;
 }
 // clang-format on
 
@@ -25,41 +19,38 @@ void Game::Run(Controller const &controller) {
   uint32_t frame_count = 0;
   bool running = true;
 
-  auto next_window = std::make_shared<WindowName>(WindowName::W_None);
-  _current_window = new WindowWelcome(_screen_size, next_window, _renderer);
-  // _current_window = new WindowGame(_screen_size, next_window, _renderer, _score);
-  // _current_window = new WindowOption(_screen_size, next_window, _renderer, _options);
+  auto next_window_name = std::make_shared<WindowName>(WindowName::W_None);
+  _current_window = std::make_shared<WindowWelcome>(_screen_size, next_window_name, _renderer);
 
+  // Main game loop.
   while (running) {
 
-    // Input, Update, Render - the main game loop.
-    controller.HandleInput(running, _current_window);
+    controller.handle_input(running, _current_window);
     _current_window->render();
 
-    // FIX: Use a unique ptr ?
-    if (*next_window != WindowName::W_None) {
-      delete _current_window;
-      _current_window = nullptr;
+    // Window management
+    if (*next_window_name != WindowName::W_None) {
 
-      switch (*next_window) {
+      switch (*next_window_name) {
       case WindowName::W_Game:
-        _current_window = new WindowGame(_screen_size, next_window, _renderer, _score, _options);
+        _current_window =
+            std::make_shared<WindowGame>(_screen_size, next_window_name, _renderer, _score, _options);
         break;
       case WindowName::W_Pause:
-        _current_window = new WindowPause(_screen_size, next_window, _renderer, _score);
+        _current_window = std::make_shared<WindowPause>(_screen_size, next_window_name, _renderer, _score);
         break;
       case WindowName::W_Welcome:
-        _current_window = new WindowWelcome(_screen_size, next_window, _renderer);
+        _current_window = std::make_shared<WindowWelcome>(_screen_size, next_window_name, _renderer);
         break;
       case WindowName::W_Option:
-        _current_window = new WindowOption(_screen_size, next_window, _renderer, _options);
+        _current_window = std::make_shared<WindowOption>(_screen_size, next_window_name, _renderer, _options);
         break;
       default: // W_Ouit
         running = false;
         break;
       }
 
-      *next_window = WindowName::W_None;
+      *next_window_name = WindowName::W_None;
     }
 
     frame_end = SDL_GetTicks();
@@ -72,6 +63,6 @@ void Game::Run(Controller const &controller) {
       title_timestamp = frame_end;
     }
 
-    SDL_Delay(3);
+    SDL_Delay(3); // NOTE: Is 3 ok ?
   }
 }

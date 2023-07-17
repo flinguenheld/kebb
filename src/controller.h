@@ -14,7 +14,7 @@
 
 class Controller {
 public:
-  void HandleInput(bool &running, WidgetWindow *window) const;
+  void handle_input(bool &running, std::shared_ptr<WidgetWindow> window) const;
 
 private:
   uint16_t convert_us(SDL_Event &e) const;

@@ -33,7 +33,7 @@ void OptionFile::set(OptionName type, const std::string &val) {
   case OptionName::Layout:
     _layout = val;
     break;
-  case OptionName::Target:
+  case OptionName::Targets:
     _nb_targets = val;
     break;
   case OptionName::Countdown:
@@ -48,7 +48,7 @@ void OptionFile::set(OptionName type, const std::string &val) {
   case OptionName::Capitals:
     _capitals = val;
     break;
-  case OptionName::Number:
+  case OptionName::Numbers:
     _numbers = val;
     break;
   default:
@@ -63,7 +63,7 @@ std::string OptionFile::get(OptionName name) {
     return _resolution;
   case OptionName::Layout:
     return _layout;
-  case OptionName::Target:
+  case OptionName::Targets:
     return _nb_targets;
   case OptionName::Countdown:
     return _countdown;
@@ -73,7 +73,7 @@ std::string OptionFile::get(OptionName name) {
     return _letters;
   case OptionName::Capitals:
     return _capitals;
-  case OptionName::Number:
+  case OptionName::Numbers:
     return _numbers;
   default:
     return _symbols;

@@ -8,13 +8,13 @@
 enum class OptionName {
   Resolution,
   Layout,
-  Target,
+  Targets,
   Countdown,
   Speed,
   Letters,
   Capitals,
-  Number,
-  Symbol,
+  Numbers,
+  Symbols,
 };
 
 /*

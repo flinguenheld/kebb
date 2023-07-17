@@ -26,7 +26,7 @@ public:
            uint16_t font_size_menu);
   ~Renderer();
 
-  void UpdateWindowTitle(uint16_t fps); // TODO: Up title
+  void UpdateWindowTitle(uint16_t fps);
 
   SDL_Renderer *renderer();
 

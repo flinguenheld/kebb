@@ -17,28 +17,17 @@
 #include "welcome/window_welcome.h"
 #include "widget/widget_base.h"
 #include "widget/widget_window.h"
-#include <chrono>
-#include <cstddef>
-#include <cstdint>
-#include <exception>
-#include <iostream>
 #include <memory>
-#include <random>
-#include <string>
-#include <thread>
 
 class Game {
 public:
   Game(boxsize screen_size, std::shared_ptr<Score> score, std::shared_ptr<Renderer> renderer,
        std::shared_ptr<OptionFile> options);
-  ~Game();
 
   void Run(Controller const &controller);
 
 private:
-  // TODO: Regroup with other windows
-
-  WidgetWindow *_current_window;
+  std::shared_ptr<WidgetWindow> _current_window; // Shared with the controller
 
   std::vector<Target> _targets;
   std::shared_ptr<Dispatcher> _dispatcher;

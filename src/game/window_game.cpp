@@ -1,6 +1,5 @@
 #include "window_game.h"
 #include "option/option_file.h"
-#include <cstdint>
 #include <string>
 
 // clang-format off
@@ -20,7 +19,7 @@ WindowGame::WindowGame(boxsize screen_size,
   _widget_score = std::make_unique<WidgetScore>(WidgetScoreType::Top, screen_size, score, renderer);
 
   // Limit the amount of threads if needed
-  uint16_t nb_targets = std::stoi(options->get(OptionName::Target));
+  uint16_t nb_targets = std::stoi(options->get(OptionName::Targets));
   if (nb_targets >= _dispatcher->number_of_chars())
     nb_targets = _dispatcher->number_of_chars() - 3; // Remove 3 to create a difficulty
 

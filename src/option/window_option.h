@@ -4,8 +4,12 @@
 #include "option/option_file.h"
 #include "widget/button/widget_boolean.h"
 #include "widget/button/widget_list.h"
+#include "widget/button/widget_selection.h"
 #include "widget/widget_menu.h"
 #include "widget/widget_window.h"
+#include <cstdint>
+#include <string>
+#include <vector>
 
 class WindowOption : public WidgetWindowSelection {
 public:

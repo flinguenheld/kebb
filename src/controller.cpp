@@ -1,9 +1,7 @@
 #include "controller.h"
-#include "SDL_keycode.h"
-#include "widget/widget_window.h"
 
 // NOTE: use ptr or ref ?
-void Controller::HandleInput(bool &running, WidgetWindow *window) const {
+void Controller::handle_input(bool &running, std::shared_ptr<WidgetWindow> window) const {
   SDL_Event e;
   while (SDL_PollEvent(&e)) {
 

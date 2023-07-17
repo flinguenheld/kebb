@@ -19,13 +19,13 @@ Dispatcher::Dispatcher(std::shared_ptr<OptionFile> options) : _engine(_seed()), 
       ++_number_of_chars;
     }
   }
-  if (std::stoi(options->get(OptionName::Number))) {
+  if (std::stoi(options->get(OptionName::Numbers))) {
     for (uint16_t i = 500; i < 510; ++i) {
       _keycodes.emplace_back(i);
       ++_number_of_chars;
     }
   }
-  if (std::stoi(options->get(OptionName::Symbol))) {
+  if (std::stoi(options->get(OptionName::Symbols))) {
     for (uint16_t i = 1000; i < 1032; ++i) {
       _keycodes.emplace_back(i);
       ++_number_of_chars;
