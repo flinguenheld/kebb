@@ -2,13 +2,16 @@
 #define WINDOW_OPTION_H
 
 #include "option/option_file.h"
+#include "utils.h"
 #include "widget/button/widget_boolean.h"
 #include "widget/button/widget_list.h"
 #include "widget/button/widget_selection.h"
 #include "widget/widget_menu.h"
 #include "widget/widget_window.h"
-#include <cstdint>
+#include <algorithm>
+#include <chrono>
 #include <string>
+#include <thread>
 #include <vector>
 
 class WindowOption : public WidgetWindowSelection {
@@ -26,7 +29,15 @@ public:
 
 private:
   std::unique_ptr<WidgetTextBox> _widget_title;
+  std::unique_ptr<WidgetTextBox> _widget_message;
   std::unique_ptr<WidgetMenu> _widget_menu;
   std::shared_ptr<OptionFile> _options;
+
+  // Help message
+  void display_message(std::string &&message);
+  void check_new_resolution();
+  bool _message_displayed;
+
+  const boxsize _screen_size;
 };
 #endif // !WINDOW_OPTION_H
