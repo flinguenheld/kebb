@@ -27,6 +27,7 @@ add_executable(Kebb src/main.cpp
                     src/game.cpp
                     src/utils.cpp
                     src/renderer.cpp
+                    src/about/window_about.cpp
                     src/game/target.cpp
                     src/game/dispatcher.cpp
                     src/game/window_game.cpp

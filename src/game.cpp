@@ -1,4 +1,5 @@
 #include "game.h"
+#include "about/window_about.h"
 
 // clang-format off
 Game::Game(boxsize screen_size, std::shared_ptr<Score> score,
@@ -45,6 +46,9 @@ void Game::Run(Controller const &controller) {
         break;
       case WindowName::W_Option:
         _current_window = std::make_shared<WindowOption>(_screen_size, next_window_name, _renderer, _options);
+        break;
+      case WindowName::W_About:
+        _current_window = std::make_shared<WindowAbout>(_screen_size, next_window_name, _renderer);
         break;
       default: // W_Ouit
         running = false;
