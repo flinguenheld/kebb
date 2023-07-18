@@ -13,7 +13,7 @@
  */
 class WidgetWindow {
 public:
-  WidgetWindow(std::shared_ptr<WindowName> next_window, std::shared_ptr<Renderer> renderer);
+  WidgetWindow(std::shared_ptr<kebb::WindowName> next_window, std::shared_ptr<Renderer> renderer);
   virtual ~WidgetWindow(){};
 
   virtual void control_left(){};
@@ -30,7 +30,7 @@ public:
   virtual void render(){};
 
 protected:
-  std::shared_ptr<WindowName> _next_window;
+  std::shared_ptr<kebb::WindowName> _next_window;
   std::shared_ptr<Renderer> _renderer;
 };
 
@@ -42,7 +42,7 @@ protected:
 class WidgetWindowSelection : public WidgetWindow {
 
 public:
-  WidgetWindowSelection(std::shared_ptr<WindowName> next_window, std::shared_ptr<Renderer> renderer);
+  WidgetWindowSelection(std::shared_ptr<kebb::WindowName> next_window, std::shared_ptr<Renderer> renderer);
   virtual ~WidgetWindowSelection(){};
 
   virtual void control_up();

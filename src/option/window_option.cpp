@@ -1,6 +1,6 @@
 #include "window_option.h"
 
-WindowOption::WindowOption(boxsize screen_size, std::shared_ptr<WindowName> next_window,
+WindowOption::WindowOption(kebb::boxsize screen_size, std::shared_ptr<kebb::WindowName> next_window,
                            std::shared_ptr<Renderer> renderer, std::shared_ptr<OptionFile> options)
     : WidgetWindowSelection(next_window, renderer), _options(options), _message_displayed(false),
       _screen_size(screen_size) {
@@ -8,9 +8,9 @@ WindowOption::WindowOption(boxsize screen_size, std::shared_ptr<WindowName> next
   _widget_menu = std::make_unique<WidgetMenu>(screen_size, renderer, "<ESC> Cancel     <ENTER> Save");
 
   // Geometry
-  boxsize char_size = _renderer->font_char_size(FontName::F_Menu); // NOTE: Use font menu ?
-  boxsize bs_title;
-  point pt;
+  kebb::boxsize char_size = _renderer->font_char_size(FontName::F_Menu); // NOTE: Use font menu ?
+  kebb::boxsize bs_title;
+  kebb::point pt;
 
   // ------------------------------------------------------------------------
   // Title ------------------------------------------------------------------
@@ -27,7 +27,7 @@ WindowOption::WindowOption(boxsize screen_size, std::shared_ptr<WindowName> next
 
   // ------------------------------------------------------------------------
   // Selection fields -------------------------------------------------------
-  boxsize bs_field = renderer->font_char_size(FontName::F_Menu).scale(1);
+  kebb::boxsize bs_field = renderer->font_char_size(FontName::F_Menu).scale(1);
   pt.x = screen_size.w / 2;
   pt.y += bs_title.h * 1.5;
 
@@ -36,7 +36,7 @@ WindowOption::WindowOption(boxsize screen_size, std::shared_ptr<WindowName> next
       std::vector<SelectionItem>{{"480x480", "480-20"},
                                  {"640x640", "640-15"},
                                  {"800x800", "800-10"},
-                                 {"1024x1024", "1024-5"}}, // TODO: Scales have to be validated
+                                 {"1024x1024", "1024-5"}}, // NOTE: Are scales ok ?
       true));
   _widget_select_fields.back()->set_choice_by_value(_options->get(OptionName::Resolution));
 
@@ -70,16 +70,22 @@ WindowOption::WindowOption(boxsize screen_size, std::shared_ptr<WindowName> next
 
   pt.y += bs_field.h * 1;
   _widget_select_fields.emplace_back(std::make_unique<WidgetList>(pt, bs_field, "Speed:",
-                                                                  std::vector<SelectionItem>{{"1", "20"},
-                                                                                             {"2", "18"},
-                                                                                             {"3", "16"},
-                                                                                             {"4", "14"},
-                                                                                             {"5", "12"},
-                                                                                             {"6", "10"},
-                                                                                             {"7", "8"},
-                                                                                             {"8", "6"},
-                                                                                             {"9", "4"},
-                                                                                             {"10", "2"}}));
+                                                                  std::vector<SelectionItem>{{"1", "30"},
+                                                                                             {"2", "28"},
+                                                                                             {"3", "26"},
+                                                                                             {"4", "24"},
+                                                                                             {"5", "22"},
+                                                                                             {"6", "20"},
+                                                                                             {"7", "18"},
+                                                                                             {"8", "16"},
+                                                                                             {"9", "14"},
+                                                                                             {"10", "12"},
+                                                                                             {"11", "10"},
+                                                                                             {"12", "8"},
+                                                                                             {"13", "6"},
+                                                                                             {"14", "4"},
+                                                                                             {"15", "2"},
+                                                                                             {"16", "1"}}));
   _widget_select_fields.back()->set_choice_by_value(_options->get(OptionName::Speed));
 
   pt.y += bs_field.h * 1.5;
@@ -109,10 +115,8 @@ WindowOption::WindowOption(boxsize screen_size, std::shared_ptr<WindowName> next
 WindowOption::~WindowOption() {}
 
 void WindowOption::render() {
-  // Clear screen
-  SDL_SetRenderDrawColor(_renderer->renderer(), 0x1E, 0x1E, 0x1E, 0xFF);
-  SDL_RenderClear(_renderer->renderer());
 
+  _renderer->clear_screen();
   _widget_title->render(_renderer->renderer(), _renderer->font(FontName::F_Menu));
 
   for (auto &w : _widget_select_fields)
@@ -134,7 +138,7 @@ void WindowOption::render() {
  */
 void WindowOption::display_message(std::string &&message) {
 
-  boxsize char_size = _renderer->font_char_size(FontName::F_Menu);
+  kebb::boxsize char_size = _renderer->font_char_size(FontName::F_Menu);
   char_size.set_scale(0.8);
   _widget_message->set_w(char_size.w * message.length());
   _widget_message->set_text(std::move(message));
@@ -153,7 +157,7 @@ void WindowOption::check_new_resolution() {
 
 // ----------------------------------------------------------------------------------------------------
 // CONTROLS -------------------------------------------------------------------------------------------
-void WindowOption::control_escape() { *_next_window = WindowName::W_Welcome; }
+void WindowOption::control_escape() { *_next_window = kebb::WindowName::W_Welcome; }
 void WindowOption::control_enter() {
   // Use has to select at least one target type
   if (_widget_select_fields[5]->get_bool() == true || _widget_select_fields[6]->get_bool() == true ||
@@ -172,7 +176,7 @@ void WindowOption::control_enter() {
 
     _options->save();
 
-    *_next_window = WindowName::W_Welcome;
+    *_next_window = kebb::WindowName::W_Welcome;
 
   } else
     display_message("  At least one target type is requiered.  ");

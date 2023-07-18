@@ -3,8 +3,8 @@
 #include <string>
 
 // clang-format off
-WindowGame::WindowGame(boxsize screen_size,
-                       std::shared_ptr<WindowName> next_window,
+WindowGame::WindowGame(kebb::boxsize screen_size,
+                       std::shared_ptr<kebb::WindowName> next_window,
                        std::shared_ptr<Renderer> renderer,
                        std::shared_ptr<Score> score,
                        std::shared_ptr<OptionFile> options)
@@ -16,7 +16,7 @@ WindowGame::WindowGame(boxsize screen_size,
   _widget_score = std::make_unique<WidgetScore>(WidgetScoreType::Top, screen_size, score, renderer);
 
   // Geometry
-  const point target_center_aera(
+  const kebb::point target_center_aera(
       {static_cast<uint16_t>(screen_size.w / 2), static_cast<uint16_t>(screen_size.h / 2)});
   const uint16_t target_radius_aera(int16_t(screen_size.w * 0.4));
 
@@ -61,10 +61,7 @@ void WindowGame::render() {
     control_escape();
   }
 
-  // Clear screen
-  SDL_SetRenderDrawColor(_renderer->renderer(), 0x1E, 0x1E, 0x1E, 0xFF);
-  SDL_RenderClear(_renderer->renderer());
-
+  _renderer->clear_screen();
   _widget_score->render(time_seconds);
 
   for (auto &target : _targets)
@@ -78,7 +75,7 @@ void WindowGame::render() {
 // CONTROLS -------------------------------------------------------------------------------------------
 void WindowGame::control_escape() {
   stop_threads();
-  *_next_window = WindowName::W_Pause;
+  *_next_window = kebb::WindowName::W_Pause;
 }
 void WindowGame::control_others(uint16_t keycode) {
 

@@ -22,16 +22,17 @@ enum class FontName {
 
 class Renderer {
 public:
-  Renderer(boxsize screen_size, uint16_t scale_factor, uint16_t font_size_target, uint16_t font_size_score,
-           uint16_t font_size_menu);
+  Renderer(kebb::boxsize screen_size, uint16_t scale_factor, uint16_t font_size_target,
+           uint16_t font_size_score, uint16_t font_size_menu);
   ~Renderer();
 
-  void UpdateWindowTitle(uint16_t fps);
+  void update_window_title(uint16_t fps);
+  void clear_screen();
 
   SDL_Renderer *renderer();
 
   TTF_Font *font(FontName fn);
-  boxsize font_char_size(FontName fn) const;
+  kebb::boxsize font_char_size(FontName fn) const;
 
 private:
   SDL_Window *_window;
@@ -41,12 +42,13 @@ private:
   TTF_Font *_font_score;
   TTF_Font *_font_menu;
 
-  boxsize _char_size_target;
-  boxsize _char_size_score;
-  boxsize _char_size_menu;
+  kebb::boxsize _char_size_target;
+  kebb::boxsize _char_size_score;
+  kebb::boxsize _char_size_menu;
 
-  const boxsize _screen_size;
+  const kebb::boxsize _screen_size;
   const uint16_t _scale_factor;
+  SDL_Color _color_background;
 };
 
 #endif

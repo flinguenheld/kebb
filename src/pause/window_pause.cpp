@@ -1,6 +1,6 @@
 #include "window_pause.h"
 
-WindowPause::WindowPause(boxsize screen_size, std::shared_ptr<WindowName> next_window,
+WindowPause::WindowPause(kebb::boxsize screen_size, std::shared_ptr<kebb::WindowName> next_window,
                          std::shared_ptr<Renderer> renderer, std::shared_ptr<Score> score)
     : WidgetWindow(next_window, renderer), _score(score) {
 
@@ -12,9 +12,7 @@ WindowPause::~WindowPause() {}
 
 void WindowPause::render() {
 
-  // Clear screen
-  SDL_SetRenderDrawColor(_renderer->renderer(), 0x1E, 0x1E, 0x1E, 0xFF);
-  SDL_RenderClear(_renderer->renderer());
+  _renderer->clear_screen();
 
   // Reverse the timer
   _widget_score->render(_score->seconds_until_stop());
@@ -26,5 +24,5 @@ void WindowPause::render() {
 
 // ----------------------------------------------------------------------------------------------------
 // CONTROLS -------------------------------------------------------------------------------------------
-void WindowPause::control_escape() { *_next_window = WindowName::W_Welcome; }
-void WindowPause::control_enter() { *_next_window = WindowName::W_Game; }
+void WindowPause::control_escape() { *_next_window = kebb::WindowName::W_Welcome; }
+void WindowPause::control_enter() { *_next_window = kebb::WindowName::W_Game; }

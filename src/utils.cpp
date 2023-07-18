@@ -1,7 +1,7 @@
 #include "utils.h"
 
 // clang-format off
-std::string keycode_to_string(uint16_t val) {
+std::string kebb::keycode_to_string(uint16_t val) {
 
   switch (val) {
 
@@ -108,6 +108,8 @@ std::string keycode_to_string(uint16_t val) {
 }
 
 
+// ----------------------------------------------------------------------------------------------------
+// COLORS - Catppucin Mocha ---------------------------------------------------------------------------
 SDL_Color kebb::color(kebb::ColorName name) {
   switch (name) {
     case kebb::ColorName::C_Flamingo:

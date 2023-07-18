@@ -6,7 +6,7 @@
 class WidgetTextBox : public WidgetBase {
 
 public:
-  WidgetTextBox(point pos, boxsize size);
+  WidgetTextBox(kebb::point pos, kebb::boxsize size);
   ~WidgetTextBox();
   virtual void render(SDL_Renderer *renderer, TTF_Font *font) const;
 

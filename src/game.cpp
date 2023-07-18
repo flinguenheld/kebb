@@ -1,8 +1,7 @@
 #include "game.h"
-#include "about/window_about.h"
 
 // clang-format off
-Game::Game(boxsize screen_size, std::shared_ptr<Score> score,
+Game::Game(kebb::boxsize screen_size, std::shared_ptr<Score> score,
            std::shared_ptr<Renderer> renderer, std::shared_ptr<OptionFile> options) :
       _screen_size(screen_size),
       _score(score),
@@ -13,13 +12,13 @@ Game::Game(boxsize screen_size, std::shared_ptr<Score> score,
 }
 // clang-format on
 
-void Game::Run(Controller const &controller) {
+void Game::run(Controller const &controller) {
   uint32_t title_timestamp = SDL_GetTicks();
   uint32_t frame_end;
   uint32_t frame_count = 0;
   bool running = true;
 
-  auto next_window_name = std::make_shared<WindowName>(WindowName::W_None);
+  auto next_window_name = std::make_shared<kebb::WindowName>(kebb::WindowName::W_None);
   _current_window = std::make_shared<WindowWelcome>(_screen_size, next_window_name, _renderer);
 
   // Main game loop.
@@ -29,25 +28,25 @@ void Game::Run(Controller const &controller) {
     _current_window->render();
 
     // Window management
-    if (*next_window_name != WindowName::W_None) {
+    if (*next_window_name != kebb::WindowName::W_None) {
 
       _current_window.reset(); // NOTE: Mandatory/usefull or not ?
 
       switch (*next_window_name) {
-      case WindowName::W_Game:
+      case kebb::WindowName::W_Game:
         _current_window =
             std::make_shared<WindowGame>(_screen_size, next_window_name, _renderer, _score, _options);
         break;
-      case WindowName::W_Pause:
+      case kebb::WindowName::W_Pause:
         _current_window = std::make_shared<WindowPause>(_screen_size, next_window_name, _renderer, _score);
         break;
-      case WindowName::W_Welcome:
+      case kebb::WindowName::W_Welcome:
         _current_window = std::make_shared<WindowWelcome>(_screen_size, next_window_name, _renderer);
         break;
-      case WindowName::W_Option:
+      case kebb::WindowName::W_Option:
         _current_window = std::make_shared<WindowOption>(_screen_size, next_window_name, _renderer, _options);
         break;
-      case WindowName::W_About:
+      case kebb::WindowName::W_About:
         _current_window = std::make_shared<WindowAbout>(_screen_size, next_window_name, _renderer);
         break;
       default: // W_Ouit
@@ -55,7 +54,7 @@ void Game::Run(Controller const &controller) {
         break;
       }
 
-      *next_window_name = WindowName::W_None;
+      *next_window_name = kebb::WindowName::W_None;
     }
 
     frame_end = SDL_GetTicks();
@@ -63,7 +62,7 @@ void Game::Run(Controller const &controller) {
 
     // After every second, update the window title.
     if (frame_end - title_timestamp >= 1000) {
-      _renderer->UpdateWindowTitle(frame_count);
+      _renderer->update_window_title(frame_count);
       frame_count = 0;
       title_timestamp = frame_end;
     }

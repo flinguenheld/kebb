@@ -12,25 +12,25 @@
 
 class WidgetBase {
 public:
-  WidgetBase(point position, boxsize size);
+  WidgetBase(kebb::point position, kebb::boxsize size);
   virtual ~WidgetBase();
   virtual void render(SDL_Renderer *renderer, TTF_Font *font) const {}
   virtual void render(SDL_Renderer *renderer) const {}
 
-  point position() const;
-  boxsize size() const;
+  kebb::point position() const;
+  kebb::boxsize size() const;
   SDL_Color color() const;
 
   void set_x(uint16_t x);
   void set_y(uint16_t y);
   void set_w(uint16_t w);
   void set_h(uint16_t h);
-  void set_size(const boxsize &s);
+  void set_size(const kebb::boxsize &s);
   void set_color(const SDL_Color &c);
 
 protected:
-  point _position;
-  boxsize _size;
+  kebb::point _position;
+  kebb::boxsize _size;
   SDL_Color _color;
 };
 

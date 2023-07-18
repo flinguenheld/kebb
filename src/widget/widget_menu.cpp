@@ -1,11 +1,11 @@
 #include "widget_menu.h"
 
-WidgetMenu::WidgetMenu(boxsize screen_size, std::shared_ptr<Renderer> renderer, std::string &&text)
+WidgetMenu::WidgetMenu(kebb::boxsize screen_size, std::shared_ptr<Renderer> renderer, std::string &&text)
     : _renderer(renderer) {
 
-  boxsize char_size = _renderer->font_char_size(FontName::F_Menu);
-  boxsize line_size = {static_cast<uint16_t>(char_size.w * text.size()), char_size.h};
-  point pt = {static_cast<uint16_t>(screen_size.w / 2 - line_size.w / 2),
+  kebb::boxsize char_size = _renderer->font_char_size(FontName::F_Menu);
+  kebb::boxsize line_size = {static_cast<uint16_t>(char_size.w * text.size()), char_size.h};
+  kebb::point pt = {static_cast<uint16_t>(screen_size.w / 2 - line_size.w / 2),
               static_cast<uint16_t>(screen_size.h - char_size.h * 1.8)};
 
   _widget_textbox = std::make_unique<WidgetTextBox>(pt, line_size);

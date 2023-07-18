@@ -8,7 +8,7 @@
 
 class WindowAbout : public WidgetWindow {
 public:
-  WindowAbout(boxsize screen_size, std::shared_ptr<WindowName> next_window,
+  WindowAbout(kebb::boxsize screen_size, std::shared_ptr<kebb::WindowName> next_window,
               std::shared_ptr<Renderer> renderer);
   ~WindowAbout();
 

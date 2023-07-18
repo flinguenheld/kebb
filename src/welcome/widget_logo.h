@@ -18,7 +18,7 @@
  */
 class WidgetLogo : public WidgetBase {
 public:
-  WidgetLogo(point position, boxsize size);
+  WidgetLogo(kebb::point position, kebb::boxsize size);
   virtual ~WidgetLogo();
 
   void update();
@@ -31,7 +31,7 @@ private:
   const uint16_t _nb_colums;
   const uint16_t _nb_lines;
 
-  boxsize _key_size;
+  kebb::boxsize _key_size;
 
   uint16_t _border_thickness;
   uint16_t _space_w;

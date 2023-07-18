@@ -7,7 +7,7 @@
 
 class WidgetMenu {
 public:
-  WidgetMenu(boxsize screen_size, std::shared_ptr<Renderer> renderer, std::string &&text);
+  WidgetMenu(kebb::boxsize screen_size, std::shared_ptr<Renderer> renderer, std::string &&text);
   void render();
 
 private:

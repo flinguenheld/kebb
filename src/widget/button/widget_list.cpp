@@ -2,7 +2,7 @@
 #include "widget/button/widget_selection.h"
 #include <algorithm>
 
-WidgetList::WidgetList(point pos_center, boxsize size_char, std::string &&text,
+WidgetList::WidgetList(kebb::point pos_center, kebb::boxsize size_char, std::string &&text,
                        std::vector<SelectionItem> &&choices, bool selected)
     : WidgetSelection(pos_center, size_char, std::move(text), selected), _choices(std::move(choices)),
       _it(_choices.begin()), _size_char(size_char), _longest_choice_width(0), _space(0) {
@@ -10,7 +10,7 @@ WidgetList::WidgetList(point pos_center, boxsize size_char, std::string &&text,
   init(pos_center);
 }
 
-WidgetList::WidgetList(point pos_center, boxsize size_char, std::string &&text, int16_t range_start,
+WidgetList::WidgetList(kebb::point pos_center, kebb::boxsize size_char, std::string &&text, int16_t range_start,
                        int16_t range_stop, int16_t step, bool selected)
 
     : WidgetSelection(pos_center, size_char, std::move(text), selected), _size_char(size_char),
@@ -26,7 +26,7 @@ WidgetList::WidgetList(point pos_center, boxsize size_char, std::string &&text, 
 
 WidgetList::~WidgetList() {}
 
-void WidgetList::init(point pos_center) {
+void WidgetList::init(kebb::point pos_center) {
 
   // Geometry --
   // Find the longest word
@@ -41,7 +41,7 @@ void WidgetList::init(point pos_center) {
   _position.x = pos_center.x - (_size.w + _space + _longest_choice_width) / 2;
 
   // The _tb_choice position and width will be updated by display_current_it()
-  boxsize size_choices = {_longest_choice_width, _size_char.h};
+  kebb::boxsize size_choices = {_longest_choice_width, _size_char.h};
   _tb_choice = std::make_unique<WidgetTextBox>(_position, size_choices);
   _tb_choice->set_color_text(kebb::color(kebb::ColorName::C_Teal));
   display_current_it();

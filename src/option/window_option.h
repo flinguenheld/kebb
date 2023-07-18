@@ -15,7 +15,7 @@
 
 class WindowOption : public WidgetWindowSelection {
 public:
-  WindowOption(boxsize screen_size, std::shared_ptr<WindowName> next_window,
+  WindowOption(kebb::boxsize screen_size, std::shared_ptr<kebb::WindowName> next_window,
                std::shared_ptr<Renderer> renderer, std::shared_ptr<OptionFile> options);
   virtual ~WindowOption();
 
@@ -37,6 +37,6 @@ private:
   void check_new_resolution();
   bool _message_displayed;
 
-  const boxsize _screen_size;
+  const kebb::boxsize _screen_size;
 };
 #endif // !WINDOW_OPTION_H

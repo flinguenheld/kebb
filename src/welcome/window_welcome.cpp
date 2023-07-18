@@ -1,15 +1,15 @@
 #include "window_welcome.h"
 
-WindowWelcome::WindowWelcome(boxsize screen_size, std::shared_ptr<WindowName> next_window,
+WindowWelcome::WindowWelcome(kebb::boxsize screen_size, std::shared_ptr<kebb::WindowName> next_window,
                              std::shared_ptr<Renderer> renderer)
     : WidgetWindowSelection(next_window, renderer) {
 
   _widget_menu = std::make_unique<WidgetMenu>(screen_size, renderer, "<ESC> Quit      <ENTER> Valid");
 
   // Geometry
-  boxsize char_size = _renderer->font_char_size(FontName::F_Menu); // NOTE: Use font menu ?
-  boxsize bs_title;
-  point pt;
+  kebb::boxsize char_size = _renderer->font_char_size(FontName::F_Menu); // NOTE: Use font menu ?
+  kebb::boxsize bs_title;
+  kebb::point pt;
 
   // ------------------------------------------------------------------------
   // Title ------------------------------------------------------------------
@@ -26,7 +26,8 @@ WindowWelcome::WindowWelcome(boxsize screen_size, std::shared_ptr<WindowName> ne
 
   // ------------------------------------------------------------------------
   // Logo -------------------------------------------------------------------
-  boxsize bs_logo = {static_cast<uint16_t>(screen_size.w / 3), static_cast<uint16_t>(screen_size.w / 7.5)};
+  kebb::boxsize bs_logo = {static_cast<uint16_t>(screen_size.w / 3),
+                           static_cast<uint16_t>(screen_size.w / 7.5)};
   pt.x = screen_size.w / 2 - bs_logo.w / 2;
   pt.y += bs_title.h * 1.05;
 
@@ -35,7 +36,7 @@ WindowWelcome::WindowWelcome(boxsize screen_size, std::shared_ptr<WindowName> ne
 
   // ------------------------------------------------------------------------
   // Selection fields -------------------------------------------------------
-  boxsize bs_field = renderer->font_char_size(FontName::F_Menu).scale(1.7);
+  kebb::boxsize bs_field = renderer->font_char_size(FontName::F_Menu).scale(1.7);
   pt.x = screen_size.w / 2;
   pt.y += bs_logo.h * 1.7;
 
@@ -53,10 +54,7 @@ WindowWelcome::~WindowWelcome() {
 
 void WindowWelcome::render() {
 
-  // Clear screen
-  SDL_SetRenderDrawColor(_renderer->renderer(), 0x1E, 0x1E, 0x1E, 0xFF);
-  SDL_RenderClear(_renderer->renderer());
-
+  _renderer->clear_screen();
   _widget_title->render(_renderer->renderer(), _renderer->font(FontName::F_Menu));
   _widget_logo->render(_renderer->renderer());
 
@@ -71,13 +69,13 @@ void WindowWelcome::render() {
 
 // ----------------------------------------------------------------------------------------------------
 // CONTROLS -------------------------------------------------------------------------------------------
-void WindowWelcome::control_escape() { *_next_window = WindowName::W_Quit; }
+void WindowWelcome::control_escape() { *_next_window = kebb::WindowName::W_Quit; }
 void WindowWelcome::control_enter() {
 
   if (_widget_select_fields[0]->is_selected())
-    *_next_window = WindowName::W_Game;
+    *_next_window = kebb::WindowName::W_Game;
   else if (_widget_select_fields[1]->is_selected())
-    *_next_window = WindowName::W_Option;
+    *_next_window = kebb::WindowName::W_Option;
   else if (_widget_select_fields[2]->is_selected())
-    *_next_window = WindowName::W_About;
+    *_next_window = kebb::WindowName::W_About;
 }

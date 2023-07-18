@@ -1,9 +1,13 @@
 #include "renderer.h"
+#include "utils.h"
 
-Renderer::Renderer(boxsize screen_size, uint16_t scale_factor, uint16_t font_size_target,
+Renderer::Renderer(kebb::boxsize screen_size, uint16_t scale_factor, uint16_t font_size_target,
                    uint16_t font_size_score, uint16_t font_size_menu)
     : _screen_size(screen_size), _scale_factor(scale_factor), _font_target(nullptr), _font_score(nullptr),
       _font_menu(nullptr) {
+
+  // _color_background = kebb::color(kebb::ColorName::C_Sky);
+  _color_background = kebb::color(kebb::ColorName::C_Base);
 
   // Initialize SDL
   if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -82,11 +86,20 @@ Renderer::~Renderer() {
 
 SDL_Renderer *Renderer::renderer() { return _renderer; }
 
-void Renderer::UpdateWindowTitle(uint16_t fps) {
+void Renderer::update_window_title(uint16_t fps) {
   // std::string title{"Kebb - " + std::to_string(_screen_size.w) + "x" + std::to_string(_screen_size.h) +
   //                   " - fps: " + std::to_string(fps)};
   std::string title{"Kebb - [" + std::to_string(fps) + (" fps]")};
   SDL_SetWindowTitle(_window, title.c_str());
+}
+
+/*
+ * Standardize SDL_RenderClear with the background color
+ */
+void Renderer::clear_screen() {
+  // SDL_SetRenderDrawColor(_renderer, 0x1E, 0x1E, 0x1E, 0xFF);
+  SDL_SetRenderDrawColor(_renderer, _color_background.r, _color_background.g, _color_background.b, 0xFF);
+  SDL_RenderClear(_renderer);
 }
 
 // ----------------------------------------------------------------------------------------------------
@@ -101,7 +114,7 @@ TTF_Font *Renderer::font(FontName fn) {
     return _font_score;
   }
 }
-boxsize Renderer::font_char_size(FontName fn) const {
+kebb::boxsize Renderer::font_char_size(FontName fn) const {
   switch (fn) {
   case FontName::F_Target:
     return _char_size_target;

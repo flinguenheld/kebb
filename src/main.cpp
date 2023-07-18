@@ -18,7 +18,7 @@ int main() {
   auto hyphen_position = resolution_option.find('-');
   uint16_t res = std::stoi(resolution_option.substr(0, hyphen_position));
 
-  const boxsize screen_size = {res, res};
+  const kebb::boxsize screen_size = {res, res};
   const uint16_t scale_factor = std::stoi(resolution_option.substr(++hyphen_position));
 
   // --
@@ -32,7 +32,7 @@ int main() {
 
   Controller controller;
   Game game(screen_size.scale(scale_factor), score, renderer, options);
-  game.Run(controller);
+  game.run(controller);
 
   std::cout << "Kebb has terminated successfully!\n";
   return 0;

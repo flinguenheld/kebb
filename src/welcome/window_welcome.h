@@ -14,7 +14,7 @@
 
 class WindowWelcome : public WidgetWindowSelection {
 public:
-  WindowWelcome(boxsize screen_size, std::shared_ptr<WindowName> next_window,
+  WindowWelcome(kebb::boxsize screen_size, std::shared_ptr<kebb::WindowName> next_window,
                 std::shared_ptr<Renderer> renderer);
   virtual ~WindowWelcome();
 

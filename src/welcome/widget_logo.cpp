@@ -1,6 +1,6 @@
 #include "widget_logo.h"
 
-WidgetLogo::WidgetLogo(point position, boxsize size)
+WidgetLogo::WidgetLogo(kebb::point position, kebb::boxsize size)
     : WidgetBase(position, size), _nb_colums(12), _nb_lines(4), _engine(_seed()), _continue(true) {
 
   _color_border = kebb::color(kebb::ColorName::C_Surface1);

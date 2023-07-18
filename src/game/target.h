@@ -17,11 +17,11 @@
  * The update method contains a while loop which is in charge of updating the object position. And thus the
  * color, the state ...
  * Once it's necessary, the init method is called. The latter will call the dispatcher to release the current
- * keycode/angle and ask for new ones.
+ * keycode/angle and ask for a new one.
  */
 class Target : public WidgetTextBox {
 public:
-  Target(point center_area, uint16_t radius_area, boxsize char_size, uint16_t waiting_time,
+  Target(kebb::point center_area, uint16_t radius_area, kebb::boxsize char_size, uint16_t waiting_time,
          std::shared_ptr<Dispatcher> dispatcher, std::shared_ptr<Score> score);
 
   void update();
@@ -41,10 +41,11 @@ private:
   uint16_t _angle;
 
   const uint16_t _waiting_time;
-  const point _center_area;
+  const kebb::point _center_area;
   const uint16_t _radius_area;
 
   uint16_t _move_x, _move_y; // Increments set according to the angle
+  SDL_Color _green, _red, _white;
 };
 
 #endif // !TARGET_H

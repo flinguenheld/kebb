@@ -1,16 +1,15 @@
 #include "window_about.h"
-#include "utils.h"
 
-WindowAbout::WindowAbout(boxsize screen_size, std::shared_ptr<WindowName> next_window,
+WindowAbout::WindowAbout(kebb::boxsize screen_size, std::shared_ptr<kebb::WindowName> next_window,
                          std::shared_ptr<Renderer> renderer)
     : WidgetWindow(next_window, renderer) {
 
   _widget_menu = std::make_unique<WidgetMenu>(screen_size, renderer, "<ESC> Quit");
 
   // Geometry
-  boxsize char_size = _renderer->font_char_size(FontName::F_Menu); // NOTE: Use font menu ?
-  boxsize bs;
-  point pt;
+  kebb::boxsize char_size = _renderer->font_char_size(FontName::F_Menu); // NOTE: Use font menu ?
+  kebb::boxsize bs;
+  kebb::point pt;
 
   // ------------------------------------------------------------------------
   // Title ------------------------------------------------------------------
@@ -51,10 +50,8 @@ WindowAbout::WindowAbout(boxsize screen_size, std::shared_ptr<WindowName> next_w
 WindowAbout::~WindowAbout() {}
 
 void WindowAbout::render() {
-  // Clear screen
-  SDL_SetRenderDrawColor(_renderer->renderer(), 0x1E, 0x1E, 0x1E, 0xFF);
-  SDL_RenderClear(_renderer->renderer());
 
+  _renderer->clear_screen();
   _widget_title->render(_renderer->renderer(), _renderer->font(FontName::F_Menu));
   _widget_github->render(_renderer->renderer(), _renderer->font(FontName::F_Menu));
   _widget_email->render(_renderer->renderer(), _renderer->font(FontName::F_Menu));
@@ -66,4 +63,4 @@ void WindowAbout::render() {
 
 // ----------------------------------------------------------------------------------------------------
 // CONTROLS -------------------------------------------------------------------------------------------
-void WindowAbout::control_escape() { *_next_window = WindowName::W_Welcome; }
+void WindowAbout::control_escape() { *_next_window = kebb::WindowName::W_Welcome; }

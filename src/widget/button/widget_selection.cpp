@@ -2,7 +2,7 @@
 #include "widget/widget_textbox.h"
 
 // clang-format off
-WidgetSelection::WidgetSelection(point pos_center, boxsize size_char, std::string &&text, bool selected)
+WidgetSelection::WidgetSelection(kebb::point pos_center, kebb::boxsize size_char, std::string &&text, bool selected)
     : WidgetTextBox(pos_center, size_char)
 {
   // clang-format on

@@ -14,7 +14,7 @@ enum class WidgetScoreType {
 
 class WidgetScore {
 public:
-  WidgetScore(WidgetScoreType type, boxsize screen_size, std::shared_ptr<Score> score,
+  WidgetScore(WidgetScoreType type, kebb::boxsize screen_size, std::shared_ptr<Score> score,
               std::shared_ptr<Renderer> renderer);
   void render(uint16_t time_seconds);
 

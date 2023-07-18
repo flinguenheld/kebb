@@ -5,6 +5,7 @@
 #include "SDL_blendmode.h"
 #include "SDL_timer.h"
 #include "SDL_ttf.h"
+#include "about/window_about.h"
 #include "controller.h"
 #include "game/dispatcher.h"
 #include "game/target.h"
@@ -21,10 +22,10 @@
 
 class Game {
 public:
-  Game(boxsize screen_size, std::shared_ptr<Score> score, std::shared_ptr<Renderer> renderer,
+  Game(kebb::boxsize screen_size, std::shared_ptr<Score> score, std::shared_ptr<Renderer> renderer,
        std::shared_ptr<OptionFile> options);
 
-  void Run(Controller const &controller);
+  void run(Controller const &controller);
 
 private:
   std::shared_ptr<WidgetWindow> _current_window; // Shared with the controller
@@ -35,7 +36,7 @@ private:
   std::shared_ptr<Renderer> _renderer;
   std::shared_ptr<OptionFile> _options;
 
-  const boxsize _screen_size;
+  const kebb::boxsize _screen_size;
 };
 
 #endif

@@ -11,7 +11,7 @@
 
 class WindowPause : public WidgetWindow {
 public:
-  WindowPause(boxsize screen_size, std::shared_ptr<WindowName> next_window,
+  WindowPause(kebb::boxsize screen_size, std::shared_ptr<kebb::WindowName> next_window,
               std::shared_ptr<Renderer> renderer, std::shared_ptr<Score> score);
   virtual ~WindowPause();
 

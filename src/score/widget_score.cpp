@@ -1,14 +1,13 @@
 #include "widget_score.h"
-#include "utils.h"
 
-WidgetScore::WidgetScore(WidgetScoreType type, boxsize screen_size, std::shared_ptr<Score> score,
+WidgetScore::WidgetScore(WidgetScoreType type, kebb::boxsize screen_size, std::shared_ptr<Score> score,
                          std::shared_ptr<Renderer> renderer)
     : _score(score), _renderer(renderer) {
 
   // Geometry
-  boxsize char_size = _renderer->font_char_size(FontName::F_Score);
-  boxsize line_size;
-  point pt;
+  kebb::boxsize char_size = _renderer->font_char_size(FontName::F_Score);
+  kebb::boxsize line_size;
+  kebb::point pt;
 
   // ------------------------------------------------------------------------
   // Success / Fail / Miss --------------------------------------------------

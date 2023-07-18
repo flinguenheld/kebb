@@ -1,8 +1,8 @@
 #include "widget_boolean.h"
 #include <cstdint>
 
-WidgetBoolean::WidgetBoolean(point pos_center, boxsize size_char, std::string &&text, bool selected,
-                             bool status)
+WidgetBoolean::WidgetBoolean(kebb::point pos_center, kebb::boxsize size_char, std::string &&text,
+                             bool selected, bool status)
     : WidgetSelection(pos_center, size_char, std::move(text), selected), _status(status) {
 
   _color_bt_on = kebb::color(kebb::ColorName::C_Sky);
