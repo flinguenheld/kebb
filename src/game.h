@@ -25,7 +25,7 @@ public:
   Game(kebb::boxsize screen_size, std::shared_ptr<Score> score, std::shared_ptr<Renderer> renderer,
        std::shared_ptr<OptionFile> options);
 
-  void run(Controller const &controller);
+  void run(Controller &controller);
 
 private:
   std::shared_ptr<WidgetWindow> _current_window; // Shared with the controller

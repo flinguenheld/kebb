@@ -1,6 +1,9 @@
 #include "controller.h"
+#include "SDL_keycode.h"
 
-void Controller::handle_input(bool &running, std::shared_ptr<WidgetWindow> window) const {
+Controller::Controller() : _circumflex(false), _grave(false), _diaeresis(false) {}
+
+void Controller::handle_input(bool &running, std::shared_ptr<WidgetWindow> window) {
   SDL_Event e;
   while (SDL_PollEvent(&e)) {
 
@@ -57,13 +60,76 @@ void Controller::handle_input(bool &running, std::shared_ptr<WidgetWindow> windo
 
 /*
  * Convert the current SDL keycode event to the Kebb keycode for the US version
+ * It uses these keycodes:
+ *      https://github.com/qmk/qmk_firmware/blob/master/quantum/keymap_extras/keymap_us.h
+ *
+ * And these ones for the french accents:
+ *      https://github.com/qmk/qmk_firmware/blob/master/quantum/keymap_extras/keymap_us_extended.h
  */
-uint16_t Controller::convert_us(SDL_Event &e) const {
+uint16_t Controller::convert_us(SDL_Event &e) {
 
   const auto mask = 0x3FF; // Remove the first sixth bits (NUM/CAP/GUI)
   // std::cout << "mode: " << (e.key.keysym.mod & mask) << std::endl;
 
+  std::cout << "mode: " << (e.key.keysym.mod) << std::endl;
+
   // clang-format off
+  if (_circumflex) {
+    _circumflex = false;
+
+    if ((e.key.keysym.mod & KMOD_LSHIFT) == KMOD_LSHIFT || (e.key.keysym.mod & KMOD_RSHIFT) == KMOD_RSHIFT) {
+      switch (e.key.keysym.sym) {
+        case SDLK_a:       return 2104; // Â
+        case SDLK_e:       return 2105; // Ê
+        case SDLK_i:       return 2106; // Î
+        case SDLK_o:       return 2107; // Ô
+        case SDLK_u:       return 2108; // Û
+      }
+    } else {
+      switch (e.key.keysym.sym) {
+        case SDLK_a:       return 2004; // â
+        case SDLK_e:       return 2005; // ê
+        case SDLK_i:       return 2006; // î
+        case SDLK_o:       return 2007; // ô
+        case SDLK_u:       return 2008; // û
+      }
+    }
+  } else if (_grave) {
+    _grave = false;
+
+    if ((e.key.keysym.mod & KMOD_LSHIFT) == KMOD_LSHIFT || (e.key.keysym.mod & KMOD_RSHIFT) == KMOD_RSHIFT) {
+      switch (e.key.keysym.sym) {
+        case SDLK_a:       return 2101; // À
+        case SDLK_e:       return 2102; // È
+        case SDLK_u:       return 2103; // Ù
+      }
+    } else {
+      switch (e.key.keysym.sym) {
+        case SDLK_a:       return 2001; // à
+        case SDLK_e:       return 2002; // è
+        case SDLK_u:       return 2003; // ù
+      }
+    }
+  } else if (_diaeresis) {
+    _diaeresis = false;
+
+    if ((e.key.keysym.mod & KMOD_LSHIFT) == KMOD_LSHIFT || (e.key.keysym.mod & KMOD_RSHIFT) == KMOD_RSHIFT) {
+      switch (e.key.keysym.sym) {
+        case SDLK_i:       return 2109; // Ï
+        case SDLK_e:       return 2110; // Ë
+        case SDLK_u:       return 2111; // Ü
+      }
+    } else {
+      switch (e.key.keysym.sym) {
+        case SDLK_i:       return 2009; // Ï
+        case SDLK_e:       return 2010; // Ë
+        case SDLK_u:       return 2011; // Ü
+      }
+    }
+  }
+
+  // --------------------------------------------------
+  // --------------------------------------------------
   if ((e.key.keysym.mod & mask) == KMOD_NONE) {
     switch (e.key.keysym.sym) {
       case SDLK_a:      return 10;
@@ -116,8 +182,21 @@ uint16_t Controller::convert_us(SDL_Event &e) const {
       case SDLK_RIGHTBRACKET:         return 1025;
       case SDLK_BACKSLASH:            return 1024;
     }
+  }
 
-  } else if ((e.key.keysym.mod & mask) == KMOD_LSHIFT || (e.key.keysym.mod & mask) == KMOD_RSHIFT) {
+  if ((e.key.keysym.mod & KMOD_LSHIFT) == KMOD_LSHIFT || (e.key.keysym.mod & KMOD_RSHIFT) == KMOD_RSHIFT) {
+
+    if ((e.key.keysym.mod & KMOD_RALT) == KMOD_RALT){
+        switch (e.key.keysym.sym) {
+          case SDLK_e:      return 2100; // É
+          case SDLK_z:      return 2112; // Æ
+          case SDLK_k:                   // There are two Œ :|
+          case SDLK_x:      return 2113; // Œ
+          case SDLK_COMMA:  return 2114; // Ç
+
+          case SDLK_QUOTE:            _diaeresis = true; return 0; // FIX: Return 0 ?
+        }
+    }
 
     switch (e.key.keysym.sym) {
       case SDLK_a:      return 100;
@@ -170,7 +249,20 @@ uint16_t Controller::convert_us(SDL_Event &e) const {
       case SDLK_SLASH:           return 1021; // ?
     }
   }
-  // clang-format on
+
+  if ((e.key.keysym.mod & KMOD_RALT) == KMOD_RALT) {
+    switch (e.key.keysym.sym) {
+      case SDLK_e:      return 2000; // é
+      case SDLK_z:      return 2012; // æ
+      case SDLK_k:                   // There are two Œ :|
+      case SDLK_x:      return 2013; // œ
+      case SDLK_COMMA:  return 2014; // ç
+      case SDLK_5:      return 2015; // €
+
+      case SDLK_6:            _circumflex = true; return 0;
+      case SDLK_BACKQUOTE:    _grave = true; return 0;
+    }
+  }
 
   return 0;
 }

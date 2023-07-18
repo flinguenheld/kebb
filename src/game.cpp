@@ -12,7 +12,7 @@ Game::Game(kebb::boxsize screen_size, std::shared_ptr<Score> score,
 }
 // clang-format on
 
-void Game::run(Controller const &controller) {
+void Game::run(Controller &controller) {
   uint32_t title_timestamp = SDL_GetTicks();
   uint32_t frame_end;
   uint32_t frame_count = 0;
