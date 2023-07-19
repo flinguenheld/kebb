@@ -29,7 +29,7 @@ WindowOption::WindowOption(kebb::boxsize screen_size, std::shared_ptr<kebb::Wind
   // Selection fields -------------------------------------------------------
   kebb::boxsize bs_field = renderer->font_char_size(FontName::F_Menu).scale(1);
   pt.x = screen_size.w / 2;
-  pt.y += bs_title.h * 1.5;
+  pt.y += bs_title.h * 1.4;
 
   _widget_select_fields.emplace_back(std::make_unique<WidgetList>(
       pt, bs_field, "Resolution:",
@@ -46,7 +46,7 @@ WindowOption::WindowOption(kebb::boxsize screen_size, std::shared_ptr<kebb::Wind
       "Keyboard layout:", std::vector<SelectionItem>{{"US", "US"}, {"Francais", "FR"}, {"Bepo", "Bepo"}}));
   _widget_select_fields.back()->set_choice_by_value(_options->get(OptionName::Layout));
 
-  pt.y += bs_field.h * 1.5;
+  pt.y += bs_field.h * 1.4;
   _widget_select_fields.emplace_back(std::make_unique<WidgetList>(pt, bs_field, "Nb targets:", 1, 20, 1));
   _widget_select_fields.back()->set_choice_by_value(_options->get(OptionName::Targets));
 
@@ -88,7 +88,7 @@ WindowOption::WindowOption(kebb::boxsize screen_size, std::shared_ptr<kebb::Wind
                                                                                              {"16", "1"}}));
   _widget_select_fields.back()->set_choice_by_value(_options->get(OptionName::Speed));
 
-  pt.y += bs_field.h * 1.5;
+  pt.y += bs_field.h * 1.4;
   _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "Letters"));
   _widget_select_fields.back()->set_bool(std::stoi(_options->get(OptionName::Letters)));
 
@@ -104,12 +104,23 @@ WindowOption::WindowOption(kebb::boxsize screen_size, std::shared_ptr<kebb::Wind
   _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "Symbols"));
   _widget_select_fields.back()->set_bool(std::stoi(_options->get(OptionName::Symbols)));
 
+  pt.y += bs_field.h * 1.2;
+  _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "French extra"));
+  _widget_select_fields.back()->set_bool(std::stoi(_options->get(OptionName::FrenchExtra)));
+
+  pt.y += bs_field.h * 1;
+  _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "French extra cap"));
+  _widget_select_fields.back()->set_bool(std::stoi(_options->get(OptionName::FrenchExtraCap)));
+
   // ------------------------------------------------------------------------
   // Message ----------------------------------------------------------------
-  pt.y += bs_field.h * 2;
+  pt.y += bs_field.h * 1.3;
   _widget_message = std::make_unique<WidgetTextBox>(pt, bs_field);
   _widget_message->set_color_text(kebb::color(kebb::ColorName::C_Base));
   _widget_message->set_color(kebb::color(kebb::ColorName::C_Yellow));
+
+  // Display help on start --
+  check_french_extra();
 }
 
 WindowOption::~WindowOption() {}
@@ -154,6 +165,14 @@ void WindowOption::check_new_resolution() {
     _message_displayed = true;
   }
 }
+void WindowOption::check_french_extra() {
+
+  if ((_widget_select_fields[9]->get_bool() || _widget_select_fields[10]->get_bool()) &&
+      _widget_select_fields[1]->get_choice().value == "US") {
+    display_message("  French extra requiers the US Altgr-intl layout  ");
+    _message_displayed = true;
+  }
+}
 
 // ----------------------------------------------------------------------------------------------------
 // CONTROLS -------------------------------------------------------------------------------------------
@@ -161,7 +180,8 @@ void WindowOption::control_escape() { *_next_window = kebb::WindowName::W_Welcom
 void WindowOption::control_enter() {
   // Use has to select at least one target type
   if (_widget_select_fields[5]->get_bool() == true || _widget_select_fields[6]->get_bool() == true ||
-      _widget_select_fields[7]->get_bool() == true || _widget_select_fields[8]->get_bool() == true) {
+      _widget_select_fields[7]->get_bool() == true || _widget_select_fields[8]->get_bool() == true ||
+      _widget_select_fields[9]->get_bool() == true || _widget_select_fields[10]->get_bool() == true) {
 
     // Up options, save and quit
     _options->set(OptionName::Resolution, _widget_select_fields[0]->get_choice().value);
@@ -173,11 +193,12 @@ void WindowOption::control_enter() {
     _options->set(OptionName::Capitals, std::to_string(_widget_select_fields[6]->get_bool()));
     _options->set(OptionName::Numbers, std::to_string(_widget_select_fields[7]->get_bool()));
     _options->set(OptionName::Symbols, std::to_string(_widget_select_fields[8]->get_bool()));
+    _options->set(OptionName::FrenchExtra, std::to_string(_widget_select_fields[9]->get_bool()));
+    _options->set(OptionName::FrenchExtraCap, std::to_string(_widget_select_fields[10]->get_bool()));
 
     _options->save();
 
     *_next_window = kebb::WindowName::W_Welcome;
-
   } else
     display_message("  At least one target type is requiered.  ");
 }
@@ -189,6 +210,7 @@ void WindowOption::control_left() {
     if (w->is_selected()) {
       w->action_left();
 
+      check_french_extra();
       check_new_resolution();
       return;
     }
@@ -201,6 +223,7 @@ void WindowOption::control_right() {
     if (w->is_selected()) {
       w->action_right();
 
+      check_french_extra();
       check_new_resolution();
       return;
     }

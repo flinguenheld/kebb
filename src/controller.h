@@ -8,7 +8,6 @@
 #include "SDL_stdinc.h"
 #include "game/target.h"
 #include "widget/widget_window.h"
-#include <cstdint>
 #include <iostream>
 #include <memory>
 #include <vector>
@@ -21,8 +20,7 @@ public:
 private:
   uint16_t convert_us(SDL_Event &e);
 
-  Uint16 _previous_key;
-  Uint16 _previous_mod;
+  const uint16_t _mask_mod; // Remove the first sixth bits (NUM/CAP/GUI) of mods
 
   bool _circumflex;
   bool _grave;

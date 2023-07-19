@@ -1,7 +1,6 @@
 #include "controller.h"
-#include "SDL_keycode.h"
 
-Controller::Controller() : _circumflex(false), _grave(false), _diaeresis(false) {}
+Controller::Controller() : _circumflex(false), _grave(false), _diaeresis(false), _mask_mod(0x3FF) {}
 
 void Controller::handle_input(bool &running, std::shared_ptr<WidgetWindow> window) {
   SDL_Event e;
@@ -59,7 +58,8 @@ void Controller::handle_input(bool &running, std::shared_ptr<WidgetWindow> windo
 }
 
 /*
- * Convert the current SDL keycode event to the Kebb keycode for the US version
+ * Convert the current SDL keycode event to the Kebb keycode for the US version.
+ * Return the keycode or 0 (0 is not count as a fail by WindowGame).
  * It uses these keycodes:
  *      https://github.com/qmk/qmk_firmware/blob/master/quantum/keymap_extras/keymap_us.h
  *
@@ -69,11 +69,12 @@ void Controller::handle_input(bool &running, std::shared_ptr<WidgetWindow> windo
 uint16_t Controller::convert_us(SDL_Event &e) {
 
   const auto mask = 0x3FF; // Remove the first sixth bits (NUM/CAP/GUI)
-  // std::cout << "mode: " << (e.key.keysym.mod & mask) << std::endl;
-
-  std::cout << "mode: " << (e.key.keysym.mod) << std::endl;
+                           // std::cout << "mode: " << (e.key.keysym.mod & mask) << std::endl;
 
   // clang-format off
+
+  // --------------------------------------------------
+  // French specials ----------------------------------
   if (_circumflex) {
     _circumflex = false;
 
@@ -130,7 +131,7 @@ uint16_t Controller::convert_us(SDL_Event &e) {
 
   // --------------------------------------------------
   // --------------------------------------------------
-  if ((e.key.keysym.mod & mask) == KMOD_NONE) {
+  if ((e.key.keysym.mod & _mask_mod) == KMOD_NONE) {
     switch (e.key.keysym.sym) {
       case SDLK_a:      return 10;
       case SDLK_b:      return 11;
@@ -194,7 +195,7 @@ uint16_t Controller::convert_us(SDL_Event &e) {
           case SDLK_x:      return 2113; // Œ
           case SDLK_COMMA:  return 2114; // Ç
 
-          case SDLK_QUOTE:            _diaeresis = true; return 0; // FIX: Return 0 ?
+          case SDLK_QUOTE:            _diaeresis = true; return 0;
         }
     }
 

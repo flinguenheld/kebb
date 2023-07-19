@@ -1,6 +1,4 @@
 #include "dispatcher.h"
-#include <cstdint>
-#include <string>
 
 Dispatcher::Dispatcher(std::shared_ptr<OptionFile> options) : _engine(_seed()), _number_of_chars(0) {
 
@@ -28,15 +26,17 @@ Dispatcher::Dispatcher(std::shared_ptr<OptionFile> options) : _engine(_seed()), 
       ++_number_of_chars;
     }
   }
-
-  for (uint16_t i = 2000; i < 2016; ++i) {
-    _keycodes.emplace_back(i);
-    ++_number_of_chars;
+  if (std::stoi(options->get(OptionName::FrenchExtra))) {
+    for (uint16_t i = 2000; i < 2016; ++i) {
+      _keycodes.emplace_back(i);
+      ++_number_of_chars;
+    }
   }
-
-  for (uint16_t i = 2100; i < 2115; ++i) {
-    _keycodes.emplace_back(i);
-    ++_number_of_chars;
+  if (std::stoi(options->get(OptionName::FrenchExtraCap))) {
+    for (uint16_t i = 2100; i < 2115; ++i) {
+      _keycodes.emplace_back(i);
+      ++_number_of_chars;
+    }
   }
 
   for (uint16_t i = 0; i < 360; i += 5)
