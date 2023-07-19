@@ -1,4 +1,6 @@
 #include "dispatcher.h"
+#include "option/option_file.h"
+#include <cstdint>
 
 Dispatcher::Dispatcher(std::shared_ptr<OptionFile> options) : _engine(_seed()), _number_of_chars(0) {
 
@@ -27,13 +29,24 @@ Dispatcher::Dispatcher(std::shared_ptr<OptionFile> options) : _engine(_seed()), 
     }
   }
   if (std::stoi(options->get(OptionName::FrenchExtras))) {
-    for (uint16_t i = 2000; i < 2016; ++i) {
+
+    uint16_t max = 2016;
+    if (options->get(OptionName::Layout) == "FR") // Avoid æ œ // NOTE: With other layouts ?
+      max = 2114;
+
+    for (uint16_t i = 2000; i < 2014; ++i) {
       _keycodes.emplace_back(i);
       ++_number_of_chars;
     }
   }
+
   if (std::stoi(options->get(OptionName::FrenchExtraCaps))) {
-    for (uint16_t i = 2100; i < 2115; ++i) {
+
+    uint16_t max = 2115;
+    if (options->get(OptionName::Layout) == "FR") // Avoid æ œ
+      max = 2113;
+
+    for (uint16_t i = 2100; i < max; ++i) {
       _keycodes.emplace_back(i);
       ++_number_of_chars;
     }

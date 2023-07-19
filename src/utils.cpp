@@ -103,7 +103,7 @@ std::string kebb::keycode_to_string(uint16_t val) {
     case 1030:     return "}";
     case 1031:     return "|";
 
-    // French specials
+    // French extras
     case 2000:     return "é";
       case 2001:     return "à";
       case 2002:     return "è";
@@ -116,10 +116,10 @@ std::string kebb::keycode_to_string(uint16_t val) {
       case 2009:     return "ï";
       case 2010:     return "ë";
       case 2011:     return "ü";
-    case 2012:     return "æ";
-    case 2013:     return "œ";
-    case 2014:     return "ç";
-      case 2015:    return "€";
+    case 2012:     return "ç";
+      case 2013:    return "€";
+    case 2014:     return "æ";
+    case 2015:     return "œ";
 
     case 2100:     return "É";
       case 2101:     return "À";
@@ -133,9 +133,9 @@ std::string kebb::keycode_to_string(uint16_t val) {
       case 2109:     return "Ï";
       case 2110:     return "Ë";
       case 2111:     return "Ü";
-    case 2112:     return "Æ";
-    case 2113:     return "Œ";
-    case 2114:     return "Ç";
+    case 2112:     return "Ç";
+      case 2113:     return "Æ";
+      case 2114:     return "Œ";
 
     default:      return "None";
   }

@@ -1,8 +1,14 @@
 #include "option_file.h"
 
 OptionFile::OptionFile()
-    : _filename("options.kebb"), _layout(""), _nb_targets("1"), _countdown("1"), _speed("1"), _letters("1"),
-      _capitals("1"), _numbers("1"), _symbols("1"), _french_extras("0"), _french_extra_caps("0") {}
+    : _filename("options.kebb"), _resolution("480-20"), _layout("US"), _nb_targets("5"), _countdown("60"),
+      _speed("20"), _letters("1"), _capitals("0"), _numbers("0"), _symbols("0"), _french_extras("0"),
+      _french_extra_caps("0") {
+
+  std::ifstream f(_filename); // First launch
+  if (!f.good())
+    save();
+}
 
 void OptionFile::save() const {
   std::ofstream ostrm(_filename);

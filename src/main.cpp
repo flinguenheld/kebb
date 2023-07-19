@@ -30,7 +30,7 @@ int main() {
                                              menu_font_size);
   auto score = std::make_shared<Score>();
 
-  Controller controller;
+  Controller controller(options);
   Game game(screen_size.scale(scale_factor), score, renderer, options);
   game.run(controller);
 
