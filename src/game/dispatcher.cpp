@@ -26,13 +26,13 @@ Dispatcher::Dispatcher(std::shared_ptr<OptionFile> options) : _engine(_seed()), 
       ++_number_of_chars;
     }
   }
-  if (std::stoi(options->get(OptionName::FrenchExtra))) {
+  if (std::stoi(options->get(OptionName::FrenchExtras))) {
     for (uint16_t i = 2000; i < 2016; ++i) {
       _keycodes.emplace_back(i);
       ++_number_of_chars;
     }
   }
-  if (std::stoi(options->get(OptionName::FrenchExtraCap))) {
+  if (std::stoi(options->get(OptionName::FrenchExtraCaps))) {
     for (uint16_t i = 2100; i < 2115; ++i) {
       _keycodes.emplace_back(i);
       ++_number_of_chars;

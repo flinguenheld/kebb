@@ -63,7 +63,7 @@ void Controller::handle_input(bool &running, std::shared_ptr<WidgetWindow> windo
  * It uses these keycodes:
  *      https://github.com/qmk/qmk_firmware/blob/master/quantum/keymap_extras/keymap_us.h
  *
- * And these ones for the french accents:
+ * And these ones for the french extras:
  *      https://github.com/qmk/qmk_firmware/blob/master/quantum/keymap_extras/keymap_us_extended.h
  */
 uint16_t Controller::convert_us(SDL_Event &e) {

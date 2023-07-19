@@ -15,8 +15,8 @@ enum class OptionName {
   Capitals,
   Numbers,
   Symbols,
-  FrenchExtra,
-  FrenchExtraCap,
+  FrenchExtras,
+  FrenchExtraCaps,
 };
 
 /*
@@ -47,8 +47,8 @@ private:
   std::string _capitals;
   std::string _numbers;
   std::string _symbols;
-  std::string _french_extra;
-  std::string _french_extra_cap;
+  std::string _french_extras;
+  std::string _french_extra_caps;
 };
 
 #endif // !OPTION_FILE_H

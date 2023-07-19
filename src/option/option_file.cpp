@@ -2,7 +2,7 @@
 
 OptionFile::OptionFile()
     : _filename("options.kebb"), _layout(""), _nb_targets("1"), _countdown("1"), _speed("1"), _letters("1"),
-      _capitals("1"), _numbers("1"), _symbols("1"), _french_extra("0"), _french_extra_cap("0") {}
+      _capitals("1"), _numbers("1"), _symbols("1"), _french_extras("0"), _french_extra_caps("0") {}
 
 void OptionFile::save() const {
   std::ofstream ostrm(_filename);
@@ -15,14 +15,14 @@ void OptionFile::save() const {
         << _capitals << '\n'
         << _numbers << '\n'
         << _symbols << '\n'
-        << _french_extra << '\n'
-        << _french_extra_cap;
+        << _french_extras << '\n'
+        << _french_extra_caps;
 }
 
 void OptionFile::read() {
   std::ifstream istrm(_filename);
   istrm >> _resolution >> _layout >> _nb_targets >> _countdown >> _speed >> _letters >> _capitals >>
-      _numbers >> _symbols >> _french_extra >> _french_extra_cap;
+      _numbers >> _symbols >> _french_extras >> _french_extra_caps;
 }
 
 // ----------------------------------------------------------------------------------------------------
@@ -56,11 +56,11 @@ void OptionFile::set(OptionName type, const std::string &val) {
   case OptionName::Symbols:
     _numbers = val;
     break;
-  case OptionName::FrenchExtra:
-    _french_extra = val;
+  case OptionName::FrenchExtras:
+    _french_extras = val;
     break;
   default:
-    _french_extra_cap = val;
+    _french_extra_caps = val;
   }
 }
 
@@ -84,9 +84,9 @@ std::string OptionFile::get(OptionName name) {
     return _numbers;
   case OptionName::Symbols:
     return _numbers;
-  case OptionName::FrenchExtra:
-    return _french_extra;
+  case OptionName::FrenchExtras:
+    return _french_extras;
   default:
-    return _french_extra_cap;
+    return _french_extra_caps;
   }
 }
