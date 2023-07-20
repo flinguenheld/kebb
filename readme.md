@@ -1,18 +1,29 @@
-# kebb
+<h1 align="center">kebb</h1>
 
-Kebb is a game for keyboard enthusiasts which allows to test and improve your typing skills.  
-Go to options to select the amount of letters, the speed and try to press all of them !
+Kebb is a game for keyboard enthusiasts which allows you to test and improve your typing skills. :rocket:  
+Go to options to select the amount of letters, the speed and try to press all of the letters !
 
-<p align="center">
-  <img src="./image/example_slow.gif" />
-  <img src="./image/example_fast.gif" />
-</p>
+<div align="center">
+  <img src="./image/example_slow_1.gif" width="380" />
+  <img src="./image/example_slow_2.gif" width="380" />
+</div>
+<div align="center">
+  <img src="./image/example_fast_1.gif" width="380" />
+  <img src="./image/example_fast_2.gif" width="380" />
+</div>
 
 #### Dependencies
 
-- [CMake](https://cmake.org/install/) >= 3.7: `apt install cmake`
-- g++: `apt install build-essential`
-- [SDL](https://wiki.libsdl.org/SDL2/Installation) >= 2.0: `apt install libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev`
+- **CMake >= 3.7**:
+  - `apt install cmake`
+  - All OSes: [CMake install](https://cmake.org/install/)
+- **g++:**
+  - `apt install build-essential`
+  - Mac: [install Xcode command line tools to get make](https://developer.apple.com/xcode/features/)
+  - Windows: [Click here for installation instructions](https://gnuwin32.sourceforge.net/packages/make.htm)
+- **SDL >= 2.0:** with libsdl2 libsdl2-ttf libsdl2-image <!-- TODO: Confirm image -->
+  - `apt install libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev`
+  - All OSes: [SDL install](https://wiki.libsdl.org/SDL2/Installation)
 
 #### Build
 
@@ -23,7 +34,8 @@ Go to options to select the amount of letters, the speed and try to press all of
 
 #### Thanks
 
-Colors come from the [Catppuccin](https://github.com/catppuccin/catppuccin) Mocha theme.
+[Udacity snake game](https://github.com/udacity/CppND-Capstone-Snake-Game) that I used to start Kebb.  
+Colors come from the [Catppuccin](https://github.com/catppuccin/catppuccin) Mocha theme. 😸
 
 ### Udacity criteria
 
@@ -37,17 +49,18 @@ You can find basic functions and structs in **./src/utils.cpp**.
 
 ##### 2. The project reads data from a file and process the data, or the program writes data to a file.
 
-To manage options, I have created the class **OptionName**. The latter allows to read/write a file named _options.kebb_.
-There is one information per line, each information is a string.
-To avoid useless open file repetition, an instance is created in the **main.cpp** an shared with other objects.
+To manage options, I have created the class **OptionName**. This allows you to read/write a file named _options.kebb_.
+There is one piece of information per line, each of them is a string.
+To avoid useless open file repetitions, an instance is created in the **main.cpp** and shared with other objects.
 
 ##### 3. The project accepts user input and processes the input.
 
-The user input is an important part of kebb. You can see that in **./src/controller.cpp**.
-So the program reads the input event at the main loop beginning and check if a target has the same value.
-However, I had to add a kind of interface because to get rid of the char limitation.
+The user input is an important part of Kebb. You can see that in **./src/controller.cpp**.
+So the program reads the input event at the beginning of the main loop and checks
+if a target has the same value.  
+However, I had to add a kind of interface to get rid of the char limitation.
 With beautiful languages (like French for instance) there are too much characters.
-You can see in **./src/utils.cpp** the current list of characters (in string) with a code.  
+You can see in **./src/utils.cpp** the current list of characters (in string) with a int as interface.  
 The controller is in charge to do the conversion according to the current press keys and the chosen layout.
 
 ---
@@ -66,12 +79,11 @@ I used a lot of classes with the "Widgets" which allow to easily display text/gr
 
 ##### 5. Classes follow an appropriate inheritance hierarchy.
 
-My widgets are all derived from **./src/widget/widget_base.h** (except WidgetWindow & WidgetMenu).
-It allows to regroup the basic information and to use the polymorphism.
+My widgets are all derived from **./src/widget/widget_base.h** (except WidgetWindow & WidgetMenu).  
+It allows to regroup the basic information and to use the polymorphism.  
 I didn't use a pure virtual function to avoid any mandatory overriding.
 
 <!-- FIX: Use or not the overriding keyword ? -->
-<!-- TODO: schema -->
 
 ##### 6. Overloaded functions allow the same function to operate on different parameters.
 
@@ -84,6 +96,7 @@ You can see for instance the class WidgetSelection:
   <img src="./image/schema_WidgetSelection.png" />
 </p>
 
+- WidgetBase regroups the basic geometrics variables and the common methods (like render).
 - WidgetTextBox allows to display a one line text.
 - WidgetSelection adds the ability to be selected and change its color.
   (Used with the **./src/widget/widget_window.cpp** WidgetWindowSelection class).
@@ -106,21 +119,21 @@ I didn't see a useful utilization here. I'm interested in your point of view.
 ##### 1. The project makes use of references in function declarations.
 
 I used some references to avoid useless copies especially in setters.  
-In the **./src/widget/widget_base.h** for instance. However a lot of exchanged values here are small.
-Like int or bool (or struct of two int) so I not sure that is very useful.
+In the **./src/widget/widget_base.h** for instance. However a lot of exchanged values here are small.  
+Like int, bool or struct of two int, so I'm not sure that is very useful.
 
 ##### 2. The project uses destructors appropriately.
 
-As said in the doc, I created a virtual destructor for all classes which use polymorphism.
-However, thanks to smart pointers, I didn't use destructors except for the renderer which allows to
+As said in the doc, I created a virtual destructor for all classes which use polymorphism.  
+However, thanks to smart pointers, I didn't need to use destructors except for the renderer which allows to
 liberate the SDL objects (**./src/renderer.h**).
 
 ##### 3. The project uses scope / Resource Acquisition Is Initialization (RAII) where appropriate.
 
 ##### 4. The project follows the Rule of 5.
 
-I hope I'm not wrong because I don't see any utilization of the copy and even less the move constructor here.
-Could you give me example which can be useful ?
+I hope I'm not wrong because I didn't see any utilization of the copy and even less the move constructor here.
+Could you give me some example where they can be useful in this project ?
 
 ##### 5. The project uses move semantics to move data, instead of copying it, where possible.
 
@@ -135,9 +148,21 @@ But honestly I can't really figure out if it have a real impact on performances.
 
 Oh yes, smart pointers are so powerful. I used them everywhere, to share the Controller or Options objects for instance.  
 But more important, they work with polymorphism, so I used them with all of my widgets.  
-The class WidgetWindowSelection has a vector of unique_ptr<WidgetSelection>. And these unique_ptr can be a WidgetBoolean or a WidgetList.
+For example, the class **WidgetWindowSelection** has a vector of unique_ptr<WidgetSelection>.  
+And these unique_ptr can be a WidgetBoolean or a WidgetList.
 
-Another good example is in the **./src/main.cpp**. The main loop is in charge of jumping between windows. The current window is a shared_ptr which receive several shared_ptr itself.
+Another good example is in the **./src/loop.cpp**. The game loop is in charge of jumping between windows.  
+The current window is a shared_ptr which receive several shared_ptr itself.
+
+By the way, is it safe to erase a shared_ptr ?
+
+```
+auto my_shared_ptr = std::make_shared<foo>();
+...
+my_shared_ptr.reset(); // <- Mandatory ?
+
+my_shared_ptr = std::make_shared<foo2>(15, 50); // <- Safe ?
+```
 
 As for the rule of 5, I didn't use the weak_ptr here.
 
@@ -145,6 +170,40 @@ As for the rule of 5, I didn't use the weak_ptr here.
 
 #### Concurrency
 
-1. The project uses multithreading
+<p align="center">
+  <img src="./image/schema_Target.png" />
+</p>
+
+1. The project uses multithreading.
 
 Yes, the main idea of Kebb is based on multithreading.
+The game loop creates a WindowGame which creates (according to options) a vector of class threads.  
+These threads (**./src/game/target.h**) launch an infinite loop which:
+
+- asks a character to the dispatcher
+- asks an angle to the dispatcher
+- calculates the target position & color
+- updates score if miss or success
+
+2. A promise and future is used in the project.
+
+No, threads are independent and they have to be stopped by WindowGame (when the timer is over, or user escape).
+
+3. A mutex or lock is used in the project.
+
+Yes, the dispatcher and the score objects are shared (thanks to a shared_ptr) with all targets
+so I used several unique_lock in their assessors:
+**./src/game/dispatcher.cpp**
+**./src/score/score.h**
+
+4. A condition variable is used in the project.
+
+No, I didn't need to synchronise threads, when WindowGame stops them, it just does a join().
+
+---
+
+:pushpin:  
+I used the multithreading mainly to work on it and I discovered in the [lazy foo tutorial](https://lazyfoo.net/tutorials/SDL/46_multithreading/index.php) that generally it's a beginner cliché and rarely justify.  
+Could you give me your opinion about the utility of multithreading in this project ?
+
+Thank you.

@@ -1,5 +1,5 @@
-#ifndef GAME_H
-#define GAME_H
+#ifndef LOOP_H
+#define LOOP_H
 
 #include "SDL.h"
 #include "SDL_blendmode.h"
@@ -20,9 +20,9 @@
 #include "widget/widget_window.h"
 #include <memory>
 
-class Game {
+class Loop {
 public:
-  Game(kebb::boxsize screen_size, std::shared_ptr<Score> score, std::shared_ptr<Renderer> renderer,
+  Loop(kebb::boxsize screen_size, std::shared_ptr<Score> score, std::shared_ptr<Renderer> renderer,
        std::shared_ptr<OptionFile> options);
 
   void run(Controller &controller);

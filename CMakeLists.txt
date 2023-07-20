@@ -24,7 +24,7 @@ include_directories(${SDL2_TTF_INCLUDE_DIR})
 
 add_executable(Kebb src/main.cpp
                     src/controller.cpp
-                    src/game.cpp
+                    src/loop.cpp
                     src/utils.cpp
                     src/renderer.cpp
                     src/about/window_about.cpp

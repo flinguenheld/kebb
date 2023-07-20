@@ -1,5 +1,5 @@
 #include "controller.h"
-#include "game.h"
+#include "loop.h"
 #include "option/option_file.h"
 #include "renderer.h"
 #include "utils.h"
@@ -31,7 +31,7 @@ int main() {
   auto score = std::make_shared<Score>();
 
   Controller controller(options);
-  Game game(screen_size.scale(scale_factor), score, renderer, options);
+  Loop game(screen_size.scale(scale_factor), score, renderer, options);
   game.run(controller);
 
   std::cout << "Kebb has terminated successfully!\n";

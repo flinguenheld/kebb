@@ -1,7 +1,7 @@
-#include "game.h"
+#include "loop.h"
 
 // clang-format off
-Game::Game(kebb::boxsize screen_size, std::shared_ptr<Score> score,
+Loop::Loop(kebb::boxsize screen_size, std::shared_ptr<Score> score,
            std::shared_ptr<Renderer> renderer, std::shared_ptr<OptionFile> options) :
       _screen_size(screen_size),
       _score(score),
@@ -12,7 +12,7 @@ Game::Game(kebb::boxsize screen_size, std::shared_ptr<Score> score,
 }
 // clang-format on
 
-void Game::run(Controller &controller) {
+void Loop::run(Controller &controller) {
   uint32_t title_timestamp = SDL_GetTicks();
   uint32_t frame_end;
   uint32_t frame_count = 0;

@@ -68,7 +68,7 @@ void Target::update() {
         _color_text.a = _color_text.a > 200 ? 200 : _color_text.a + 5;
 
       } else if (distance >= (_radius_area * 0.8) && distance <= _radius_area) {
-        _color_text.a = _color_text.a <= _red.a ? _red.a : _color_text.a - 3;
+        _color_text.a = _color_text.a <= 5 ? 5 : _color_text.a - 3;
         _color_text.g = _color_text.g <= _red.g ? _red.g : _color_text.g - 15;
         _color_text.b = _color_text.b <= _red.b ? _red.b : _color_text.b - 15;
 
