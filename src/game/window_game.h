@@ -20,11 +20,11 @@ public:
   WindowGame(kebb::boxsize screen_size, std::shared_ptr<kebb::WindowName> next_window,
              std::shared_ptr<Renderer> renderer, std::shared_ptr<Score> score,
              std::shared_ptr<OptionFile> options);
-  virtual ~WindowGame();
+  virtual ~WindowGame() override;
 
-  virtual void control_escape();
-  virtual void control_others(uint16_t keycode);
-  virtual void render();
+  virtual void control_escape() override;
+  virtual void control_others(uint16_t keycode) override;
+  virtual void render() override;
 
   void stop_threads();
 

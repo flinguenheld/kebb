@@ -1,5 +1,4 @@
 #include "widget_selection.h"
-#include "widget/widget_textbox.h"
 
 // clang-format off
 WidgetSelection::WidgetSelection(kebb::point pos_center, kebb::boxsize size_char, std::string &&text, bool selected)

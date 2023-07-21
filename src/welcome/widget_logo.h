@@ -19,12 +19,12 @@
 class WidgetLogo : public WidgetBase {
 public:
   WidgetLogo(kebb::point position, kebb::boxsize size);
-  virtual ~WidgetLogo();
+  virtual ~WidgetLogo() override;
 
   void update();
   void stop();
 
-  virtual void render(SDL_Renderer *renderer) const;
+  virtual void render(SDL_Renderer *renderer) const override;
 
 private:
   std::vector<std::vector<uint16_t>> _tab;

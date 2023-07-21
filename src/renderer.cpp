@@ -1,5 +1,4 @@
 #include "renderer.h"
-#include "utils.h"
 
 Renderer::Renderer(kebb::boxsize screen_size, uint16_t scale_factor, uint16_t font_size_target,
                    uint16_t font_size_score, uint16_t font_size_menu)

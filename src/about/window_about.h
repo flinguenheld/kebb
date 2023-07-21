@@ -10,10 +10,10 @@ class WindowAbout : public WidgetWindow {
 public:
   WindowAbout(kebb::boxsize screen_size, std::shared_ptr<kebb::WindowName> next_window,
               std::shared_ptr<Renderer> renderer);
-  ~WindowAbout();
+  virtual ~WindowAbout() override;
 
-  virtual void control_escape();
-  virtual void render();
+  virtual void control_escape() override;
+  virtual void render() override;
 
 private:
   std::unique_ptr<WidgetTextBox> _widget_title;

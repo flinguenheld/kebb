@@ -1,6 +1,4 @@
 #include "window_game.h"
-#include "option/option_file.h"
-#include <string>
 
 // clang-format off
 WindowGame::WindowGame(kebb::boxsize screen_size,

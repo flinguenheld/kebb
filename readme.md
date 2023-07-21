@@ -83,7 +83,10 @@ My widgets are all derived from **./src/widget/widget_base.h** (except WidgetWin
 It allows to regroup the basic information and to use the polymorphism.  
 I didn't use a pure virtual function to avoid any mandatory overriding.
 
-<!-- FIX: Use or not the overriding keyword ? -->
+Do you override the destructors ?
+
+Is there a technique to overload an overrided method ? I mean to add/change some arguments while keeping
+the polymorphism ?
 
 ##### 6. Overloaded functions allow the same function to operate on different parameters.
 

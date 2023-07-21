@@ -1,5 +1,4 @@
 #include "widget_boolean.h"
-#include <cstdint>
 
 WidgetBoolean::WidgetBoolean(kebb::point pos_center, kebb::boxsize size_char, std::string &&text,
                              bool selected, bool status)

@@ -17,14 +17,14 @@ class WindowOption : public WidgetWindowSelection {
 public:
   WindowOption(kebb::boxsize screen_size, std::shared_ptr<kebb::WindowName> next_window,
                std::shared_ptr<Renderer> renderer, std::shared_ptr<OptionFile> options);
-  virtual ~WindowOption();
+  virtual ~WindowOption() override;
 
-  virtual void control_escape();
-  virtual void control_enter();
-  virtual void control_left();
-  virtual void control_right();
+  virtual void control_escape() override;
+  virtual void control_enter() override;
+  virtual void control_left() override;
+  virtual void control_right() override;
 
-  virtual void render();
+  virtual void render() override;
 
 private:
   std::unique_ptr<WidgetTextBox> _widget_title;

@@ -13,12 +13,12 @@ class WindowPause : public WidgetWindow {
 public:
   WindowPause(kebb::boxsize screen_size, std::shared_ptr<kebb::WindowName> next_window,
               std::shared_ptr<Renderer> renderer, std::shared_ptr<Score> score);
-  virtual ~WindowPause();
+  virtual ~WindowPause() override;
 
-  virtual void control_escape();
-  virtual void control_enter();
+  virtual void control_escape() override;
+  virtual void control_enter() override;
 
-  virtual void render();
+  virtual void render() override;
 
 private:
   std::shared_ptr<Score> _score;

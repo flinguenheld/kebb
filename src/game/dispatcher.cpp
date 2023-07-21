@@ -1,6 +1,4 @@
 #include "dispatcher.h"
-#include "option/option_file.h"
-#include <cstdint>
 
 Dispatcher::Dispatcher(std::shared_ptr<OptionFile> options) : _engine(_seed()), _number_of_chars(0) {
 

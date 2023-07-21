@@ -9,6 +9,8 @@ WidgetWindowSelection::WidgetWindowSelection(std::shared_ptr<kebb::WindowName> n
                                              std::shared_ptr<Renderer> renderer)
     : WidgetWindow(next_window, renderer) {}
 
+WidgetWindowSelection::~WidgetWindowSelection() {}
+
 // -------------------------------------------------------------
 // CONTROLS ----------------------------------------------------
 void WidgetWindowSelection::control_up() {

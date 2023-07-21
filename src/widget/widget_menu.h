@@ -8,7 +8,7 @@
 class WidgetMenu {
 public:
   WidgetMenu(kebb::boxsize screen_size, std::shared_ptr<Renderer> renderer, std::string &&text);
-  void render();
+  void render() const;
 
 private:
   std::unique_ptr<WidgetTextBox> _widget_textbox;

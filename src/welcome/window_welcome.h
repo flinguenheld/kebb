@@ -16,12 +16,12 @@ class WindowWelcome : public WidgetWindowSelection {
 public:
   WindowWelcome(kebb::boxsize screen_size, std::shared_ptr<kebb::WindowName> next_window,
                 std::shared_ptr<Renderer> renderer);
-  virtual ~WindowWelcome();
+  virtual ~WindowWelcome() override;
 
-  virtual void control_escape();
-  virtual void control_enter();
+  virtual void control_escape() override;
+  virtual void control_enter() override;
 
-  virtual void render();
+  virtual void render() override;
 
 private:
   std::unique_ptr<WidgetTextBox> _widget_title;

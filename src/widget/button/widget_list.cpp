@@ -1,6 +1,4 @@
 #include "widget_list.h"
-#include "widget/button/widget_selection.h"
-#include <algorithm>
 
 WidgetList::WidgetList(kebb::point pos_center, kebb::boxsize size_char, std::string &&text,
                        std::vector<SelectionItem> &&choices, bool selected)
@@ -10,8 +8,8 @@ WidgetList::WidgetList(kebb::point pos_center, kebb::boxsize size_char, std::str
   init(pos_center);
 }
 
-WidgetList::WidgetList(kebb::point pos_center, kebb::boxsize size_char, std::string &&text, int16_t range_start,
-                       int16_t range_stop, int16_t step, bool selected)
+WidgetList::WidgetList(kebb::point pos_center, kebb::boxsize size_char, std::string &&text,
+                       int16_t range_start, int16_t range_stop, int16_t step, bool selected)
 
     : WidgetSelection(pos_center, size_char, std::move(text), selected), _size_char(size_char),
       _longest_choice_width(0), _space(0) {

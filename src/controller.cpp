@@ -1,7 +1,4 @@
 #include "controller.h"
-#include "SDL_keycode.h"
-#include "option/option_file.h"
-#include <memory>
 
 Controller::Controller(std::shared_ptr<OptionFile> options)
     : _options(options), _circumflex(false), _grave(false), _diaeresis(false), _mask_mod(0x3FF) {}

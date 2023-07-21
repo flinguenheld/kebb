@@ -46,8 +46,8 @@ WindowOption::WindowOption(kebb::boxsize screen_size, std::shared_ptr<kebb::Wind
 
   pt.y += y_small_space;
   _widget_select_fields.emplace_back(std::make_unique<WidgetList>(
-      pt, bs_field,
-      "Keyboard layout:", std::vector<SelectionItem>{{"US", "US"}, {"Francais", "FR"}, {"Bepo", "Bepo"}}));
+      pt, bs_field, "Keyboard layout:",
+      std::vector<SelectionItem>{{"QWERTY", "US"}, {"AZERTY", "FR"}, {"BEPO(XX)", "BEPO"}}));
   _widget_select_fields.back()->set_choice_by_value(_options->get(OptionName::Layout));
 
   pt.y += y_long_space;

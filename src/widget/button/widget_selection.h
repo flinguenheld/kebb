@@ -19,7 +19,7 @@ struct SelectionItem {
 class WidgetSelection : public WidgetTextBox {
 public:
   WidgetSelection(kebb::point pos_center, kebb::boxsize size_char, std::string &&text, bool selected = false);
-  virtual ~WidgetSelection();
+  virtual ~WidgetSelection() override;
 
   void set_selected(bool val);
   bool is_selected() const;

@@ -7,8 +7,8 @@ class WidgetTextBox : public WidgetBase {
 
 public:
   WidgetTextBox(kebb::point pos, kebb::boxsize size);
-  ~WidgetTextBox();
-  virtual void render(SDL_Renderer *renderer, TTF_Font *font) const;
+  virtual ~WidgetTextBox() override;
+  virtual void render(SDL_Renderer *renderer, TTF_Font *font) const override;
 
   // NOTE: Keep move ?
   void set_text(std::string &&txt);

@@ -43,10 +43,10 @@ class WidgetWindowSelection : public WidgetWindow {
 
 public:
   WidgetWindowSelection(std::shared_ptr<kebb::WindowName> next_window, std::shared_ptr<Renderer> renderer);
-  virtual ~WidgetWindowSelection(){};
+  virtual ~WidgetWindowSelection() override;
 
-  virtual void control_up();
-  virtual void control_down();
+  virtual void control_up() override;
+  virtual void control_down() override;
 
 protected:
   std::vector<std::unique_ptr<WidgetSelection>> _widget_select_fields;
