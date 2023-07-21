@@ -3,15 +3,13 @@
 Kebb is a game for keyboard enthusiasts which allows you to test and improve your typing skills. :rocket:  
 Go to options to select the amount of letters, the speed and try to press all of the letters !
 
-<!-- <div align="center"> -->
-<div style="display: flex; justify-content: center; margin-bottom: 2px;">
-  <span style="width: 45%; margin-right: 5px;" > <img src="./image/example_slow_1.gif" /> </span>
-  <span style="width: 45%; margin-left: 5px;"> <img src="./image/example_slow_2.gif" /> </span>
+<div align="center">
+   <img src="./image/example_slow_1.gif" width="250" />
+   <img src="./image/example_slow_2.gif" width="250" />
 </div>
-
-<div style="display: flex; justify-content: center; margin-top: 2px;">
-  <span style="width: 45%; margin-right: 5px;" > <img src="./image/example_fast_1.gif" /> </span>
-  <span style="width: 45%; margin-left: 5px;"> <img src="./image/example_fast_2.gif" /> </span>
+<div align="center">
+   <img src="./image/example_fast_1.gif" width="250" />
+   <img src="./image/example_fast_2.gif" width="250" />
 </div>
 
 #### Dependencies
