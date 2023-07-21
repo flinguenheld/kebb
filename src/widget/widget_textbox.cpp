@@ -1,6 +1,10 @@
 #include "widget_textbox.h"
+#include "utils.h"
 
-WidgetTextBox::WidgetTextBox(kebb::point position, kebb::boxsize size) : WidgetBase(position, size) {}
+WidgetTextBox::WidgetTextBox(kebb::point position, kebb::boxsize size)
+    : WidgetBase(position, size), _text("") {
+  _color_text = kebb::color(kebb::ColorName::C_Text);
+}
 WidgetTextBox::~WidgetTextBox() {}
 
 void WidgetTextBox::set_text(std::string &&text) { _text = std::move(text); }

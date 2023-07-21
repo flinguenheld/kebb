@@ -1,28 +1,30 @@
-<h1 align="center">kebb</h1>
+<h1 align="center">Kebb</h1>
 
 Kebb is a game for keyboard enthusiasts which allows you to test and improve your typing skills. :rocket:  
 Go to options to select the amount of letters, the speed and try to press all of the letters !
 
-<div align="center">
-  <img src="./image/example_slow_1.gif" width="380" />
-  <img src="./image/example_slow_2.gif" width="380" />
+<!-- <div align="center"> -->
+<div style="display: flex; justify-content: center; margin-bottom: 2px;">
+  <span style="width: 45%; margin-right: 5px;" > <img src="./image/example_slow_1.gif" /> </span>
+  <span style="width: 45%; margin-left: 5px;"> <img src="./image/example_slow_2.gif" /> </span>
 </div>
-<div align="center">
-  <img src="./image/example_fast_1.gif" width="380" />
-  <img src="./image/example_fast_2.gif" width="380" />
+
+<div style="display: flex; justify-content: center; margin-top: 2px;">
+  <span style="width: 45%; margin-right: 5px;" > <img src="./image/example_fast_1.gif" /> </span>
+  <span style="width: 45%; margin-left: 5px;"> <img src="./image/example_fast_2.gif" /> </span>
 </div>
 
 #### Dependencies
 
 - **CMake >= 3.7**:
-  - `apt install cmake`
+  - Debian: `apt install cmake`
   - All OSes: [CMake install](https://cmake.org/install/)
 - **g++:**
-  - `apt install build-essential`
+  - Debian: `apt install build-essential`
   - Mac: [install Xcode command line tools to get make](https://developer.apple.com/xcode/features/)
   - Windows: [Click here for installation instructions](https://gnuwin32.sourceforge.net/packages/make.htm)
-- **SDL >= 2.0:** with libsdl2 libsdl2-ttf libsdl2-image <!-- TODO: Confirm image -->
-  - `apt install libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev`
+- **SDL >= 2.0:** with libsdl2-image libsdl2-ttf
+  - Debian: `apt install libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev`
   - All OSes: [SDL install](https://wiki.libsdl.org/SDL2/Installation)
 
 #### Build
@@ -36,6 +38,8 @@ Go to options to select the amount of letters, the speed and try to press all of
 
 [Udacity snake game](https://github.com/udacity/CppND-Capstone-Snake-Game) that I used to start Kebb.  
 Colors come from the [Catppuccin](https://github.com/catppuccin/catppuccin) Mocha theme. 😸
+Fonts come from [1001 fonts](https://www.1001fonts.com/monospaced-fonts.html)
+https://github.com/aminosbh/sdl2-cmake-modules
 
 ### Udacity criteria
 
@@ -59,9 +63,9 @@ The user input is an important part of Kebb. You can see that in **./src/control
 So the program reads the input event at the beginning of the main loop and checks
 if a target has the same value.  
 However, I had to add a kind of interface to get rid of the char limitation.
-With beautiful languages (like French for instance) there are too much characters.
-You can see in **./src/utils.cpp** the current list of characters (in string) with a int as interface.  
-The controller is in charge to do the conversion according to the current press keys and the chosen layout.
+With beautiful languages (like French for instance) there are too many characters.
+You can see in **./src/utils.cpp** the current list of characters (in string) with an int as interface.  
+The controller is in charge of the conversion according to the current pressed keys and the chosen layout.
 
 ---
 
@@ -75,24 +79,24 @@ The controller is in charge to do the conversion according to the current press 
 
 ##### 4. Classes encapsulate behavior.
 
-I used a lot of classes with the "Widgets" which allow to easily display text/graphic stuffs.
+I used a lot of classes with the "Widgets" which allow you to easily display text/graphic stuff.
 
 ##### 5. Classes follow an appropriate inheritance hierarchy.
 
 My widgets are all derived from **./src/widget/widget_base.h** (except WidgetWindow & WidgetMenu).  
-It allows to regroup the basic information and to use the polymorphism.  
-I didn't use a pure virtual function to avoid any mandatory overriding.
+It allows you to regroup the basic information and to use the polymorphism.  
+I didn't use a pure virtual method to avoid any mandatory overriding.
 
-Do you override the destructors ?
+❓Do you override the destructors ?
 
-Is there a technique to overload an overrided method ? I mean to add/change some arguments while keeping
+❓Is there a technique to overload an overrode method ? By this, I mean to add/change some arguments while keeping
 the polymorphism ?
 
 ##### 6. Overloaded functions allow the same function to operate on different parameters.
 
 ##### 7. Derived class functions override virtual base class functions.
 
-To keep the polymorphism, I mainly overrided instead of overloaded.
+To keep the polymorphism, I mainly overrode instead of overloaded.  
 You can see for instance the class WidgetSelection:
 
 <p align="center">
@@ -100,11 +104,11 @@ You can see for instance the class WidgetSelection:
 </p>
 
 - WidgetBase regroups the basic geometrics variables and the common methods (like render).
-- WidgetTextBox allows to display a one line text.
-- WidgetSelection adds the ability to be selected and change its color.
+- WidgetTextBox allows you to display a one line text.
+- WidgetSelection adds the ability to be selected and to change its color.
   (Used with the **./src/widget/widget_window.cpp** WidgetWindowSelection class).
 - WidgetBoolean displays a button with two states.
-- WidgetList display a second textbox and allows to do a selection in a list.
+- WidgetList displays a second textbox and allows you to make a selection from a list.
 
 <p align="center">
   <img src="./image/WidgetSelection_example.gif" />
@@ -113,7 +117,7 @@ You can see for instance the class WidgetSelection:
 ##### 8. Templates generalize functions in the project.
 
 I didn't see a useful utilization here. I'm interested in your point of view.  
-(even if the fact of writing everything in the .h is ugly).
+(even though writing everything in the .h is ugly).
 
 ---
 
@@ -121,14 +125,14 @@ I didn't see a useful utilization here. I'm interested in your point of view.
 
 ##### 1. The project makes use of references in function declarations.
 
-I used some references to avoid useless copies especially in setters.  
-In the **./src/widget/widget_base.h** for instance. However a lot of exchanged values here are small.  
-Like int, bool or struct of two int, so I'm not sure that is very useful.
+I used some references to avoid useless copies especially in setters (in the **./src/widget/widget_base.h** for instance).  
+However a lot of exchanged values here are small.  
+Like int, bool or struct of two int, so I'm not sure if that is useful.
 
 ##### 2. The project uses destructors appropriately.
 
 As said in the doc, I created a virtual destructor for all classes which use polymorphism.  
-However, thanks to smart pointers, I didn't need to use destructors except for the renderer which allows to
+However, thanks to smart pointers, I didn't need to use destructors except for the renderer which allows you to
 liberate the SDL objects (**./src/renderer.h**).
 
 ##### 3. The project uses scope / Resource Acquisition Is Initialization (RAII) where appropriate.
@@ -136,28 +140,28 @@ liberate the SDL objects (**./src/renderer.h**).
 ##### 4. The project follows the Rule of 5.
 
 I hope I'm not wrong because I didn't see any utilization of the copy and even less the move constructor here.
-Could you give me some example where they can be useful in this project ?
+Could you give me some examples where they could be useful in this project ?
 
 ##### 5. The project uses move semantics to move data, instead of copying it, where possible.
 
-I use some move semantics to move string:  
+I used some move semantics to move strings:  
 **src/option/window_option.cpp:159:29**  
 **src/widget/button/widget_list.cpp:7:46**  
 **src/widget/button/widget_list.cpp:7:46**
 
-But honestly I can't really figure out if it have a real impact on performances.
+But honestly I can't really figure out if it has a real impact on performance.
 
 ##### 6. The project uses smart pointers instead of raw pointers.
 
 Oh yes, smart pointers are so powerful. I used them everywhere, to share the Controller or Options objects for instance.  
-But more important, they work with polymorphism, so I used them with all of my widgets.  
+But more importantly, they work with polymorphism, so I used them with all of my widgets.  
 For example, the class **WidgetWindowSelection** has a vector of unique_ptr<WidgetSelection>.  
 And these unique_ptr can be a WidgetBoolean or a WidgetList.
 
 Another good example is in the **./src/loop.cpp**. The game loop is in charge of jumping between windows.  
 The current window is a shared_ptr which receive several shared_ptr itself.
 
-By the way, is it safe to erase a shared_ptr ?
+❓ By the way, is it safe to erase a shared_ptr ?
 
 ```
 auto my_shared_ptr = std::make_shared<foo>();
@@ -171,7 +175,7 @@ As for the rule of 5, I didn't use the weak_ptr here.
 
 ---
 
-#### Concurrency
+#### 7. Concurrency
 
 <p align="center">
   <img src="./image/schema_Target.png" />
@@ -206,7 +210,7 @@ No, I didn't need to synchronise threads, when WindowGame stops them, it just do
 ---
 
 :pushpin:  
-I used the multithreading mainly to work on it and I discovered in the [lazy foo tutorial](https://lazyfoo.net/tutorials/SDL/46_multithreading/index.php) that generally it's a beginner cliché and rarely justify.  
+I used the multithreading mainly to work on it and I discovered in the [lazy foo tutorial](https://lazyfoo.net/tutorials/SDL/46_multithreading/index.php) that generally it's a beginner cliché and rarely justified.  
 Could you give me your opinion about the utility of multithreading in this project ?
 
 Thank you.
