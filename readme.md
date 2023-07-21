@@ -37,8 +37,8 @@ Go to options to select the amount of letters, the speed and try to press all of
 #### Thanks
 
 [Udacity snake game](https://github.com/udacity/CppND-Capstone-Snake-Game) that I used to start Kebb.  
-Colors come from the [Catppuccin](https://github.com/catppuccin/catppuccin) Mocha theme. 😸
-Fonts come from [1001 fonts](https://www.1001fonts.com/monospaced-fonts.html)
+Colors come from the [Catppuccin](https://github.com/catppuccin/catppuccin) Mocha theme. 😸  
+Fonts come from [1001 fonts](https://www.1001fonts.com/monospaced-fonts.html)  
 https://github.com/aminosbh/sdl2-cmake-modules
 
 ### Udacity criteria
