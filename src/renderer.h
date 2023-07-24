@@ -2,16 +2,12 @@
 #define RENDERER_H
 
 #include "SDL.h"
-#include "SDL_image.h"
 #include "SDL_pixels.h"
 #include "SDL_render.h"
 #include "SDL_ttf.h"
 #include "utils.h"
-#include <cstddef>
-#include <cstdint>
 #include <iostream>
 #include <memory>
-#include <string>
 #include <vector>
 
 enum class FontName {
