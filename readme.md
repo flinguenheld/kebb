@@ -25,7 +25,7 @@ Go to options to select the amount of letters, the speed and try to press all of
   - All OSes: [SDL install](https://wiki.libsdl.org/SDL2/Installation)
 - **SDL TTF**:
   - Find the package name or see the [github repository](https://github.com/libsdl-org/SDL_ttf)
-  - debian: `apt install libsdl-tt2-dev`
+  - debian: `apt install libsdl2-ttf-dev`
 
 #### Build
 
