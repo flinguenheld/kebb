@@ -21,6 +21,7 @@ public:
 private:
   uint16_t convert_us(SDL_Event &e);
   uint16_t convert_fr(SDL_Event &e);
+  uint16_t convert_bepo(SDL_Event &e);
 
   const uint16_t _mask_mod; // Remove the first sixth bits (NUM/CAP/GUI) of mods
 

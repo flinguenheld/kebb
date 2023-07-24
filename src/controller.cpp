@@ -1,4 +1,6 @@
 #include "controller.h"
+#include "option/option_file.h"
+#include <SDL_keycode.h>
 
 Controller::Controller(std::shared_ptr<OptionFile> options)
     : _options(options), _circumflex(false), _grave(false), _diaeresis(false), _mask_mod(0x3FF) {}
@@ -53,8 +55,10 @@ void Controller::handle_input(bool &running, std::shared_ptr<WidgetWindow> windo
         // std::cout << "heps:" << _options->get(OptionName::Layout) << std::endl;
         if (_options->get(OptionName::Layout) == "US")
           window->control_others(convert_us(e));
-        else
+        else if (_options->get(OptionName::Layout) == "FR")
           window->control_others(convert_fr(e));
+        else
+          window->control_others(convert_bepo(e));
         // check_targets(targets, convert_us(e));
         // check_targets(targets, convert_fr(e));
       }
@@ -190,6 +194,7 @@ uint16_t Controller::convert_us(SDL_Event &e) {
     }
   }
 
+  // TODO: Simplify
   if ((e.key.keysym.mod & KMOD_LSHIFT) == KMOD_LSHIFT || (e.key.keysym.mod & KMOD_RSHIFT) == KMOD_RSHIFT) {
 
     if ((e.key.keysym.mod & KMOD_RALT) == KMOD_RALT){
@@ -325,9 +330,9 @@ uint16_t Controller::convert_fr(SDL_Event &e) {
       }
     } else {
       switch (e.key.keysym.sym) {
-        case SDLK_i:       return 2009; // Ï
-        case SDLK_e:       return 2010; // Ë
-        case SDLK_u:       return 2011; // Ü
+        case SDLK_i:       return 2009; // ï
+        case SDLK_e:       return 2010; // ë
+        case SDLK_u:       return 2011; // ü
       }
     }
   }
@@ -454,7 +459,7 @@ uint16_t Controller::convert_fr(SDL_Event &e) {
       // case 41:           return ; // ° (ignored)
       case 61:           return 1019; // =
 
-      case 1073741824:            _diaeresis = true; return 0;
+      case 1073741824:            _diaeresis = true; return 0; // Strange but right
       // case 36:           return ; // £ (ignored)
       case 249:          return 1003; // %
       // case 42:           return ; // µ (ignored)
@@ -483,6 +488,244 @@ uint16_t Controller::convert_fr(SDL_Event &e) {
       case 41:           return 1025; // ]
       case 61:           return 1030; // }
       case SDLK_e:       return 2015; // €
+    }
+  }
+
+  return 0;
+}
+
+
+uint16_t Controller::convert_bepo(SDL_Event &e) {
+
+  const auto mask = 0x3FF; // Remove the first sixth bits (NUM/CAP/GUI)
+                           // std::cout << "mode: " << (e.key.keysym.mod & mask) << std::endl;
+
+  // clang-format off
+
+  std::cout << "BÉPO" << std::endl;
+std::cout << "mode: " << (e.key.keysym.mod) << std::endl;
+std::cout << "keysym: " << e.key.keysym.sym << std::endl;
+  // --------------------------------------------------
+  // French specials ----------------------------------
+  if (_circumflex) {
+    _circumflex = false;
+
+    if ((e.key.keysym.mod & KMOD_LSHIFT) == KMOD_LSHIFT || (e.key.keysym.mod & KMOD_RSHIFT) == KMOD_RSHIFT) {
+      switch (e.key.keysym.sym) {
+        case 97:        return 2104; // Â
+        case 101:       return 2105; // Ê
+        case 105:       return 2106; // Î
+        case 111:       return 2107; // Ô
+        case 117:       return 2108; // Û
+      }
+    } else {
+      switch (e.key.keysym.sym) {
+        case 97:        return 2004; // â
+        case 101:       return 2005; // ê
+        case 105:       return 2006; // î
+        case 111:       return 2007; // ô
+        case 117:       return 2008; // û
+      }
+    }
+  } else if (_grave) {
+    _grave = false;
+
+    if ((e.key.keysym.mod & KMOD_LSHIFT) == KMOD_LSHIFT || (e.key.keysym.mod & KMOD_RSHIFT) == KMOD_RSHIFT) {
+      switch (e.key.keysym.sym) {
+        case 97:        return 2101; // À
+        case 101:       return 2102; // È
+        case 117:       return 2103; // Ù
+      }
+    } else {
+      switch (e.key.keysym.sym) {
+        case 97:        return 2001; // à
+        case 101:       return 2002; // è
+        case 117:       return 2003; // ù
+      }
+    }
+  } else if (_diaeresis) {
+    _diaeresis = false;
+
+    if ((e.key.keysym.mod & KMOD_LSHIFT) == KMOD_LSHIFT || (e.key.keysym.mod & KMOD_RSHIFT) == KMOD_RSHIFT) {
+      switch (e.key.keysym.sym) {
+        case 105:       return 2109; // Ï
+        case 101:       return 2110; // Ë
+        case 117:       return 2111; // Ü
+      }
+    } else {
+      switch (e.key.keysym.sym) {
+        case 105:       return 2009; // ï
+        case 101:       return 2010; // ë
+        case 117:       return 2011; // ü
+      }
+    }
+  }
+
+  if ((e.key.keysym.mod & KMOD_RALT) == KMOD_RALT && (
+  (e.key.keysym.mod & KMOD_LSHIFT) == KMOD_LSHIFT || (e.key.keysym.mod & KMOD_RSHIFT) == KMOD_RSHIFT)) {
+    switch (e.key.keysym.sym) {
+      case 97:       return 2113; // Æ
+      case 111:      return 2114; // Œ
+      case 117:      return 2103; // Ù
+    }
+  }
+
+  // --------------------------------------------------
+  // --------------------------------------------------
+  if ((e.key.keysym.mod & _mask_mod) == KMOD_NONE) {
+    switch (e.key.keysym.sym) {
+      case 97:       return 10; // a
+      case 98:       return 11; // b
+      case 99:       return 12; // c
+      case 100:      return 13; // d
+      case 101:      return 14; // e
+      case 102:      return 15; // f
+      case 103:      return 16; // g
+      case 104:      return 17; // h
+      case 105:      return 18; // i
+      case 106:      return 19; // j
+      case 107:      return 20; // k
+      case 108:      return 21; // l
+      case 109:      return 22; // m
+      case 110:      return 23; // n
+      case 111:      return 24; // o
+      case 112:      return 25; // p
+      case 113:      return 26; // q
+      case 114:      return 27; // r
+      case 115:      return 28; // s
+      case 116:      return 29; // t
+      case 117:      return 30; // u
+      case 118:      return 31; // v
+      case 119:      return 32; // w
+      case 120:      return 33; // x
+      case 121:      return 34; // y
+      case 122:      return 35; // z
+
+      case 233:      return 2000; // é
+      case 232:      return 2001; // è
+      case 231:      return 2012; // ç
+      case 224:      return 2001; // à
+
+      case SDLK_KP_0:    return 500;
+      case SDLK_KP_1:    return 501;
+      case SDLK_KP_2:    return 502;
+      case SDLK_KP_3:    return 503;
+      case SDLK_KP_4:    return 504;
+      case SDLK_KP_5:    return 505;
+      case SDLK_KP_6:    return 506;
+      case SDLK_KP_7:    return 507;
+      case SDLK_KP_8:    return 508;
+      case SDLK_KP_9:    return 509;
+
+      case 36:           return 1004; // $
+      case 49:           return 1006; // "
+      // case 50:           return ; // «
+      // case 51:           return ; // »
+      case 52:           return 1007; // (
+      case 53:           return 1008; // )
+      case 54:           return 1022; // @
+      case 55:           return 1011; // +
+      case 56:           return 1013; // -
+      case 57:           return 1015; // /
+      case 48:           return 1010; // *
+      case 61:           return 1019; // =
+      case 37:           return 1003; // %
+
+      case 1073741824:            _circumflex = true; return 0;
+      case 44:           return 1012; // ,
+      case 46:           return 1014; // .
+      case 39:           return 1001; // '
+    }
+  }
+
+  if ((e.key.keysym.mod & KMOD_LSHIFT) == KMOD_LSHIFT || (e.key.keysym.mod & KMOD_RSHIFT) == KMOD_RSHIFT) {
+
+    switch (e.key.keysym.sym) {
+      case 97:       return 100; // A
+      case 98:       return 101; // B
+      case 99:       return 102; // C
+      case 100:      return 103; // D
+      case 101:      return 104; // E
+      case 102:      return 105; // F
+      case 103:      return 106; // G
+      case 104:      return 107; // H
+      case 105:      return 108; // I
+      case 106:      return 109; // J
+      case 107:      return 110; // K
+      case 108:      return 111; // L
+      case 109:      return 112; // M
+      case 110:      return 113; // N
+      case 111:      return 114; // O
+      case 112:      return 115; // P
+      case 113:      return 116; // Q
+      case 114:      return 117; // R
+      case 115:      return 118; // S
+      case 116:      return 119; // T
+      case 117:      return 120; // U
+      case 118:      return 121; // V
+      case 119:      return 122; // W
+      case 120:      return 123; // X
+      case 121:      return 124; // Y
+      case 122:      return 125; // Z
+
+      case 233:      return 2100; // É
+      case 232:      return 2102; // È
+      case 231:      return 2112; // Ç
+      case 224:      return 2101; // À
+
+      case 36:           return 1002; // #
+      case 49:           return 501; // 1
+      case 50:           return 502; // 2
+      case 51:           return 503; // 3
+      case 52:           return 504; // 4
+      case 53:           return 505; // 5
+      case 54:           return 506; // 6
+      case 55:           return 507; // 7
+      case 56:           return 508; // 8
+      case 57:           return 509; // 9
+      case 48:           return 500; // 0
+      // case 61:           return ; // °
+      case 37:           return 1009; // `
+
+      case 1073741824:   return 1000; // !
+      case 44:           return 1017; // ;
+      case 46:           return 1016; // :
+      case 39:           return 1021; // ?
+    }
+  }
+
+  if ((e.key.keysym.mod & KMOD_RALT) == KMOD_RALT) {
+    switch (e.key.keysym.sym) {
+
+      // case 36:           return ; // –
+      // case 49:           return ; // —
+      case 50:           return 502; // <
+      case 51:           return 503; // >
+      case 52:           return 504; // [
+      case 53:           return 505; // ]
+      case 54:           return 506; // ^
+      // case 55:           return ; // ±
+      // case 56:           return ; // −
+      // case 57:           return ; // ÷
+      // case 48:           return ; // ×
+      // case 61:           return ; // ≠
+      // case 37:           return ; // ‰
+
+      case 32:           return 1027; // _
+
+      case 97:       return 2014; // æ
+      case 98:       return 1031; // |
+      case 101:      return 2013; // €
+      case 105:             _diaeresis = true; return 0;
+      case 107:      return 1028; // ~
+      case 111:      return 2015; // œ
+      case 112:      return 1005; // &
+      case 117:      return 2003; // ù
+      case 120:      return 1029; // }
+      case 121:      return 1030; // {
+
+      case 232:             _grave = true; return 0;
+      case 224:      return 1024; // Backslash
     }
   }
 

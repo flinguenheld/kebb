@@ -60,7 +60,7 @@ void OptionFile::set(OptionName type, const std::string &val) {
     _numbers = val;
     break;
   case OptionName::Symbols:
-    _numbers = val;
+    _symbols = val;
     break;
   case OptionName::FrenchExtras:
     _french_extras = val;
@@ -89,7 +89,7 @@ std::string OptionFile::get(OptionName name) {
   case OptionName::Numbers:
     return _numbers;
   case OptionName::Symbols:
-    return _numbers;
+    return _symbols;
   case OptionName::FrenchExtras:
     return _french_extras;
   default:
