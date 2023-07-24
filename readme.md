@@ -21,9 +21,11 @@ Go to options to select the amount of letters, the speed and try to press all of
   - Debian: `apt install build-essential`
   - Mac: [install Xcode command line tools to get make](https://developer.apple.com/xcode/features/)
   - Windows: [Click here for installation instructions](https://gnuwin32.sourceforge.net/packages/make.htm)
-- **SDL >= 2.0:** with libsdl2-image libsdl2-ttf
-  - Debian: `apt install libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev`
+- **SDL >= 2.0:**
   - All OSes: [SDL install](https://wiki.libsdl.org/SDL2/Installation)
+- **SDL TTF**:
+  - Find the package name or see the [github repository](https://github.com/libsdl-org/SDL_ttf)
+  - debian: `apt install libsdl-tt2-dev`
 
 #### Build
 
@@ -37,7 +39,7 @@ Go to options to select the amount of letters, the speed and try to press all of
 [Udacity snake game](https://github.com/udacity/CppND-Capstone-Snake-Game) that I used to start Kebb.  
 Colors come from the [Catppuccin](https://github.com/catppuccin/catppuccin) Mocha theme. 😸  
 Fonts come from [1001 fonts](https://www.1001fonts.com/monospaced-fonts.html)  
-https://github.com/aminosbh/sdl2-cmake-modules
+[SDL2 CMake modules](https://github.com/aminosbh/sdl2-cmake-modules) 🙏
 
 ### Udacity criteria
 

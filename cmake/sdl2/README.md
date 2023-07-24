@@ -22,25 +22,25 @@ The improvements made to these modules are as follows:
 
 - Adapt `FindSDL.cmake` to `SDL2` (`FindSDL2.cmake`).
 - Add cache variables for more flexibility:<br>
-    `SDL2_PATH`, `SDL2_NO_DEFAULT_PATH`
+  `SDL2_PATH`, `SDL2_NO_DEFAULT_PATH`
 - Mark `Threads` as a required dependency for non-OSX systems.
 - Modernize the `FindSDL2.cmake` module by creating specific targets:
   - `SDL2::Core` : Library project should link to `SDL2::Core`
   - `SDL2::Main` : Application project should link to `SDL2::Main`
 
-*For more details, please see the embedded documentation in `FindSDL2.cmake` file.*
+_For more details, please see the embedded documentation in `FindSDL2.cmake` file._
 
-**FindSDL2_&lt;COMPONENT&gt;.cmake**
+**FindSDL2\_&lt;COMPONENT&gt;.cmake**
 
 - Adapt `FindSDL_<COMPONENT>.cmake` to `SDL2_<COMPONENT>` (`FindSDL2_<COMPONENT>.cmake`).
 - Add cache variables for more flexibility:<br>
-    `SDL2_<COMPONENT>_PATH`, `SDL2_<COMPONENT>_NO_DEFAULT_PATH`
+  `SDL2_<COMPONENT>_PATH`, `SDL2_<COMPONENT>_NO_DEFAULT_PATH`
 - Add `SDL2` as a required dependency.
 - Modernize the `FindSDL2_<COMPONENT>.cmake` modules by creating specific targets:<br>
-    `SDL2::Image`, `SDL2::TTF`, `SDL2::Net`, `SDL2::Mixer` and `SDL2::GFX`.
+  `SDL2::Image`, `SDL2::TTF`, `SDL2::Net`, `SDL2::Mixer` and `SDL2::GFX`.
 
-*For more details, please see the embedded documentation in
-`FindSDL2_<COMPONENT>.cmake` file.*
+_For more details, please see the embedded documentation in
+`FindSDL2_<COMPONENT>.cmake` file._
 
 ## Usage
 
@@ -75,7 +75,7 @@ adopted: A legacy approach and a modern approach. Both of them are supported.
 ### Modern CMake
 
 We can link to the SDL2:: targets like the following example:<br>
-*This example requires the SDL2, SDL2_image and the SDL2_gfx libraries*
+_This example requires the SDL2, SDL2_image and the SDL2_gfx libraries_
 
 ```cmake
 # Find SDL2, SDL2_image and SDL2_gfx libraries
@@ -87,9 +87,9 @@ find_package(SDL2_gfx REQUIRED)
 target_link_libraries(${PROJECT_NAME} SDL2::Main SDL2::Image SDL2::GFX)
 ```
 
-*Use the appropriate packages for you project.*<br>
-*Please see above, for the whole list of packages*<br>
-*For more details, please see the embedded documentation in modules files*
+_Use the appropriate packages for you project._<br>
+_Please see above, for the whole list of packages_<br>
+_For more details, please see the embedded documentation in modules files_
 
 ### Legacy CMake
 
@@ -113,7 +113,7 @@ target_link_libraries(${PROJECT_NAME} ${SDL2_GFX_LIBRARIES})
 
 ```
 
-*For more details, please see the embedded documentation in modules files*
+_For more details, please see the embedded documentation in modules files_
 
 ## Special customization variables
 
@@ -124,8 +124,8 @@ the modules find the appropriate libraries:
   Can be specified to set the root search path for the `SDL2` and `SDL2_<COMPONENT>`
 - `SDL2_NO_DEFAULT_PATH` and `SDL2_<COMPONENT>_NO_DEFAULT_PATH`:<br>
   Disable search `SDL2/SDL2_<COMPONENT>` library in default path:<br>
-    If `SDL2[_<COMPONENT>]_PATH` is set, defaults to ON<br>
-    Else defaults to OFF
+  If `SDL2[_<COMPONENT>]_PATH` is set, defaults to ON<br>
+  Else defaults to OFF
 - `SDL2_INCLUDE_DIR` and `SDL2_<COMPONENT>_INCLUDE_DIR`:<br>
   Set headers path. (Override)
 - `SDL2_LIBRARY` and `SDL2_<COMPONENT>_LIBRARY`:<br>
@@ -166,8 +166,6 @@ CMake project which is distributed under the OSI-approved BSD 3-Clause License.
 
 The SDL2 CMake modules are also distributed under the OSI-approved BSD
 3-Clause License. See accompanying file [Copyright.txt](Copyright.txt).
-
-
 
 [CMake]: https://cmake.org
 [CMake GUI]: https://cmake.org/runningcmake
