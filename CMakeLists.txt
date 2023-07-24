@@ -1,3 +1,5 @@
+project(kebb)
+
 cmake_minimum_required(VERSION 3.7)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -7,22 +9,11 @@ add_definitions(-std=c++17)
 set(CXX_FLAGS "-Wall")
 set(CMAKE_CXX_FLAGS, "${CXX_FLAGS}")
 
-project(kebb)
+# Add SDL2 CMake modules
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/sdl2)
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
-
-find_package(Threads)
-
-find_package(SDL2 REQUIRED)
-include_directories(${SDL2_INCLUDE_DIRS} src)
-
-find_package(SDL2_image REQUIRED)
-include_directories(${SDL2_IMAGE_INCLUDE_DIR})
-
-find_package(SDL2_ttf REQUIRED)
-include_directories(${SDL2_TTF_INCLUDE_DIR})
-
-add_executable(Kebb src/main.cpp
+include_directories(src)
+add_executable(${PROJECT_NAME} src/main.cpp
                     src/controller.cpp
                     src/loop.cpp
                     src/utils.cpp
@@ -46,5 +37,11 @@ add_executable(Kebb src/main.cpp
                     src/widget/widget_textbox.cpp
                     src/widget/widget_window.cpp)
 
-string(STRIP ${SDL2_LIBRARIES} SDL2_LIBRARIES)
-target_link_libraries(Kebb ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARY} ${SDL2_TTF_LIBRARY} ${CMAKE_THREAD_LIBS_INIT})
+find_package(Threads)
+target_link_libraries(${PROJECT_NAME} Threads::Threads)
+
+find_package(SDL2 REQUIRED)
+target_link_libraries(${PROJECT_NAME} SDL2::Main)
+
+find_package(SDL2_ttf REQUIRED)
+target_link_libraries(${PROJECT_NAME} SDL2::TTF)
