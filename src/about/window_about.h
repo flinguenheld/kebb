@@ -17,6 +17,8 @@ public:
 
 private:
   std::unique_ptr<WidgetTextBox> _widget_title;
+  std::unique_ptr<WidgetTextBox> _widget_version;
+  std::unique_ptr<WidgetTextBox> _widget_date;
   std::unique_ptr<WidgetTextBox> _widget_github;
   std::unique_ptr<WidgetTextBox> _widget_email;
 

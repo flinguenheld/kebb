@@ -27,13 +27,32 @@ WindowAbout::WindowAbout(kebb::boxsize screen_size, std::shared_ptr<kebb::Window
 
   // ------------------------------------------------------------------------
   // Text -------------------------------------------------------------------
+  char_size.set_scale(1.1);
+
+  bs.w = char_size.w * 8;
+  bs.h = char_size.h;
+  pt.x = screen_size.w / 2 - bs.w / 2;
+  pt.y += bs.h * 1.4;
+  _widget_version = std::make_unique<WidgetTextBox>(pt, bs);
+  _widget_version->set_text("Kebb 1.0");
+  _widget_version->set_color_text(kebb::color(kebb::ColorName::C_Yellow));
+
+  char_size.set_scale(0.5);
+
+  bs.w = char_size.w * 10;
+  bs.h = char_size.h;
+  pt.x = screen_size.w / 2 - bs.w / 2;
+  pt.y += bs.h * 2;
+  _widget_date = std::make_unique<WidgetTextBox>(pt, bs);
+  _widget_date->set_text("2023-07-25");
+  _widget_date->set_color_text(kebb::color(kebb::ColorName::C_Yellow));
+
   char_size = _renderer->font_char_size(FontName::F_Menu); // NOTE: Use font menu ?
-  // char_size.set_scale(0.9);
 
   bs.w = char_size.w * 36;
   bs.h = char_size.h;
   pt.x = screen_size.w / 2 - bs.w / 2;
-  pt.y += bs.h * 8;
+  pt.y += bs.h * 4;
   _widget_github = std::make_unique<WidgetTextBox>(pt, bs);
   _widget_github->set_text("https://github.com/flinguenheld/kebb");
   _widget_github->set_color_text(kebb::color(kebb::ColorName::C_Teal));
@@ -53,6 +72,8 @@ void WindowAbout::render() {
 
   _renderer->clear_screen();
   _widget_title->render(_renderer->renderer(), _renderer->font(FontName::F_Menu));
+  _widget_version->render(_renderer->renderer(), _renderer->font(FontName::F_Menu));
+  _widget_date->render(_renderer->renderer(), _renderer->font(FontName::F_Menu));
   _widget_github->render(_renderer->renderer(), _renderer->font(FontName::F_Menu));
   _widget_email->render(_renderer->renderer(), _renderer->font(FontName::F_Menu));
   _widget_menu->render();

@@ -52,15 +52,12 @@ void Controller::handle_input(bool &running, std::shared_ptr<WidgetWindow> windo
         break;
 
       default:
-        // std::cout << "heps:" << _options->get(OptionName::Layout) << std::endl;
         if (_options->get(OptionName::Layout) == "US")
           window->control_others(convert_us(e));
         else if (_options->get(OptionName::Layout) == "FR")
           window->control_others(convert_fr(e));
         else
           window->control_others(convert_bepo(e));
-        // check_targets(targets, convert_us(e));
-        // check_targets(targets, convert_fr(e));
       }
     }
   }
@@ -283,10 +280,7 @@ uint16_t Controller::convert_us(SDL_Event &e) {
  * Convert the current SDL keycode event to the Kebb keycode for the French version.
  * Return the keycode or 0 (0 is not count as a fail by WindowGame).
  * It uses these keycodes:
- *      https://github.com/qmk/qmk_firmware/blob/master/quantum/keymap_extras/keymap_us.h
- *
- * And these ones for the french extras:
- *      https://github.com/qmk/qmk_firmware/blob/master/quantum/keymap_extras/keymap_us_extended.h
+ *      https://github.com/qmk/qmk_firmware/blob/master/quantum/keymap_extras/keymap_french.h
  */
 uint16_t Controller::convert_fr(SDL_Event &e) {
 
@@ -502,9 +496,9 @@ uint16_t Controller::convert_bepo(SDL_Event &e) {
 
   // clang-format off
 
-  std::cout << "BÉPO" << std::endl;
-std::cout << "mode: " << (e.key.keysym.mod) << std::endl;
-std::cout << "keysym: " << e.key.keysym.sym << std::endl;
+// std::cout << "BÉPO" << std::endl;
+// std::cout << "mode: " << (e.key.keysym.mod) << std::endl;
+// std::cout << "keysym: " << e.key.keysym.sym << std::endl;
   // --------------------------------------------------
   // French specials ----------------------------------
   if (_circumflex) {
@@ -602,7 +596,7 @@ std::cout << "keysym: " << e.key.keysym.sym << std::endl;
       case 122:      return 35; // z
 
       case 233:      return 2000; // é
-      case 232:      return 2001; // è
+      case 232:      return 2002; // è
       case 231:      return 2012; // ç
       case 224:      return 2001; // à
 
