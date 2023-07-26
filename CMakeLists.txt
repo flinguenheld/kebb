@@ -9,6 +9,13 @@ add_definitions(-std=c++17)
 set(CXX_FLAGS "-Wall")
 set(CMAKE_CXX_FLAGS, "${CXX_FLAGS}")
 
+# Options
+option(RELEASE_LINUX "Use the final paths" OFF)
+
+if (RELEASE_LINUX)
+  add_definitions(-DRELEASE_LINUX)
+endif()
+
 # Add SDL2 CMake modules
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/sdl2)
 

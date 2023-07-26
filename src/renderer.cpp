@@ -21,11 +21,15 @@ Renderer::Renderer(kebb::boxsize screen_size, uint16_t scale_factor, uint16_t fo
   }
 
   // Fonts --
-  _font_target = TTF_OpenFont("font/dejavu-sans-mono.bold.ttf", font_size_target);
-  // _font_target = TTF_OpenFont("../font/cmu.typewriter-text-bold.ttf", font_size_target);
-  _font_score = TTF_OpenFont("font/charybdis.regular.ttf", font_size_score);
-  // _font_score = TTF_OpenFont("../font/intelone-mono.regular.ttf", font_size_score);
-  _font_menu = TTF_OpenFont("font/charybdis.regular.ttf", font_size_menu);
+#ifdef RELEASE_LINUX
+  _font_target = TTF_OpenFont("/usr/share/kebb/font/dejavu-sans-mono.bold.ttf", font_size_target);
+  _font_score = TTF_OpenFont("/usr/share/kebb/font/charybdis.regular.ttf", font_size_score);
+  _font_menu = TTF_OpenFont("/usr/share/kebb/font/charybdis.regular.ttf", font_size_menu);
+#else
+  _font_target = TTF_OpenFont("./font/dejavu-sans-mono.bold.ttf", font_size_target);
+  _font_score = TTF_OpenFont("./font/charybdis.regular.ttf", font_size_score);
+  _font_menu = TTF_OpenFont("./font/charybdis.regular.ttf", font_size_menu);
+#endif
 
   if (_font_target == nullptr || _font_score == nullptr || _font_menu == nullptr) {
     std::cerr << "Could not open the lazy.ttf";

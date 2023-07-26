@@ -34,7 +34,7 @@ public:
   std::string get(OptionName type);
 
 private:
-  const std::string _filename;
+  std::string _filename;
 
   std::string _resolution;
   std::string _layout;
