@@ -1,6 +1,8 @@
 build/**
 .cache/**
 
+*.deb
+
 # Prerequisites
 *.d
 

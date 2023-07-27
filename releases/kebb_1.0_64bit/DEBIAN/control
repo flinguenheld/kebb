@@ -1,0 +1,10 @@
+Package: kebb
+Version: 1.0
+Section: utils
+Priority: optional
+Architecture: amd64
+Depends: libc6 (>= 2.34), libgcc-s1 (>= 3.0), libsdl2-2.0-0 (>= 2.0.12), libsdl2-ttf-2.0-0 (>= 2.0.15), libstdc++6 (>= 11)
+Maintainer: Florent Linguenheld <florent@linguenheld.fr>
+Homepage: https://github.com/flinguenheld/kebb
+Description: Improve your keyboard skills !
+ Small game wich allows you to improve your keyboard skills.

@@ -44,7 +44,7 @@ WindowAbout::WindowAbout(kebb::boxsize screen_size, std::shared_ptr<kebb::Window
   pt.x = screen_size.w / 2 - bs.w / 2;
   pt.y += bs.h * 2;
   _widget_date = std::make_unique<WidgetTextBox>(pt, bs);
-  _widget_date->set_text("2023-07-25");
+  _widget_date->set_text("2023-07-27");
   _widget_date->set_color_text(kebb::color(kebb::ColorName::C_Yellow));
 
   char_size = _renderer->font_char_size(FontName::F_Menu); // NOTE: Use font menu ?
