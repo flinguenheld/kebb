@@ -5,7 +5,7 @@ OptionFile::OptionFile()
       _capitals("0"), _numbers("1"), _symbols("0"), _french_extras("0"), _french_extra_caps("0") {
 
 #ifdef RELEASE_LINUX
-  _filename = std::string(getenv("USER")) + ".kebb";
+  _filename = std::string(getenv("HOME")) + "/.kebb";
 #else
   _filename = std::string("./options.kebb");
 #endif
