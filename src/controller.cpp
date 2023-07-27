@@ -63,6 +63,8 @@ void Controller::handle_input(bool &running, std::shared_ptr<WidgetWindow> windo
   }
 }
 
+// ----------------------------------------------------------------------------------------------------
+// QWERTY ---------------------------------------------------------------------------------------------
 /*
  * Convert the current SDL keycode event to the Kebb keycode for the US version.
  * Return the keycode or 0 (0 is not count as a fail by WindowGame).
@@ -191,7 +193,6 @@ uint16_t Controller::convert_us(SDL_Event &e) {
     }
   }
 
-  // TODO: Simplify
   if ((e.key.keysym.mod & KMOD_LSHIFT) == KMOD_LSHIFT || (e.key.keysym.mod & KMOD_RSHIFT) == KMOD_RSHIFT) {
 
     if ((e.key.keysym.mod & KMOD_RALT) == KMOD_RALT){
@@ -275,7 +276,8 @@ uint16_t Controller::convert_us(SDL_Event &e) {
   return 0;
 }
 
-
+// ----------------------------------------------------------------------------------------------------
+// AZERTY ---------------------------------------------------------------------------------------------
 /*
  * Convert the current SDL keycode event to the Kebb keycode for the French version.
  * Return the keycode or 0 (0 is not count as a fail by WindowGame).
@@ -288,14 +290,10 @@ uint16_t Controller::convert_fr(SDL_Event &e) {
                            // std::cout << "mode: " << (e.key.keysym.mod & mask) << std::endl;
 
   // clang-format off
-
-// std::cout << "mode: " << (e.key.keysym.mod) << std::endl;
-// std::cout << "keysym: " << e.key.keysym.sym << std::endl;
   // --------------------------------------------------
   // French specials ----------------------------------
   if (_circumflex) {
     _circumflex = false;
-    std::cout << "_circumflex on" << std::endl;
     if ((e.key.keysym.mod & KMOD_CAPS) == KMOD_CAPS) {
       switch (e.key.keysym.sym) {
         case SDLK_a:       return 2104; // Â
@@ -488,17 +486,24 @@ uint16_t Controller::convert_fr(SDL_Event &e) {
   return 0;
 }
 
-
+// ----------------------------------------------------------------------------------------------------
+// BEPO -----------------------------------------------------------------------------------------------
+/*
+ * Convert the current SDL keycode event to the Kebb keycode for the French bépo version.
+ * Return the keycode or 0 (0 is not count as a fail by WindowGame).
+ * It uses these keycodes:
+ *      https://github.com/qmk/qmk_firmware/blob/master/quantum/keymap_extras/keymap_bepo.h
+ */
 uint16_t Controller::convert_bepo(SDL_Event &e) {
 
   const auto mask = 0x3FF; // Remove the first sixth bits (NUM/CAP/GUI)
                            // std::cout << "mode: " << (e.key.keysym.mod & mask) << std::endl;
 
   // clang-format off
+  // std::cout << "BÉPO" << std::endl;
+  // std::cout << "mode: " << e.key.keysym.mod << std::endl;
+  // std::cout << "keysym: " << e.key.keysym.sym << std::endl;
 
-// std::cout << "BÉPO" << std::endl;
-// std::cout << "mode: " << (e.key.keysym.mod) << std::endl;
-// std::cout << "keysym: " << e.key.keysym.sym << std::endl;
   // --------------------------------------------------
   // French specials ----------------------------------
   if (_circumflex) {

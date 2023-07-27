@@ -34,6 +34,6 @@ int main() {
   Loop game(screen_size.scale(scale_factor), score, renderer, options);
   game.run(controller);
 
-  std::cout << "Kebb has terminated successfully!\n";
+  // std::cout << "Kebb has terminated successfully!\n";
   return 0;
 }
