@@ -69,6 +69,7 @@ void WindowWelcomeSurvival::control_enter() {
 
   // Up options, save and launch the game !
   _options->set(OptionName::SurvivalDifficulty, _widget_select_fields[0]->get_choice().value);
+  _options->set(OptionName::LastMod, "survival");
   _options->save();
 
   *_next_window = kebb::WindowName::W_GameTimer;

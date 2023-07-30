@@ -21,7 +21,7 @@ void Loop::run(Controller &controller) {
   bool running = true;
 
   auto next_window_name = std::make_shared<kebb::WindowName>(kebb::WindowName::W_None);
-  _current_window = std::make_shared<WindowWelcome>(_screen_size, next_window_name, _renderer);
+  _current_window = std::make_shared<WindowWelcome>(_screen_size, next_window_name, _renderer, _options);
 
   // Main game loop.
   while (running) {
@@ -44,10 +44,12 @@ void Loop::run(Controller &controller) {
             std::make_shared<WindowGameSurvival>(_screen_size, next_window_name, _renderer, _score, _options);
         break;
       case kebb::WindowName::W_Pause:
-        _current_window = std::make_shared<WindowPause>(_screen_size, next_window_name, _renderer, _score);
+        _current_window =
+            std::make_shared<WindowPause>(_screen_size, next_window_name, _renderer, _score, _options);
         break;
       case kebb::WindowName::W_Welcome:
-        _current_window = std::make_shared<WindowWelcome>(_screen_size, next_window_name, _renderer);
+        _current_window =
+            std::make_shared<WindowWelcome>(_screen_size, next_window_name, _renderer, _options);
         break;
       case kebb::WindowName::W_WelcomeSurvival:
         _current_window =

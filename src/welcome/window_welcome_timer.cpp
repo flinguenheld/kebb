@@ -1,4 +1,5 @@
 #include "window_welcome_timer.h"
+#include "option/option_file.h"
 
 WindowWelcomeTimer::WindowWelcomeTimer(kebb::boxsize screen_size,
                                        std::shared_ptr<kebb::WindowName> next_window,
@@ -101,6 +102,7 @@ void WindowWelcomeTimer::control_enter() {
   _options->set(OptionName::Countdown, _widget_select_fields[0]->get_choice().value);
   _options->set(OptionName::Targets, _widget_select_fields[1]->get_choice().value);
   _options->set(OptionName::Speed, _widget_select_fields[2]->get_choice().value);
+  _options->set(OptionName::LastMod, "timer");
   _options->save();
 
   *_next_window = kebb::WindowName::W_GameTimer;

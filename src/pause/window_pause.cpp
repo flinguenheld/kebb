@@ -1,8 +1,10 @@
 #include "window_pause.h"
+#include "option/option_file.h"
 
 WindowPause::WindowPause(kebb::boxsize screen_size, std::shared_ptr<kebb::WindowName> next_window,
-                         std::shared_ptr<Renderer> renderer, std::shared_ptr<Score> score)
-    : WidgetWindow(next_window, renderer), _score(score) {
+                         std::shared_ptr<Renderer> renderer, std::shared_ptr<Score> score,
+                         std::shared_ptr<OptionFile> options)
+    : WidgetWindow(next_window, renderer), _score(score), _options(options) {
 
   _widget_score = std::make_unique<WidgetScore>(WidgetScoreType::FullScreen, screen_size, score, renderer);
   _widget_menu = std::make_unique<WidgetMenu>(screen_size, renderer, "<ESC> Quit      <ENTER> Restart");
@@ -26,5 +28,8 @@ void WindowPause::render() {
 // CONTROLS -------------------------------------------------------------------------------------------
 void WindowPause::control_escape() { *_next_window = kebb::WindowName::W_Welcome; }
 void WindowPause::control_enter() {
-  *_next_window = kebb::WindowName::W_GameTimer;
-} // FIX: Manage the current mod
+  if (_options->get(OptionName::LastMod) == "timer")
+    *_next_window = kebb::WindowName::W_GameTimer;
+  else
+    *_next_window = kebb::WindowName::W_GameSurvival;
+}

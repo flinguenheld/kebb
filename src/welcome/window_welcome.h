@@ -1,6 +1,7 @@
 #ifndef WINDOW_WELCOME_H
 #define WINDOW_WELCOME_H
 
+#include "option/option_file.h"
 #include "renderer.h"
 #include "utils.h"
 #include "welcome/widget_logo.h"
@@ -15,7 +16,7 @@
 class WindowWelcome : public WidgetWindowSelection {
 public:
   WindowWelcome(kebb::boxsize screen_size, std::shared_ptr<kebb::WindowName> next_window,
-                std::shared_ptr<Renderer> renderer);
+                std::shared_ptr<Renderer> renderer, std::shared_ptr<OptionFile> options);
   virtual ~WindowWelcome() override;
 
   virtual void control_escape() override;
@@ -29,6 +30,8 @@ private:
   std::shared_ptr<WidgetLogo> _widget_logo;
 
   std::thread _thread;
+
+  std::shared_ptr<OptionFile> _options;
 };
 
 #endif // !WINDOW_WELCOME_H

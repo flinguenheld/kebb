@@ -1,9 +1,10 @@
 #include "window_welcome.h"
+#include "option/option_file.h"
 #include "widget/button/widget_list.h"
 
 WindowWelcome::WindowWelcome(kebb::boxsize screen_size, std::shared_ptr<kebb::WindowName> next_window,
-                             std::shared_ptr<Renderer> renderer)
-    : WidgetWindowSelection(next_window, renderer) {
+                             std::shared_ptr<Renderer> renderer, std::shared_ptr<OptionFile> options)
+    : WidgetWindowSelection(next_window, renderer), _options(options) {
 
   _widget_menu = std::make_unique<WidgetMenu>(screen_size, renderer, "<ESC> Quit      <ENTER> Valid");
 
@@ -41,9 +42,15 @@ WindowWelcome::WindowWelcome(kebb::boxsize screen_size, std::shared_ptr<kebb::Wi
   pt.x = screen_size.w / 2;
   pt.y += bs_logo.h * 1.7;
 
-  _widget_select_fields.emplace_back(std::make_unique<WidgetSelection>(pt, bs_field, "Timer mod", true));
+  // Set the current selection based on the last game
+  bool select_timer = false, select_survival = false;
+  (_options->get(OptionName::LastMod) == "timer") ? select_timer = true : select_survival = true;
+
+  _widget_select_fields.emplace_back(
+      std::make_unique<WidgetSelection>(pt, bs_field, "Timer mod", select_timer));
   pt.y += bs_field.h * 1.1;
-  _widget_select_fields.emplace_back(std::make_unique<WidgetSelection>(pt, bs_field, "Survival mod"));
+  _widget_select_fields.emplace_back(
+      std::make_unique<WidgetSelection>(pt, bs_field, "Survival mod", select_survival));
   pt.y += bs_field.h * 1.5;
 
   bs_field = renderer->font_char_size(FontName::F_Menu).scale(1.4);
