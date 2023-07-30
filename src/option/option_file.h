@@ -11,6 +11,7 @@ enum class OptionName {
   Targets,
   Countdown,
   Speed,
+  SurvivalDifficulty,
   Letters,
   Capitals,
   Numbers,
@@ -42,6 +43,8 @@ private:
   std::string _nb_targets;
   std::string _countdown;
   std::string _speed;
+
+  std::string _survival_diffilculty;
 
   std::string _letters;
   std::string _capitals;

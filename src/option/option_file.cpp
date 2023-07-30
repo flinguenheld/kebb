@@ -1,8 +1,9 @@
 #include "option_file.h"
 
 OptionFile::OptionFile()
-    : _resolution("480-20"), _layout("US"), _nb_targets("5"), _countdown("30"), _speed("20"), _letters("1"),
-      _capitals("0"), _numbers("1"), _symbols("0"), _french_extras("0"), _french_extra_caps("0") {
+    : _resolution("480-20"), _layout("US"), _nb_targets("5"), _countdown("30"), _speed("20"),
+      _survival_diffilculty("2"), _letters("1"), _capitals("0"), _numbers("1"), _symbols("0"),
+      _french_extras("0"), _french_extra_caps("0") {
 
 #ifdef RELEASE_LINUX
   _filename = std::string(getenv("HOME")) + "/.kebb";
@@ -22,6 +23,7 @@ void OptionFile::save() const {
         << _nb_targets << '\n'
         << _countdown << '\n'
         << _speed << '\n'
+        << _survival_diffilculty << '\n'
         << _letters << '\n'
         << _capitals << '\n'
         << _numbers << '\n'
@@ -32,8 +34,8 @@ void OptionFile::save() const {
 
 void OptionFile::read() {
   std::ifstream istrm(_filename);
-  istrm >> _resolution >> _layout >> _nb_targets >> _countdown >> _speed >> _letters >> _capitals >>
-      _numbers >> _symbols >> _french_extras >> _french_extra_caps;
+  istrm >> _resolution >> _layout >> _nb_targets >> _countdown >> _speed >> _survival_diffilculty >>
+      _letters >> _capitals >> _numbers >> _symbols >> _french_extras >> _french_extra_caps;
 }
 
 // ----------------------------------------------------------------------------------------------------
@@ -54,6 +56,9 @@ void OptionFile::set(OptionName type, const std::string &val) {
     break;
   case OptionName::Speed:
     _speed = val;
+    break;
+  case OptionName::SurvivalDifficulty:
+    _survival_diffilculty = val;
     break;
   case OptionName::Letters:
     _letters = val;
@@ -87,6 +92,8 @@ std::string OptionFile::get(OptionName name) {
     return _countdown;
   case OptionName::Speed:
     return _speed;
+  case OptionName::SurvivalDifficulty:
+    return _survival_diffilculty;
   case OptionName::Letters:
     return _letters;
   case OptionName::Capitals:

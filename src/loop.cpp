@@ -1,5 +1,6 @@
 #include "loop.h"
 #include "game/window/window_game_timer.h"
+#include "welcome/window_welcome_survival.h"
 
 // clang-format off
 Loop::Loop(kebb::boxsize screen_size, std::shared_ptr<Score> score,
@@ -47,6 +48,10 @@ void Loop::run(Controller &controller) {
         break;
       case kebb::WindowName::W_Welcome:
         _current_window = std::make_shared<WindowWelcome>(_screen_size, next_window_name, _renderer);
+        break;
+      case kebb::WindowName::W_WelcomeSurvival:
+        _current_window =
+            std::make_shared<WindowWelcomeSurvival>(_screen_size, next_window_name, _renderer, _options);
         break;
       case kebb::WindowName::W_WelcomeTimer:
         _current_window =

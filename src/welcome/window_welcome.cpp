@@ -1,4 +1,5 @@
 #include "window_welcome.h"
+#include "widget/button/widget_list.h"
 
 WindowWelcome::WindowWelcome(kebb::boxsize screen_size, std::shared_ptr<kebb::WindowName> next_window,
                              std::shared_ptr<Renderer> renderer)
@@ -36,12 +37,16 @@ WindowWelcome::WindowWelcome(kebb::boxsize screen_size, std::shared_ptr<kebb::Wi
 
   // ------------------------------------------------------------------------
   // Selection fields -------------------------------------------------------
-  kebb::boxsize bs_field = renderer->font_char_size(FontName::F_Menu).scale(1.7);
+  kebb::boxsize bs_field = renderer->font_char_size(FontName::F_Menu).scale(1.6);
   pt.x = screen_size.w / 2;
   pt.y += bs_logo.h * 1.7;
 
-  _widget_select_fields.emplace_back(std::make_unique<WidgetSelection>(pt, bs_field, "Play", true));
+  _widget_select_fields.emplace_back(std::make_unique<WidgetSelection>(pt, bs_field, "Timer mod", true));
   pt.y += bs_field.h * 1.1;
+  _widget_select_fields.emplace_back(std::make_unique<WidgetSelection>(pt, bs_field, "Survival mod"));
+  pt.y += bs_field.h * 1.5;
+
+  bs_field = renderer->font_char_size(FontName::F_Menu).scale(1.4);
   _widget_select_fields.emplace_back(std::make_unique<WidgetSelection>(pt, bs_field, "Options"));
   pt.y += bs_field.h * 1.1;
   _widget_select_fields.emplace_back(std::make_unique<WidgetSelection>(pt, bs_field, "About"));
@@ -73,9 +78,11 @@ void WindowWelcome::control_escape() { *_next_window = kebb::WindowName::W_Quit;
 void WindowWelcome::control_enter() {
 
   if (_widget_select_fields[0]->is_selected())
-    *_next_window = kebb::WindowName::W_WelcomeTimer; // FIX: Add selection
+    *_next_window = kebb::WindowName::W_WelcomeTimer;
   else if (_widget_select_fields[1]->is_selected())
-    *_next_window = kebb::WindowName::W_Option;
+    *_next_window = kebb::WindowName::W_WelcomeSurvival;
   else if (_widget_select_fields[2]->is_selected())
+    *_next_window = kebb::WindowName::W_Option;
+  else if (_widget_select_fields[3]->is_selected())
     *_next_window = kebb::WindowName::W_About;
 }
