@@ -9,6 +9,7 @@
 #include "controller.h"
 #include "game/dispatcher.h"
 #include "game/target.h"
+#include "game/window/window_game_survival.h"
 #include "game/window/window_game_timer.h"
 #include "option/option_file.h"
 #include "option/window_option.h"
