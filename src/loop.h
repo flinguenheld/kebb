@@ -9,7 +9,7 @@
 #include "controller.h"
 #include "game/dispatcher.h"
 #include "game/target.h"
-#include "game/window_game.h"
+#include "game/window/window_game.h"
 #include "option/option_file.h"
 #include "option/window_option.h"
 #include "pause/window_pause.h"

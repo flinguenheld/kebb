@@ -28,7 +28,8 @@ add_executable(${PROJECT_NAME} src/main.cpp
                                src/about/window_about.cpp
                                src/game/target.cpp
                                src/game/dispatcher.cpp
-                               src/game/window_game.cpp
+                               src/game/window/window_game.cpp
+                               src/game/window/window_game_timer.cpp
                                src/option/window_option.cpp
                                src/option/option_file.cpp
                                src/pause/window_pause.cpp
