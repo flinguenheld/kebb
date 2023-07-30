@@ -47,6 +47,8 @@ public:
 
   virtual void control_up() override;
   virtual void control_down() override;
+  virtual void control_left() override;
+  virtual void control_right() override;
 
 protected:
   std::vector<std::unique_ptr<WidgetSelection>> _widget_select_fields;

@@ -41,10 +41,13 @@ namespace kebb {
     W_Quit,
 
     W_About,
-    W_Game,
+    W_GameTimer,
+    W_GameSurvival,
     W_Option,
     W_Pause,
     W_Welcome,
+    W_WelcomeTimer,
+    W_WelcomeSurvival,
   };
 
   // ----------------------------------------------------------------------------------------------------

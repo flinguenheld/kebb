@@ -54,3 +54,22 @@ void WidgetWindowSelection::control_down() {
     }
   }
 }
+
+void WidgetWindowSelection::control_left() {
+
+  for (auto &w : _widget_select_fields) {
+    if (w->is_selected()) {
+      w->action_left();
+      return;
+    }
+  }
+}
+void WidgetWindowSelection::control_right() {
+
+  for (auto &w : _widget_select_fields) {
+    if (w->is_selected()) {
+      w->action_right();
+      return;
+    }
+  }
+}

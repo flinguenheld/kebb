@@ -73,7 +73,7 @@ void WindowWelcome::control_escape() { *_next_window = kebb::WindowName::W_Quit;
 void WindowWelcome::control_enter() {
 
   if (_widget_select_fields[0]->is_selected())
-    *_next_window = kebb::WindowName::W_Game;
+    *_next_window = kebb::WindowName::W_WelcomeTimer; // FIX: Add selection
   else if (_widget_select_fields[1]->is_selected())
     *_next_window = kebb::WindowName::W_Option;
   else if (_widget_select_fields[2]->is_selected())

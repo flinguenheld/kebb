@@ -15,7 +15,7 @@ WindowOption::WindowOption(kebb::boxsize screen_size, std::shared_ptr<kebb::Wind
   // ------------------------------------------------------------------------
   // Title ------------------------------------------------------------------
   char_size.set_scale(2.5);
-  bs_title.w = char_size.w * 4;
+  bs_title.w = char_size.w * 7;
   bs_title.h = char_size.h;
 
   pt.x = screen_size.w / 2 - bs_title.w / 2;

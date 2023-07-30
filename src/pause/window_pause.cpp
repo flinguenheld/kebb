@@ -25,4 +25,6 @@ void WindowPause::render() {
 // ----------------------------------------------------------------------------------------------------
 // CONTROLS -------------------------------------------------------------------------------------------
 void WindowPause::control_escape() { *_next_window = kebb::WindowName::W_Welcome; }
-void WindowPause::control_enter() { *_next_window = kebb::WindowName::W_Game; }
+void WindowPause::control_enter() {
+  *_next_window = kebb::WindowName::W_GameTimer;
+} // FIX: Manage the current mod

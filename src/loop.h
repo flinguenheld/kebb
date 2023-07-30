@@ -17,6 +17,7 @@
 #include "renderer.h"
 #include "score/score.h"
 #include "welcome/window_welcome.h"
+#include "welcome/window_welcome_timer.h"
 #include "widget/widget_base.h"
 #include "widget/widget_window.h"
 #include <memory>
