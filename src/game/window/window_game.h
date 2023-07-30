@@ -14,6 +14,10 @@
 #include <memory>
 #include <sys/types.h>
 
+/*
+ * This class is a mother for window games, it regroups variables, manages controls and give a base for the
+ * render method.
+ */
 class WindowGame : public WidgetWindow {
 
 public:
@@ -37,6 +41,9 @@ protected:
   std::unique_ptr<WidgetScore> _widget_score;
 
   uint16_t _countdown_value; // Seconds
+
+  kebb::point _target_center_aera;
+  uint16_t _target_radius_aera;
 };
 
 #endif // !WINDOW_GAME_H

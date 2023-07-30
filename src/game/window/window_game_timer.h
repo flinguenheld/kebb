@@ -8,9 +8,10 @@ public:
   WindowGameTimer(kebb::boxsize screen_size, std::shared_ptr<kebb::WindowName> next_window,
                   std::shared_ptr<Renderer> renderer, std::shared_ptr<Score> score,
                   std::shared_ptr<OptionFile> options);
+
   virtual ~WindowGameTimer() override;
 
-private:
+  virtual void render() override;
 };
 
 #endif // !WINDOW_GAME_TIMER_H

@@ -35,7 +35,7 @@ void Loop::run(Controller &controller) {
       switch (*next_window_name) {
       case kebb::WindowName::W_Game:
         _current_window =
-            std::make_shared<WindowGame>(_screen_size, next_window_name, _renderer, _score, _options);
+            std::make_shared<WindowGameTimer>(_screen_size, next_window_name, _renderer, _score, _options);
         break;
       case kebb::WindowName::W_Pause:
         _current_window = std::make_shared<WindowPause>(_screen_size, next_window_name, _renderer, _score);
