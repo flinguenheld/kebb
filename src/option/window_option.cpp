@@ -14,7 +14,7 @@ WindowOption::WindowOption(kebb::boxsize screen_size, std::shared_ptr<kebb::Wind
 
   // ------------------------------------------------------------------------
   // Title ------------------------------------------------------------------
-  char_size.set_scale(2.5);
+  char_size.set_scale(3);
   bs_title.w = char_size.w * 7;
   bs_title.h = char_size.h;
 
@@ -27,21 +27,21 @@ WindowOption::WindowOption(kebb::boxsize screen_size, std::shared_ptr<kebb::Wind
 
   // ------------------------------------------------------------------------
   // Selection fields -------------------------------------------------------
-  const kebb::boxsize bs_field = renderer->font_char_size(FontName::F_Menu).scale(0.85);
-  const uint16_t y_long_space = bs_field.h * 1.9;
+  const kebb::boxsize bs_field = renderer->font_char_size(FontName::F_Menu).scale(1.1);
+  const uint16_t y_long_space = bs_field.h * 2;
   const uint16_t y_medium_space = bs_field.h * 1.5;
   const uint16_t y_small_space = bs_field.h * 1.03;
 
   pt.x = screen_size.w / 2;
   pt.y += bs_title.h * 1.5;
 
-  _widget_select_fields.emplace_back(std::make_unique<WidgetList>(
-      pt, bs_field, "Resolution:",
-      std::vector<SelectionItem>{{"480x480", "480-20"},
-                                 {"640x640", "640-15"},
-                                 {"800x800", "800-10"},
-                                 {"1024x1024", "1024-5"}}, // NOTE: Are scales ok ?
-      true));
+  _widget_select_fields.emplace_back(
+      std::make_unique<WidgetList>(pt, bs_field, "Resolution:",
+                                   std::vector<SelectionItem>{{"480x480", "480-20"}, // NOTE: Are scales ok ?
+                                                              {"640x640", "640-15"},
+                                                              {"800x800", "800-10"},
+                                                              {"1024x1024", "1024-5"}},
+                                   true));
   _widget_select_fields.back()->set_choice_by_value(_options->get(OptionName::Resolution));
 
   pt.y += y_small_space;
@@ -49,48 +49,6 @@ WindowOption::WindowOption(kebb::boxsize screen_size, std::shared_ptr<kebb::Wind
       pt, bs_field, "Keyboard layout:",
       std::vector<SelectionItem>{{"QWERTY", "US"}, {"AZERTY", "FR"}, {"BEPO (beta)", "BEPO"}}));
   _widget_select_fields.back()->set_choice_by_value(_options->get(OptionName::Layout));
-
-  pt.y += y_long_space;
-  _widget_select_fields.emplace_back(std::make_unique<WidgetList>(pt, bs_field, "Nb targets:", 1, 20, 1));
-  _widget_select_fields.back()->set_choice_by_value(_options->get(OptionName::Targets));
-
-  pt.y += y_small_space;
-  _widget_select_fields.emplace_back(
-      std::make_unique<WidgetList>(pt, bs_field, "Countdown:",
-                                   std::vector<SelectionItem>{{"15s", "15"},
-                                                              {"30s", "30"},
-                                                              {"45s", "45"},
-                                                              {"60s", "60"},
-                                                              {"1m30", "90"},
-                                                              {"2m", "120"},
-                                                              {"2m30", "150"},
-                                                              {"3m", "180"},
-                                                              {"3m30", "210"},
-                                                              {"4m", "240"},
-                                                              {"4m30", "270"},
-                                                              {"5m", "300"},
-                                                              {"10m", "600"}}));
-  _widget_select_fields.back()->set_choice_by_value(_options->get(OptionName::Countdown));
-
-  pt.y += y_small_space;
-  _widget_select_fields.emplace_back(std::make_unique<WidgetList>(pt, bs_field, "Speed:",
-                                                                  std::vector<SelectionItem>{{"1", "30"},
-                                                                                             {"2", "28"},
-                                                                                             {"3", "26"},
-                                                                                             {"4", "24"},
-                                                                                             {"5", "22"},
-                                                                                             {"6", "20"},
-                                                                                             {"7", "18"},
-                                                                                             {"8", "16"},
-                                                                                             {"9", "14"},
-                                                                                             {"10", "12"},
-                                                                                             {"11", "10"},
-                                                                                             {"12", "8"},
-                                                                                             {"13", "6"},
-                                                                                             {"14", "4"},
-                                                                                             {"15", "2"},
-                                                                                             {"16", "1"}}));
-  _widget_select_fields.back()->set_choice_by_value(_options->get(OptionName::Speed));
 
   pt.y += y_long_space;
   _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "Letters"));
@@ -171,7 +129,7 @@ void WindowOption::check_new_resolution() {
 }
 void WindowOption::check_french_extra() {
 
-  if ((_widget_select_fields[9]->get_bool() || _widget_select_fields[10]->get_bool()) &&
+  if ((_widget_select_fields[6]->get_bool() || _widget_select_fields[7]->get_bool()) &&
       _widget_select_fields[1]->get_choice().value == "US") {
     display_message("  French extras requier the US Altgr-intl layout  ");
     _message_displayed = true;
@@ -183,22 +141,19 @@ void WindowOption::check_french_extra() {
 void WindowOption::control_escape() { *_next_window = kebb::WindowName::W_Welcome; }
 void WindowOption::control_enter() {
   // Use has to select at least one target type
-  if (_widget_select_fields[5]->get_bool() == true || _widget_select_fields[6]->get_bool() == true ||
-      _widget_select_fields[7]->get_bool() == true || _widget_select_fields[8]->get_bool() == true ||
-      _widget_select_fields[9]->get_bool() == true || _widget_select_fields[10]->get_bool() == true) {
+  if (_widget_select_fields[2]->get_bool() == true || _widget_select_fields[3]->get_bool() == true ||
+      _widget_select_fields[4]->get_bool() == true || _widget_select_fields[4]->get_bool() == true ||
+      _widget_select_fields[5]->get_bool() == true || _widget_select_fields[6]->get_bool() == true) {
 
     // Up options, save and quit
     _options->set(OptionName::Resolution, _widget_select_fields[0]->get_choice().value);
     _options->set(OptionName::Layout, _widget_select_fields[1]->get_choice().value);
-    _options->set(OptionName::Targets, _widget_select_fields[2]->get_choice().value);
-    _options->set(OptionName::Countdown, _widget_select_fields[3]->get_choice().value);
-    _options->set(OptionName::Speed, _widget_select_fields[4]->get_choice().value);
-    _options->set(OptionName::Letters, std::to_string(_widget_select_fields[5]->get_bool()));
-    _options->set(OptionName::Capitals, std::to_string(_widget_select_fields[6]->get_bool()));
-    _options->set(OptionName::Numbers, std::to_string(_widget_select_fields[7]->get_bool()));
-    _options->set(OptionName::Symbols, std::to_string(_widget_select_fields[8]->get_bool()));
-    _options->set(OptionName::FrenchExtras, std::to_string(_widget_select_fields[9]->get_bool()));
-    _options->set(OptionName::FrenchExtraCaps, std::to_string(_widget_select_fields[10]->get_bool()));
+    _options->set(OptionName::Letters, std::to_string(_widget_select_fields[2]->get_bool()));
+    _options->set(OptionName::Capitals, std::to_string(_widget_select_fields[3]->get_bool()));
+    _options->set(OptionName::Numbers, std::to_string(_widget_select_fields[4]->get_bool()));
+    _options->set(OptionName::Symbols, std::to_string(_widget_select_fields[5]->get_bool()));
+    _options->set(OptionName::FrenchExtras, std::to_string(_widget_select_fields[6]->get_bool()));
+    _options->set(OptionName::FrenchExtraCaps, std::to_string(_widget_select_fields[7]->get_bool()));
 
     _options->save();
 

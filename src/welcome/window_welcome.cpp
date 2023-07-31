@@ -43,14 +43,13 @@ WindowWelcome::WindowWelcome(kebb::boxsize screen_size, std::shared_ptr<kebb::Wi
   pt.y += bs_logo.h * 1.7;
 
   // Set the current selection based on the last game
-  bool select_timer = false, select_survival = false;
-  (_options->get(OptionName::LastMod) == "timer") ? select_timer = true : select_survival = true;
+  bool first_sel = _options->get(OptionName::LastMod) == "survival";
 
   _widget_select_fields.emplace_back(
-      std::make_unique<WidgetSelection>(pt, bs_field, "Timer mod", select_timer));
+      std::make_unique<WidgetSelection>(pt, bs_field, "Survival mod", first_sel));
   pt.y += bs_field.h * 1.1;
   _widget_select_fields.emplace_back(
-      std::make_unique<WidgetSelection>(pt, bs_field, "Survival mod", select_survival));
+      std::make_unique<WidgetSelection>(pt, bs_field, "Timer mod", !first_sel));
   pt.y += bs_field.h * 1.5;
 
   bs_field = renderer->font_char_size(FontName::F_Menu).scale(1.4);
@@ -85,9 +84,9 @@ void WindowWelcome::control_escape() { *_next_window = kebb::WindowName::W_Quit;
 void WindowWelcome::control_enter() {
 
   if (_widget_select_fields[0]->is_selected())
-    *_next_window = kebb::WindowName::W_WelcomeTimer;
-  else if (_widget_select_fields[1]->is_selected())
     *_next_window = kebb::WindowName::W_WelcomeSurvival;
+  else if (_widget_select_fields[1]->is_selected())
+    *_next_window = kebb::WindowName::W_WelcomeTimer;
   else if (_widget_select_fields[2]->is_selected())
     *_next_window = kebb::WindowName::W_Option;
   else if (_widget_select_fields[3]->is_selected())
