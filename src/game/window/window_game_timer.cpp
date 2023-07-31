@@ -16,13 +16,13 @@ WindowGameTimer::WindowGameTimer(kebb::boxsize screen_size,
     nb_targets = _dispatcher->number_of_chars() * 0.6; // Remove to create a difficulty
 
   for (uint8_t i = 0; i < nb_targets; ++i)
-    _targets.emplace_back(Target(_target_center_aera, _target_radius_aera,
-                                 _renderer->font_char_size(FontName::F_Target),
-                                 std::stoi(options->get(OptionName::Speed)), _dispatcher, _score));
+    _targets.emplace_back(std::make_shared<Target>(
+        _target_center_aera, _target_radius_aera, _renderer->font_char_size(FontName::F_Target),
+        std::stoi(options->get(OptionName::Speed)), _dispatcher, _score));
 
   // Start !
   for (auto &t : _targets)
-    _threads.emplace_back(std::thread(&Target::update, &t));
+    _threads.emplace_back(std::thread(&Target::update, t));
 
   _countdown_value = std::stoi(options->get(OptionName::Countdown));
   _score->reset();

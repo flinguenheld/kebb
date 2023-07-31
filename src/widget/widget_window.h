@@ -24,10 +24,12 @@ public:
   virtual void control_enter(){};
   virtual void control_escape(){};
 
+  virtual void logic(){};
+
   virtual void control_others(uint16_t keycode){};
 
   virtual void controller(){};
-  virtual void render(){};
+  virtual void render(){}; // FIX: HAS TO BE CONST !!
 
 protected:
   std::shared_ptr<kebb::WindowName> _next_window;

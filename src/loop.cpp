@@ -27,6 +27,7 @@ void Loop::run(Controller &controller) {
   while (running) {
 
     controller.handle_input(running, _current_window);
+    _current_window->logic();
     _current_window->render();
 
     // Window management

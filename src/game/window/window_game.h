@@ -33,9 +33,10 @@ public:
   void stop_threads();
 
 protected:
-  std::vector<Target> _targets;
+  std::vector<std::shared_ptr<Target>> _targets;
   std::vector<std::thread> _threads;
   std::shared_ptr<Dispatcher> _dispatcher;
+  std::shared_ptr<OptionFile> _options;
 
   std::shared_ptr<Score> _score;
   std::unique_ptr<WidgetScore> _widget_score;

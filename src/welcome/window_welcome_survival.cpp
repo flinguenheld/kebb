@@ -72,5 +72,5 @@ void WindowWelcomeSurvival::control_enter() {
   _options->set(OptionName::LastMod, "survival");
   _options->save();
 
-  *_next_window = kebb::WindowName::W_GameTimer;
+  *_next_window = kebb::WindowName::W_GameSurvival;
 }

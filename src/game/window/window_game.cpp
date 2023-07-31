@@ -7,7 +7,8 @@ WindowGame::WindowGame(kebb::boxsize screen_size,
                        std::shared_ptr<Score> score,
                        std::shared_ptr<OptionFile> options)
     : WidgetWindow(next_window, renderer),
-      _score(score) {
+      _score(score),
+      _options(options) {
   // clang-format on
 
   _dispatcher = std::make_shared<Dispatcher>(options);
@@ -23,7 +24,7 @@ WindowGame::~WindowGame() {}
 void WindowGame::stop_threads() {
 
   for (auto &t : _targets) {
-    t.stop();
+    t->stop();
   }
   for (auto &t : _threads) {
     t.join();
@@ -39,7 +40,7 @@ void WindowGame::stop_threads() {
 void WindowGame::render() {
 
   for (auto &target : _targets)
-    target.render(_renderer->renderer(), _renderer->font(FontName::F_Target));
+    target->render(_renderer->renderer(), _renderer->font(FontName::F_Target));
 
   // Update Screen
   SDL_RenderPresent(_renderer->renderer());
@@ -56,7 +57,7 @@ void WindowGame::control_others(uint16_t keycode) {
   // Loop in all targets, if ok, up the loop
   for (auto &target : _targets) {
 
-    if (target.check_keycode(keycode))
+    if (target->check_keycode(keycode))
       return;
   }
 
