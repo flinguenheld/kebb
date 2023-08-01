@@ -37,7 +37,7 @@ void WindowGame::stop_threads() {
  * Call target renders and update screen.
  * Children have to clear the screen before calling this method.
  */
-void WindowGame::render() {
+void WindowGame::render() const {
 
   for (auto &target : _targets)
     target->render(_renderer->renderer(), _renderer->font(FontName::F_Target));

@@ -24,7 +24,7 @@ public:
   virtual void control_left() override;
   virtual void control_right() override;
 
-  virtual void render() override;
+  virtual void render() const override;
 
 private:
   std::unique_ptr<WidgetTextBox> _widget_title;

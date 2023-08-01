@@ -63,7 +63,7 @@ WindowWelcome::~WindowWelcome() {
   _thread.join();
 }
 
-void WindowWelcome::render() {
+void WindowWelcome::render() const {
 
   _renderer->clear_screen();
   _widget_title->render(_renderer->renderer(), _renderer->font(FontName::F_Menu));

@@ -20,7 +20,8 @@ public:
   virtual void control_escape() override;
   virtual void control_enter() override;
 
-  virtual void render() override;
+  virtual void logic() override;
+  virtual void render() const override;
 
 private:
   std::shared_ptr<Score> _score;

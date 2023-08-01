@@ -11,8 +11,8 @@ public:
 
   virtual ~WindowGameTimer() override;
 
-  // FIX: ADd logic and remove any check in render
-  virtual void render() override;
+  virtual void logic() override;
+  virtual void render() const override;
 };
 
 #endif // !WINDOW_GAME_TIMER_H

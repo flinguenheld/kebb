@@ -68,7 +68,7 @@ WindowAbout::WindowAbout(kebb::boxsize screen_size, std::shared_ptr<kebb::Window
 
 WindowAbout::~WindowAbout() {}
 
-void WindowAbout::render() {
+void WindowAbout::render() const {
 
   _renderer->clear_screen();
   _widget_title->render(_renderer->renderer(), _renderer->font(FontName::F_Menu));

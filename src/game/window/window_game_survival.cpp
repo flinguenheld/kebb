@@ -58,16 +58,16 @@ void WindowGameSurvival::logic() {
     _next_level += 1;
   }
 
+  _widget_score->logic(time_seconds);
+
   // TODO: Check scores to leave if there are too many fails/misses
 }
 
 // ----------------------------------------------------------------------------------------------------
 // RENDER ---------------------------------------------------------------------------------------------
-void WindowGameSurvival::render() {
+void WindowGameSurvival::render() const {
 
   _renderer->clear_screen();
-
-  _widget_score->render(_countdown_value - _score->seconds_spent());
-
+  _widget_score->render();
   WindowGame::render();
 }

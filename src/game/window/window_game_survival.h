@@ -13,7 +13,7 @@ public:
   virtual ~WindowGameSurvival() override;
 
   virtual void logic() override;
-  virtual void render() override;
+  virtual void render() const override;
 
 private:
   void add_target();

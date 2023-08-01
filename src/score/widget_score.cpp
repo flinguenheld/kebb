@@ -67,7 +67,9 @@ WidgetScore::WidgetScore(WidgetScoreType type, kebb::boxsize screen_size, std::s
   _textbox_miss->set_color_text(kebb::color(kebb::ColorName::C_Blue));
 }
 
-void WidgetScore::render(uint16_t time_seconds) {
+// ----------------------------------------------------------------------------------------------------
+// LOGIC ----------------------------------------------------------------------------------------------
+void WidgetScore::logic(uint16_t time_seconds) {
 
   _textbox_success->set_text("Success " + int_to_string(_score->success(), 5));
   _textbox_fail->set_text("Fail " + int_to_string(_score->fail(), 8));
@@ -75,11 +77,6 @@ void WidgetScore::render(uint16_t time_seconds) {
 
   _textbox_time->set_text(int_to_string(time_seconds / 60, 2, '0') + ":" +
                           int_to_string(time_seconds % 60, 2, '0'));
-
-  _textbox_time->render(_renderer->renderer(), _renderer->font(FontName::F_Score));
-  _textbox_success->render(_renderer->renderer(), _renderer->font(FontName::F_Score));
-  _textbox_fail->render(_renderer->renderer(), _renderer->font(FontName::F_Score));
-  _textbox_miss->render(_renderer->renderer(), _renderer->font(FontName::F_Score));
 }
 
 std::string WidgetScore::int_to_string(uint16_t i, uint8_t text_length, char c) {
@@ -88,4 +85,14 @@ std::string WidgetScore::int_to_string(uint16_t i, uint8_t text_length, char c) 
     text.insert(0, 1, c);
 
   return text;
+}
+
+// ----------------------------------------------------------------------------------------------------
+// RENDER ---------------------------------------------------------------------------------------------
+void WidgetScore::render() const {
+
+  _textbox_time->render(_renderer->renderer(), _renderer->font(FontName::F_Score));
+  _textbox_success->render(_renderer->renderer(), _renderer->font(FontName::F_Score));
+  _textbox_fail->render(_renderer->renderer(), _renderer->font(FontName::F_Score));
+  _textbox_miss->render(_renderer->renderer(), _renderer->font(FontName::F_Score));
 }

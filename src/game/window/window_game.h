@@ -28,7 +28,7 @@ public:
 
   virtual void control_escape() override;
   virtual void control_others(uint16_t keycode) override;
-  virtual void render() override;
+  virtual void render() const override;
 
   void stop_threads();
 

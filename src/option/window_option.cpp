@@ -87,7 +87,7 @@ WindowOption::WindowOption(kebb::boxsize screen_size, std::shared_ptr<kebb::Wind
 
 WindowOption::~WindowOption() {}
 
-void WindowOption::render() {
+void WindowOption::render() const {
 
   _renderer->clear_screen();
   _widget_title->render(_renderer->renderer(), _renderer->font(FontName::F_Menu));

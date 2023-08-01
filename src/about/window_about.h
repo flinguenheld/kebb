@@ -13,7 +13,7 @@ public:
   virtual ~WindowAbout() override;
 
   virtual void control_escape() override;
-  virtual void render() override;
+  virtual void render() const override;
 
 private:
   std::unique_ptr<WidgetTextBox> _widget_title;

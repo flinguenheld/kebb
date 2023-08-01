@@ -48,7 +48,7 @@ WindowWelcomeSurvival::WindowWelcomeSurvival(kebb::boxsize screen_size,
 
 WindowWelcomeSurvival::~WindowWelcomeSurvival() {}
 
-void WindowWelcomeSurvival::render() {
+void WindowWelcomeSurvival::render() const {
 
   _renderer->clear_screen();
   _widget_title->render(_renderer->renderer(), _renderer->font(FontName::F_Menu));

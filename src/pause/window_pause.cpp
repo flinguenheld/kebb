@@ -12,12 +12,18 @@ WindowPause::WindowPause(kebb::boxsize screen_size, std::shared_ptr<kebb::Window
 
 WindowPause::~WindowPause() {}
 
-void WindowPause::render() {
+// ----------------------------------------------------------------------------------------------------
+// LOGIC ----------------------------------------------------------------------------------------------
+void WindowPause::logic() { _widget_score->logic(_score->seconds_until_stop()); }
+
+// ----------------------------------------------------------------------------------------------------
+// RENDER ---------------------------------------------------------------------------------------------
+void WindowPause::render() const {
 
   _renderer->clear_screen();
 
   // Reverse the timer
-  _widget_score->render(_score->seconds_until_stop());
+  _widget_score->render();
   _widget_menu->render();
 
   // Update Screen

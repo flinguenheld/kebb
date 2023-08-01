@@ -32,18 +32,21 @@ WindowGameTimer::WindowGameTimer(kebb::boxsize screen_size,
 WindowGameTimer::~WindowGameTimer() {}
 
 // ----------------------------------------------------------------------------------------------------
-// RENDER ---------------------------------------------------------------------------------------------
-void WindowGameTimer::render() {
+// LOGIC ----------------------------------------------------------------------------------------------
+void WindowGameTimer::logic() {
 
-  _renderer->clear_screen();
-
-  // Up timer
   int16_t time_seconds = _countdown_value - _score->seconds_spent();
   if (time_seconds <= 0) {
     control_escape();
   }
 
-  _widget_score->render(time_seconds);
+  _widget_score->logic(time_seconds);
+}
+// ----------------------------------------------------------------------------------------------------
+// RENDER ---------------------------------------------------------------------------------------------
+void WindowGameTimer::render() const {
 
+  _renderer->clear_screen();
+  _widget_score->render();
   WindowGame::render();
 }

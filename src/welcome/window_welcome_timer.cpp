@@ -79,7 +79,7 @@ WindowWelcomeTimer::WindowWelcomeTimer(kebb::boxsize screen_size,
 
 WindowWelcomeTimer::~WindowWelcomeTimer() {}
 
-void WindowWelcomeTimer::render() {
+void WindowWelcomeTimer::render() const {
 
   _renderer->clear_screen();
   _widget_title->render(_renderer->renderer(), _renderer->font(FontName::F_Menu));
