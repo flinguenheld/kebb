@@ -27,6 +27,9 @@ public:
   void update();
   void stop();
 
+  void set_waiting_time(uint16_t t); // Only updated by init()
+  uint16_t waiting_time() const;     // Useless ?
+
   bool check_keycode(uint16_t k);
 
 private:
@@ -40,7 +43,9 @@ private:
   uint16_t _keycode;
   uint16_t _angle;
 
-  const uint16_t _waiting_time;
+  uint16_t _waiting_time;
+  uint16_t _new_waiting_time;
+
   const kebb::point _center_area;
   const uint16_t _radius_area;
 

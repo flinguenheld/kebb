@@ -6,9 +6,12 @@ Target::Target(kebb::point center_area, uint16_t radius_area, kebb::boxsize char
 
   WidgetTextBox(center_area, char_size),
       _active(true), _ok(false),
-      _center_area(center_area),  _radius_area(radius_area),
+      _center_area(center_area),
+      _radius_area(radius_area),
       _waiting_time(waiting_time),
-      _dispatcher(dispatcher), _score(score),
+      _new_waiting_time(0),
+      _dispatcher(dispatcher),
+      _score(score),
       _move_x(1), _move_y(1),
       _keycode(0), _angle(-1)
 // clang-format on
@@ -27,11 +30,10 @@ bool Target::check_keycode(uint16_t k) {
   return false;
 }
 
+// ----------------------------------------------------------------------------------------------------
+// THREAD ---------------------------------------------------------------------------------------------
 void Target::stop() { _active = false; }
 
-/*
- * Method for threads
- */
 void Target::update() {
 
   init();
@@ -86,11 +88,18 @@ void Target::update() {
   }
 }
 
+void set_waiting_time(uint16_t t) {}
+
 /*
  * Init the target, set the default position, ask information to the dispatcher
  * and calculate the new move increments.
  */
 void Target::init() {
+
+  if (_new_waiting_time != 0) {
+    _waiting_time = _new_waiting_time;
+    _new_waiting_time = 0;
+  }
 
   _color_text = {_white.r, _white.g, _white.b, 1};
   _position.x = _center_area.x - _size.w / 2;
@@ -106,3 +115,8 @@ void Target::init() {
   _move_x = std::cos(angle_rad) * 10;
   _move_y = std::sin(angle_rad) * 10;
 }
+
+// ----------------------------------------------------------------------------------------------------
+// TIME -----------------------------------------------------------------------------------------------
+void Target::set_waiting_time(uint16_t t) { _new_waiting_time = t; }
+uint16_t Target::waiting_time() const { return _waiting_time; }
