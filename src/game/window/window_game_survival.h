@@ -1,8 +1,10 @@
 #ifndef WINDOW_GAME_SURVIVAL_H
 #define WINDOW_GAME_SURVIVAL_H
 
+#include "game/gauge/widget_gauge.h"
 #include "window_game.h"
 #include <cstdint>
+#include <iostream>
 
 struct Level {
   uint16_t waiting_time;
@@ -29,6 +31,8 @@ private:
   std::vector<Level>::iterator _current_level;
 
   uint16_t _target_waiting_time;
+
+  std::unique_ptr<WidgetGauge> _widget_gauge;
 };
 
 #endif // !WINDOW_GAME_SURVIVAL_H

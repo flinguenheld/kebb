@@ -1,7 +1,4 @@
 #include "window_game_survival.h"
-#include <cstdint>
-#include <iostream>
-#include <memory>
 
 // clang-format off
 WindowGameSurvival::WindowGameSurvival(kebb::boxsize screen_size,
@@ -12,6 +9,10 @@ WindowGameSurvival::WindowGameSurvival(kebb::boxsize screen_size,
     : WindowGame(screen_size, next_window, renderer, score, options)
 // clang-format on
 {
+
+  // Gauge
+  _widget_gauge = std::make_unique<WidgetGauge>(screen_size, renderer);
+  _widget_gauge->set_percentage(60);
 
   // TODO: Adapt to increase the difficuly according to difficulty !!!
 
@@ -103,5 +104,6 @@ void WindowGameSurvival::render() const {
 
   _renderer->clear_screen();
   _widget_score->render();
+  _widget_gauge->render();
   WindowGame::render();
 }
