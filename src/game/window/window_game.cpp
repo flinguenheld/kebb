@@ -14,6 +14,8 @@ WindowGame::WindowGame(kebb::boxsize screen_size,
   _dispatcher = std::make_shared<Dispatcher>(options);
   _widget_score = std::make_unique<WidgetScore>(WidgetScoreType::Top, screen_size, score, renderer);
 
+  _nb_max_target = _dispatcher->number_of_chars() * 0.6; // Prevent the same targets/thread amount.
+
   // Geometry
   _target_center_aera = {static_cast<uint16_t>(screen_size.w / 2), static_cast<uint16_t>(screen_size.h / 2)};
   _target_radius_aera = int16_t(screen_size.w * 0.4);

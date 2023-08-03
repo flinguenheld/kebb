@@ -5,14 +5,18 @@
 #include "window_game.h"
 #include <cstdint>
 #include <iostream>
+#include <string>
 #include <sys/types.h>
 
 struct Level {
   uint16_t waiting_time;
   uint16_t nb_target;
-  uint16_t next_level;
+  uint16_t points_next_level;
 };
 
+/*
+ * Window game survival
+ */
 class WindowGameSurvival : public WindowGame {
 public:
   WindowGameSurvival(kebb::boxsize screen_size, std::shared_ptr<kebb::WindowName> next_window,
@@ -25,23 +29,22 @@ public:
   virtual void render() const override;
 
 private:
-  void add_target();
+  void add_target(uint16_t waiting_time);
   void remove_target();
 
-  uint16_t _nb_max_target;
-
   std::vector<Level> _levels;
-  std::vector<Level>::iterator _current_level;
 
   void up_points();
+  int16_t _points;
+  uint16_t _price_fail; // Change according to the difficulty
+  uint16_t _price_miss;
 
-  uint16_t _previous_miss;
+  uint16_t _previous_miss; // Used for level calculations
   uint16_t _previous_fail;
   uint16_t _previous_success;
 
-  uint16_t _previous_level;
-  uint16_t _target_waiting_time;
-  int16_t _points;
+  uint16_t _max_fail;
+  uint16_t _max_miss;
 
   std::unique_ptr<WidgetGauge> _widget_gauge;
 };

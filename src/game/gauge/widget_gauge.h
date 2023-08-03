@@ -7,7 +7,9 @@
 #include "widget/widget_textbox.h"
 #include <SDL_pixels.h>
 #include <SDL_render.h>
+#include <algorithm>
 #include <cstdint>
+#include <iostream>
 #include <memory>
 #include <vector>
 

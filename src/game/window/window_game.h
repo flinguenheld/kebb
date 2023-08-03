@@ -43,6 +43,8 @@ protected:
 
   kebb::point _target_center_aera;
   uint16_t _target_radius_aera;
+
+  uint16_t _nb_max_target;
 };
 
 #endif // !WINDOW_GAME_H

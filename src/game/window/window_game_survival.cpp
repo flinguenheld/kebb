@@ -1,8 +1,4 @@
 #include "window_game_survival.h"
-#include <cstdint>
-#include <iostream>
-#include <string>
-#include <sys/types.h>
 
 // clang-format off
 WindowGameSurvival::WindowGameSurvival(kebb::boxsize screen_size,
@@ -11,48 +7,87 @@ WindowGameSurvival::WindowGameSurvival(kebb::boxsize screen_size,
                        std::shared_ptr<Score> score,
                        std::shared_ptr<OptionFile> options)
     : WindowGame(screen_size, next_window, renderer, score, options),
-    _previous_level(0),
     _previous_fail(0),
     _previous_miss(0),
     _previous_success(0),
     _points(0)
 // clang-format on
 {
-
   // Gauge
   _widget_gauge = std::make_unique<WidgetGauge>(screen_size, renderer);
   _widget_gauge->set_percentage(100);
 
-  // TODO: Adapt to increase the difficuly according to difficulty !!!
-
+  // Levels --
   switch (stoi(_options->get(OptionName::SurvivalDifficulty))) {
-  case 0:
-    std::cout << "Mode very easy" << std::endl;
-    // FIX: Create a struct with the current speed // nb of threads // success to reach
-    _levels = {{20, 3, 5}, {18, 10, 10}, {18, 5, 15}, {16, 4, 20}};
-    // {16, 5, 25}, {14, 5, 30},  {14, 6, 35}, {12, 6, 40}};
+  case 0: // Very easy
+    _price_fail = 1;
+    _price_miss = 1;
+
+    _max_fail = 50;
+    _max_miss = 50;
+
+    _levels = {{32, 3, 20},  {32, 4, 40},  {30, 4, 60},  {30, 5, 80},
+               {28, 5, 100}, {28, 6, 120}, {26, 6, 140}, {26, 7, 160}};
     break;
-  case 1:
+
+  case 1: // Easy   // TODO: Adapt the difficulty
+    _price_fail = 1;
+    _price_miss = 1;
+
+    _max_fail = 30;
+    _max_miss = 20;
+
+    _levels = {{30, 4, 20},  {30, 5, 40},  {28, 5, 60},  {28, 6, 80},
+               {26, 6, 100}, {26, 7, 120}, {24, 7, 140}, {24, 8, 160}};
     break;
-  case 2:
+  case 2: // Normal
+    _price_fail = 2;
+    _price_miss = 1;
+
+    _max_fail = 20;
+    _max_miss = 30;
+
+    _levels = {{25, 4, 20},  {25, 5, 40},  {20, 5, 60},  {20, 6, 80},
+               {18, 6, 100}, {18, 7, 120}, {18, 7, 140}, {18, 8, 160}};
     break;
-  case 3:
+  case 3: // Hard
+    _price_fail = 3;
+    _price_miss = 2;
+
+    _max_fail = 20;
+    _max_miss = 30;
+
+    _levels = {{30, 4, 20},  {30, 5, 40},  {28, 5, 60},  {28, 6, 80},
+               {26, 6, 100}, {26, 7, 120}, {24, 7, 140}, {24, 8, 160}};
     break;
-  case 4:
+  case 4: // Very hard
+    _price_fail = 4;
+    _price_miss = 3;
+
+    _max_fail = 20;
+    _max_miss = 30;
+
+    _levels = {{30, 4, 20},  {30, 5, 40},  {28, 5, 60},  {28, 6, 80},
+               {26, 6, 100}, {26, 7, 120}, {24, 7, 140}, {24, 8, 160}};
     break;
-  case 5:
+  case 5: // Impossible
+    _price_fail = 5;
+    _price_miss = 4;
+
+    _max_fail = 5;
+    _max_miss = 10;
+
+    _levels = {{30, 4, 20},  {30, 5, 40},  {28, 5, 60},  {28, 6, 80},
+               {26, 6, 100}, {26, 7, 120}, {24, 7, 140}, {24, 8, 160}};
     break;
   }
 
-  _current_level = _levels.begin();
-
-  // Threads --
-  _nb_max_target = _dispatcher->number_of_chars() * 0.6; // Prevent the same targets/thread amount.
-
-  for (uint8_t i = 0; i < (*_current_level).nb_target; ++i)
+  // First level --
+  // Threads
+  for (uint8_t i = 0; i < _levels[0].nb_target; ++i)
     _targets.emplace_back(std::make_shared<Target>(_target_center_aera, _target_radius_aera,
                                                    _renderer->font_char_size(FontName::F_Target),
-                                                   (*_current_level).waiting_time, _dispatcher, _score));
+                                                   _levels[0].waiting_time, _dispatcher, _score));
 
   // Start !
   for (auto &t : _targets)
@@ -64,13 +99,15 @@ WindowGameSurvival::WindowGameSurvival(kebb::boxsize screen_size,
 
 WindowGameSurvival::~WindowGameSurvival() {}
 
-void WindowGameSurvival::add_target() {
+// ----------------------------------------------------------------------------------------------------
+// TARGETS --------------------------------------------------------------------------------------------
+void WindowGameSurvival::add_target(uint16_t waiting_time) {
 
   if (_targets.size() < _nb_max_target) {
 
     auto new_target = std::make_shared<Target>(Target(_target_center_aera, _target_radius_aera,
                                                       _renderer->font_char_size(FontName::F_Target),
-                                                      (*_current_level).waiting_time, _dispatcher, _score));
+                                                      waiting_time, _dispatcher, _score));
 
     _threads.emplace_back(std::thread(&Target::update, new_target));
     _targets.emplace_back(new_target);
@@ -88,6 +125,8 @@ void WindowGameSurvival::remove_target() {
   }
 }
 
+// ----------------------------------------------------------------------------------------------------
+// POINTS ---------------------------------------------------------------------------------------------
 void WindowGameSurvival::up_points() {
 
   auto miss = _score->miss();
@@ -98,8 +137,8 @@ void WindowGameSurvival::up_points() {
   auto new_fail = (fail > _previous_fail) ? fail - _previous_fail : 0;
   auto new_success = (success > _previous_success) ? success - _previous_success : 0;
 
-  _points -= new_miss * 2;
-  _points -= new_fail * 3;
+  _points -= new_miss * _price_miss;
+  _points -= new_fail * _price_fail;
   _points += new_success;
 
   if (_points < 0)
@@ -114,19 +153,25 @@ void WindowGameSurvival::up_points() {
 // LOGIC ----------------------------------------------------------------------------------------------
 void WindowGameSurvival::logic() {
 
+  if (_score->miss() >= _max_miss)
+    control_escape(); // TODO: Add a cool window with an abstract
+  if (_score->fail() >= _max_fail)
+    control_escape(); // TODO: Add a cool window with an abstract
+
   // Find the current level according to the points
   up_points();
 
+  // --
   uint16_t previous_level = 0;
   std::vector<Level>::iterator it = _levels.begin();
   for (; it != _levels.end(); ++it) {
-    if ((*it).next_level > _points || it == _levels.end() - 1)
+    if ((*it).points_next_level > _points || it == _levels.end() - 1)
       break;
 
-    previous_level = (*it).next_level;
+    previous_level = (*it).points_next_level;
   }
 
-  auto percentage = (_points - previous_level) * 100 / (((*it).next_level) - previous_level);
+  auto percentage = (_points - previous_level) * 100 / (((*it).points_next_level) - previous_level);
   _widget_gauge->set_percentage(percentage);
   _widget_gauge->set_text(std::to_string(it - _levels.begin() + 1));
 
@@ -141,7 +186,7 @@ void WindowGameSurvival::logic() {
 
     // Number of targets
     while (_targets.size() < (*it).nb_target && _targets.size() < _nb_max_target)
-      add_target();
+      add_target((*it).waiting_time);
     while (_targets.size() > (*it).nb_target && _targets.size() > 0)
       remove_target();
 

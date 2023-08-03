@@ -1,7 +1,4 @@
 #include "widget_gauge.h"
-#include "utils.h"
-#include <algorithm>
-#include <iostream>
 
 WidgetGauge::WidgetGauge(kebb::boxsize screen_size, std::shared_ptr<Renderer> renderer)
     : _renderer(renderer), _gauge_alpha(100) {
