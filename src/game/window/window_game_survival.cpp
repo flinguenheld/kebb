@@ -1,5 +1,6 @@
 #include "window_game_survival.h"
 #include <cstdint>
+#include <iostream>
 #include <string>
 #include <sys/types.h>
 
@@ -28,8 +29,8 @@ WindowGameSurvival::WindowGameSurvival(kebb::boxsize screen_size,
   case 0:
     std::cout << "Mode very easy" << std::endl;
     // FIX: Create a struct with the current speed // nb of threads // success to reach
-    _levels = {{20, 3, 5},  {18, 3, 10}, {18, 4, 15}, {16, 4, 20},
-               {16, 5, 25}, {14, 5, 30}, {14, 6, 35}, {12, 6, 40}};
+    _levels = {{20, 3, 5}, {18, 10, 10}, {18, 5, 15}, {16, 4, 20}};
+    // {16, 5, 25}, {14, 5, 30},  {14, 6, 35}, {12, 6, 40}};
     break;
   case 1:
     break;
@@ -57,7 +58,6 @@ WindowGameSurvival::WindowGameSurvival(kebb::boxsize screen_size,
   for (auto &t : _targets)
     _threads.emplace_back(std::thread(&Target::update, t));
 
-  _countdown_value = std::stoi(options->get(OptionName::Countdown));
   _score->reset();
   _score->start_timer();
 }
@@ -74,6 +74,17 @@ void WindowGameSurvival::add_target() {
 
     _threads.emplace_back(std::thread(&Target::update, new_target));
     _targets.emplace_back(new_target);
+  }
+}
+
+void WindowGameSurvival::remove_target() {
+
+  if (_targets.size() > 0) {
+    _targets.back()->stop();
+    _threads.back().join();
+
+    _targets.pop_back();
+    _threads.pop_back();
   }
 }
 
@@ -109,25 +120,38 @@ void WindowGameSurvival::logic() {
   uint16_t previous_level = 0;
   std::vector<Level>::iterator it = _levels.begin();
   for (; it != _levels.end(); ++it) {
-    if ((*it).next_level > _points)
+    if ((*it).next_level > _points || it == _levels.end() - 1)
       break;
 
     previous_level = (*it).next_level;
   }
 
-  // TODO: Last level ?
-
   auto percentage = (_points - previous_level) * 100 / (((*it).next_level) - previous_level);
   _widget_gauge->set_percentage(percentage);
   _widget_gauge->set_text(std::to_string(it - _levels.begin() + 1));
 
-  // Adapt speed & nb of threads
+  // Last level !
+  if (it == _levels.end() - 1) {
 
-  // Set a normal time
-  int16_t time_seconds = _countdown_value - _score->seconds_spent();
-  _widget_score->logic(time_seconds);
+    if (percentage >= 100) {
+      std::cout << "c'est gagné !!!!" << std::endl;
+      control_escape(); // TODO: Add a cool window with an abstract
+    }
+  } else {
 
-  // TODO: Check scores to leave if there are too many fails/misses
+    // Number of targets
+    while (_targets.size() < (*it).nb_target && _targets.size() < _nb_max_target)
+      add_target();
+    while (_targets.size() > (*it).nb_target && _targets.size() > 0)
+      remove_target();
+
+    // Speed
+    for (auto &t : _targets)
+      t->set_waiting_time((*it).waiting_time);
+  }
+
+  // Up time
+  _widget_score->logic(_score->seconds_spent());
 }
 
 // ----------------------------------------------------------------------------------------------------

@@ -26,6 +26,8 @@ public:
 
 private:
   void add_target();
+  void remove_target();
+
   uint16_t _nb_max_target;
 
   std::vector<Level> _levels;

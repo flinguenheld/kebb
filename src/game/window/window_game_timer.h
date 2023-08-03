@@ -13,6 +13,9 @@ public:
 
   virtual void logic() override;
   virtual void render() const override;
+
+private:
+  uint16_t _countdown_value; // Seconds
 };
 
 #endif // !WINDOW_GAME_TIMER_H

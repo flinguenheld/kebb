@@ -41,8 +41,6 @@ protected:
   std::shared_ptr<Score> _score;
   std::unique_ptr<WidgetScore> _widget_score;
 
-  uint16_t _countdown_value; // Seconds
-
   kebb::point _target_center_aera;
   uint16_t _target_radius_aera;
 };
