@@ -5,6 +5,7 @@
 #include "utils.h"
 #include "widget/widget_base.h"
 #include "widget/widget_textbox.h"
+#include <SDL_pixels.h>
 #include <SDL_render.h>
 #include <cstdint>
 #include <memory>
@@ -30,6 +31,9 @@ private:
 
   std::vector<SDL_Vertex> _triangle;
 
+  SDL_Color _color;
+  const uint8_t _gauge_alpha;
+
   kebb::boxsize _char_size;
   kebb::point _pt_insertion; // Top left
   float _padding_y_txt;      // Used to reduce the gauge height
@@ -37,4 +41,3 @@ private:
 };
 
 #endif // !WIDGET_GAUGE_H
-

@@ -5,6 +5,7 @@
 #include "window_game.h"
 #include <cstdint>
 #include <iostream>
+#include <sys/types.h>
 
 struct Level {
   uint16_t waiting_time;
@@ -30,7 +31,15 @@ private:
   std::vector<Level> _levels;
   std::vector<Level>::iterator _current_level;
 
+  void up_points();
+
+  uint16_t _previous_miss;
+  uint16_t _previous_fail;
+  uint16_t _previous_success;
+
+  uint16_t _previous_level;
   uint16_t _target_waiting_time;
+  int16_t _points;
 
   std::unique_ptr<WidgetGauge> _widget_gauge;
 };

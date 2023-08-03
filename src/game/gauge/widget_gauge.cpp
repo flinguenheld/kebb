@@ -1,8 +1,12 @@
 #include "widget_gauge.h"
+#include "utils.h"
+#include <algorithm>
 #include <iostream>
 
 WidgetGauge::WidgetGauge(kebb::boxsize screen_size, std::shared_ptr<Renderer> renderer)
-    : _renderer(renderer) {
+    : _renderer(renderer), _gauge_alpha(100) {
+
+  _color = kebb::color(kebb::ColorName::C_Sky); // FIX: Possible in the initializer list ?
 
   // Geometry
   _char_size = _renderer->font_char_size(FontName::F_Menu);
@@ -16,7 +20,7 @@ WidgetGauge::WidgetGauge(kebb::boxsize screen_size, std::shared_ptr<Renderer> re
   kebb::point pt_text = {static_cast<uint16_t>(_pt_insertion.x + (5.5 * _char_size.w)), _pt_insertion.y};
 
   _textbox_level = std::make_unique<WidgetTextBox>(pt_text, text_size);
-  _textbox_level->set_color_text(kebb::color(kebb::ColorName::C_Peach));
+  _textbox_level->set_color_text(std::move(_color)); // FIX: Move ?
   _textbox_level->set_text("00");
 
   // Gauge --
@@ -24,20 +28,22 @@ WidgetGauge::WidgetGauge(kebb::boxsize screen_size, std::shared_ptr<Renderer> re
   _x_hundred = _char_size.w * 5;
   float y_zero = _pt_insertion.y + _char_size.h - _padding_y_txt;
 
+  uint8_t alpha = 70;
+
   _triangle = {
       {
           SDL_FPoint{static_cast<float>(_pt_insertion.x), y_zero},
-          kebb::color(kebb::ColorName::C_Sky),
+          {_color.r, _color.g, _color.b, _gauge_alpha},
           SDL_FPoint{0},
       },
       {
           SDL_FPoint{0, y_zero},
-          kebb::color(kebb::ColorName::C_Text),
+          {_color.r, _color.g, _color.b, _gauge_alpha},
           SDL_FPoint{0},
       },
       {
           SDL_FPoint{0, 0},
-          kebb::color(kebb::ColorName::C_Red),
+          {_color.r, _color.g, _color.b, _gauge_alpha},
           SDL_FPoint{0},
       },
   };
@@ -58,7 +64,13 @@ void WidgetGauge::set_percentage(uint16_t val) {
     _triangle[2].position.y = _pt_insertion.y + _padding_y_txt + y;
   }
 }
-void WidgetGauge::set_text(std::string val) { _textbox_level->set_text(std::move(val)); } // FIX: kepp move ?
+void WidgetGauge::set_text(std::string val) {
+
+  if (val.size() == 1)
+    val = "0" + val;
+
+  _textbox_level->set_text(std::move(val));
+} // FIX: kepp move ?
 
 // ----------------------------------------------------------------------------------------------------
 // RENDER ---------------------------------------------------------------------------------------------

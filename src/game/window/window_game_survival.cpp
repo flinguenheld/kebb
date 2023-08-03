@@ -1,4 +1,7 @@
 #include "window_game_survival.h"
+#include <cstdint>
+#include <string>
+#include <sys/types.h>
 
 // clang-format off
 WindowGameSurvival::WindowGameSurvival(kebb::boxsize screen_size,
@@ -6,13 +9,18 @@ WindowGameSurvival::WindowGameSurvival(kebb::boxsize screen_size,
                        std::shared_ptr<Renderer> renderer,
                        std::shared_ptr<Score> score,
                        std::shared_ptr<OptionFile> options)
-    : WindowGame(screen_size, next_window, renderer, score, options)
+    : WindowGame(screen_size, next_window, renderer, score, options),
+    _previous_level(0),
+    _previous_fail(0),
+    _previous_miss(0),
+    _previous_success(0),
+    _points(0)
 // clang-format on
 {
 
   // Gauge
   _widget_gauge = std::make_unique<WidgetGauge>(screen_size, renderer);
-  _widget_gauge->set_percentage(60);
+  _widget_gauge->set_percentage(100);
 
   // TODO: Adapt to increase the difficuly according to difficulty !!!
 
@@ -69,30 +77,54 @@ void WindowGameSurvival::add_target() {
   }
 }
 
+void WindowGameSurvival::up_points() {
+
+  auto miss = _score->miss();
+  auto fail = _score->fail();
+  auto success = _score->success();
+
+  auto new_miss = (miss > _previous_miss) ? miss - _previous_miss : 0;
+  auto new_fail = (fail > _previous_fail) ? fail - _previous_fail : 0;
+  auto new_success = (success > _previous_success) ? success - _previous_success : 0;
+
+  _points -= new_miss * 2;
+  _points -= new_fail * 3;
+  _points += new_success;
+
+  if (_points < 0)
+    _points = 0;
+
+  _previous_miss = miss;
+  _previous_fail = fail;
+  _previous_success = success;
+}
+
 // ----------------------------------------------------------------------------------------------------
 // LOGIC ----------------------------------------------------------------------------------------------
 void WindowGameSurvival::logic() {
 
+  // Find the current level according to the points
+  up_points();
+
+  uint16_t previous_level = 0;
+  std::vector<Level>::iterator it = _levels.begin();
+  for (; it != _levels.end(); ++it) {
+    if ((*it).next_level > _points)
+      break;
+
+    previous_level = (*it).next_level;
+  }
+
+  // TODO: Last level ?
+
+  auto percentage = (_points - previous_level) * 100 / (((*it).next_level) - previous_level);
+  _widget_gauge->set_percentage(percentage);
+  _widget_gauge->set_text(std::to_string(it - _levels.begin() + 1));
+
+  // Adapt speed & nb of threads
+
+  // Set a normal time
   int16_t time_seconds = _countdown_value - _score->seconds_spent();
-  if (time_seconds <= 0) {
-    control_escape();
-  }
-
-  if (_current_level != _levels.end() && (*_current_level).next_level == _score->success()) {
-
-    _current_level++;
-    if (_current_level == _levels.end())
-      return;
-
-    std::cout << "Next level !" << std::endl;
-
-    while (_targets.size() < (*_current_level).nb_target)
-      add_target();
-
-    for (auto &t : _targets)
-      t->set_waiting_time((*_current_level).waiting_time);
-  }
-
   _widget_score->logic(time_seconds);
 
   // TODO: Check scores to leave if there are too many fails/misses
