@@ -5,7 +5,7 @@ WindowOption::WindowOption(kebb::boxsize screen_size, std::shared_ptr<kebb::Wind
     : WidgetWindowSelection(next_window, renderer), _options(options), _message_displayed(false),
       _screen_size(screen_size) {
 
-  _widget_menu = std::make_unique<WidgetMenu>(screen_size, renderer, "<ESC> Cancel     <ENTER> Save");
+  _widget_menu = std::make_unique<WidgetBottomMenu>(screen_size, renderer, "<ESC> Cancel     <ENTER> Save");
 
   // Geometry
   kebb::boxsize char_size = _renderer->font_char_size(FontName::F_Menu); // NOTE: Use font menu ?

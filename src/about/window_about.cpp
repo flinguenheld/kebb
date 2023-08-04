@@ -4,7 +4,7 @@ WindowAbout::WindowAbout(kebb::boxsize screen_size, std::shared_ptr<kebb::Window
                          std::shared_ptr<Renderer> renderer)
     : WidgetWindow(next_window, renderer) {
 
-  _widget_menu = std::make_unique<WidgetMenu>(screen_size, renderer, "<ESC> Quit");
+  _widget_menu = std::make_unique<WidgetBottomMenu>(screen_size, renderer, "<ESC> Quit");
 
   // Geometry
   kebb::boxsize char_size = _renderer->font_char_size(FontName::F_Menu); // NOTE: Use font menu ?

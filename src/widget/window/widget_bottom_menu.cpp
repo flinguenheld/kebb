@@ -1,6 +1,7 @@
-#include "widget_menu.h"
+#include "widget_bottom_menu.h"
 
-WidgetMenu::WidgetMenu(kebb::boxsize screen_size, std::shared_ptr<Renderer> renderer, std::string &&text)
+WidgetBottomMenu::WidgetBottomMenu(kebb::boxsize screen_size, std::shared_ptr<Renderer> renderer,
+                                   std::string &&text)
     : _renderer(renderer) {
 
   kebb::boxsize char_size = _renderer->font_char_size(FontName::F_Menu);
@@ -13,6 +14,6 @@ WidgetMenu::WidgetMenu(kebb::boxsize screen_size, std::shared_ptr<Renderer> rend
   _widget_textbox->set_color_text(kebb::color(kebb::ColorName::C_Overlay2));
 }
 
-void WidgetMenu::render() const {
+void WidgetBottomMenu::render() const {
   _widget_textbox->render(_renderer->renderer(), _renderer->font(FontName::F_Menu));
 }

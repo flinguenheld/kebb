@@ -28,26 +28,26 @@ add_executable(${PROJECT_NAME} src/main.cpp
                                src/about/window_about.cpp
                                src/game/target.cpp
                                src/game/dispatcher.cpp
-                               src/game/gauge/widget_gauge.cpp
                                src/game/window/window_game.cpp
-                               src/game/window/window_game_survival.cpp
-                               src/game/window/window_game_timer.cpp
+                               src/game/window/window_gameover.cpp
+                               src/game/window/survival_mod/widget_gauge.cpp
+                               src/game/window/survival_mod/window_survival_mod.cpp
+                               src/game/window/survival_mod/window_welcome_survival.cpp
+                               src/game/window/timer_mod/window_timer_mod.cpp
+                               src/game/window/timer_mod/window_welcome_timer.cpp
                                src/option/window_option.cpp
                                src/option/option_file.cpp
-                               src/pause/window_pause.cpp
                                src/score/score.cpp
                                src/score/widget_score.cpp
                                src/welcome/widget_logo.cpp
                                src/welcome/window_welcome.cpp
-                               src/welcome/window_welcome_survival.cpp
-                               src/welcome/window_welcome_timer.cpp
                                src/widget/button/widget_selection.cpp
                                src/widget/button/widget_boolean.cpp
                                src/widget/button/widget_list.cpp
                                src/widget/widget_base.cpp
-                               src/widget/widget_menu.cpp
                                src/widget/widget_textbox.cpp
-                               src/widget/widget_window.cpp)
+                               src/widget/window/widget_bottom_menu.cpp
+                               src/widget/window/widget_window.cpp)
 
 find_package(Threads)
 target_link_libraries(${PROJECT_NAME} Threads::Threads)

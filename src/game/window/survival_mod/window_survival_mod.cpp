@@ -1,7 +1,7 @@
-#include "window_game_survival.h"
+#include "window_survival_mod.h"
 
 // clang-format off
-WindowGameSurvival::WindowGameSurvival(kebb::boxsize screen_size,
+WindowSurvivalMod::WindowSurvivalMod(kebb::boxsize screen_size,
                        std::shared_ptr<kebb::WindowName> next_window,
                        std::shared_ptr<Renderer> renderer,
                        std::shared_ptr<Score> score,
@@ -97,11 +97,11 @@ WindowGameSurvival::WindowGameSurvival(kebb::boxsize screen_size,
   _score->start_timer();
 }
 
-WindowGameSurvival::~WindowGameSurvival() {}
+WindowSurvivalMod::~WindowSurvivalMod() {}
 
 // ----------------------------------------------------------------------------------------------------
 // TARGETS --------------------------------------------------------------------------------------------
-void WindowGameSurvival::add_target(uint16_t waiting_time) {
+void WindowSurvivalMod::add_target(uint16_t waiting_time) {
 
   if (_targets.size() < _nb_max_target) {
 
@@ -114,7 +114,7 @@ void WindowGameSurvival::add_target(uint16_t waiting_time) {
   }
 }
 
-void WindowGameSurvival::remove_target() {
+void WindowSurvivalMod::remove_target() {
 
   if (_targets.size() > 0) {
     _targets.back()->stop();
@@ -127,7 +127,7 @@ void WindowGameSurvival::remove_target() {
 
 // ----------------------------------------------------------------------------------------------------
 // POINTS ---------------------------------------------------------------------------------------------
-void WindowGameSurvival::up_points() {
+void WindowSurvivalMod::up_points() {
 
   auto miss = _score->miss();
   auto fail = _score->fail();
@@ -151,7 +151,7 @@ void WindowGameSurvival::up_points() {
 
 // ----------------------------------------------------------------------------------------------------
 // LOGIC ----------------------------------------------------------------------------------------------
-void WindowGameSurvival::logic() {
+void WindowSurvivalMod::logic() {
 
   if (_score->miss() >= _max_miss)
     control_escape(); // TODO: Add a cool window with an abstract
@@ -201,7 +201,7 @@ void WindowGameSurvival::logic() {
 
 // ----------------------------------------------------------------------------------------------------
 // RENDER ---------------------------------------------------------------------------------------------
-void WindowGameSurvival::render() const {
+void WindowSurvivalMod::render() const {
 
   _renderer->clear_screen();
   _widget_score->render();

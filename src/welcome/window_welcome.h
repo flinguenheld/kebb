@@ -6,9 +6,9 @@
 #include "utils.h"
 #include "welcome/widget_logo.h"
 #include "widget/button/widget_selection.h"
-#include "widget/widget_menu.h"
 #include "widget/widget_textbox.h"
-#include "widget/widget_window.h"
+#include "widget/window/widget_bottom_menu.h"
+#include "widget/window/widget_window.h"
 #include <iterator>
 #include <memory>
 #include <thread>
@@ -26,7 +26,7 @@ public:
 
 private:
   std::unique_ptr<WidgetTextBox> _widget_title;
-  std::unique_ptr<WidgetMenu> _widget_menu;
+  std::unique_ptr<WidgetBottomMenu> _widget_menu;
   std::shared_ptr<WidgetLogo> _widget_logo;
 
   std::thread _thread;

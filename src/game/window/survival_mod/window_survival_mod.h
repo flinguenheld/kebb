@@ -1,8 +1,8 @@
-#ifndef WINDOW_GAME_SURVIVAL_H
-#define WINDOW_GAME_SURVIVAL_H
+#ifndef WINDOW_SURVIVAL_MOD_H
+#define WINDOW_SURVIVAL_MOD_H
 
-#include "game/gauge/widget_gauge.h"
-#include "window_game.h"
+#include "game/window/survival_mod/widget_gauge.h"
+#include "game/window/window_game.h"
 #include <cstdint>
 #include <iostream>
 #include <string>
@@ -17,13 +17,13 @@ struct Level {
 /*
  * Window game survival
  */
-class WindowGameSurvival : public WindowGame {
+class WindowSurvivalMod : public WindowGame {
 public:
-  WindowGameSurvival(kebb::boxsize screen_size, std::shared_ptr<kebb::WindowName> next_window,
-                     std::shared_ptr<Renderer> renderer, std::shared_ptr<Score> score,
-                     std::shared_ptr<OptionFile> options);
+  WindowSurvivalMod(kebb::boxsize screen_size, std::shared_ptr<kebb::WindowName> next_window,
+                    std::shared_ptr<Renderer> renderer, std::shared_ptr<Score> score,
+                    std::shared_ptr<OptionFile> options);
 
-  virtual ~WindowGameSurvival() override;
+  virtual ~WindowSurvivalMod() override;
 
   virtual void logic() override;
   virtual void render() const override;
@@ -49,4 +49,4 @@ private:
   std::unique_ptr<WidgetGauge> _widget_gauge;
 };
 
-#endif // !WINDOW_GAME_SURVIVAL_H
+#endif // !WINDOW_SURVIVAL_MOD_H

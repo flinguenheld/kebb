@@ -2,8 +2,8 @@
 #define WINDOW_ABOUT
 
 #include "utils.h"
-#include "widget/widget_menu.h"
-#include "widget/widget_window.h"
+#include "widget/window/widget_bottom_menu.h"
+#include "widget/window/widget_window.h"
 #include <memory>
 
 class WindowAbout : public WidgetWindow {
@@ -22,7 +22,7 @@ private:
   std::unique_ptr<WidgetTextBox> _widget_github;
   std::unique_ptr<WidgetTextBox> _widget_email;
 
-  std::unique_ptr<WidgetMenu> _widget_menu;
+  std::unique_ptr<WidgetBottomMenu> _widget_menu;
 };
 
 #endif // !WINDOW_ABOUT

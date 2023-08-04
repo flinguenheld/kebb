@@ -9,17 +9,18 @@
 #include "controller.h"
 #include "game/dispatcher.h"
 #include "game/target.h"
-#include "game/window/window_game_survival.h"
-#include "game/window/window_game_timer.h"
+#include "game/window/survival_mod/window_survival_mod.h"
+#include "game/window/survival_mod/window_welcome_survival.h"
+#include "game/window/timer_mod/window_timer_mod.h"
+#include "game/window/timer_mod/window_welcome_timer.h"
+#include "game/window/window_gameover.h"
 #include "option/option_file.h"
 #include "option/window_option.h"
-#include "pause/window_pause.h"
 #include "renderer.h"
 #include "score/score.h"
 #include "welcome/window_welcome.h"
-#include "welcome/window_welcome_timer.h"
 #include "widget/widget_base.h"
-#include "widget/widget_window.h"
+#include "widget/window/widget_window.h"
 #include <memory>
 
 class Loop {

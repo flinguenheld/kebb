@@ -1,7 +1,7 @@
-#include "window_game_timer.h"
+#include "window_timer_mod.h"
 
 // clang-format off
-WindowGameTimer::WindowGameTimer(kebb::boxsize screen_size,
+WindowTimerMod::WindowTimerMod(kebb::boxsize screen_size,
                        std::shared_ptr<kebb::WindowName> next_window,
                        std::shared_ptr<Renderer> renderer,
                        std::shared_ptr<Score> score,
@@ -29,11 +29,11 @@ WindowGameTimer::WindowGameTimer(kebb::boxsize screen_size,
   _score->start_timer();
 }
 
-WindowGameTimer::~WindowGameTimer() {}
+WindowTimerMod::~WindowTimerMod() {}
 
 // ----------------------------------------------------------------------------------------------------
 // LOGIC ----------------------------------------------------------------------------------------------
-void WindowGameTimer::logic() {
+void WindowTimerMod::logic() {
 
   int16_t time_seconds = _countdown_value - _score->seconds_spent();
   if (time_seconds <= 0) {
@@ -44,7 +44,7 @@ void WindowGameTimer::logic() {
 }
 // ----------------------------------------------------------------------------------------------------
 // RENDER ---------------------------------------------------------------------------------------------
-void WindowGameTimer::render() const {
+void WindowTimerMod::render() const {
 
   _renderer->clear_screen();
   _widget_score->render();

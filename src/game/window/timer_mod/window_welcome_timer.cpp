@@ -1,5 +1,4 @@
 #include "window_welcome_timer.h"
-#include "option/option_file.h"
 
 WindowWelcomeTimer::WindowWelcomeTimer(kebb::boxsize screen_size,
                                        std::shared_ptr<kebb::WindowName> next_window,
@@ -7,7 +6,7 @@ WindowWelcomeTimer::WindowWelcomeTimer(kebb::boxsize screen_size,
                                        std::shared_ptr<OptionFile> options)
     : WidgetWindowSelection(next_window, renderer), _options(options) {
 
-  _widget_menu = std::make_unique<WidgetMenu>(screen_size, renderer, "<ESC> Cancel     <ENTER> Go !");
+  _widget_menu = std::make_unique<WidgetBottomMenu>(screen_size, renderer, "<ESC> Cancel     <ENTER> Go !");
 
   // Geometry
   kebb::boxsize char_size = _renderer->font_char_size(FontName::F_Menu); // NOTE: Use font menu ?

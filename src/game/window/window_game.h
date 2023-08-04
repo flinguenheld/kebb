@@ -9,7 +9,7 @@
 #include "score/score.h"
 #include "score/widget_score.h"
 #include "widget/widget_base.h"
-#include "widget/widget_window.h"
+#include "widget/window/widget_window.h"
 #include <cstdint>
 #include <memory>
 #include <sys/types.h>
