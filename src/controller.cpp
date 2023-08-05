@@ -1,5 +1,5 @@
 #include "controller.h"
-#include "option/option_file.h"
+#include "file/option_file.h"
 #include <SDL_keycode.h>
 
 Controller::Controller(std::shared_ptr<OptionFile> options)

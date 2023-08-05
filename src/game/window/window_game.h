@@ -4,7 +4,7 @@
 #include "SDL_render.h"
 #include "SDL_ttf.h"
 #include "game/target.h"
-#include "option/option_file.h"
+#include "file/option_file.h"
 #include "renderer.h"
 #include "score/score.h"
 #include "score/widget_score.h"

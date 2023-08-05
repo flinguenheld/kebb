@@ -14,7 +14,7 @@
 #include "game/window/timer_mod/window_timer_mod.h"
 #include "game/window/timer_mod/window_welcome_timer.h"
 #include "game/window/window_gameover.h"
-#include "option/option_file.h"
+#include "file/option_file.h"
 #include "option/window_option.h"
 #include "renderer.h"
 #include "score/score.h"

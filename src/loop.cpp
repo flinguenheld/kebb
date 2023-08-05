@@ -43,8 +43,8 @@ void Loop::run(Controller &controller) {
             std::make_shared<WindowSurvivalMod>(_screen_size, next_window_name, _renderer, _score, _options);
         break;
       case kebb::WindowName::W_Pause:
-        _current_window =
-            std::make_shared<WindowGameOver>(_screen_size, next_window_name, _renderer, _score, _options);
+        _current_window = std::make_shared<WindowGameOver>(_screen_size, next_window_name, _renderer, _score,
+                                                           _options, "Game Over");
         break;
       case kebb::WindowName::W_Welcome:
         _current_window =

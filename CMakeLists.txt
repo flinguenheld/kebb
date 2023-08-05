@@ -26,6 +26,9 @@ add_executable(${PROJECT_NAME} src/main.cpp
                                src/utils.cpp
                                src/renderer.cpp
                                src/about/window_about.cpp
+                               src/file/file.cpp
+                               src/file/option_file.cpp
+                               src/file/record_file.cpp
                                src/game/target.cpp
                                src/game/dispatcher.cpp
                                src/game/window/window_game.cpp
@@ -36,7 +39,6 @@ add_executable(${PROJECT_NAME} src/main.cpp
                                src/game/window/timer_mod/window_timer_mod.cpp
                                src/game/window/timer_mod/window_welcome_timer.cpp
                                src/option/window_option.cpp
-                               src/option/option_file.cpp
                                src/score/score.cpp
                                src/score/widget_score.cpp
                                src/welcome/widget_logo.cpp

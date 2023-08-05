@@ -1,7 +1,7 @@
 #ifndef WINDOW_WELCOME_SURVIVAL_H
 #define WINDOW_WELCOME_SURVIVAL_H
 
-#include "option/option_file.h"
+#include "file/option_file.h"
 #include "utils.h"
 #include "widget/button/widget_boolean.h"
 #include "widget/button/widget_list.h"

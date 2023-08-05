@@ -1,7 +1,7 @@
 #ifndef WINDOW_WELCOME_H
 #define WINDOW_WELCOME_H
 
-#include "option/option_file.h"
+#include "file/option_file.h"
 #include "renderer.h"
 #include "utils.h"
 #include "welcome/widget_logo.h"

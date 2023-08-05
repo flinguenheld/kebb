@@ -1,9 +1,7 @@
 #ifndef OPTION_FILE_H
 #define OPTION_FILE_H
 
-#include <fstream>
-#include <iostream>
-#include <string>
+#include "file.h"
 
 enum class OptionName {
   Resolution,
@@ -25,7 +23,7 @@ enum class OptionName {
  * Allows to read and save the option file.
  * All entries are saved in string format.
  */
-class OptionFile {
+class OptionFile : public File {
 public:
   OptionFile();
 
@@ -36,8 +34,6 @@ public:
   std::string get(OptionName type);
 
 private:
-  std::string _filename;
-
   std::string _resolution;
   std::string _layout;
 
