@@ -6,8 +6,9 @@ WindowSurvivalMod::WindowSurvivalMod(kebb::boxsize screen_size,
                        std::shared_ptr<kebb::WindowName> next_window,
                        std::shared_ptr<Renderer> renderer,
                        std::shared_ptr<Score> score,
+                       std::shared_ptr<RecordFile> records,
                        std::shared_ptr<OptionFile> options)
-    : WindowGame(screen_size, next_window, renderer, score, options),
+    : WindowGame(screen_size, next_window, renderer, score, records, options),
     _previous_fail(0),
     _previous_miss(0),
     _previous_success(0),
@@ -214,11 +215,6 @@ void WindowSurvivalMod::render() const {
 // RECORDS --------------------------------------------------------------------------------------------
 void WindowSurvivalMod::save_record() const {
 
-  RecordFile testRecordFile;
-
-  testRecordFile.read();
-  testRecordFile.add({.mod = 2, .success = 15});
-
-  testRecordFile.save();
-  std::cout << "save record survival !!!" << std::endl;
+  // FIX: Add correct save
+  _records->add({.mod = 2, .success = 15});
 }

@@ -29,6 +29,7 @@ class RecordFile : public File {
 
 public:
   RecordFile();
+  ~RecordFile();
 
   void add(Record r);
   void save() const;

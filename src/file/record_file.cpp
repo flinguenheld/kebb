@@ -1,6 +1,7 @@
 #include "record_file.h"
 
 RecordFile::RecordFile() : File("records.kebb"), _nb_max_records(20) {}
+RecordFile::~RecordFile() { save(); }
 
 /*
  * Add a new record in the table beginnig.
@@ -20,6 +21,8 @@ void RecordFile::save() const {
   auto file = std::ofstream(_filename, std::ios::out | std::ios::trunc | std::ios::binary);
   for (const auto &r : _records)
     file.write((char *)&r, sizeof(Record));
+
+  std::cout << "save !" << std::endl;
 }
 
 /*

@@ -5,9 +5,11 @@ WindowGame::WindowGame(kebb::boxsize screen_size,
                        std::shared_ptr<kebb::WindowName> next_window,
                        std::shared_ptr<Renderer> renderer,
                        std::shared_ptr<Score> score,
+                       std::shared_ptr<RecordFile> records,
                        std::shared_ptr<OptionFile> options)
     : WidgetWindow(next_window, renderer),
       _score(score),
+      _records(records),
       _options(options) {
   // clang-format on
 

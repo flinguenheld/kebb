@@ -4,6 +4,7 @@
 #include "SDL_render.h"
 #include "SDL_ttf.h"
 #include "file/option_file.h"
+#include "file/record_file.h"
 #include "game/target.h"
 #include "renderer.h"
 #include "score/score.h"
@@ -23,7 +24,7 @@ class WindowGame : public WidgetWindow {
 public:
   WindowGame(kebb::boxsize screen_size, std::shared_ptr<kebb::WindowName> next_window,
              std::shared_ptr<Renderer> renderer, std::shared_ptr<Score> score,
-             std::shared_ptr<OptionFile> options);
+             std::shared_ptr<RecordFile> records, std::shared_ptr<OptionFile> options);
   virtual ~WindowGame() override;
 
   virtual void control_escape() override;
@@ -37,6 +38,7 @@ protected:
   std::vector<std::thread> _threads;
   std::shared_ptr<Dispatcher> _dispatcher;
   std::shared_ptr<OptionFile> _options;
+  std::shared_ptr<RecordFile> _records;
 
   std::shared_ptr<Score> _score;
   std::unique_ptr<WidgetScore> _widget_score;
