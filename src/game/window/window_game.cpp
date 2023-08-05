@@ -31,6 +31,8 @@ void WindowGame::stop_threads() {
   for (auto &t : _threads) {
     t.join();
   }
+
+  save_record(); // NOTE: Good here ?
 }
 
 // ----------------------------------------------------------------------------------------------------

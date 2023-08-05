@@ -1,4 +1,5 @@
 #include "window_survival_mod.h"
+#include "file/record_file.h"
 
 // clang-format off
 WindowSurvivalMod::WindowSurvivalMod(kebb::boxsize screen_size,
@@ -207,4 +208,17 @@ void WindowSurvivalMod::render() const {
   _widget_score->render();
   _widget_gauge->render();
   WindowGame::render();
+}
+
+// ----------------------------------------------------------------------------------------------------
+// RECORDS --------------------------------------------------------------------------------------------
+void WindowSurvivalMod::save_record() const {
+
+  RecordFile testRecordFile;
+
+  testRecordFile.read();
+  testRecordFile.add({.mod = 2, .success = 15});
+
+  testRecordFile.save();
+  std::cout << "save record survival !!!" << std::endl;
 }

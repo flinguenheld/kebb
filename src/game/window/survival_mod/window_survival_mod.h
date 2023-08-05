@@ -47,6 +47,8 @@ private:
   uint16_t _max_miss;
 
   std::unique_ptr<WidgetGauge> _widget_gauge;
+
+  virtual void save_record() const override;
 };
 
 #endif // !WINDOW_SURVIVAL_MOD_H

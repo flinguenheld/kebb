@@ -3,8 +3,8 @@
 
 #include "SDL_render.h"
 #include "SDL_ttf.h"
-#include "game/target.h"
 #include "file/option_file.h"
+#include "game/target.h"
 #include "renderer.h"
 #include "score/score.h"
 #include "score/widget_score.h"
@@ -45,6 +45,8 @@ protected:
   uint16_t _target_radius_aera;
 
   uint16_t _nb_max_target;
+
+  virtual void save_record() const {};
 };
 
 #endif // !WINDOW_GAME_H
