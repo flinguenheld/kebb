@@ -7,7 +7,6 @@ Loop::Loop(kebb::boxsize screen_size, std::shared_ptr<Renderer> renderer,
       _renderer(renderer),
       _options(options)
 {
-  _dispatcher = std::make_shared<Dispatcher>(_options);
   _score = std::make_shared<Score>();
   _records = std::make_shared<RecordFile>();
 }

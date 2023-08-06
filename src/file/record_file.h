@@ -12,7 +12,8 @@ struct Record {
   uint16_t success;
   uint16_t fail;
   uint16_t miss;
-  uint16_t time;
+  int time_start;
+  int time_game;
   uint16_t difficulty;
   uint16_t level;
   uint16_t speed;
@@ -21,9 +22,9 @@ struct Record {
 
 /*
  * Allow to read/write a file with the previous games data.
- * Read() to fill the table.
  * add() to insert the last game in the table beginning.
- * save() to write the table in the file.
+ * The constructor reads the file to fill the table.
+ * Then the destructor write the file with the (updated) table.
  */
 class RecordFile : public File {
 
@@ -32,14 +33,14 @@ public:
   ~RecordFile();
 
   void add(Record r);
-  void save() const;
-  void read();
-
   std::vector<Record> &records();
 
 private:
   uint16_t _nb_max_records;
   std::vector<Record> _records;
+
+  void save() const; // NOTE: Keep private ?
+  void read();
 };
 
 #endif // !RECORD_FILE_H

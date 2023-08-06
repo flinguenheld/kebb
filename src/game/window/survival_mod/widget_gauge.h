@@ -26,6 +26,7 @@ public:
 
   void set_percentage(uint16_t val);
   void set_text(std::string val);
+  std::string get_text() const;
 
 private:
   std::unique_ptr<WidgetTextBox> _textbox_level;

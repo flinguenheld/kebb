@@ -78,7 +78,7 @@ void OptionFile::set(OptionName type, const std::string &val) {
   }
 }
 
-std::string OptionFile::get(OptionName name) {
+std::string OptionFile::get(OptionName name) const {
   switch (name) {
   case OptionName::Resolution:
     return _resolution;

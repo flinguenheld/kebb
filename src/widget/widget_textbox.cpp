@@ -7,9 +7,14 @@ WidgetTextBox::WidgetTextBox(kebb::point position, kebb::boxsize size)
 }
 WidgetTextBox::~WidgetTextBox() {}
 
+// ----------------------------------------------------------------------------------------------------
+// ACCESSORS ------------------------------------------------------------------------------------------
 void WidgetTextBox::set_text(std::string &&text) { _text = std::move(text); }
+std::string WidgetTextBox::get_text() const { return _text; }
 void WidgetTextBox::set_color_text(SDL_Color &&color) { _color_text = std::move(color); }
 
+// ----------------------------------------------------------------------------------------------------
+// RENDER ---------------------------------------------------------------------------------------------
 void WidgetTextBox::render(SDL_Renderer *renderer, TTF_Font *font) const {
 
   SDL_Surface *new_textSurface = TTF_RenderUTF8_Shaded(font, _text.c_str(), _color_text, _color);

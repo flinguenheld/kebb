@@ -69,6 +69,8 @@ void WidgetGauge::set_text(std::string val) {
   _textbox_level->set_text(std::move(val));
 } // FIX: kepp move ?
 
+std::string WidgetGauge::get_text() const { return _textbox_level->get_text(); }
+
 // ----------------------------------------------------------------------------------------------------
 // RENDER ---------------------------------------------------------------------------------------------
 void WidgetGauge::render() const {

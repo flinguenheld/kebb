@@ -1,4 +1,5 @@
 #include "score.h"
+#include <bits/chrono.h>
 
 Score::Score() : _sucess(0), _fail(0), _miss(0) {}
 
@@ -33,4 +34,8 @@ int Score::seconds_spent() {
 
 int Score::seconds_until_stop() const {
   return std::chrono::duration_cast<std::chrono::seconds>(_timer_last_check - _timer_start).count();
+}
+
+int Score::seconds_timer_started() const {
+  return std::chrono::duration_cast<std::chrono::seconds>(_timer_start.time_since_epoch()).count();
 }

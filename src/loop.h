@@ -9,8 +9,6 @@
 #include "controller.h"
 #include "file/option_file.h"
 #include "file/record_file.h"
-#include "game/dispatcher.h"
-#include "game/target.h"
 #include "game/window/survival_mod/window_survival_mod.h"
 #include "game/window/survival_mod/window_welcome_survival.h"
 #include "game/window/timer_mod/window_timer_mod.h"
@@ -33,11 +31,10 @@ public:
 private:
   std::shared_ptr<WidgetWindow> _current_window; // Shared with the controller
 
-  std::vector<Target> _targets;
-  std::shared_ptr<Dispatcher> _dispatcher;
   std::shared_ptr<Renderer> _renderer;
-  std::shared_ptr<Score> _score;
-  std::shared_ptr<RecordFile> _records;
+  std::shared_ptr<Score> _score; // FIX: Is score still usefull ? (can be replaced by Record)
+
+  std::shared_ptr<RecordFile> _records; // Create here to avoid repetitive read/write actions
   std::shared_ptr<OptionFile> _options;
 
   const kebb::boxsize _screen_size;

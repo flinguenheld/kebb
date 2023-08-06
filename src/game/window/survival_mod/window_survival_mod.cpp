@@ -1,5 +1,6 @@
 #include "window_survival_mod.h"
 #include "file/record_file.h"
+#include <string>
 
 // clang-format off
 WindowSurvivalMod::WindowSurvivalMod(kebb::boxsize screen_size,
@@ -215,6 +216,13 @@ void WindowSurvivalMod::render() const {
 // RECORDS --------------------------------------------------------------------------------------------
 void WindowSurvivalMod::save_record() const {
 
-  // FIX: Add correct save
-  _records->add({.mod = 2, .success = 15});
+  // TODO: Change the gauge text to force a number ?
+  _records->add({.mod = 2, // NOTE: Add a kebb enum ?
+                 .success = _score->success(),
+                 .fail = _score->fail(),
+                 .miss = _score->miss(),
+                 .time_start = _score->seconds_timer_started(),
+                 .time_game = _score->seconds_spent(),
+                 .difficulty = static_cast<uint16_t>((stoi(_options->get(OptionName::SurvivalDifficulty)))),
+                 .level = static_cast<uint16_t>(std::stoi(_widget_gauge->get_text()))});
 }

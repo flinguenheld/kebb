@@ -25,6 +25,7 @@ public:
   void start_timer();
   int seconds_spent();
   int seconds_until_stop() const;
+  int seconds_timer_started() const; // Time when the timer started (useful for records)
 
 private:
   uint16_t _sucess;

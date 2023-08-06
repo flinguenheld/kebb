@@ -31,7 +31,7 @@ public:
   void read();
 
   void set(OptionName type, const std::string &val);
-  std::string get(OptionName type);
+  std::string get(OptionName type) const;
 
 private:
   std::string _resolution;

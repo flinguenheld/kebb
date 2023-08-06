@@ -1,4 +1,6 @@
 #include "window_timer_mod.h"
+#include "file/option_file.h"
+#include <string>
 
 // clang-format off
 WindowTimerMod::WindowTimerMod(kebb::boxsize screen_size,
@@ -56,6 +58,12 @@ void WindowTimerMod::render() const {
 // RECORDS --------------------------------------------------------------------------------------------
 void WindowTimerMod::save_record() const {
 
-  // FIX: Add correct save
-  _records->add({.mod = 2, .success = 15});
+  _records->add({.mod = 2, // NOTE: Add a kebb enum ?
+                 .success = _score->success(),
+                 .fail = _score->fail(),
+                 .miss = _score->miss(),
+                 .time_start = _score->seconds_timer_started(),
+                 .time_game = _score->seconds_spent(),
+                 .speed = static_cast<uint16_t>(std::stoi(_options->get(OptionName::Speed))),
+                 .nb_target = static_cast<uint16_t>(std::stoi(_options->get(OptionName::Targets)))});
 }
