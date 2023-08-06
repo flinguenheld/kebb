@@ -20,7 +20,7 @@ void Controller::handle_input(bool &running, std::shared_ptr<WidgetWindow> windo
         break;
 
       case SDLK_RETURN:
-      case SDLK_RETURN2: // NOTE: What is that ?
+      case SDLK_RETURN2:
       case SDLK_KP_ENTER:
         window->control_enter();
         break;
@@ -52,9 +52,9 @@ void Controller::handle_input(bool &running, std::shared_ptr<WidgetWindow> windo
         break;
 
       default:
-        if (_options->get(OptionName::Layout) == "US")
+        if (_options->get_string(OptionName::Layout) == "US")
           window->control_others(convert_us(e));
-        else if (_options->get(OptionName::Layout) == "FR")
+        else if (_options->get_string(OptionName::Layout) == "FR")
           window->control_others(convert_fr(e));
         else
           window->control_others(convert_bepo(e));

@@ -23,7 +23,7 @@ Target::Target(kebb::point center_area, uint16_t radius_area, kebb::boxsize char
 
 bool Target::check_keycode(uint16_t k) {
 
-  if (_keycode == k) { // FIX: Need mutex ??
+  if (_keycode == k) { // NOTE: Need mutex ?
     _ok = true;
     return true;
   }

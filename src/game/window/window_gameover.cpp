@@ -1,4 +1,5 @@
 #include "window_gameover.h"
+#include "utils.h"
 #include "widget/widget_textbox.h"
 #include <memory>
 
@@ -53,7 +54,7 @@ void WindowGameOver::render() const {
 // CONTROLS -------------------------------------------------------------------------------------------
 void WindowGameOver::control_escape() { *_next_window = kebb::WindowName::W_Welcome; }
 void WindowGameOver::control_enter() {
-  if (_options->get(OptionName::LastMod) == "timer")
+  if (_options->get_uint(OptionName::LastMod) == uint16_t(kebb::GameMod::M_Timer))
     *_next_window = kebb::WindowName::W_GameTimer;
   else
     *_next_window = kebb::WindowName::W_GameSurvival;

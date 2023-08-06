@@ -1,5 +1,7 @@
 #include "window_survival_mod.h"
 #include "file/record_file.h"
+#include "utils.h"
+#include <cstdint>
 #include <string>
 
 // clang-format off
@@ -21,7 +23,7 @@ WindowSurvivalMod::WindowSurvivalMod(kebb::boxsize screen_size,
   _widget_gauge->set_percentage(100);
 
   // Levels --
-  switch (stoi(_options->get(OptionName::SurvivalDifficulty))) {
+  switch (_options->get_uint(OptionName::SurvivalDifficulty)) {
   case 0: // Very easy
     _price_fail = 1;
     _price_miss = 1;
@@ -176,7 +178,7 @@ void WindowSurvivalMod::logic() {
 
   auto percentage = (_points - previous_level) * 100 / (((*it).points_next_level) - previous_level);
   _widget_gauge->set_percentage(percentage);
-  _widget_gauge->set_text(std::to_string(it - _levels.begin() + 1));
+  _widget_gauge->set_level(it - _levels.begin() + 1);
 
   // Last level !
   if (it == _levels.end() - 1) {
@@ -216,13 +218,12 @@ void WindowSurvivalMod::render() const {
 // RECORDS --------------------------------------------------------------------------------------------
 void WindowSurvivalMod::save_record() const {
 
-  // TODO: Change the gauge text to force a number ?
-  _records->add({.mod = 2, // NOTE: Add a kebb enum ?
+  _records->add({.mod = uint16_t(kebb::GameMod::M_Survival),
                  .success = _score->success(),
                  .fail = _score->fail(),
                  .miss = _score->miss(),
                  .time_start = _score->seconds_timer_started(),
                  .time_game = _score->seconds_spent(),
-                 .difficulty = static_cast<uint16_t>((stoi(_options->get(OptionName::SurvivalDifficulty)))),
-                 .level = static_cast<uint16_t>(std::stoi(_widget_gauge->get_text()))});
+                 .difficulty = _options->get_uint(OptionName::SurvivalDifficulty),
+                 .level = _widget_gauge->get_level()});
 }

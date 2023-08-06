@@ -1,9 +1,11 @@
 #include "widget_gauge.h"
+#include <cstdint>
+#include <string>
 
 WidgetGauge::WidgetGauge(kebb::boxsize screen_size, std::shared_ptr<Renderer> renderer)
     : _renderer(renderer), _gauge_alpha(100) {
 
-  _color = kebb::color(kebb::ColorName::C_Sky); // FIX: Possible in the initializer list ?
+  _color = kebb::color(kebb::ColorName::C_Sky); // NOTE: Possible in the initializer list ?
 
   // Geometry
   _char_size = _renderer->font_char_size(FontName::F_Menu);
@@ -61,15 +63,16 @@ void WidgetGauge::set_percentage(uint16_t val) {
     _triangle[2].position.y = _pt_insertion.y + _padding_y_txt + y;
   }
 }
-void WidgetGauge::set_text(std::string val) {
+void WidgetGauge::set_level(uint16_t val) {
 
-  if (val.size() == 1)
-    val = "0" + val;
+  auto level = std::to_string(val);
+  if (level.size() == 1)
+    level = "0" + level;
 
-  _textbox_level->set_text(std::move(val));
-} // FIX: kepp move ?
+  _textbox_level->set_text(std::move(level));
+}
 
-std::string WidgetGauge::get_text() const { return _textbox_level->get_text(); }
+uint16_t WidgetGauge::get_level() const { return std::stoi(_textbox_level->get_text()); }
 
 // ----------------------------------------------------------------------------------------------------
 // RENDER ---------------------------------------------------------------------------------------------

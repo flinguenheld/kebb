@@ -14,7 +14,7 @@ class WidgetBase {
 public:
   WidgetBase(kebb::point position, kebb::boxsize size);
   virtual ~WidgetBase();
-  virtual void render(SDL_Renderer *renderer, TTF_Font *font) const {} // FIX: Useless ?
+  virtual void render(SDL_Renderer *renderer, TTF_Font *font) const {}
   virtual void render(SDL_Renderer *renderer) const {}
 
   kebb::point position() const;

@@ -14,7 +14,7 @@ int main() {
   options->read();
 
   // Resolution & scale --
-  auto resolution_option = options->get(OptionName::Resolution);
+  auto resolution_option = options->get_string(OptionName::Resolution);
   auto hyphen_position = resolution_option.find('-');
   uint16_t res = std::stoi(resolution_option.substr(0, hyphen_position));
 

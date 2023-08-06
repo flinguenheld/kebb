@@ -2,34 +2,34 @@
 
 Dispatcher::Dispatcher(std::shared_ptr<OptionFile> options) : _engine(_seed()), _number_of_chars(0) {
 
-  if (std::stoi(options->get(OptionName::Letters))) {
+  if (options->get_bool(OptionName::Letters)) {
     for (uint16_t i = 10; i < 36; ++i) {
       _keycodes.emplace_back(i);
       ++_number_of_chars;
     }
   }
-  if (std::stoi(options->get(OptionName::Capitals))) {
+  if (options->get_bool(OptionName::Capitals)) {
     for (uint16_t i = 100; i < 126; ++i) {
       _keycodes.emplace_back(i);
       ++_number_of_chars;
     }
   }
-  if (std::stoi(options->get(OptionName::Numbers))) {
+  if (options->get_bool(OptionName::Numbers)) {
     for (uint16_t i = 500; i < 510; ++i) {
       _keycodes.emplace_back(i);
       ++_number_of_chars;
     }
   }
-  if (std::stoi(options->get(OptionName::Symbols))) {
+  if (options->get_bool(OptionName::Symbols)) {
     for (uint16_t i = 1000; i < 1032; ++i) {
       _keycodes.emplace_back(i);
       ++_number_of_chars;
     }
   }
-  if (std::stoi(options->get(OptionName::FrenchExtras))) {
+  if (options->get_bool(OptionName::FrenchExtras)) {
 
     uint16_t max = 2016;
-    if (options->get(OptionName::Layout) == "FR") // Avoid æ œ // NOTE: With other layouts ?
+    if (options->get_string(OptionName::Layout) == "FR") // Avoid æ œ // NOTE: With other layouts ?
       max = 2114;
 
     for (uint16_t i = 2000; i < 2014; ++i) {
@@ -38,10 +38,10 @@ Dispatcher::Dispatcher(std::shared_ptr<OptionFile> options) : _engine(_seed()), 
     }
   }
 
-  if (std::stoi(options->get(OptionName::FrenchExtraCaps))) {
+  if (options->get_bool(OptionName::FrenchExtraCaps)) {
 
     uint16_t max = 2115;
-    if (options->get(OptionName::Layout) == "FR") // Avoid æ œ
+    if (options->get_string(OptionName::Layout) == "FR") // Avoid æ œ
       max = 2113;
 
     for (uint16_t i = 2100; i < max; ++i) {

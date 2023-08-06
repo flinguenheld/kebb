@@ -1,4 +1,6 @@
 #include "window_welcome_timer.h"
+#include <cstdint>
+#include <string>
 
 WindowWelcomeTimer::WindowWelcomeTimer(kebb::boxsize screen_size,
                                        std::shared_ptr<kebb::WindowName> next_window,
@@ -49,11 +51,12 @@ WindowWelcomeTimer::WindowWelcomeTimer(kebb::boxsize screen_size,
                                                                                              {"5m", "300"},
                                                                                              {"10m", "600"}},
                                                                   true)); // Selected !
-  _widget_select_fields.back()->set_choice_by_value(_options->get(OptionName::Countdown));
+  _widget_select_fields.back()->set_choice_by_value(
+      std::to_string(_options->get_uint(OptionName::Countdown)));
 
   pt.y += y_space;
   _widget_select_fields.emplace_back(std::make_unique<WidgetList>(pt, bs_field, "Nb targets:", 1, 20, 1));
-  _widget_select_fields.back()->set_choice_by_value(_options->get(OptionName::Targets));
+  _widget_select_fields.back()->set_choice_by_value(std::to_string(_options->get_uint(OptionName::Targets)));
 
   pt.y += y_space;
   _widget_select_fields.emplace_back(std::make_unique<WidgetList>(pt, bs_field, "Speed:",
@@ -73,7 +76,7 @@ WindowWelcomeTimer::WindowWelcomeTimer(kebb::boxsize screen_size,
                                                                                              {"14", "4"},
                                                                                              {"15", "2"},
                                                                                              {"16", "1"}}));
-  _widget_select_fields.back()->set_choice_by_value(_options->get(OptionName::Speed));
+  _widget_select_fields.back()->set_choice_by_value(std::to_string(_options->get_uint(OptionName::Speed)));
 }
 
 WindowWelcomeTimer::~WindowWelcomeTimer() {}

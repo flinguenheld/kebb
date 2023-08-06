@@ -2,6 +2,7 @@
 #define OPTION_FILE_H
 
 #include "file.h"
+#include <cstdint>
 
 enum class OptionName {
   Resolution,
@@ -21,7 +22,6 @@ enum class OptionName {
 
 /*
  * Allows to read and save the option file.
- * All entries are saved in string format.
  */
 class OptionFile : public File {
 public:
@@ -30,27 +30,32 @@ public:
   void save() const;
   void read();
 
-  void set(OptionName type, const std::string &val);
-  std::string get(OptionName type) const;
+  std::string get_string(OptionName name) const;
+  uint16_t get_uint(OptionName name) const;
+  bool get_bool(OptionName name) const;
+
+  void set(OptionName name, const std::string val);
+  void set(OptionName name, uint16_t val);
+  void set(OptionName name, bool val);
 
 private:
   std::string _resolution;
   std::string _layout;
 
-  std::string _nb_targets;
-  std::string _countdown;
-  std::string _speed;
+  uint16_t _nb_targets;
+  uint16_t _countdown;
+  uint16_t _speed;
 
-  std::string _survival_diffilculty;
+  uint16_t _survival_diffilculty;
 
-  std::string _last_mod;
+  uint16_t _last_mod;
 
-  std::string _letters;
-  std::string _capitals;
-  std::string _numbers;
-  std::string _symbols;
-  std::string _french_extras;
-  std::string _french_extra_caps;
+  bool _letters;
+  bool _capitals;
+  bool _numbers;
+  bool _symbols;
+  bool _french_extras;
+  bool _french_extra_caps;
 };
 
 #endif // !OPTION_FILE_H

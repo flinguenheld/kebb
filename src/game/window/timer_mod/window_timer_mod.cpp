@@ -1,5 +1,6 @@
 #include "window_timer_mod.h"
 #include "file/option_file.h"
+#include "utils.h"
 #include <string>
 
 // clang-format off
@@ -14,20 +15,20 @@ WindowTimerMod::WindowTimerMod(kebb::boxsize screen_size,
 {
 
   // Limit the amount of threads if needed
-  uint16_t nb_targets = std::stoi(options->get(OptionName::Targets));
+  uint16_t nb_targets = options->get_uint(OptionName::Targets);
   if (nb_targets >= _dispatcher->number_of_chars())
     nb_targets = _dispatcher->number_of_chars() * 0.6; // Remove to create a difficulty
 
   for (uint8_t i = 0; i < nb_targets; ++i)
     _targets.emplace_back(std::make_shared<Target>(
         _target_center_aera, _target_radius_aera, _renderer->font_char_size(FontName::F_Target),
-        std::stoi(options->get(OptionName::Speed)), _dispatcher, _score));
+        options->get_uint(OptionName::Speed), _dispatcher, _score));
 
   // Start !
   for (auto &t : _targets)
     _threads.emplace_back(std::thread(&Target::update, t));
 
-  _countdown_value = std::stoi(options->get(OptionName::Countdown));
+  _countdown_value = options->get_uint(OptionName::Countdown);
   _score->reset();
   _score->start_timer();
 }
@@ -58,12 +59,12 @@ void WindowTimerMod::render() const {
 // RECORDS --------------------------------------------------------------------------------------------
 void WindowTimerMod::save_record() const {
 
-  _records->add({.mod = 2, // NOTE: Add a kebb enum ?
+  _records->add({.mod = uint16_t(kebb::GameMod::M_Timer),
                  .success = _score->success(),
                  .fail = _score->fail(),
                  .miss = _score->miss(),
                  .time_start = _score->seconds_timer_started(),
                  .time_game = _score->seconds_spent(),
-                 .speed = static_cast<uint16_t>(std::stoi(_options->get(OptionName::Speed))),
-                 .nb_target = static_cast<uint16_t>(std::stoi(_options->get(OptionName::Targets)))});
+                 .speed = _options->get_uint(OptionName::Speed),
+                 .nb_target = _options->get_uint(OptionName::Targets)});
 }

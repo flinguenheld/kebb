@@ -39,7 +39,7 @@ Renderer::Renderer(kebb::boxsize screen_size, uint16_t scale_factor, uint16_t fo
     int w = 0; // Get the size for one char here
     int h = 0;
 
-    TTF_SizeUTF8(_font_target, "X", &w, &h); // NOTE: Add a check ?
+    TTF_SizeUTF8(_font_target, "X", &w, &h);
     _char_size_target = {static_cast<uint16_t>(w), static_cast<uint16_t>(h)};
 
     TTF_SizeUTF8(_font_score, "X", &w, &h);

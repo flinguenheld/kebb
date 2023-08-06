@@ -9,6 +9,8 @@
 #include <memory>
 #include <vector>
 
+// FIX: Create a class template which allows to use string or uint list ?
+
 /*
  * Based on WidgetSelection, this class add another WidgetTextBox to display an range of strings.
  * Values are stored in a vector of SelectionItem struct (see the mother).

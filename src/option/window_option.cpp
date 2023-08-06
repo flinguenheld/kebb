@@ -42,37 +42,37 @@ WindowOption::WindowOption(kebb::boxsize screen_size, std::shared_ptr<kebb::Wind
                                                               {"800x800", "800-10"},
                                                               {"1024x1024", "1024-5"}},
                                    true));
-  _widget_select_fields.back()->set_choice_by_value(_options->get(OptionName::Resolution));
+  _widget_select_fields.back()->set_choice_by_value(_options->get_string(OptionName::Resolution));
 
   pt.y += y_small_space;
   _widget_select_fields.emplace_back(std::make_unique<WidgetList>(
       pt, bs_field, "Keyboard layout:",
       std::vector<SelectionItem>{{"QWERTY", "US"}, {"AZERTY", "FR"}, {"BEPO (beta)", "BEPO"}}));
-  _widget_select_fields.back()->set_choice_by_value(_options->get(OptionName::Layout));
+  _widget_select_fields.back()->set_choice_by_value(_options->get_string(OptionName::Layout));
 
   pt.y += y_long_space;
   _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "Letters"));
-  _widget_select_fields.back()->set_bool(std::stoi(_options->get(OptionName::Letters)));
+  _widget_select_fields.back()->set_bool(_options->get_bool(OptionName::Letters));
 
   pt.y += y_small_space;
   _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "Capitals"));
-  _widget_select_fields.back()->set_bool(std::stoi(_options->get(OptionName::Capitals)));
+  _widget_select_fields.back()->set_bool(_options->get_bool(OptionName::Capitals));
 
   pt.y += y_small_space;
   _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "Numbers"));
-  _widget_select_fields.back()->set_bool(std::stoi(_options->get(OptionName::Numbers)));
+  _widget_select_fields.back()->set_bool(_options->get_bool(OptionName::Numbers));
 
   pt.y += y_small_space;
   _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "Symbols"));
-  _widget_select_fields.back()->set_bool(std::stoi(_options->get(OptionName::Symbols)));
+  _widget_select_fields.back()->set_bool(_options->get_bool(OptionName::Symbols));
 
   pt.y += y_medium_space;
   _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "French extras"));
-  _widget_select_fields.back()->set_bool(std::stoi(_options->get(OptionName::FrenchExtras)));
+  _widget_select_fields.back()->set_bool(_options->get_bool(OptionName::FrenchExtras));
 
   pt.y += y_small_space;
   _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "French extra caps"));
-  _widget_select_fields.back()->set_bool(std::stoi(_options->get(OptionName::FrenchExtraCaps)));
+  _widget_select_fields.back()->set_bool(_options->get_bool(OptionName::FrenchExtraCaps));
 
   // ------------------------------------------------------------------------
   // Message ----------------------------------------------------------------
@@ -122,7 +122,7 @@ void WindowOption::display_message(std::string &&message) {
 
 void WindowOption::check_new_resolution() {
 
-  if (_options->get(OptionName::Resolution) != _widget_select_fields[0]->get_choice().value) {
+  if (_options->get_string(OptionName::Resolution) != _widget_select_fields[0]->get_choice().value) {
     display_message("  Restart the application to set the new resolution.  ");
     _message_displayed = true;
   }
@@ -148,12 +148,12 @@ void WindowOption::control_enter() {
     // Up options, save and quit
     _options->set(OptionName::Resolution, _widget_select_fields[0]->get_choice().value);
     _options->set(OptionName::Layout, _widget_select_fields[1]->get_choice().value);
-    _options->set(OptionName::Letters, std::to_string(_widget_select_fields[2]->get_bool()));
-    _options->set(OptionName::Capitals, std::to_string(_widget_select_fields[3]->get_bool()));
-    _options->set(OptionName::Numbers, std::to_string(_widget_select_fields[4]->get_bool()));
-    _options->set(OptionName::Symbols, std::to_string(_widget_select_fields[5]->get_bool()));
-    _options->set(OptionName::FrenchExtras, std::to_string(_widget_select_fields[6]->get_bool()));
-    _options->set(OptionName::FrenchExtraCaps, std::to_string(_widget_select_fields[7]->get_bool()));
+    _options->set(OptionName::Letters, _widget_select_fields[2]->get_bool());
+    _options->set(OptionName::Capitals, _widget_select_fields[3]->get_bool());
+    _options->set(OptionName::Numbers, _widget_select_fields[4]->get_bool());
+    _options->set(OptionName::Symbols, _widget_select_fields[5]->get_bool());
+    _options->set(OptionName::FrenchExtras, _widget_select_fields[6]->get_bool());
+    _options->set(OptionName::FrenchExtraCaps, _widget_select_fields[7]->get_bool());
 
     _options->save();
 

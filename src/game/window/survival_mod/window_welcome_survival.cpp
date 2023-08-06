@@ -1,4 +1,6 @@
 #include "window_welcome_survival.h"
+#include "utils.h"
+#include <string>
 
 WindowWelcomeSurvival::WindowWelcomeSurvival(kebb::boxsize screen_size,
                                              std::shared_ptr<kebb::WindowName> next_window,
@@ -43,7 +45,8 @@ WindowWelcomeSurvival::WindowWelcomeSurvival(kebb::boxsize screen_size,
                                                               {"Very hard", "4"},
                                                               {"Impossible", "5"}},
                                    true)); // Selected !
-  _widget_select_fields.back()->set_choice_by_value(_options->get(OptionName::SurvivalDifficulty));
+  _widget_select_fields.back()->set_choice_by_value(
+      std::to_string(_options->get_uint(OptionName::SurvivalDifficulty)));
 }
 
 WindowWelcomeSurvival::~WindowWelcomeSurvival() {}
@@ -68,8 +71,9 @@ void WindowWelcomeSurvival::control_escape() { *_next_window = kebb::WindowName:
 void WindowWelcomeSurvival::control_enter() {
 
   // Up options, save and launch the game !
-  _options->set(OptionName::SurvivalDifficulty, _widget_select_fields[0]->get_choice().value);
-  _options->set(OptionName::LastMod, "survival");
+  _options->set(OptionName::SurvivalDifficulty,
+                static_cast<uint16_t>(stoi(_widget_select_fields[0]->get_choice().value)));
+  _options->set(OptionName::LastMod, uint16_t(kebb::GameMod::M_Survival));
   _options->save();
 
   *_next_window = kebb::WindowName::W_GameSurvival;

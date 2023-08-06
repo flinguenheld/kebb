@@ -12,8 +12,6 @@ enum class WidgetScoreType {
   Top,
 };
 
-// FIX: Remove the renderer ?
-
 class WidgetScore {
 public:
   WidgetScore(WidgetScoreType type, kebb::boxsize screen_size, std::shared_ptr<Score> score,
