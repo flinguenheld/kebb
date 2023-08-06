@@ -54,7 +54,7 @@ void WindowGame::render() const {
 // CONTROLS -------------------------------------------------------------------------------------------
 void WindowGame::control_escape() {
   stop_threads();
-  *_next_window = kebb::WindowName::W_Pause;
+  *_next_window = kebb::WindowName::W_GameOver;
 }
 void WindowGame::control_others(uint16_t keycode) {
 

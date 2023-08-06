@@ -5,8 +5,9 @@
 
 WindowGameOver::WindowGameOver(kebb::boxsize screen_size, std::shared_ptr<kebb::WindowName> next_window,
                                std::shared_ptr<Renderer> renderer, std::shared_ptr<Score> score,
-                               std::shared_ptr<OptionFile> options, std::string &&title)
-    : WidgetWindow(next_window, renderer), _score(score), _options(options) {
+                               std::shared_ptr<RecordFile> records, std::shared_ptr<OptionFile> options,
+                               std::string &&title)
+    : WidgetWindow(next_window, renderer), _score(score), _records(records), _options(options) {
 
   // Geometry
   kebb::boxsize char_size = _renderer->font_char_size(FontName::F_Menu); // NOTE: Use font menu ?

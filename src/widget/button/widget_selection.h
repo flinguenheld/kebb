@@ -8,7 +8,8 @@
 // Use by child WidgetList
 struct SelectionItem {
   std::string text;
-  std::string value;
+  std::string value_string = "";
+  uint16_t value_uint = 0;
 };
 
 /*
@@ -30,8 +31,9 @@ public:
   virtual bool get_bool() const { return false; };
   virtual void set_bool(bool val){};
 
-  virtual SelectionItem get_choice() const { return {"", ""}; };
+  virtual SelectionItem get_choice() const { return {"", "", 0}; };
   virtual void set_choice_by_value(const std::string &value){};
+  virtual void set_choice_by_value(uint16_t value){};
 
 protected:
   bool _selected;

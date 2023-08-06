@@ -38,15 +38,14 @@ WindowWelcomeSurvival::WindowWelcomeSurvival(kebb::boxsize screen_size,
 
   _widget_select_fields.emplace_back(
       std::make_unique<WidgetList>(pt, bs_field, "Difficulty:",
-                                   std::vector<SelectionItem>{{"Very easy", "0"},
-                                                              {"Easy", "1"},
-                                                              {"Normal", "2"},
-                                                              {"Hard", "3"},
-                                                              {"Very hard", "4"},
-                                                              {"Impossible", "5"}},
+                                   std::vector<SelectionItem>{{.text = "Very easy", .value_uint = 0},
+                                                              {.text = "Easy", .value_uint = 1},
+                                                              {.text = "Normal", .value_uint = 2},
+                                                              {.text = "Hard", .value_uint = 3},
+                                                              {.text = "Very hard", .value_uint = 4},
+                                                              {.text = "Impossible", .value_uint = 5}},
                                    true)); // Selected !
-  _widget_select_fields.back()->set_choice_by_value(
-      std::to_string(_options->get_uint(OptionName::SurvivalDifficulty)));
+  _widget_select_fields.back()->set_choice_by_value(_options->get_uint(OptionName::SurvivalDifficulty));
 }
 
 WindowWelcomeSurvival::~WindowWelcomeSurvival() {}
@@ -71,8 +70,7 @@ void WindowWelcomeSurvival::control_escape() { *_next_window = kebb::WindowName:
 void WindowWelcomeSurvival::control_enter() {
 
   // Up options, save and launch the game !
-  _options->set(OptionName::SurvivalDifficulty,
-                static_cast<uint16_t>(stoi(_widget_select_fields[0]->get_choice().value)));
+  _options->set(OptionName::SurvivalDifficulty, _widget_select_fields[0]->get_choice().value_uint);
   _options->set(OptionName::LastMod, uint16_t(kebb::GameMod::M_Survival));
   _options->save();
 

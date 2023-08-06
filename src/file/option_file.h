@@ -47,7 +47,6 @@ private:
   uint16_t _speed;
 
   uint16_t _survival_diffilculty;
-
   uint16_t _last_mod;
 
   bool _letters;

@@ -51,7 +51,7 @@ namespace kebb {
     W_GameTimer,
     W_GameSurvival,
     W_Option,
-    W_Pause,
+    W_GameOver,
     W_Welcome,
     W_WelcomeTimer,
     W_WelcomeSurvival,

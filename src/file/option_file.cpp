@@ -35,7 +35,6 @@ void OptionFile::read() {
 
 // ----------------------------------------------------------------------------------------------------
 // ACCESSORS ------------------------------------------------------------------------------------------
-
 std::string OptionFile::get_string(OptionName name) const {
   switch (name) {
   case OptionName::Resolution:
@@ -99,12 +98,6 @@ void OptionFile::set(OptionName name, const std::string val) {
 }
 void OptionFile::set(OptionName name, uint16_t val) {
   switch (name) {
-  case OptionName::Resolution:
-    _resolution = val;
-    break;
-  case OptionName::Layout:
-    _layout = val;
-    break;
   case OptionName::Targets:
     _nb_targets = val;
     break;

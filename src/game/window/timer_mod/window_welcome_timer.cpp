@@ -1,4 +1,5 @@
 #include "window_welcome_timer.h"
+#include "utils.h"
 #include <cstdint>
 #include <string>
 
@@ -36,47 +37,48 @@ WindowWelcomeTimer::WindowWelcomeTimer(kebb::boxsize screen_size,
   pt.x = screen_size.w / 2;
   pt.y += bs_title.h * 2;
 
-  _widget_select_fields.emplace_back(std::make_unique<WidgetList>(pt, bs_field, "Countdown:",
-                                                                  std::vector<SelectionItem>{{"15s", "15"},
-                                                                                             {"30s", "30"},
-                                                                                             {"45s", "45"},
-                                                                                             {"60s", "60"},
-                                                                                             {"1m30", "90"},
-                                                                                             {"2m", "120"},
-                                                                                             {"2m30", "150"},
-                                                                                             {"3m", "180"},
-                                                                                             {"3m30", "210"},
-                                                                                             {"4m", "240"},
-                                                                                             {"4m30", "270"},
-                                                                                             {"5m", "300"},
-                                                                                             {"10m", "600"}},
-                                                                  true)); // Selected !
-  _widget_select_fields.back()->set_choice_by_value(
-      std::to_string(_options->get_uint(OptionName::Countdown)));
+  _widget_select_fields.emplace_back(
+      std::make_unique<WidgetList>(pt, bs_field, "Countdown:",
+                                   std::vector<SelectionItem>{{.text = "15s", .value_uint = 15},
+                                                              {.text = "30s", .value_uint = 30},
+                                                              {.text = "45s", .value_uint = 45},
+                                                              {.text = "60s", .value_uint = 60},
+                                                              {.text = "1m30", .value_uint = 90},
+                                                              {.text = "2m", .value_uint = 120},
+                                                              {.text = "2m30", .value_uint = 150},
+                                                              {.text = "3m", .value_uint = 180},
+                                                              {.text = "3m30", .value_uint = 210},
+                                                              {.text = "4m", .value_uint = 240},
+                                                              {.text = "4m30", .value_uint = 270},
+                                                              {.text = "5m", .value_uint = 300},
+                                                              {.text = "10m", .value_uint = 600}},
+                                   true)); // Selected !
+  _widget_select_fields.back()->set_choice_by_value(_options->get_uint(OptionName::Countdown));
 
   pt.y += y_space;
   _widget_select_fields.emplace_back(std::make_unique<WidgetList>(pt, bs_field, "Nb targets:", 1, 20, 1));
-  _widget_select_fields.back()->set_choice_by_value(std::to_string(_options->get_uint(OptionName::Targets)));
+  _widget_select_fields.back()->set_choice_by_value(_options->get_uint(OptionName::Targets));
 
   pt.y += y_space;
-  _widget_select_fields.emplace_back(std::make_unique<WidgetList>(pt, bs_field, "Speed:",
-                                                                  std::vector<SelectionItem>{{"1", "30"},
-                                                                                             {"2", "28"},
-                                                                                             {"3", "26"},
-                                                                                             {"4", "24"},
-                                                                                             {"5", "22"},
-                                                                                             {"6", "20"},
-                                                                                             {"7", "18"},
-                                                                                             {"8", "16"},
-                                                                                             {"9", "14"},
-                                                                                             {"10", "12"},
-                                                                                             {"11", "10"},
-                                                                                             {"12", "8"},
-                                                                                             {"13", "6"},
-                                                                                             {"14", "4"},
-                                                                                             {"15", "2"},
-                                                                                             {"16", "1"}}));
-  _widget_select_fields.back()->set_choice_by_value(std::to_string(_options->get_uint(OptionName::Speed)));
+  _widget_select_fields.emplace_back(
+      std::make_unique<WidgetList>(pt, bs_field, "Speed:",
+                                   std::vector<SelectionItem>{{.text = "1", .value_uint = 30},
+                                                              {.text = "2", .value_uint = 28},
+                                                              {.text = "3", .value_uint = 26},
+                                                              {.text = "4", .value_uint = 24},
+                                                              {.text = "5", .value_uint = 22},
+                                                              {.text = "6", .value_uint = 20},
+                                                              {.text = "7", .value_uint = 18},
+                                                              {.text = "8", .value_uint = 16},
+                                                              {.text = "9", .value_uint = 14},
+                                                              {.text = "10", .value_uint = 12},
+                                                              {.text = "11", .value_uint = 10},
+                                                              {.text = "12", .value_uint = 8},
+                                                              {.text = "13", .value_uint = 6},
+                                                              {.text = "14", .value_uint = 4},
+                                                              {.text = "15", .value_uint = 2},
+                                                              {.text = "16", .value_uint = 1}}));
+  _widget_select_fields.back()->set_choice_by_value(_options->get_uint(OptionName::Speed));
 }
 
 WindowWelcomeTimer::~WindowWelcomeTimer() {}
@@ -101,10 +103,10 @@ void WindowWelcomeTimer::control_escape() { *_next_window = kebb::WindowName::W_
 void WindowWelcomeTimer::control_enter() {
 
   // Up options, save and launch the game !
-  _options->set(OptionName::Countdown, _widget_select_fields[0]->get_choice().value);
-  _options->set(OptionName::Targets, _widget_select_fields[1]->get_choice().value);
-  _options->set(OptionName::Speed, _widget_select_fields[2]->get_choice().value);
-  _options->set(OptionName::LastMod, "timer");
+  _options->set(OptionName::Countdown, _widget_select_fields[0]->get_choice().value_uint);
+  _options->set(OptionName::Targets, _widget_select_fields[1]->get_choice().value_uint);
+  _options->set(OptionName::Speed, _widget_select_fields[2]->get_choice().value_uint);
+  _options->set(OptionName::LastMod, uint16_t(kebb::GameMod::M_Timer));
   _options->save();
 
   *_next_window = kebb::WindowName::W_GameTimer;

@@ -2,6 +2,7 @@
 #define WINDOW_GAMEOVER_H
 
 #include "file/option_file.h"
+#include "file/record_file.h"
 #include "renderer.h"
 #include "score/score.h"
 #include "score/widget_score.h"
@@ -15,7 +16,8 @@ class WindowGameOver : public WidgetWindow {
 public:
   WindowGameOver(kebb::boxsize screen_size, std::shared_ptr<kebb::WindowName> next_window,
                  std::shared_ptr<Renderer> renderer, std::shared_ptr<Score> score,
-                 std::shared_ptr<OptionFile> options, std::string &&title);
+                 std::shared_ptr<RecordFile> records, std::shared_ptr<OptionFile> options,
+                 std::string &&title);
   virtual ~WindowGameOver() override;
 
   virtual void control_escape() override;
@@ -26,10 +28,12 @@ public:
 
 private:
   std::shared_ptr<Score> _score;
+  std::shared_ptr<RecordFile> _records;
+  std::shared_ptr<OptionFile> _options;
+
   std::unique_ptr<WidgetTextBox> _widget_title;
   std::unique_ptr<WidgetScore> _widget_score;
   std::unique_ptr<WidgetBottomMenu> _widget_menu;
-  std::shared_ptr<OptionFile> _options;
 };
 
 #endif // !WINDOW_GAMEOVER_H

@@ -122,7 +122,7 @@ void WindowOption::display_message(std::string &&message) {
 
 void WindowOption::check_new_resolution() {
 
-  if (_options->get_string(OptionName::Resolution) != _widget_select_fields[0]->get_choice().value) {
+  if (_options->get_string(OptionName::Resolution) != _widget_select_fields[0]->get_choice().value_string) {
     display_message("  Restart the application to set the new resolution.  ");
     _message_displayed = true;
   }
@@ -130,7 +130,7 @@ void WindowOption::check_new_resolution() {
 void WindowOption::check_french_extra() {
 
   if ((_widget_select_fields[6]->get_bool() || _widget_select_fields[7]->get_bool()) &&
-      _widget_select_fields[1]->get_choice().value == "US") {
+      _widget_select_fields[1]->get_choice().value_string == "US") {
     display_message("  French extras requier the US Altgr-intl layout  ");
     _message_displayed = true;
   }
@@ -146,8 +146,8 @@ void WindowOption::control_enter() {
       _widget_select_fields[5]->get_bool() == true || _widget_select_fields[6]->get_bool() == true) {
 
     // Up options, save and quit
-    _options->set(OptionName::Resolution, _widget_select_fields[0]->get_choice().value);
-    _options->set(OptionName::Layout, _widget_select_fields[1]->get_choice().value);
+    _options->set(OptionName::Resolution, _widget_select_fields[0]->get_choice().value_string);
+    _options->set(OptionName::Layout, _widget_select_fields[1]->get_choice().value_string);
     _options->set(OptionName::Letters, _widget_select_fields[2]->get_bool());
     _options->set(OptionName::Capitals, _widget_select_fields[3]->get_bool());
     _options->set(OptionName::Numbers, _widget_select_fields[4]->get_bool());
