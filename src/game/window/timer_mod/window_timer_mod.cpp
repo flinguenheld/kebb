@@ -1,17 +1,12 @@
 #include "window_timer_mod.h"
-#include "file/option_file.h"
-#include "utils.h"
-#include <cstdint>
-#include <string>
 
 // clang-format off
 WindowTimerMod::WindowTimerMod(kebb::boxsize screen_size,
                        std::shared_ptr<kebb::WindowName> next_window,
                        std::shared_ptr<Renderer> renderer,
-                       std::shared_ptr<Score> score,
                        std::shared_ptr<RecordFile> records,
                        std::shared_ptr<OptionFile> options)
-    : WindowGame(screen_size, next_window, renderer, score, records, options)
+    : WindowGame(screen_size, next_window, renderer, records, options)
 // clang-format on
 {
 

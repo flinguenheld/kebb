@@ -16,11 +16,7 @@
 #include "game/window/window_gameover.h"
 #include "option/window_option.h"
 #include "renderer.h"
-#include "score/score.h"
 #include "welcome/window_welcome.h"
-#include "widget/widget_base.h"
-#include "widget/window/widget_window.h"
-#include <memory>
 
 class Loop {
 public:
@@ -31,12 +27,10 @@ public:
 private:
   std::shared_ptr<WidgetWindow> _current_window; // Shared with the controller
 
-  std::shared_ptr<Renderer> _renderer;
-  std::shared_ptr<Score> _score; // FIX: Is score still usefull ? (can be replaced by Record)
-
   std::shared_ptr<RecordFile> _records; // Create here to avoid repetitive read/write actions
   std::shared_ptr<OptionFile> _options;
 
+  std::shared_ptr<Renderer> _renderer;
   const kebb::boxsize _screen_size;
 };
 

@@ -4,8 +4,6 @@
 #include "file/option_file.h"
 #include "file/record_file.h"
 #include "renderer.h"
-#include "score/score.h"
-#include "score/widget_score.h"
 #include "utils.h"
 #include "widget/widget_base.h"
 #include "widget/widget_textbox.h"
@@ -17,8 +15,8 @@
 class WindowGameOver : public WidgetWindow {
 public:
   WindowGameOver(kebb::boxsize screen_size, std::shared_ptr<kebb::WindowName> next_window,
-                 std::shared_ptr<Renderer> renderer, std::shared_ptr<Score> score,
-                 std::shared_ptr<RecordFile> records, std::shared_ptr<OptionFile> options);
+                 std::shared_ptr<Renderer> renderer, std::shared_ptr<RecordFile> records,
+                 std::shared_ptr<OptionFile> options);
   virtual ~WindowGameOver() override;
 
   virtual void control_escape() override;
@@ -28,7 +26,6 @@ public:
   virtual void render() const override;
 
 private:
-  std::shared_ptr<Score> _score;
   std::shared_ptr<RecordFile> _records;
   std::shared_ptr<OptionFile> _options;
 

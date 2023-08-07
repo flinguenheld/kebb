@@ -1,13 +1,8 @@
 #ifndef WINDOW_SURVIVAL_MOD_H
 #define WINDOW_SURVIVAL_MOD_H
 
-#include "file/record_file.h"
 #include "game/window/survival_mod/widget_gauge.h"
 #include "game/window/window_game.h"
-#include <cstdint>
-#include <iostream>
-#include <string>
-#include <sys/types.h>
 
 struct Level {
   uint16_t waiting_time;
@@ -21,8 +16,8 @@ struct Level {
 class WindowSurvivalMod : public WindowGame {
 public:
   WindowSurvivalMod(kebb::boxsize screen_size, std::shared_ptr<kebb::WindowName> next_window,
-                    std::shared_ptr<Renderer> renderer, std::shared_ptr<Score> score,
-                    std::shared_ptr<RecordFile> records, std::shared_ptr<OptionFile> options);
+                    std::shared_ptr<Renderer> renderer, std::shared_ptr<RecordFile> records,
+                    std::shared_ptr<OptionFile> options);
 
   virtual ~WindowSurvivalMod() override;
 

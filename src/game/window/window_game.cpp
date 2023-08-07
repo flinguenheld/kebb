@@ -1,24 +1,22 @@
 #include "window_game.h"
-#include "utils.h"
 
 // clang-format off
 WindowGame::WindowGame(kebb::boxsize screen_size,
                        std::shared_ptr<kebb::WindowName> next_window,
                        std::shared_ptr<Renderer> renderer,
-                       std::shared_ptr<Score> score,
                        std::shared_ptr<RecordFile> records,
                        std::shared_ptr<OptionFile> options)
     : WidgetWindow(next_window, renderer),
-      _score(score),
       _records(records),
       _options(options),
       _game_status(kebb::GameStatus::S_Quit) {
   // clang-format on
 
   _dispatcher = std::make_shared<Dispatcher>(options);
-  _widget_score = std::make_unique<WidgetScore>(WidgetScoreType::Top, screen_size, score, renderer);
-
   _nb_max_target = _dispatcher->number_of_chars() * 0.6; // Prevent the same targets/thread amount.
+
+  _score = std::make_shared<Score>();
+  _widget_score = std::make_unique<WidgetScore>(screen_size, _score, renderer);
 
   // Geometry
   _target_center_aera = {static_cast<uint16_t>(screen_size.w / 2), static_cast<uint16_t>(screen_size.h / 2)};

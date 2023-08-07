@@ -7,7 +7,6 @@ Loop::Loop(kebb::boxsize screen_size, std::shared_ptr<Renderer> renderer,
       _renderer(renderer),
       _options(options)
 {
-  _score = std::make_shared<Score>();
   _records = std::make_shared<RecordFile>();
 }
 // clang-format on
@@ -35,16 +34,16 @@ void Loop::run(Controller &controller) {
 
       switch (*next_window_name) {
       case kebb::WindowName::W_GameTimer:
-        _current_window = std::make_shared<WindowTimerMod>(_screen_size, next_window_name, _renderer, _score,
-                                                           _records, _options);
+        _current_window =
+            std::make_shared<WindowTimerMod>(_screen_size, next_window_name, _renderer, _records, _options);
         break;
       case kebb::WindowName::W_GameSurvival:
         _current_window = std::make_shared<WindowSurvivalMod>(_screen_size, next_window_name, _renderer,
-                                                              _score, _records, _options);
+                                                              _records, _options);
         break;
       case kebb::WindowName::W_GameOver:
-        _current_window = std::make_shared<WindowGameOver>(_screen_size, next_window_name, _renderer, _score,
-                                                           _records, _options);
+        _current_window =
+            std::make_shared<WindowGameOver>(_screen_size, next_window_name, _renderer, _records, _options);
         break;
       case kebb::WindowName::W_Welcome:
         _current_window =

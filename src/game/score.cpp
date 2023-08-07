@@ -1,5 +1,4 @@
 #include "score.h"
-#include <bits/chrono.h>
 
 Score::Score() : _sucess(0), _fail(0), _miss(0) {}
 
