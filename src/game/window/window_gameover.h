@@ -16,8 +16,7 @@ class WindowGameOver : public WidgetWindow {
 public:
   WindowGameOver(kebb::boxsize screen_size, std::shared_ptr<kebb::WindowName> next_window,
                  std::shared_ptr<Renderer> renderer, std::shared_ptr<Score> score,
-                 std::shared_ptr<RecordFile> records, std::shared_ptr<OptionFile> options,
-                 std::string &&title);
+                 std::shared_ptr<RecordFile> records, std::shared_ptr<OptionFile> options);
   virtual ~WindowGameOver() override;
 
   virtual void control_escape() override;
@@ -32,7 +31,12 @@ private:
   std::shared_ptr<OptionFile> _options;
 
   std::unique_ptr<WidgetTextBox> _widget_title;
-  std::unique_ptr<WidgetScore> _widget_score;
+  std::unique_ptr<WidgetTextBox> _widget_mod;
+  std::unique_ptr<WidgetTextBox> _widget_time;
+  std::unique_ptr<WidgetTextBox> _widget_success;
+  std::unique_ptr<WidgetTextBox> _widget_fail;
+  std::unique_ptr<WidgetTextBox> _widget_miss;
+  // std::unique_ptr<WidgetScore> _widget_score;
   std::unique_ptr<WidgetBottomMenu> _widget_menu;
 };
 

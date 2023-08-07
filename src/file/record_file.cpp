@@ -4,7 +4,7 @@ RecordFile::RecordFile() : File("records.kebb"), _nb_max_records(20) { read(); }
 RecordFile::~RecordFile() { save(); }
 
 /*
- * Add a new record in the table beginnig.
+ * Add a new record in the array beginnig.
  * And delete old record to limit the amount of data.
  */
 void RecordFile::add(Record r) {
@@ -14,7 +14,7 @@ void RecordFile::add(Record r) {
 }
 
 /*
- * Write the table in the file.
+ * Write the array in the file.
  */
 void RecordFile::save() const {
 
@@ -26,7 +26,7 @@ void RecordFile::save() const {
 }
 
 /*
- * Fill the table with the file's data.
+ * Fill the array with the file's data.
  */
 void RecordFile::read() {
 
@@ -42,7 +42,6 @@ void RecordFile::read() {
   }
 }
 
-/*
- * Return the table. // FIX: keep reference ?
- */
-std::vector<Record> &RecordFile::records() { return _records; }
+// ----------------------------------------------------------------------------------------------------
+// ACCESSORS ------------------------------------------------------------------------------------------
+const std::vector<Record> &RecordFile::records() { return _records; }

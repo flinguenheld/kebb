@@ -1,5 +1,4 @@
 #include "window_welcome.h"
-#include "utils.h"
 
 WindowWelcome::WindowWelcome(kebb::boxsize screen_size, std::shared_ptr<kebb::WindowName> next_window,
                              std::shared_ptr<Renderer> renderer, std::shared_ptr<OptionFile> options)
@@ -43,7 +42,7 @@ WindowWelcome::WindowWelcome(kebb::boxsize screen_size, std::shared_ptr<kebb::Wi
 
   // Set the current selection based on the last game
   // bool first_sel = _options->get_uint(OptionName::LastMod) == "survival";
-  bool first_sel = _options->get_uint(OptionName::LastMod) == uint16_t(kebb::GameMod::M_Survival);
+  bool first_sel = _options->get().last_mod == uint16_t(kebb::GameMod::M_Survival);
 
   _widget_select_fields.emplace_back(
       std::make_unique<WidgetSelection>(pt, bs_field, "Survival mod", first_sel));

@@ -1,6 +1,4 @@
 #include "controller.h"
-#include "file/option_file.h"
-#include <SDL_keycode.h>
 
 Controller::Controller(std::shared_ptr<OptionFile> options)
     : _options(options), _circumflex(false), _grave(false), _diaeresis(false), _mask_mod(0x3FF) {}
@@ -52,9 +50,9 @@ void Controller::handle_input(bool &running, std::shared_ptr<WidgetWindow> windo
         break;
 
       default:
-        if (_options->get_string(OptionName::Layout) == "US")
+        if (_options->get().layout == "US")
           window->control_others(convert_us(e));
-        else if (_options->get_string(OptionName::Layout) == "FR")
+        else if (_options->get().layout == "FR")
           window->control_others(convert_fr(e));
         else
           window->control_others(convert_bepo(e));

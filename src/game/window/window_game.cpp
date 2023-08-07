@@ -1,4 +1,5 @@
 #include "window_game.h"
+#include "utils.h"
 
 // clang-format off
 WindowGame::WindowGame(kebb::boxsize screen_size,
@@ -10,7 +11,8 @@ WindowGame::WindowGame(kebb::boxsize screen_size,
     : WidgetWindow(next_window, renderer),
       _score(score),
       _records(records),
-      _options(options) {
+      _options(options),
+      _game_status(kebb::GameStatus::S_Quit) {
   // clang-format on
 
   _dispatcher = std::make_shared<Dispatcher>(options);

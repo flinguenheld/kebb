@@ -6,9 +6,10 @@
 #include "SDL_keyboard.h"
 #include "SDL_keycode.h"
 #include "SDL_stdinc.h"
-#include "game/target.h"
 #include "file/option_file.h"
+#include "game/target.h"
 #include "widget/window/widget_window.h"
+#include <SDL_keycode.h>
 #include <iostream>
 #include <memory>
 #include <vector>

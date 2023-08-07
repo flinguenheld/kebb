@@ -9,6 +9,7 @@
 
 struct Record {
   uint16_t mod = 999;
+  uint16_t status;
   uint16_t success;
   uint16_t fail;
   uint16_t miss;
@@ -22,9 +23,9 @@ struct Record {
 
 /*
  * Allow to read/write a file with the previous games data.
- * add() to insert the last game in the table beginning.
- * The constructor reads the file to fill the table.
- * Then the destructor write the file with the (updated) table.
+ * add() to insert the last game in the array beginning.
+ * The constructor reads the file to fill the array.
+ * Then the destructor write the file with the (updated) array.
  */
 class RecordFile : public File {
 
@@ -33,13 +34,13 @@ public:
   ~RecordFile();
 
   void add(Record r);
-  std::vector<Record> &records();
+  const std::vector<Record> &records();
 
 private:
   uint16_t _nb_max_records;
   std::vector<Record> _records;
 
-  void save() const; // NOTE: Keep private ?
+  void save() const;
   void read();
 };
 

@@ -44,7 +44,7 @@ void Loop::run(Controller &controller) {
         break;
       case kebb::WindowName::W_GameOver:
         _current_window = std::make_shared<WindowGameOver>(_screen_size, next_window_name, _renderer, _score,
-                                                           _records, _options, "Game Over");
+                                                           _records, _options);
         break;
       case kebb::WindowName::W_Welcome:
         _current_window =

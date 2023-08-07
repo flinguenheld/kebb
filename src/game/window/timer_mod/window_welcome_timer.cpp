@@ -1,7 +1,4 @@
 #include "window_welcome_timer.h"
-#include "utils.h"
-#include <cstdint>
-#include <string>
 
 WindowWelcomeTimer::WindowWelcomeTimer(kebb::boxsize screen_size,
                                        std::shared_ptr<kebb::WindowName> next_window,
@@ -53,11 +50,11 @@ WindowWelcomeTimer::WindowWelcomeTimer(kebb::boxsize screen_size,
                                                               {.text = "5m", .value_uint = 300},
                                                               {.text = "10m", .value_uint = 600}},
                                    true)); // Selected !
-  _widget_select_fields.back()->set_choice_by_value(_options->get_uint(OptionName::Countdown));
+  _widget_select_fields.back()->set_choice_by_value(_options->get().countdown);
 
   pt.y += y_space;
   _widget_select_fields.emplace_back(std::make_unique<WidgetList>(pt, bs_field, "Nb targets:", 1, 20, 1));
-  _widget_select_fields.back()->set_choice_by_value(_options->get_uint(OptionName::Targets));
+  _widget_select_fields.back()->set_choice_by_value(_options->get().nb_targets);
 
   pt.y += y_space;
   _widget_select_fields.emplace_back(
@@ -78,7 +75,7 @@ WindowWelcomeTimer::WindowWelcomeTimer(kebb::boxsize screen_size,
                                                               {.text = "14", .value_uint = 4},
                                                               {.text = "15", .value_uint = 2},
                                                               {.text = "16", .value_uint = 1}}));
-  _widget_select_fields.back()->set_choice_by_value(_options->get_uint(OptionName::Speed));
+  _widget_select_fields.back()->set_choice_by_value(_options->get().speed);
 }
 
 WindowWelcomeTimer::~WindowWelcomeTimer() {}
@@ -103,11 +100,10 @@ void WindowWelcomeTimer::control_escape() { *_next_window = kebb::WindowName::W_
 void WindowWelcomeTimer::control_enter() {
 
   // Up options, save and launch the game !
-  _options->set(OptionName::Countdown, _widget_select_fields[0]->get_choice().value_uint);
-  _options->set(OptionName::Targets, _widget_select_fields[1]->get_choice().value_uint);
-  _options->set(OptionName::Speed, _widget_select_fields[2]->get_choice().value_uint);
-  _options->set(OptionName::LastMod, uint16_t(kebb::GameMod::M_Timer));
-  _options->save();
+  _options->set().countdown = _widget_select_fields[0]->get_choice().value_uint;
+  _options->set().nb_targets = _widget_select_fields[1]->get_choice().value_uint;
+  _options->set().speed = _widget_select_fields[2]->get_choice().value_uint;
+  _options->set().last_mod = uint16_t(kebb::GameMod::M_Timer);
 
   *_next_window = kebb::WindowName::W_GameTimer;
 }

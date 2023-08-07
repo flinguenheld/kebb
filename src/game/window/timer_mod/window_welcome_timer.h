@@ -10,6 +10,8 @@
 #include "widget/window/widget_window.h"
 #include <algorithm>
 #include <chrono>
+#include <cstdint>
+#include <string>
 #include <thread>
 #include <vector>
 

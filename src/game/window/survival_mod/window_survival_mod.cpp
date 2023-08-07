@@ -23,7 +23,7 @@ WindowSurvivalMod::WindowSurvivalMod(kebb::boxsize screen_size,
   _widget_gauge->set_percentage(100);
 
   // Levels --
-  switch (_options->get_uint(OptionName::SurvivalDifficulty)) {
+  switch (_options->get().survival_difficulty) {
   case 0: // Very easy
     _price_fail = 1;
     _price_miss = 1;
@@ -158,10 +158,14 @@ void WindowSurvivalMod::up_points() {
 // LOGIC ----------------------------------------------------------------------------------------------
 void WindowSurvivalMod::logic() {
 
-  if (_score->miss() >= _max_miss)
+  if (_score->miss() >= _max_miss) {
+    _game_status = kebb::GameStatus::S_Loose;
     control_escape(); // TODO: Add a cool window with an abstract
-  if (_score->fail() >= _max_fail)
+  }
+  if (_score->fail() >= _max_fail) {
+    _game_status = kebb::GameStatus::S_Loose;
     control_escape(); // TODO: Add a cool window with an abstract
+  }
 
   // Find the current level according to the points
   up_points();
@@ -184,7 +188,7 @@ void WindowSurvivalMod::logic() {
   if (it == _levels.end() - 1) {
 
     if (percentage >= 100) {
-      std::cout << "c'est gagné !!!!" << std::endl;
+      _game_status = kebb::GameStatus::S_Win;
       control_escape(); // TODO: Add a cool window with an abstract
     }
   } else {
@@ -219,11 +223,12 @@ void WindowSurvivalMod::render() const {
 void WindowSurvivalMod::save_record() const {
 
   _records->add({.mod = uint16_t(kebb::GameMod::M_Survival),
+                 .status = uint16_t(_game_status),
                  .success = _score->success(),
                  .fail = _score->fail(),
                  .miss = _score->miss(),
                  .time_start = _score->seconds_timer_started(),
                  .time_game = _score->seconds_spent(),
-                 .difficulty = _options->get_uint(OptionName::SurvivalDifficulty),
+                 .difficulty = _options->get().survival_difficulty,
                  .level = _widget_gauge->get_level()});
 }

@@ -4,57 +4,40 @@
 #include "file.h"
 #include <cstdint>
 
-enum class OptionName {
-  Resolution,
-  Layout,
-  Targets,
-  Countdown,
-  Speed,
-  SurvivalDifficulty,
-  LastMod,
-  Letters,
-  Capitals,
-  Numbers,
-  Symbols,
-  FrenchExtras,
-  FrenchExtraCaps,
+struct Options {
+  std::string resolution = "480-20";
+  std::string layout = "US";
+  uint16_t nb_targets = 5;
+  uint16_t countdown = 30;
+  uint16_t speed = 20;
+  uint16_t survival_difficulty = 2;
+  uint16_t last_mod = 10;
+  bool letters = true;
+  bool capitals = false;
+  bool numbers = true;
+  bool symbols = false;
+  bool french_extras = false;
+  bool french_extra_caps = false;
 };
 
 /*
- * Allows to read and save the option file.
+ * Allows to manage options which are stored in a struct.
+ * The constructor reads the file to fill the struct.
+ * Then the destructor write the file with the updated data.
  */
 class OptionFile : public File {
 public:
   OptionFile();
+  ~OptionFile();
+
+  const Options &get() const;
+  Options &set();
+
+private:
+  Options _options;
 
   void save() const;
   void read();
-
-  std::string get_string(OptionName name) const;
-  uint16_t get_uint(OptionName name) const;
-  bool get_bool(OptionName name) const;
-
-  void set(OptionName name, const std::string val);
-  void set(OptionName name, uint16_t val);
-  void set(OptionName name, bool val);
-
-private:
-  std::string _resolution;
-  std::string _layout;
-
-  uint16_t _nb_targets;
-  uint16_t _countdown;
-  uint16_t _speed;
-
-  uint16_t _survival_diffilculty;
-  uint16_t _last_mod;
-
-  bool _letters;
-  bool _capitals;
-  bool _numbers;
-  bool _symbols;
-  bool _french_extras;
-  bool _french_extra_caps;
 };
 
 #endif // !OPTION_FILE_H

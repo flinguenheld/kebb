@@ -48,6 +48,7 @@ protected:
 
   uint16_t _nb_max_target;
 
+  kebb::GameStatus _game_status;
   virtual void save_record() const {};
 };
 

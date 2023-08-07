@@ -42,37 +42,37 @@ WindowOption::WindowOption(kebb::boxsize screen_size, std::shared_ptr<kebb::Wind
                                                               {"800x800", "800-10"},
                                                               {"1024x1024", "1024-5"}},
                                    true));
-  _widget_select_fields.back()->set_choice_by_value(_options->get_string(OptionName::Resolution));
+  _widget_select_fields.back()->set_choice_by_value(_options->get().resolution);
 
   pt.y += y_small_space;
   _widget_select_fields.emplace_back(std::make_unique<WidgetList>(
       pt, bs_field, "Keyboard layout:",
       std::vector<SelectionItem>{{"QWERTY", "US"}, {"AZERTY", "FR"}, {"BEPO (beta)", "BEPO"}}));
-  _widget_select_fields.back()->set_choice_by_value(_options->get_string(OptionName::Layout));
+  _widget_select_fields.back()->set_choice_by_value(_options->get().layout);
 
   pt.y += y_long_space;
   _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "Letters"));
-  _widget_select_fields.back()->set_bool(_options->get_bool(OptionName::Letters));
+  _widget_select_fields.back()->set_bool(_options->get().letters);
 
   pt.y += y_small_space;
   _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "Capitals"));
-  _widget_select_fields.back()->set_bool(_options->get_bool(OptionName::Capitals));
+  _widget_select_fields.back()->set_bool(_options->get().capitals);
 
   pt.y += y_small_space;
   _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "Numbers"));
-  _widget_select_fields.back()->set_bool(_options->get_bool(OptionName::Numbers));
+  _widget_select_fields.back()->set_bool(_options->get().numbers);
 
   pt.y += y_small_space;
   _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "Symbols"));
-  _widget_select_fields.back()->set_bool(_options->get_bool(OptionName::Symbols));
+  _widget_select_fields.back()->set_bool(_options->get().symbols);
 
   pt.y += y_medium_space;
   _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "French extras"));
-  _widget_select_fields.back()->set_bool(_options->get_bool(OptionName::FrenchExtras));
+  _widget_select_fields.back()->set_bool(_options->get().french_extras);
 
   pt.y += y_small_space;
   _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "French extra caps"));
-  _widget_select_fields.back()->set_bool(_options->get_bool(OptionName::FrenchExtraCaps));
+  _widget_select_fields.back()->set_bool(_options->get().french_extra_caps);
 
   // ------------------------------------------------------------------------
   // Message ----------------------------------------------------------------
@@ -122,7 +122,7 @@ void WindowOption::display_message(std::string &&message) {
 
 void WindowOption::check_new_resolution() {
 
-  if (_options->get_string(OptionName::Resolution) != _widget_select_fields[0]->get_choice().value_string) {
+  if (_options->get().resolution != _widget_select_fields[0]->get_choice().value_string) {
     display_message("  Restart the application to set the new resolution.  ");
     _message_displayed = true;
   }
@@ -146,16 +146,14 @@ void WindowOption::control_enter() {
       _widget_select_fields[5]->get_bool() == true || _widget_select_fields[6]->get_bool() == true) {
 
     // Up options, save and quit
-    _options->set(OptionName::Resolution, _widget_select_fields[0]->get_choice().value_string);
-    _options->set(OptionName::Layout, _widget_select_fields[1]->get_choice().value_string);
-    _options->set(OptionName::Letters, _widget_select_fields[2]->get_bool());
-    _options->set(OptionName::Capitals, _widget_select_fields[3]->get_bool());
-    _options->set(OptionName::Numbers, _widget_select_fields[4]->get_bool());
-    _options->set(OptionName::Symbols, _widget_select_fields[5]->get_bool());
-    _options->set(OptionName::FrenchExtras, _widget_select_fields[6]->get_bool());
-    _options->set(OptionName::FrenchExtraCaps, _widget_select_fields[7]->get_bool());
-
-    _options->save();
+    _options->set().resolution = _widget_select_fields[0]->get_choice().value_string;
+    _options->set().layout = _widget_select_fields[1]->get_choice().value_string;
+    _options->set().letters = _widget_select_fields[2]->get_bool();
+    _options->set().capitals = _widget_select_fields[3]->get_bool();
+    _options->set().numbers = _widget_select_fields[4]->get_bool();
+    _options->set().symbols = _widget_select_fields[5]->get_bool();
+    _options->set().french_extras = _widget_select_fields[6]->get_bool();
+    _options->set().french_extra_caps = _widget_select_fields[7]->get_bool();
 
     *_next_window = kebb::WindowName::W_Welcome;
   } else

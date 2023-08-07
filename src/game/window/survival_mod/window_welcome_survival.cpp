@@ -45,7 +45,7 @@ WindowWelcomeSurvival::WindowWelcomeSurvival(kebb::boxsize screen_size,
                                                               {.text = "Very hard", .value_uint = 4},
                                                               {.text = "Impossible", .value_uint = 5}},
                                    true)); // Selected !
-  _widget_select_fields.back()->set_choice_by_value(_options->get_uint(OptionName::SurvivalDifficulty));
+  _widget_select_fields.back()->set_choice_by_value(_options->get().survival_difficulty);
 }
 
 WindowWelcomeSurvival::~WindowWelcomeSurvival() {}
@@ -70,9 +70,8 @@ void WindowWelcomeSurvival::control_escape() { *_next_window = kebb::WindowName:
 void WindowWelcomeSurvival::control_enter() {
 
   // Up options, save and launch the game !
-  _options->set(OptionName::SurvivalDifficulty, _widget_select_fields[0]->get_choice().value_uint);
-  _options->set(OptionName::LastMod, uint16_t(kebb::GameMod::M_Survival));
-  _options->save();
+  _options->set().survival_difficulty = _widget_select_fields[0]->get_choice().value_uint;
+  _options->set().last_mod = uint16_t(kebb::GameMod::M_Survival);
 
   *_next_window = kebb::WindowName::W_GameSurvival;
 }

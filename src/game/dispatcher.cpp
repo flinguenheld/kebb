@@ -2,34 +2,34 @@
 
 Dispatcher::Dispatcher(std::shared_ptr<OptionFile> options) : _engine(_seed()), _number_of_chars(0) {
 
-  if (options->get_bool(OptionName::Letters)) {
+  if (options->get().letters) {
     for (uint16_t i = 10; i < 36; ++i) {
       _keycodes.emplace_back(i);
       ++_number_of_chars;
     }
   }
-  if (options->get_bool(OptionName::Capitals)) {
+  if (options->get().capitals) {
     for (uint16_t i = 100; i < 126; ++i) {
       _keycodes.emplace_back(i);
       ++_number_of_chars;
     }
   }
-  if (options->get_bool(OptionName::Numbers)) {
+  if (options->get().numbers) {
     for (uint16_t i = 500; i < 510; ++i) {
       _keycodes.emplace_back(i);
       ++_number_of_chars;
     }
   }
-  if (options->get_bool(OptionName::Symbols)) {
+  if (options->get().symbols) {
     for (uint16_t i = 1000; i < 1032; ++i) {
       _keycodes.emplace_back(i);
       ++_number_of_chars;
     }
   }
-  if (options->get_bool(OptionName::FrenchExtras)) {
+  if (options->get().french_extras) {
 
     uint16_t max = 2016;
-    if (options->get_string(OptionName::Layout) == "FR") // Avoid æ œ // NOTE: With other layouts ?
+    if (options->get().layout == "FR") // Avoid æ œ // NOTE: With other layouts ?
       max = 2114;
 
     for (uint16_t i = 2000; i < 2014; ++i) {
@@ -38,10 +38,10 @@ Dispatcher::Dispatcher(std::shared_ptr<OptionFile> options) : _engine(_seed()), 
     }
   }
 
-  if (options->get_bool(OptionName::FrenchExtraCaps)) {
+  if (options->get().french_extra_caps) {
 
     uint16_t max = 2115;
-    if (options->get_string(OptionName::Layout) == "FR") // Avoid æ œ
+    if (options->get().layout == "FR") // Avoid æ œ
       max = 2113;
 
     for (uint16_t i = 2100; i < max; ++i) {
