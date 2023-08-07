@@ -31,7 +31,7 @@ public:
   virtual void control_others(uint16_t keycode) override;
   virtual void render() const override;
 
-  void stop_threads();
+  void stop_game();
 
 protected:
   std::vector<std::shared_ptr<Target>> _targets;

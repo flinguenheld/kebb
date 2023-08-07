@@ -27,7 +27,7 @@ WindowGame::WindowGame(kebb::boxsize screen_size,
 
 WindowGame::~WindowGame() {}
 
-void WindowGame::stop_threads() {
+void WindowGame::stop_game() {
 
   for (auto &t : _targets) {
     t->stop();
@@ -35,6 +35,8 @@ void WindowGame::stop_threads() {
   for (auto &t : _threads) {
     t.join();
   }
+
+  save_record();
 }
 
 // ----------------------------------------------------------------------------------------------------
@@ -55,7 +57,7 @@ void WindowGame::render() const {
 // ----------------------------------------------------------------------------------------------------
 // CONTROLS -------------------------------------------------------------------------------------------
 void WindowGame::control_escape() {
-  stop_threads();
+  stop_game();
   *_next_window = kebb::WindowName::W_GameOver;
 }
 void WindowGame::control_others(uint16_t keycode) {

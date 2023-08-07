@@ -34,6 +34,12 @@ namespace kebb {
     };
   };
 
+  /*
+   * Allow to make a string longer with the char 'c'.
+   * Useful to align text.
+   */
+  std::string adapt_string_length(std::string &&text, uint8_t text_length, char c = ' ');
+
   // ----------------------------------------------------------------------------------------------------
   // GAME MODS ------------------------------------------------------------------------------------------
   enum class GameMod {

@@ -21,8 +21,6 @@ void RecordFile::save() const {
   auto file = std::ofstream(_filename, std::ios::out | std::ios::trunc | std::ios::binary);
   for (const auto &r : _records)
     file.write((char *)&r, sizeof(Record));
-
-  std::cout << "save !" << std::endl;
 }
 
 /*
