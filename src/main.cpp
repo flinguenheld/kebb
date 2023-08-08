@@ -28,10 +28,12 @@ int main() {
   auto renderer = std::make_shared<Renderer>(screen_size, scale_factor, target_font_size, score_font_size,
                                              menu_font_size);
 
-  Controller controller(options);
-  Loop game(screen_size.scale(scale_factor), renderer, options);
-  game.run(controller);
+  if (renderer->init_ok()) {
 
-  // std::cout << "Kebb has terminated successfully!\n";
+    Controller controller(options);
+    Loop game(screen_size.scale(scale_factor), renderer, options);
+    game.run(controller);
+  }
+
   return 0;
 }

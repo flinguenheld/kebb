@@ -22,10 +22,11 @@ public:
            uint16_t font_size_game, uint16_t font_size_menu);
   ~Renderer();
 
+  bool init_ok() const;
+  SDL_Renderer *renderer();
+
   void update_window_title(uint16_t fps);
   void clear_screen();
-
-  SDL_Renderer *renderer();
 
   TTF_Font *font(FontName fn);
   kebb::boxsize font_char_size(FontName fn) const;
@@ -45,6 +46,8 @@ private:
   const kebb::boxsize _screen_size;
   const uint16_t _scale_factor;
   SDL_Color _color_background;
+
+  bool _init_ok;
 };
 
 #endif
