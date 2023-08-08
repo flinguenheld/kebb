@@ -11,7 +11,7 @@ WindowWelcomeSurvival::WindowWelcomeSurvival(kebb::boxsize screen_size,
   _widget_menu = std::make_unique<WidgetBottomMenu>(screen_size, renderer, "<ESC> Cancel     <ENTER> Go !");
 
   // Geometry
-  kebb::boxsize char_size = _renderer->font_char_size(FontName::F_Menu); // NOTE: Use font menu ?
+  kebb::boxsize char_size = _renderer->font_char_size(FontName::F_Menu);
   kebb::boxsize bs_title;
   kebb::point pt;
 

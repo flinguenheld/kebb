@@ -8,7 +8,7 @@ WidgetGauge::WidgetGauge(kebb::boxsize screen_size, std::shared_ptr<Renderer> re
   _color = kebb::color(kebb::ColorName::C_Sky); // NOTE: Possible in the initializer list ?
 
   // Geometry
-  _char_size = _renderer->font_char_size(FontName::F_Menu);
+  _char_size = _renderer->font_char_size(FontName::F_Game);
   _char_size.set_scale(1.5);
   kebb::boxsize text_size = {static_cast<uint16_t>(_char_size.w * 2), _char_size.h}; // 2 chars for the txt
   kebb::boxsize size = {static_cast<uint16_t>(_char_size.w * 8), _char_size.h}; // 5.5 chars for the gauge
@@ -77,7 +77,7 @@ uint16_t WidgetGauge::get_level() const { return std::stoi(_textbox_level->get_t
 // ----------------------------------------------------------------------------------------------------
 // RENDER ---------------------------------------------------------------------------------------------
 void WidgetGauge::render() const {
-  _textbox_level->render(_renderer->renderer(), _renderer->font(FontName::F_Menu));
+  _textbox_level->render(_renderer->renderer(), _renderer->font(FontName::F_Game));
 
   SDL_SetRenderDrawColor(_renderer->renderer(), 0, 0, 0, SDL_ALPHA_OPAQUE);
   SDL_RenderGeometry(_renderer->renderer(), nullptr, _triangle.data(), _triangle.size(), nullptr, 0);

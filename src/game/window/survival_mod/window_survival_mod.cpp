@@ -155,11 +155,11 @@ void WindowSurvivalMod::logic() {
 
   if (_score->miss() >= _max_miss) {
     _game_status = kebb::GameStatus::S_Loose;
-    control_escape(); // TODO: Add a cool window with an abstract
+    control_escape();
   }
   if (_score->fail() >= _max_fail) {
     _game_status = kebb::GameStatus::S_Loose;
-    control_escape(); // TODO: Add a cool window with an abstract
+    control_escape();
   }
 
   // Find the current level according to the points
@@ -184,7 +184,7 @@ void WindowSurvivalMod::logic() {
 
     if (percentage >= 100) {
       _game_status = kebb::GameStatus::S_Win;
-      control_escape(); // TODO: Add a cool window with an abstract
+      control_escape();
     }
   } else {
 

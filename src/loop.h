@@ -15,6 +15,7 @@
 #include "game/window/timer_mod/window_welcome_timer.h"
 #include "game/window/window_gameover.h"
 #include "option/window_option.h"
+#include "record/window_record.h"
 #include "renderer.h"
 #include "welcome/window_welcome.h"
 

@@ -7,7 +7,7 @@ WindowGameOver::WindowGameOver(kebb::boxsize screen_size, std::shared_ptr<kebb::
     : WidgetWindow(next_window, renderer), _records(records), _options(options) {
 
   // Geometry
-  kebb::boxsize char_size = _renderer->font_char_size(FontName::F_Menu); // NOTE: Use font menu ?
+  kebb::boxsize char_size = _renderer->font_char_size(FontName::F_Menu);
   kebb::boxsize bs;
   kebb::point pt;
 
@@ -74,7 +74,7 @@ WindowGameOver::WindowGameOver(kebb::boxsize screen_size, std::shared_ptr<kebb::
     else
       mod = "Timer mod";
 
-    char_size = _renderer->font_char_size(FontName::F_Menu); // NOTE: Use font menu ?
+    char_size = _renderer->font_char_size(FontName::F_Menu);
     char_size.set_scale(1.3);
     bs.w = char_size.w * mod.length();
     bs.h = char_size.h;
@@ -113,10 +113,10 @@ WindowGameOver::WindowGameOver(kebb::boxsize screen_size, std::shared_ptr<kebb::
       }
     } else {
       difficulty = std::to_string(_records->records()[0].nb_target) + " targets - speed " +
-                   std::to_string(_records->records()[0].speed);
+                   kebb::speed(_records->records()[0].speed);
     }
 
-    char_size = _renderer->font_char_size(FontName::F_Menu); // NOTE: Use font menu ?
+    char_size = _renderer->font_char_size(FontName::F_Menu);
     char_size.set_scale(1.2);
     bs.w = char_size.w * difficulty.length();
     bs.h = char_size.h;
@@ -140,7 +140,7 @@ WindowGameOver::WindowGameOver(kebb::boxsize screen_size, std::shared_ptr<kebb::
 
   // ------------------------------------------------------------------------
   // Timer ------------------------------------------------------------------
-  char_size = _renderer->font_char_size(FontName::F_Menu); // NOTE: Use font menu ?
+  char_size = _renderer->font_char_size(FontName::F_Menu);
 
   char_size.set_scale(2.4);
   bs.w = char_size.w * 5;
@@ -156,7 +156,7 @@ WindowGameOver::WindowGameOver(kebb::boxsize screen_size, std::shared_ptr<kebb::
 
   // ------------------------------------------------------------------------
   // Success / Fail / Miss --------------------------------------------------
-  char_size = _renderer->font_char_size(FontName::F_Menu); // NOTE: Use font menu ?
+  char_size = _renderer->font_char_size(FontName::F_Menu);
   char_size.set_scale(1.5);
 
   bs.w = char_size.w * 13; // 13 chars in total for all lines to align
@@ -209,10 +209,10 @@ void WindowGameOver::render() const {
   _textbox_mod->render(_renderer->renderer(), _renderer->font(FontName::F_Menu));
   _textbox_difficulty->render(_renderer->renderer(), _renderer->font(FontName::F_Menu));
 
-  _textbox_time->render(_renderer->renderer(), _renderer->font(FontName::F_Score));
-  _textbox_success->render(_renderer->renderer(), _renderer->font(FontName::F_Score));
-  _textbox_fail->render(_renderer->renderer(), _renderer->font(FontName::F_Score));
-  _textbox_miss->render(_renderer->renderer(), _renderer->font(FontName::F_Score));
+  _textbox_time->render(_renderer->renderer(), _renderer->font(FontName::F_Menu));
+  _textbox_success->render(_renderer->renderer(), _renderer->font(FontName::F_Menu));
+  _textbox_fail->render(_renderer->renderer(), _renderer->font(FontName::F_Menu));
+  _textbox_miss->render(_renderer->renderer(), _renderer->font(FontName::F_Menu));
 
   // --
   SDL_SetRenderDrawColor(_renderer->renderer(), _separation_color.r, _separation_color.g, _separation_color.b,

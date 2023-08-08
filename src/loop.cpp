@@ -33,17 +33,26 @@ void Loop::run(Controller &controller) {
       _current_window.reset(); // NOTE: Mandatory/usefull or not ?
 
       switch (*next_window_name) {
-      case kebb::WindowName::W_GameTimer:
+      case kebb::WindowName::W_About:
+        _current_window = std::make_shared<WindowAbout>(_screen_size, next_window_name, _renderer);
+        break;
+      case kebb::WindowName::W_GameOver:
         _current_window =
-            std::make_shared<WindowTimerMod>(_screen_size, next_window_name, _renderer, _records, _options);
+            std::make_shared<WindowGameOver>(_screen_size, next_window_name, _renderer, _records, _options);
         break;
       case kebb::WindowName::W_GameSurvival:
         _current_window = std::make_shared<WindowSurvivalMod>(_screen_size, next_window_name, _renderer,
                                                               _records, _options);
         break;
-      case kebb::WindowName::W_GameOver:
+      case kebb::WindowName::W_GameTimer:
         _current_window =
-            std::make_shared<WindowGameOver>(_screen_size, next_window_name, _renderer, _records, _options);
+            std::make_shared<WindowTimerMod>(_screen_size, next_window_name, _renderer, _records, _options);
+        break;
+      case kebb::WindowName::W_Option:
+        _current_window = std::make_shared<WindowOption>(_screen_size, next_window_name, _renderer, _options);
+        break;
+      case kebb::WindowName::W_Record:
+        _current_window = std::make_shared<WindowRecord>(_screen_size, next_window_name, _renderer, _records);
         break;
       case kebb::WindowName::W_Welcome:
         _current_window =
@@ -56,12 +65,6 @@ void Loop::run(Controller &controller) {
       case kebb::WindowName::W_WelcomeTimer:
         _current_window =
             std::make_shared<WindowWelcomeTimer>(_screen_size, next_window_name, _renderer, _options);
-        break;
-      case kebb::WindowName::W_Option:
-        _current_window = std::make_shared<WindowOption>(_screen_size, next_window_name, _renderer, _options);
-        break;
-      case kebb::WindowName::W_About:
-        _current_window = std::make_shared<WindowAbout>(_screen_size, next_window_name, _renderer);
         break;
       default: // W_Ouit
         running = false;
@@ -81,6 +84,6 @@ void Loop::run(Controller &controller) {
       title_timestamp = frame_end;
     }
 
-    SDL_Delay(3); // NOTE: Is 3 ok ?
+    SDL_Delay(4); // NOTE: Is 4 ok ?
   }
 }

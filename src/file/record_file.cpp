@@ -1,6 +1,6 @@
 #include "record_file.h"
 
-RecordFile::RecordFile() : File("records.kebb"), _nb_max_records(20) { read(); }
+RecordFile::RecordFile() : File("records.kebb"), _nb_max_records(15) { read(); }
 RecordFile::~RecordFile() { save(); }
 
 /*

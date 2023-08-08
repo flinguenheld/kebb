@@ -7,7 +7,7 @@ WindowAbout::WindowAbout(kebb::boxsize screen_size, std::shared_ptr<kebb::Window
   _widget_menu = std::make_unique<WidgetBottomMenu>(screen_size, renderer, "<ESC> Quit");
 
   // Geometry
-  kebb::boxsize char_size = _renderer->font_char_size(FontName::F_Menu); // NOTE: Use font menu ?
+  kebb::boxsize char_size = _renderer->font_char_size(FontName::F_Menu);
   kebb::boxsize bs;
   kebb::point pt;
 
@@ -15,7 +15,7 @@ WindowAbout::WindowAbout(kebb::boxsize screen_size, std::shared_ptr<kebb::Window
   // Title ------------------------------------------------------------------
   // Catppuccin: Mocha
   char_size.set_scale(3);
-  bs.w = char_size.w * 4;
+  bs.w = char_size.w * 5;
   bs.h = char_size.h;
 
   pt.x = screen_size.w / 2 - bs.w / 2;
@@ -47,7 +47,7 @@ WindowAbout::WindowAbout(kebb::boxsize screen_size, std::shared_ptr<kebb::Window
   _widget_date->set_text("2023-07-27");
   _widget_date->set_color_text(kebb::color(kebb::ColorName::C_Yellow));
 
-  char_size = _renderer->font_char_size(FontName::F_Menu); // NOTE: Use font menu ?
+  char_size = _renderer->font_char_size(FontName::F_Menu);
 
   bs.w = char_size.w * 36;
   bs.h = char_size.h;

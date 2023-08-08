@@ -50,7 +50,7 @@ Dispatcher::Dispatcher(std::shared_ptr<OptionFile> options) : _engine(_seed()), 
     }
   }
 
-  for (uint16_t i = 0; i < 360; i += 5)
+  for (uint16_t i = 0; i < 360; i += 10) // NOTE: 36 threads maxi !
     _angles.emplace_back(i);
 }
 

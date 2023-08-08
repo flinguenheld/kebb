@@ -41,6 +41,7 @@ add_executable(${PROJECT_NAME} src/main.cpp
                                src/game/window/timer_mod/window_timer_mod.cpp
                                src/game/window/timer_mod/window_welcome_timer.cpp
                                src/option/window_option.cpp
+                               src/record/window_record.cpp
                                src/welcome/widget_logo.cpp
                                src/welcome/window_welcome.cpp
                                src/widget/button/widget_selection.cpp

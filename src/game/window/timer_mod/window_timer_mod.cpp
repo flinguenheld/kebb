@@ -18,7 +18,7 @@ WindowTimerMod::WindowTimerMod(kebb::boxsize screen_size,
   for (uint8_t i = 0; i < nb_targets; ++i)
     _targets.emplace_back(std::make_shared<Target>(_target_center_aera, _target_radius_aera,
                                                    _renderer->font_char_size(FontName::F_Target),
-                                                   options->get().speed, _dispatcher, _score));
+                                                   options->get().waiting_time, _dispatcher, _score));
 
   // Start !
   for (auto &t : _targets)
@@ -63,6 +63,6 @@ void WindowTimerMod::save_record() const {
                  .miss = _score->miss(),
                  .time_start = _score->seconds_timer_started(),
                  .time_game = _score->seconds_spent(),
-                 .speed = _options->get().speed,
+                 .speed = _options->get().waiting_time,
                  .nb_target = _options->get().nb_targets});
 }

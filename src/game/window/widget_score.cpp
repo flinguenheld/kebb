@@ -5,7 +5,7 @@ WidgetScore::WidgetScore(kebb::boxsize screen_size, std::shared_ptr<Score> score
     : _score(score), _renderer(renderer) {
 
   // Geometry
-  kebb::boxsize char_size = _renderer->font_char_size(FontName::F_Score);
+  kebb::boxsize char_size = _renderer->font_char_size(FontName::F_Game);
   kebb::boxsize line_size;
   kebb::point pt;
 
@@ -25,7 +25,7 @@ WidgetScore::WidgetScore(kebb::boxsize screen_size, std::shared_ptr<Score> score
 
   // ------------------------------------------------------------------------
   // Timer ------------------------------------------------------------------
-  char_size = _renderer->font_char_size(FontName::F_Score);
+  char_size = _renderer->font_char_size(FontName::F_Game);
 
   // Timer bigger and on the left --
   char_size.set_scale(1.7);
@@ -60,8 +60,8 @@ void WidgetScore::logic(uint16_t time_seconds) {
 // RENDER ---------------------------------------------------------------------------------------------
 void WidgetScore::render() const {
 
-  _textbox_time->render(_renderer->renderer(), _renderer->font(FontName::F_Score));
-  _textbox_success->render(_renderer->renderer(), _renderer->font(FontName::F_Score));
-  _textbox_fail->render(_renderer->renderer(), _renderer->font(FontName::F_Score));
-  _textbox_miss->render(_renderer->renderer(), _renderer->font(FontName::F_Score));
+  _textbox_time->render(_renderer->renderer(), _renderer->font(FontName::F_Game));
+  _textbox_success->render(_renderer->renderer(), _renderer->font(FontName::F_Game));
+  _textbox_fail->render(_renderer->renderer(), _renderer->font(FontName::F_Game));
+  _textbox_miss->render(_renderer->renderer(), _renderer->font(FontName::F_Game));
 }

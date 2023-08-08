@@ -9,7 +9,7 @@ struct Options {
   std::string layout = "US";
   uint16_t nb_targets = 5;
   uint16_t countdown = 30;
-  uint16_t speed = 20;
+  uint16_t waiting_time = 20;
   uint16_t survival_difficulty = 2;
   uint16_t last_mod = 10;
   bool letters = true;

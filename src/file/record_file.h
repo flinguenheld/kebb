@@ -2,6 +2,7 @@
 #define RECORD_FILE_H
 
 #include "file.h"
+#include <bits/types/time_t.h>
 #include <cstdint>
 #include <filesystem>
 #include <fstream>
@@ -13,7 +14,7 @@ struct Record {
   uint16_t success;
   uint16_t fail;
   uint16_t miss;
-  int time_start;
+  time_t time_start;
   int time_game;
   uint16_t difficulty;
   uint16_t level;

@@ -1,4 +1,5 @@
 #include "window_welcome_timer.h"
+#include "utils.h"
 
 WindowWelcomeTimer::WindowWelcomeTimer(kebb::boxsize screen_size,
                                        std::shared_ptr<kebb::WindowName> next_window,
@@ -9,7 +10,7 @@ WindowWelcomeTimer::WindowWelcomeTimer(kebb::boxsize screen_size,
   _widget_menu = std::make_unique<WidgetBottomMenu>(screen_size, renderer, "<ESC> Cancel     <ENTER> Go !");
 
   // Geometry
-  kebb::boxsize char_size = _renderer->font_char_size(FontName::F_Menu); // NOTE: Use font menu ?
+  kebb::boxsize char_size = _renderer->font_char_size(FontName::F_Menu);
   kebb::boxsize bs_title;
   kebb::point pt;
 
@@ -59,23 +60,23 @@ WindowWelcomeTimer::WindowWelcomeTimer(kebb::boxsize screen_size,
   pt.y += y_space;
   _widget_select_fields.emplace_back(
       std::make_unique<WidgetList>(pt, bs_field, "Speed:",
-                                   std::vector<SelectionItem>{{.text = "1", .value_uint = 30},
-                                                              {.text = "2", .value_uint = 28},
-                                                              {.text = "3", .value_uint = 26},
-                                                              {.text = "4", .value_uint = 24},
-                                                              {.text = "5", .value_uint = 22},
-                                                              {.text = "6", .value_uint = 20},
-                                                              {.text = "7", .value_uint = 18},
-                                                              {.text = "8", .value_uint = 16},
-                                                              {.text = "9", .value_uint = 14},
-                                                              {.text = "10", .value_uint = 12},
-                                                              {.text = "11", .value_uint = 10},
-                                                              {.text = "12", .value_uint = 8},
-                                                              {.text = "13", .value_uint = 6},
-                                                              {.text = "14", .value_uint = 4},
-                                                              {.text = "15", .value_uint = 2},
-                                                              {.text = "16", .value_uint = 1}}));
-  _widget_select_fields.back()->set_choice_by_value(_options->get().speed);
+                                   std::vector<SelectionItem>{{.text = kebb::speed(30), .value_uint = 30},
+                                                              {.text = kebb::speed(28), .value_uint = 28},
+                                                              {.text = kebb::speed(26), .value_uint = 26},
+                                                              {.text = kebb::speed(24), .value_uint = 24},
+                                                              {.text = kebb::speed(22), .value_uint = 22},
+                                                              {.text = kebb::speed(20), .value_uint = 20},
+                                                              {.text = kebb::speed(18), .value_uint = 18},
+                                                              {.text = kebb::speed(16), .value_uint = 16},
+                                                              {.text = kebb::speed(14), .value_uint = 14},
+                                                              {.text = kebb::speed(12), .value_uint = 12},
+                                                              {.text = kebb::speed(10), .value_uint = 10},
+                                                              {.text = kebb::speed(8), .value_uint = 8},
+                                                              {.text = kebb::speed(6), .value_uint = 6},
+                                                              {.text = kebb::speed(4), .value_uint = 4},
+                                                              {.text = kebb::speed(2), .value_uint = 2},
+                                                              {.text = kebb::speed(1), .value_uint = 1}}));
+  _widget_select_fields.back()->set_choice_by_value(_options->get().waiting_time);
 }
 
 WindowWelcomeTimer::~WindowWelcomeTimer() {}
@@ -102,7 +103,7 @@ void WindowWelcomeTimer::control_enter() {
   // Up options, save and launch the game !
   _options->set().countdown = _widget_select_fields[0]->get_choice().value_uint;
   _options->set().nb_targets = _widget_select_fields[1]->get_choice().value_uint;
-  _options->set().speed = _widget_select_fields[2]->get_choice().value_uint;
+  _options->set().waiting_time = _widget_select_fields[2]->get_choice().value_uint;
   _options->set().last_mod = uint16_t(kebb::GameMod::M_Timer);
 
   *_next_window = kebb::WindowName::W_GameTimer;
