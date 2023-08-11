@@ -1,4 +1,5 @@
 #include "controller.h"
+#include <SDL_video.h>
 
 Controller::Controller(std::shared_ptr<OptionFile> options)
     : _options(options), _circumflex(false), _grave(false), _diaeresis(false), _mask_mod(0x3FF) {}
@@ -7,8 +8,9 @@ void Controller::handle_input(bool &running, std::shared_ptr<WidgetWindow> windo
   SDL_Event e;
   while (SDL_PollEvent(&e)) {
 
-    if (e.type == SDL_QUIT) {
+    if (e.type == SDL_QUIT || e.window.event == SDL_WINDOWEVENT_CLOSE) { // TODO: Confirm mouse click on X
       running = false;
+
     } else if (e.type == SDL_KEYDOWN) {
 
       switch (e.key.keysym.sym) {

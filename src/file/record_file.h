@@ -16,10 +16,11 @@ struct Record {
   uint16_t miss;
   time_t time_start;
   int time_game;
-  uint16_t difficulty;
-  uint16_t level;
-  uint16_t speed;
-  uint16_t nb_target;
+  uint16_t survival_nb_targets;
+  uint16_t survival_speed;
+  uint16_t survival_level;
+  uint16_t timer_speed;
+  uint16_t timer_nb_target;
 };
 
 /*

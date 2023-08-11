@@ -5,7 +5,7 @@
 #include "game/window/window_game.h"
 
 struct Level {
-  uint16_t waiting_time;
+  uint16_t speed;
   uint16_t nb_target;
   uint16_t points_next_level;
 };

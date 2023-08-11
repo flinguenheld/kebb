@@ -7,10 +7,11 @@
 struct Options {
   std::string resolution = "480-20";
   std::string layout = "US";
-  uint16_t nb_targets = 5;
-  uint16_t countdown = 30;
-  uint16_t waiting_time = 20;
-  uint16_t survival_difficulty = 2;
+  uint16_t timer_countdown = 30;
+  uint16_t timer_speed = 6;
+  uint16_t timer_nb_targets = 5;
+  uint16_t survival_nb_targets = 5;
+  uint16_t survival_speed = 10;
   uint16_t last_mod = 10;
   bool letters = true;
   bool capitals = false;

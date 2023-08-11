@@ -10,6 +10,7 @@
 #include "widget/window/widget_window.h"
 #include <algorithm>
 #include <chrono>
+#include <string>
 #include <thread>
 #include <vector>
 
@@ -25,7 +26,10 @@ public:
   virtual void render() const override;
 
 private:
-  std::unique_ptr<WidgetTextBox> _widget_title;
+  std::unique_ptr<WidgetTextBox> _textbox_title;
+  std::unique_ptr<WidgetTextBox> _textbox_explanation_l1;
+  std::unique_ptr<WidgetTextBox> _textbox_explanation_l2;
+
   std::unique_ptr<WidgetBottomMenu> _widget_menu;
   std::shared_ptr<OptionFile> _options;
 };

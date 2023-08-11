@@ -40,11 +40,6 @@ namespace kebb {
    */
   std::string adapt_string_length(std::string &&text, uint8_t text_length, char c = ' ');
 
-  /*
-   * Convert target waiting time to user speed.
-   */
-  std::string speed(uint waiting_time);
-
   // ----------------------------------------------------------------------------------------------------
   // GAME MODS ------------------------------------------------------------------------------------------
   enum class GameMod {

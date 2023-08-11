@@ -1,14 +1,14 @@
 #include "target.h"
 
 // clang-format off
-Target::Target(kebb::point center_area, uint16_t radius_area, kebb::boxsize char_size, uint16_t waiting_time,
+Target::Target(kebb::point center_area, uint16_t radius_area, kebb::boxsize char_size, uint16_t speed,
     std::shared_ptr<Dispatcher> dispatcher, std::shared_ptr<Score> score) :
 
   WidgetTextBox(center_area, char_size),
       _active(true), _ok(false),
       _center_area(center_area),
       _radius_area(radius_area),
-      _waiting_time(waiting_time),
+      _waiting_time(10),
       _new_waiting_time(0),
       _dispatcher(dispatcher),
       _score(score),
@@ -16,6 +16,8 @@ Target::Target(kebb::point center_area, uint16_t radius_area, kebb::boxsize char
       _keycode(0), _angle(-1)
 // clang-format on
 {
+  set_speed(speed);
+
   _green = kebb::color(kebb::ColorName::C_Green);
   _red = kebb::color(kebb::ColorName::C_Red);
   _white = kebb::color(kebb::ColorName::C_Text);
@@ -118,5 +120,67 @@ void Target::init() {
 
 // ----------------------------------------------------------------------------------------------------
 // TIME -----------------------------------------------------------------------------------------------
-void Target::set_waiting_time(uint16_t t) { _new_waiting_time = t; }
-uint16_t Target::waiting_time() const { return _waiting_time; }
+void Target::set_speed(uint16_t t) {
+
+  switch (t) {
+  case 1:
+    _new_waiting_time = 38;
+    break;
+  case 2:
+    _new_waiting_time = 34;
+    break;
+  case 3:
+    _new_waiting_time = 30;
+    break;
+  case 4:
+    _new_waiting_time = 28;
+    break;
+  case 5:
+    _new_waiting_time = 26;
+    break;
+  case 6:
+    _new_waiting_time = 24;
+    break;
+  case 7:
+    _new_waiting_time = 22;
+    break;
+  case 8:
+    _new_waiting_time = 20;
+    break;
+  case 9:
+    _new_waiting_time = 18;
+    break;
+  case 10:
+    _new_waiting_time = 16;
+    break;
+  case 11:
+    _new_waiting_time = 14;
+    break;
+  case 12:
+    _new_waiting_time = 12;
+    break;
+  case 13:
+    _new_waiting_time = 10;
+    break;
+  case 14:
+    _new_waiting_time = 8;
+    break;
+  case 15:
+    _new_waiting_time = 6;
+    break;
+  case 16:
+    _new_waiting_time = 5;
+    break;
+  case 17:
+    _new_waiting_time = 4;
+    break;
+  case 18:
+    _new_waiting_time = 3;
+    break;
+  case 19:
+    _new_waiting_time = 2;
+    break;
+  default:
+    _new_waiting_time = 1;
+  }
+}

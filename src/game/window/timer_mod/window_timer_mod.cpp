@@ -11,20 +11,20 @@ WindowTimerMod::WindowTimerMod(kebb::boxsize screen_size,
 {
 
   // Limit the amount of threads if needed
-  uint16_t nb_targets = options->get().nb_targets;
+  uint16_t nb_targets = options->get().timer_nb_targets;
   if (nb_targets >= _dispatcher->number_of_chars())
     nb_targets = _dispatcher->number_of_chars() * 0.6; // Remove to create a difficulty
 
   for (uint8_t i = 0; i < nb_targets; ++i)
     _targets.emplace_back(std::make_shared<Target>(_target_center_aera, _target_radius_aera,
                                                    _renderer->font_char_size(FontName::F_Target),
-                                                   options->get().waiting_time, _dispatcher, _score));
+                                                   options->get().timer_speed, _dispatcher, _score));
 
   // Start !
   for (auto &t : _targets)
     _threads.emplace_back(std::thread(&Target::update, t));
 
-  _countdown_value = options->get().countdown;
+  _countdown_value = options->get().timer_countdown;
   _score->reset();
   _score->start_timer();
 }
@@ -63,6 +63,6 @@ void WindowTimerMod::save_record() const {
                  .miss = _score->miss(),
                  .time_start = _score->seconds_timer_started(),
                  .time_game = _score->seconds_spent(),
-                 .speed = _options->get().waiting_time,
-                 .nb_target = _options->get().nb_targets});
+                 .timer_speed = _options->get().timer_speed,
+                 .timer_nb_target = _options->get().timer_nb_targets});
 }

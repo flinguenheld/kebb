@@ -1,4 +1,5 @@
 #include "window_record.h"
+#include <string>
 
 WindowRecord::WindowRecord(kebb::boxsize screen_size, std::shared_ptr<kebb::WindowName> next_window,
                            std::shared_ptr<Renderer> renderer, std::shared_ptr<RecordFile> records)
@@ -61,28 +62,11 @@ WindowRecord::WindowRecord(kebb::boxsize screen_size, std::shared_ptr<kebb::Wind
 
     // Text - mod & difficulty
     if ((kebb::GameMod)e.mod == kebb::GameMod::M_Survival) {
-      text += "Survival: ";
+      text += "Survival: " + std::to_string(e.survival_nb_targets) + "/" + std::to_string(e.survival_speed);
+      text += " lvl " + std::to_string(e.survival_level);
 
-      if (e.difficulty == 0)
-        text += "Veasy";
-      else if (e.difficulty == 1)
-        text += "Easy";
-      else if (e.difficulty == 2)
-        text += "Normal";
-      else if (e.difficulty == 3)
-        text += "Hard";
-      else if (e.difficulty == 4)
-        text += "Vhard";
-      else
-        text += "Imp";
-
-      text += " lvl " + std::to_string(e.level);
-    } else {
-      text += "Timer:";
-
-      text += " nb " + std::to_string(e.nb_target);
-      text += " speed " + kebb::speed(e.speed);
-    }
+    } else
+      text += "Timer: " + std::to_string(e.timer_nb_target) + "/" + std::to_string(e.timer_speed);
 
     // Text - status
     switch ((kebb::GameStatus)e.status) {

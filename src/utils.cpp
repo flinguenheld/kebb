@@ -7,44 +7,6 @@ std::string kebb::adapt_string_length(std::string &&text, uint8_t text_length, c
   return std::move(text); // NOTE: Is move here farfetch ?
 }
 
-std::string kebb::speed(uint waiting_time) {
-
-  switch (waiting_time) {
-  case 30:
-    return "1";
-  case 28:
-    return "2";
-  case 26:
-    return "3";
-  case 24:
-    return "4";
-  case 22:
-    return "5";
-  case 20:
-    return "6";
-  case 18:
-    return "7";
-  case 16:
-    return "8";
-  case 14:
-    return "9";
-  case 12:
-    return "10";
-  case 10:
-    return "11";
-  case 8:
-    return "12";
-  case 6:
-    return "13";
-  case 4:
-    return "14";
-  case 2:
-    return "15";
-  default:
-    return "16";
-  }
-}
-
 // clang-format off
 std::string kebb::keycode_to_string(uint16_t val) {
 

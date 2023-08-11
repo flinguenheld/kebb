@@ -1,4 +1,5 @@
 #include "window_survival_mod.h"
+#include <iostream>
 
 // clang-format off
 WindowSurvivalMod::WindowSurvivalMod(kebb::boxsize screen_size,
@@ -18,68 +19,43 @@ WindowSurvivalMod::WindowSurvivalMod(kebb::boxsize screen_size,
   _widget_gauge->set_percentage(100);
 
   // Levels --
-  switch (_options->get().survival_difficulty) {
-  case 0: // Very easy
-    _price_fail = 1;
-    _price_miss = 1;
+  uint16_t nb_targets = _options->get().survival_nb_targets;
+  uint16_t speed = _options->get().survival_speed;
+  uint16_t next_level = 0;
 
-    _max_fail = 50;
-    _max_miss = 50;
+  _price_fail = ((speed + nb_targets) / 3 < 1) ? 1 : (speed + nb_targets) / 3;
+  _price_miss = ((speed + nb_targets) / 8 < 1) ? 1 : (speed + nb_targets) / 8;
 
-    _levels = {{32, 3, 20},  {32, 4, 40},  {30, 4, 60},  {30, 5, 80},
-               {28, 5, 100}, {28, 6, 120}, {26, 6, 140}, {26, 7, 160}};
-    break;
+  _max_fail = 10;
+  _max_miss = 20;
 
-  case 1: // Easy   // TODO: Adapt the difficulty
-    _price_fail = 1;
-    _price_miss = 1;
+#ifdef DEBUG
+  std::cout << "--------------------------------------------------\n";
+  std::cout << "- Start with " << nb_targets << " targets - "
+            << " Speed: " << speed << std::endl;
 
-    _max_fail = 30;
-    _max_miss = 20;
+  std::cout << "- price fail: " << _price_fail << std::endl;
+  std::cout << "- price miss: " << _price_miss << std::endl;
+  std::cout << "- max fail: " << _max_fail << std::endl;
+  std::cout << "- max miss: " << _max_miss << std::endl;
+#endif
 
-    _levels = {{30, 4, 20},  {30, 5, 40},  {28, 5, 60},  {28, 6, 80},
-               {26, 6, 100}, {26, 7, 120}, {24, 7, 140}, {24, 8, 160}};
-    break;
-  case 2: // Normal
-    _price_fail = 2;
-    _price_miss = 1;
+  for (uint16_t i = 0; i < 12; ++i) {
+    next_level += (nb_targets + speed) * 6;
 
-    _max_fail = 20;
-    _max_miss = 30;
+    if (i != 0) {
+      if (i % 2 == 0)
+        ++speed;
+      else
+        ++nb_targets;
+    }
 
-    _levels = {{25, 4, 20},  {25, 5, 40},  {20, 5, 60},  {20, 6, 80},
-               {18, 6, 100}, {18, 7, 120}, {18, 7, 140}, {18, 8, 160}};
-    break;
-  case 3: // Hard
-    _price_fail = 3;
-    _price_miss = 2;
+    _levels.push_back({.speed = speed, .nb_target = nb_targets, .points_next_level = next_level});
 
-    _max_fail = 20;
-    _max_miss = 30;
-
-    _levels = {{30, 4, 20},  {30, 5, 40},  {28, 5, 60},  {28, 6, 80},
-               {26, 6, 100}, {26, 7, 120}, {24, 7, 140}, {24, 8, 160}};
-    break;
-  case 4: // Very hard
-    _price_fail = 4;
-    _price_miss = 3;
-
-    _max_fail = 20;
-    _max_miss = 30;
-
-    _levels = {{30, 4, 20},  {30, 5, 40},  {28, 5, 60},  {28, 6, 80},
-               {26, 6, 100}, {26, 7, 120}, {24, 7, 140}, {24, 8, 160}};
-    break;
-  case 5: // Impossible
-    _price_fail = 5;
-    _price_miss = 4;
-
-    _max_fail = 5;
-    _max_miss = 10;
-
-    _levels = {{30, 4, 20},  {30, 5, 40},  {28, 5, 60},  {28, 6, 80},
-               {26, 6, 100}, {26, 7, 120}, {24, 7, 140}, {24, 8, 160}};
-    break;
+#ifdef DEBUG
+    std::cout << " --- Level " << i << ": speed " << speed << "   nb: " << nb_targets
+              << "   next: " << next_level << std::endl;
+#endif
   }
 
   // First level --
@@ -87,7 +63,7 @@ WindowSurvivalMod::WindowSurvivalMod(kebb::boxsize screen_size,
   for (uint8_t i = 0; i < _levels[0].nb_target; ++i)
     _targets.emplace_back(std::make_shared<Target>(_target_center_aera, _target_radius_aera,
                                                    _renderer->font_char_size(FontName::F_Target),
-                                                   _levels[0].waiting_time, _dispatcher, _score));
+                                                   _levels[0].speed, _dispatcher, _score));
 
   // Start !
   for (auto &t : _targets)
@@ -190,13 +166,13 @@ void WindowSurvivalMod::logic() {
 
     // Number of targets
     while (_targets.size() < (*it).nb_target && _targets.size() < _nb_max_target)
-      add_target((*it).waiting_time);
+      add_target((*it).speed);
     while (_targets.size() > (*it).nb_target && _targets.size() > 0)
       remove_target();
 
     // Speed
     for (auto &t : _targets)
-      t->set_waiting_time((*it).waiting_time);
+      t->set_speed((*it).speed);
   }
 
   // Up time
@@ -224,6 +200,7 @@ void WindowSurvivalMod::save_record() const {
                  .miss = _score->miss(),
                  .time_start = _score->seconds_timer_started(),
                  .time_game = _score->seconds_spent(),
-                 .difficulty = _options->get().survival_difficulty,
-                 .level = _widget_gauge->get_level()});
+                 .survival_nb_targets = _options->get().survival_nb_targets,
+                 .survival_speed = _options->get().survival_speed,
+                 .survival_level = _widget_gauge->get_level()});
 }

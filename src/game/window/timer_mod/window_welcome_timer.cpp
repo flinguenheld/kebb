@@ -1,5 +1,4 @@
 #include "window_welcome_timer.h"
-#include "utils.h"
 
 WindowWelcomeTimer::WindowWelcomeTimer(kebb::boxsize screen_size,
                                        std::shared_ptr<kebb::WindowName> next_window,
@@ -23,9 +22,9 @@ WindowWelcomeTimer::WindowWelcomeTimer(kebb::boxsize screen_size,
   pt.x = screen_size.w / 2 - bs_title.w / 2;
   pt.y = bs_title.h * 0.5;
 
-  _widget_title = std::make_unique<WidgetTextBox>(pt, bs_title);
-  _widget_title->set_text("Timer mod");
-  _widget_title->set_color_text(kebb::color(kebb::ColorName::C_Peach));
+  _textbox_title = std::make_unique<WidgetTextBox>(pt, bs_title);
+  _textbox_title->set_text("Timer mod");
+  _textbox_title->set_color_text(kebb::color(kebb::ColorName::C_Peach));
 
   // ------------------------------------------------------------------------
   // Selection fields -------------------------------------------------------
@@ -51,32 +50,15 @@ WindowWelcomeTimer::WindowWelcomeTimer(kebb::boxsize screen_size,
                                                               {.text = "5m", .value_uint = 300},
                                                               {.text = "10m", .value_uint = 600}},
                                    true)); // Selected !
-  _widget_select_fields.back()->set_choice_by_value(_options->get().countdown);
+  _widget_select_fields.back()->set_choice_by_value(_options->get().timer_countdown);
 
   pt.y += y_space;
   _widget_select_fields.emplace_back(std::make_unique<WidgetList>(pt, bs_field, "Nb targets:", 1, 20, 1));
-  _widget_select_fields.back()->set_choice_by_value(_options->get().nb_targets);
+  _widget_select_fields.back()->set_choice_by_value(_options->get().timer_nb_targets);
 
   pt.y += y_space;
-  _widget_select_fields.emplace_back(
-      std::make_unique<WidgetList>(pt, bs_field, "Speed:",
-                                   std::vector<SelectionItem>{{.text = kebb::speed(30), .value_uint = 30},
-                                                              {.text = kebb::speed(28), .value_uint = 28},
-                                                              {.text = kebb::speed(26), .value_uint = 26},
-                                                              {.text = kebb::speed(24), .value_uint = 24},
-                                                              {.text = kebb::speed(22), .value_uint = 22},
-                                                              {.text = kebb::speed(20), .value_uint = 20},
-                                                              {.text = kebb::speed(18), .value_uint = 18},
-                                                              {.text = kebb::speed(16), .value_uint = 16},
-                                                              {.text = kebb::speed(14), .value_uint = 14},
-                                                              {.text = kebb::speed(12), .value_uint = 12},
-                                                              {.text = kebb::speed(10), .value_uint = 10},
-                                                              {.text = kebb::speed(8), .value_uint = 8},
-                                                              {.text = kebb::speed(6), .value_uint = 6},
-                                                              {.text = kebb::speed(4), .value_uint = 4},
-                                                              {.text = kebb::speed(2), .value_uint = 2},
-                                                              {.text = kebb::speed(1), .value_uint = 1}}));
-  _widget_select_fields.back()->set_choice_by_value(_options->get().waiting_time);
+  _widget_select_fields.emplace_back(std::make_unique<WidgetList>(pt, bs_field, "Speed", 1, 20, 1));
+  _widget_select_fields.back()->set_choice_by_value(_options->get().timer_speed);
 }
 
 WindowWelcomeTimer::~WindowWelcomeTimer() {}
@@ -84,7 +66,7 @@ WindowWelcomeTimer::~WindowWelcomeTimer() {}
 void WindowWelcomeTimer::render() const {
 
   _renderer->clear_screen();
-  _widget_title->render(_renderer->renderer(), _renderer->font(FontName::F_Menu));
+  _textbox_title->render(_renderer->renderer(), _renderer->font(FontName::F_Menu));
 
   for (auto &w : _widget_select_fields)
     w->render(_renderer->renderer(), _renderer->font(FontName::F_Menu));
@@ -101,9 +83,9 @@ void WindowWelcomeTimer::control_escape() { *_next_window = kebb::WindowName::W_
 void WindowWelcomeTimer::control_enter() {
 
   // Up options, save and launch the game !
-  _options->set().countdown = _widget_select_fields[0]->get_choice().value_uint;
-  _options->set().nb_targets = _widget_select_fields[1]->get_choice().value_uint;
-  _options->set().waiting_time = _widget_select_fields[2]->get_choice().value_uint;
+  _options->set().timer_countdown = _widget_select_fields[0]->get_choice().value_uint;
+  _options->set().timer_nb_targets = _widget_select_fields[1]->get_choice().value_uint;
+  _options->set().timer_speed = _widget_select_fields[2]->get_choice().value_uint;
   _options->set().last_mod = uint16_t(kebb::GameMod::M_Timer);
 
   *_next_window = kebb::WindowName::W_GameTimer;

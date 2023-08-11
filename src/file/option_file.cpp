@@ -14,10 +14,11 @@ void OptionFile::save() const {
   std::ofstream ostrm(_filename);
   ostrm << _options.resolution << '\n'
         << _options.layout << '\n'
-        << _options.nb_targets << '\n'
-        << _options.countdown << '\n'
-        << _options.waiting_time << '\n'
-        << _options.survival_difficulty << '\n'
+        << _options.timer_countdown << '\n'
+        << _options.timer_nb_targets << '\n'
+        << _options.timer_speed << '\n'
+        << _options.survival_nb_targets << '\n'
+        << _options.survival_speed << '\n'
         << _options.last_mod << '\n'
         << _options.letters << '\n'
         << _options.capitals << '\n'
@@ -29,10 +30,10 @@ void OptionFile::save() const {
 
 void OptionFile::read() {
   std::ifstream istrm(_filename);
-  istrm >> _options.resolution >> _options.layout >> _options.nb_targets >> _options.countdown >>
-      _options.waiting_time >> _options.survival_difficulty >> _options.last_mod >> _options.letters >>
-      _options.capitals >> _options.numbers >> _options.symbols >> _options.french_extras >>
-      _options.french_extra_caps;
+  istrm >> _options.resolution >> _options.layout >> _options.timer_countdown >> _options.timer_nb_targets >>
+      _options.timer_speed >> _options.survival_nb_targets >> _options.survival_speed >> _options.last_mod >>
+      _options.letters >> _options.capitals >> _options.numbers >> _options.symbols >>
+      _options.french_extras >> _options.french_extra_caps;
 }
 
 // ----------------------------------------------------------------------------------------------------

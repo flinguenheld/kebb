@@ -1,5 +1,6 @@
 #include "window_gameover.h"
 #include "utils.h"
+#include <string>
 
 WindowGameOver::WindowGameOver(kebb::boxsize screen_size, std::shared_ptr<kebb::WindowName> next_window,
                                std::shared_ptr<Renderer> renderer, std::shared_ptr<RecordFile> records,
@@ -92,28 +93,25 @@ WindowGameOver::WindowGameOver(kebb::boxsize screen_size, std::shared_ptr<kebb::
     // Difficulty -------------------------------------------------------------
     std::string difficulty;
     if ((kebb::GameMod)_records->records()[0].mod == kebb::GameMod::M_Survival) {
-      switch (_records->records()[0].difficulty) {
-      case 0:
+
+      if (_records->records()[0].survival_speed + _records->records()[0].survival_nb_targets < 5)
         difficulty += "Very easy";
-        break;
-      case 1:
+      else if (_records->records()[0].survival_speed + _records->records()[0].survival_nb_targets < 10)
         difficulty += "Easy";
-        break;
-      case 2:
+      else if (_records->records()[0].survival_speed + _records->records()[0].survival_nb_targets < 15)
         difficulty += "Normal";
-        break;
-      case 3:
+      else if (_records->records()[0].survival_speed + _records->records()[0].survival_nb_targets < 20)
         difficulty += "Hard";
-        break;
-      case 4:
+      else if (_records->records()[0].survival_speed + _records->records()[0].survival_nb_targets < 25)
         difficulty += "Very hard";
-        break;
-      default:
+      else
         difficulty += "Impossible";
-      }
+
+      difficulty += " (" + std::to_string(_records->records()[0].survival_nb_targets) + "/" +
+                    std::to_string(_records->records()[0].survival_speed) + ")";
     } else {
-      difficulty = std::to_string(_records->records()[0].nb_target) + " targets - speed " +
-                   kebb::speed(_records->records()[0].speed);
+      difficulty = std::to_string(_records->records()[0].timer_nb_target) + " targets - speed " +
+                   std::to_string(_records->records()[0].timer_speed);
     }
 
     char_size = _renderer->font_char_size(FontName::F_Menu);

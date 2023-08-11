@@ -37,10 +37,16 @@ WindowOption::WindowOption(kebb::boxsize screen_size, std::shared_ptr<kebb::Wind
 
   _widget_select_fields.emplace_back(
       std::make_unique<WidgetList>(pt, bs_field, "Resolution:",
-                                   std::vector<SelectionItem>{{"480x480", "480-20"}, // NOTE: Are scales ok ?
+                                   // std::vector<SelectionItem>{{"480x480", "480-25"}, // Logic: ~12 000
+                                   //                            {"640x640", "640-19"},
+                                   //                            {"800x800", "800-15"},
+                                   //                            {"1024x1024", "1024-12"}},
+
+                                   std::vector<SelectionItem>{{"480x480", "480-20"}, // Logic: ~9 600
                                                               {"640x640", "640-15"},
-                                                              {"800x800", "800-10"},
-                                                              {"1024x1024", "1024-5"}},
+                                                              {"800x800", "800-12"},
+                                                              {"1024x1024", "1024-9"}},
+
                                    true));
   _widget_select_fields.back()->set_choice_by_value(_options->get().resolution);
 

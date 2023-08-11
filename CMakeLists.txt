@@ -11,9 +11,13 @@ set(CMAKE_CXX_FLAGS, "${CXX_FLAGS}")
 
 # Options
 option(RELEASE_LINUX "Use the final paths" OFF)
+option(DEBUG "Print dev information" OFF)
 
 if (RELEASE_LINUX)
   add_definitions(-DRELEASE_LINUX)
+endif()
+if (DEBUG)
+  add_definitions(-DDEBUG)
 endif()
 
 # Add SDL2 CMake modules

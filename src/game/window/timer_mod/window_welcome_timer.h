@@ -27,7 +27,7 @@ public:
   virtual void render() const override;
 
 private:
-  std::unique_ptr<WidgetTextBox> _widget_title;
+  std::unique_ptr<WidgetTextBox> _textbox_title;
   std::unique_ptr<WidgetBottomMenu> _widget_menu;
   std::shared_ptr<OptionFile> _options;
 };

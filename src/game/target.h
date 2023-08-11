@@ -21,14 +21,13 @@
  */
 class Target : public WidgetTextBox {
 public:
-  Target(kebb::point center_area, uint16_t radius_area, kebb::boxsize char_size, uint16_t waiting_time,
+  Target(kebb::point center_area, uint16_t radius_area, kebb::boxsize char_size, uint16_t speed,
          std::shared_ptr<Dispatcher> dispatcher, std::shared_ptr<Score> score);
 
   void update();
   void stop();
 
-  void set_waiting_time(uint16_t t); // Only updated by init()
-  uint16_t waiting_time() const;     // Useless ?
+  void set_speed(uint16_t t); // Only updated by init()
 
   bool check_keycode(uint16_t k);
 
