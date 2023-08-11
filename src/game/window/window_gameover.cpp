@@ -1,6 +1,4 @@
 #include "window_gameover.h"
-#include "utils.h"
-#include <string>
 
 WindowGameOver::WindowGameOver(kebb::boxsize screen_size, std::shared_ptr<kebb::WindowName> next_window,
                                std::shared_ptr<Renderer> renderer, std::shared_ptr<RecordFile> records,
@@ -14,8 +12,8 @@ WindowGameOver::WindowGameOver(kebb::boxsize screen_size, std::shared_ptr<kebb::
 
   if (_records->records().empty()) {
 
-    // FIX: Add a message ??
-    std::cout << "records is empty !!!!!!!" << std::endl;
+    // TODO: Add a message (Cannot be empty) ??
+    std::cout << "Record file is empty !" << std::endl;
 
   } else {
 
@@ -68,31 +66,31 @@ WindowGameOver::WindowGameOver(kebb::boxsize screen_size, std::shared_ptr<kebb::
     pt.y += _separation_0.h * 2;
 
     // ------------------------------------------------------------------------
-    // Mod --------------------------------------------------------------------
-    std::string mod;
-    if ((kebb::GameMod)_records->records()[0].mod == kebb::GameMod::M_Survival)
-      mod = "Survival mod";
+    // Mode -------------------------------------------------------------------
+    std::string mode;
+    if ((kebb::GameMode)_records->records()[0].mode == kebb::GameMode::M_Survival)
+      mode = "Survival mode";
     else
-      mod = "Timer mod";
+      mode = "Timer mode";
 
     char_size = _renderer->font_char_size(FontName::F_Menu);
     char_size.set_scale(1.3);
-    bs.w = char_size.w * mod.length();
+    bs.w = char_size.w * mode.length();
     bs.h = char_size.h;
 
     pt.x = screen_size.w / 2 - bs.w / 2;
     pt.y += bs.h * 0.05;
 
-    _textbox_mod = std::make_unique<WidgetTextBox>(pt, bs);
-    _textbox_mod->set_text(std::move(mod));
-    _textbox_mod->set_color_text(kebb::color(kebb::ColorName::C_Text));
+    _textbox_mode = std::make_unique<WidgetTextBox>(pt, bs);
+    _textbox_mode->set_text(std::move(mode));
+    _textbox_mode->set_color_text(kebb::color(kebb::ColorName::C_Text));
 
     pt.y += bs.h;
 
     // ------------------------------------------------------------------------
     // Difficulty -------------------------------------------------------------
     std::string difficulty;
-    if ((kebb::GameMod)_records->records()[0].mod == kebb::GameMod::M_Survival) {
+    if ((kebb::GameMode)_records->records()[0].mode == kebb::GameMode::M_Survival) {
 
       if (_records->records()[0].survival_speed + _records->records()[0].survival_nb_targets < 5)
         difficulty += "Very easy";
@@ -204,7 +202,7 @@ void WindowGameOver::render() const {
   _renderer->clear_screen();
 
   _textbox_title->render(_renderer->renderer(), _renderer->font(FontName::F_Menu));
-  _textbox_mod->render(_renderer->renderer(), _renderer->font(FontName::F_Menu));
+  _textbox_mode->render(_renderer->renderer(), _renderer->font(FontName::F_Menu));
   _textbox_difficulty->render(_renderer->renderer(), _renderer->font(FontName::F_Menu));
 
   _textbox_time->render(_renderer->renderer(), _renderer->font(FontName::F_Menu));
@@ -229,7 +227,7 @@ void WindowGameOver::render() const {
 // CONTROLS -------------------------------------------------------------------------------------------
 void WindowGameOver::control_escape() { *_next_window = kebb::WindowName::W_Welcome; }
 void WindowGameOver::control_enter() {
-  if (_options->get().last_mod == uint16_t(kebb::GameMod::M_Timer))
+  if (_options->get().last_mode == uint16_t(kebb::GameMode::M_Timer))
     *_next_window = kebb::WindowName::W_GameTimer;
   else
     *_next_window = kebb::WindowName::W_GameSurvival;

@@ -19,7 +19,7 @@ void OptionFile::save() const {
         << _options.timer_speed << '\n'
         << _options.survival_nb_targets << '\n'
         << _options.survival_speed << '\n'
-        << _options.last_mod << '\n'
+        << _options.last_mode << '\n'
         << _options.letters << '\n'
         << _options.capitals << '\n'
         << _options.numbers << '\n'
@@ -31,7 +31,7 @@ void OptionFile::save() const {
 void OptionFile::read() {
   std::ifstream istrm(_filename);
   istrm >> _options.resolution >> _options.layout >> _options.timer_countdown >> _options.timer_nb_targets >>
-      _options.timer_speed >> _options.survival_nb_targets >> _options.survival_speed >> _options.last_mod >>
+      _options.timer_speed >> _options.survival_nb_targets >> _options.survival_speed >> _options.last_mode >>
       _options.letters >> _options.capitals >> _options.numbers >> _options.symbols >>
       _options.french_extras >> _options.french_extra_caps;
 }

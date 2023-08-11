@@ -12,7 +12,7 @@ struct Options {
   uint16_t timer_nb_targets = 5;
   uint16_t survival_nb_targets = 5;
   uint16_t survival_speed = 10;
-  uint16_t last_mod = 10;
+  uint16_t last_mode = 10;
   bool letters = true;
   bool capitals = false;
   bool numbers = true;

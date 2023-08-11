@@ -11,6 +11,7 @@
 #include <cstdint>
 #include <iostream>
 #include <memory>
+#include <string>
 #include <vector>
 
 /*
@@ -34,7 +35,7 @@ private:
 
   std::vector<SDL_Vertex> _triangle;
 
-  SDL_Color _color;
+  SDL_Color _gauge_color;
   const uint8_t _gauge_alpha;
 
   kebb::boxsize _char_size;

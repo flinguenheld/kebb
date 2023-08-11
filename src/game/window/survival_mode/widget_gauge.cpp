@@ -1,11 +1,10 @@
 #include "widget_gauge.h"
-#include <cstdint>
-#include <string>
 
 WidgetGauge::WidgetGauge(kebb::boxsize screen_size, std::shared_ptr<Renderer> renderer)
     : _renderer(renderer), _gauge_alpha(100) {
 
-  _color = kebb::color(kebb::ColorName::C_Sky); // NOTE: Possible in the initializer list ?
+  _gauge_color = kebb::color(kebb::ColorName::C_Teal);
+  auto text_color = kebb::color(kebb::ColorName::C_Blue);
 
   // Geometry
   _char_size = _renderer->font_char_size(FontName::F_Game);
@@ -19,7 +18,7 @@ WidgetGauge::WidgetGauge(kebb::boxsize screen_size, std::shared_ptr<Renderer> re
   kebb::point pt_text = {static_cast<uint16_t>(_pt_insertion.x + (5.5 * _char_size.w)), _pt_insertion.y};
 
   _textbox_level = std::make_unique<WidgetTextBox>(pt_text, text_size);
-  _textbox_level->set_color_text(std::move(_color)); // FIX: Move ?
+  _textbox_level->set_color_text(std::move(text_color));
   _textbox_level->set_text("00");
 
   // Gauge --
@@ -32,17 +31,17 @@ WidgetGauge::WidgetGauge(kebb::boxsize screen_size, std::shared_ptr<Renderer> re
   _triangle = {
       {
           SDL_FPoint{static_cast<float>(_pt_insertion.x), y_zero},
-          {_color.r, _color.g, _color.b, _gauge_alpha},
+          {_gauge_color.r, _gauge_color.g, _gauge_color.b, _gauge_alpha},
           SDL_FPoint{0},
       },
       {
           SDL_FPoint{0, y_zero},
-          {_color.r, _color.g, _color.b, _gauge_alpha},
+          {_gauge_color.r, _gauge_color.g, _gauge_color.b, _gauge_alpha},
           SDL_FPoint{0},
       },
       {
           SDL_FPoint{0, 0},
-          {_color.r, _color.g, _color.b, _gauge_alpha},
+          {_gauge_color.r, _gauge_color.g, _gauge_color.b, _gauge_alpha},
           SDL_FPoint{0},
       },
   };

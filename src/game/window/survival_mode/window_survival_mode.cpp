@@ -1,8 +1,8 @@
-#include "window_survival_mod.h"
+#include "window_survival_mode.h"
 #include <iostream>
 
 // clang-format off
-WindowSurvivalMod::WindowSurvivalMod(kebb::boxsize screen_size,
+WindowSurvivalMode::WindowSurvivalMode(kebb::boxsize screen_size,
                        std::shared_ptr<kebb::WindowName> next_window,
                        std::shared_ptr<Renderer> renderer,
                        std::shared_ptr<RecordFile> records,
@@ -41,7 +41,7 @@ WindowSurvivalMod::WindowSurvivalMod(kebb::boxsize screen_size,
 #endif
 
   for (uint16_t i = 0; i < 12; ++i) {
-    next_level += (nb_targets + speed) * 6;
+    next_level += (nb_targets + speed) * 4; // NOTE: Add another option ?
 
     if (i != 0) {
       if (i % 2 == 0)
@@ -73,11 +73,11 @@ WindowSurvivalMod::WindowSurvivalMod(kebb::boxsize screen_size,
   _score->start_timer();
 }
 
-WindowSurvivalMod::~WindowSurvivalMod() {}
+WindowSurvivalMode::~WindowSurvivalMode() {}
 
 // ----------------------------------------------------------------------------------------------------
 // TARGETS --------------------------------------------------------------------------------------------
-void WindowSurvivalMod::add_target(uint16_t waiting_time) {
+void WindowSurvivalMode::add_target(uint16_t waiting_time) {
 
   if (_targets.size() < _nb_max_target) {
 
@@ -90,7 +90,7 @@ void WindowSurvivalMod::add_target(uint16_t waiting_time) {
   }
 }
 
-void WindowSurvivalMod::remove_target() {
+void WindowSurvivalMode::remove_target() {
 
   if (_targets.size() > 0) {
     _targets.back()->stop();
@@ -103,7 +103,7 @@ void WindowSurvivalMod::remove_target() {
 
 // ----------------------------------------------------------------------------------------------------
 // POINTS ---------------------------------------------------------------------------------------------
-void WindowSurvivalMod::up_points() {
+void WindowSurvivalMode::up_points() {
 
   auto miss = _score->miss();
   auto fail = _score->fail();
@@ -127,7 +127,7 @@ void WindowSurvivalMod::up_points() {
 
 // ----------------------------------------------------------------------------------------------------
 // LOGIC ----------------------------------------------------------------------------------------------
-void WindowSurvivalMod::logic() {
+void WindowSurvivalMode::logic() {
 
   if (_score->miss() >= _max_miss) {
     _game_status = kebb::GameStatus::S_Loose;
@@ -181,7 +181,7 @@ void WindowSurvivalMod::logic() {
 
 // ----------------------------------------------------------------------------------------------------
 // RENDER ---------------------------------------------------------------------------------------------
-void WindowSurvivalMod::render() const {
+void WindowSurvivalMode::render() const {
 
   _renderer->clear_screen();
   _widget_score->render();
@@ -191,9 +191,9 @@ void WindowSurvivalMod::render() const {
 
 // ----------------------------------------------------------------------------------------------------
 // RECORDS --------------------------------------------------------------------------------------------
-void WindowSurvivalMod::save_record() const {
+void WindowSurvivalMode::save_record() const {
 
-  _records->add({.mod = uint16_t(kebb::GameMod::M_Survival),
+  _records->add({.mode = uint16_t(kebb::GameMode::M_Survival),
                  .status = uint16_t(_game_status),
                  .success = _score->success(),
                  .fail = _score->fail(),

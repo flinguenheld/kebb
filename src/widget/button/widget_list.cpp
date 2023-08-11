@@ -62,7 +62,7 @@ void WidgetList::set_choice_by_value(const std::string &value) {
   _it = _choices.begin();
 }
 
-void WidgetList::set_choice_by_value(uint16_t value) { // FIX: Rewrite both ?
+void WidgetList::set_choice_by_value(uint16_t value) { // TODO: Rewrite both ?
 
   _it = _choices.begin();
   while (_it != _choices.end()) {

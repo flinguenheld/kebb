@@ -16,14 +16,14 @@ WindowWelcomeTimer::WindowWelcomeTimer(kebb::boxsize screen_size,
   // ------------------------------------------------------------------------
   // Title ------------------------------------------------------------------
   char_size.set_scale(3.5);
-  bs_title.w = char_size.w * 9;
+  bs_title.w = char_size.w * 10;
   bs_title.h = char_size.h;
 
   pt.x = screen_size.w / 2 - bs_title.w / 2;
   pt.y = bs_title.h * 0.5;
 
   _textbox_title = std::make_unique<WidgetTextBox>(pt, bs_title);
-  _textbox_title->set_text("Timer mod");
+  _textbox_title->set_text("Timer mode");
   _textbox_title->set_color_text(kebb::color(kebb::ColorName::C_Peach));
 
   // ------------------------------------------------------------------------
@@ -86,7 +86,7 @@ void WindowWelcomeTimer::control_enter() {
   _options->set().timer_countdown = _widget_select_fields[0]->get_choice().value_uint;
   _options->set().timer_nb_targets = _widget_select_fields[1]->get_choice().value_uint;
   _options->set().timer_speed = _widget_select_fields[2]->get_choice().value_uint;
-  _options->set().last_mod = uint16_t(kebb::GameMod::M_Timer);
+  _options->set().last_mode = uint16_t(kebb::GameMode::M_Timer);
 
   *_next_window = kebb::WindowName::W_GameTimer;
 }

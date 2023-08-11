@@ -33,7 +33,7 @@ void RecordFile::read() {
   while (true) {
     Record new_record;
     file.read((char *)&new_record, sizeof(Record));
-    if (new_record.mod != 999)
+    if (new_record.mode != 999)
       _records.emplace_back(new_record);
     else
       break;

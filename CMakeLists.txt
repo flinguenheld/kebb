@@ -39,11 +39,11 @@ add_executable(${PROJECT_NAME} src/main.cpp
                                src/game/window/window_game.cpp
                                src/game/window/window_gameover.cpp
                                src/game/window/widget_score.cpp
-                               src/game/window/survival_mod/widget_gauge.cpp
-                               src/game/window/survival_mod/window_survival_mod.cpp
-                               src/game/window/survival_mod/window_welcome_survival.cpp
-                               src/game/window/timer_mod/window_timer_mod.cpp
-                               src/game/window/timer_mod/window_welcome_timer.cpp
+                               src/game/window/survival_mode/widget_gauge.cpp
+                               src/game/window/survival_mode/window_survival_mode.cpp
+                               src/game/window/survival_mode/window_welcome_survival.cpp
+                               src/game/window/timer_mode/window_timer_mode.cpp
+                               src/game/window/timer_mode/window_welcome_timer.cpp
                                src/option/window_option.cpp
                                src/record/window_record.cpp
                                src/welcome/widget_logo.cpp

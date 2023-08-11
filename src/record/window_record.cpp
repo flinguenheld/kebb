@@ -60,8 +60,8 @@ WindowRecord::WindowRecord(kebb::boxsize screen_size, std::shared_ptr<kebb::Wind
     text += buffer;
     text += " ";
 
-    // Text - mod & difficulty
-    if ((kebb::GameMod)e.mod == kebb::GameMod::M_Survival) {
+    // Text - mode & difficulty
+    if ((kebb::GameMode)e.mode == kebb::GameMode::M_Survival) {
       text += "Survival: " + std::to_string(e.survival_nb_targets) + "/" + std::to_string(e.survival_speed);
       text += " lvl " + std::to_string(e.survival_level);
 
@@ -100,7 +100,7 @@ WindowRecord::WindowRecord(kebb::boxsize screen_size, std::shared_ptr<kebb::Wind
     _entries.emplace_back(std::make_unique<WidgetTextBox>(pt, bs));
     _entries.back()->set_text(std::move(text));
 
-    if ((kebb::GameMod)e.mod == kebb::GameMod::M_Survival)
+    if ((kebb::GameMode)e.mode == kebb::GameMode::M_Survival)
       _entries.back()->set_color_text(kebb::color(kebb::ColorName::C_Text));
     else
       _entries.back()->set_color_text(kebb::color(kebb::ColorName::C_Sky));

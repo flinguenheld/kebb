@@ -41,12 +41,12 @@ void Loop::run(Controller &controller) {
             std::make_shared<WindowGameOver>(_screen_size, next_window_name, _renderer, _records, _options);
         break;
       case kebb::WindowName::W_GameSurvival:
-        _current_window = std::make_shared<WindowSurvivalMod>(_screen_size, next_window_name, _renderer,
-                                                              _records, _options);
+        _current_window = std::make_shared<WindowSurvivalMode>(_screen_size, next_window_name, _renderer,
+                                                               _records, _options);
         break;
       case kebb::WindowName::W_GameTimer:
         _current_window =
-            std::make_shared<WindowTimerMod>(_screen_size, next_window_name, _renderer, _records, _options);
+            std::make_shared<WindowTimerMode>(_screen_size, next_window_name, _renderer, _records, _options);
         break;
       case kebb::WindowName::W_Option:
         _current_window = std::make_shared<WindowOption>(_screen_size, next_window_name, _renderer, _options);
@@ -84,6 +84,6 @@ void Loop::run(Controller &controller) {
       title_timestamp = frame_end;
     }
 
-    SDL_Delay(4); // NOTE: Is 4 ok ?
+    SDL_Delay(5); // NOTE: Is 5 ok ?
   }
 }

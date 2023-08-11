@@ -9,7 +9,7 @@
 #include <vector>
 
 struct Record {
-  uint16_t mod = 999;
+  uint16_t mode = 999;
   uint16_t status;
   uint16_t success;
   uint16_t fail;

@@ -6,12 +6,12 @@ Go to options to select the amount of letters, the speed and try to press all of
 It currently works with QWERTY, AZERTY and BÉPO layouts.
 
 <div align="center">
-   <img src="./image/example_slow_1.gif" width="250" />
-   <img src="./image/example_slow_2.gif" width="250" />
+   <img src="./image/example_timer_1.gif" width="250" />
+   <img src="./image/example_timer_2.gif" width="250" />
 </div>
 <div align="center">
-   <img src="./image/example_fast_1.gif" width="250" />
-   <img src="./image/example_fast_2.gif" width="250" />
+   <img src="./image/example_survival_1.gif" width="250" />
+   <img src="./image/example_survival_2.gif" width="250" />
 </div>
 
 ---

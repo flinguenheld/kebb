@@ -17,15 +17,15 @@ WindowWelcomeSurvival::WindowWelcomeSurvival(kebb::boxsize screen_size,
 
   // ------------------------------------------------------------------------
   // Title ------------------------------------------------------------------
-  char_size.set_scale(3.2);
-  bs_title.w = char_size.w * 12;
+  char_size.set_scale(3.1);
+  bs_title.w = char_size.w * 13;
   bs_title.h = char_size.h;
 
   pt.x = screen_size.w / 2 - bs_title.w / 2;
   pt.y = bs_title.h * 0.5;
 
   _textbox_title = std::make_unique<WidgetTextBox>(pt, bs_title);
-  _textbox_title->set_text("Survival mod");
+  _textbox_title->set_text("Survival mode");
   _textbox_title->set_color_text(kebb::color(kebb::ColorName::C_Peach));
 
   // ------------------------------------------------------------------------
@@ -98,7 +98,7 @@ void WindowWelcomeSurvival::control_enter() {
   // Up options, save and launch the game !
   _options->set().survival_nb_targets = _widget_select_fields[0]->get_choice().value_uint;
   _options->set().survival_speed = _widget_select_fields[1]->get_choice().value_uint;
-  _options->set().last_mod = uint16_t(kebb::GameMod::M_Survival);
+  _options->set().last_mode = uint16_t(kebb::GameMode::M_Survival);
 
   *_next_window = kebb::WindowName::W_GameSurvival;
 }

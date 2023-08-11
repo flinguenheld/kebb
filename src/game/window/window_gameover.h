@@ -30,7 +30,7 @@ private:
   std::shared_ptr<OptionFile> _options;
 
   std::unique_ptr<WidgetTextBox> _textbox_title;
-  std::unique_ptr<WidgetTextBox> _textbox_mod;
+  std::unique_ptr<WidgetTextBox> _textbox_mode;
   std::unique_ptr<WidgetTextBox> _textbox_difficulty;
 
   std::unique_ptr<WidgetTextBox> _textbox_time;

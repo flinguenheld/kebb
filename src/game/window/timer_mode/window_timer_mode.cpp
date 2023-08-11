@@ -1,7 +1,7 @@
-#include "window_timer_mod.h"
+#include "window_timer_mode.h"
 
 // clang-format off
-WindowTimerMod::WindowTimerMod(kebb::boxsize screen_size,
+WindowTimerMode::WindowTimerMode(kebb::boxsize screen_size,
                        std::shared_ptr<kebb::WindowName> next_window,
                        std::shared_ptr<Renderer> renderer,
                        std::shared_ptr<RecordFile> records,
@@ -29,11 +29,11 @@ WindowTimerMod::WindowTimerMod(kebb::boxsize screen_size,
   _score->start_timer();
 }
 
-WindowTimerMod::~WindowTimerMod() {}
+WindowTimerMode::~WindowTimerMode() {}
 
 // ----------------------------------------------------------------------------------------------------
 // LOGIC ----------------------------------------------------------------------------------------------
-void WindowTimerMod::logic() {
+void WindowTimerMode::logic() {
 
   int16_t time_seconds = _countdown_value - _score->seconds_spent();
   if (time_seconds <= 0) {
@@ -45,7 +45,7 @@ void WindowTimerMod::logic() {
 }
 // ----------------------------------------------------------------------------------------------------
 // RENDER ---------------------------------------------------------------------------------------------
-void WindowTimerMod::render() const {
+void WindowTimerMode::render() const {
 
   _renderer->clear_screen();
   _widget_score->render();
@@ -54,9 +54,9 @@ void WindowTimerMod::render() const {
 
 // ----------------------------------------------------------------------------------------------------
 // RECORDS --------------------------------------------------------------------------------------------
-void WindowTimerMod::save_record() const {
+void WindowTimerMode::save_record() const {
 
-  _records->add({.mod = uint16_t(kebb::GameMod::M_Timer),
+  _records->add({.mode = uint16_t(kebb::GameMode::M_Timer),
                  .status = uint16_t(_game_status),
                  .success = _score->success(),
                  .fail = _score->fail(),
