@@ -12,20 +12,21 @@
 
 enum class FontName {
   F_Target,
-  F_Score,
+  F_Game,
   F_Menu,
 };
 
 class Renderer {
 public:
   Renderer(kebb::boxsize screen_size, uint16_t scale_factor, uint16_t font_size_target,
-           uint16_t font_size_score, uint16_t font_size_menu);
+           uint16_t font_size_game, uint16_t font_size_menu);
   ~Renderer();
+
+  bool init_ok() const;
+  SDL_Renderer *renderer();
 
   void update_window_title(uint16_t fps);
   void clear_screen();
-
-  SDL_Renderer *renderer();
 
   TTF_Font *font(FontName fn);
   kebb::boxsize font_char_size(FontName fn) const;
@@ -35,16 +36,18 @@ private:
   SDL_Renderer *_renderer;
 
   TTF_Font *_font_target;
-  TTF_Font *_font_score;
+  TTF_Font *_font_game;
   TTF_Font *_font_menu;
 
   kebb::boxsize _char_size_target;
-  kebb::boxsize _char_size_score;
+  kebb::boxsize _char_size_game;
   kebb::boxsize _char_size_menu;
 
   const kebb::boxsize _screen_size;
   const uint16_t _scale_factor;
   SDL_Color _color_background;
+
+  bool _init_ok;
 };
 
 #endif

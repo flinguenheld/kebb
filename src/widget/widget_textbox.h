@@ -13,6 +13,7 @@ public:
   // NOTE: Keep move ?
   void set_text(std::string &&txt);
   void set_color_text(SDL_Color &&color);
+  std::string get_text() const;
 
 protected:
   std::string _text;

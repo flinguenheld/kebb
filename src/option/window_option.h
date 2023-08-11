@@ -1,13 +1,13 @@
 #ifndef WINDOW_OPTION_H
 #define WINDOW_OPTION_H
 
-#include "option/option_file.h"
+#include "file/option_file.h"
 #include "utils.h"
 #include "widget/button/widget_boolean.h"
 #include "widget/button/widget_list.h"
 #include "widget/button/widget_selection.h"
-#include "widget/widget_menu.h"
-#include "widget/widget_window.h"
+#include "widget/window/widget_bottom_menu.h"
+#include "widget/window/widget_window.h"
 #include <algorithm>
 #include <chrono>
 #include <thread>
@@ -24,12 +24,12 @@ public:
   virtual void control_left() override;
   virtual void control_right() override;
 
-  virtual void render() override;
+  virtual void render() const override;
 
 private:
   std::unique_ptr<WidgetTextBox> _widget_title;
   std::unique_ptr<WidgetTextBox> _widget_message;
-  std::unique_ptr<WidgetMenu> _widget_menu;
+  std::unique_ptr<WidgetBottomMenu> _widget_menu;
   std::shared_ptr<OptionFile> _options;
 
   // Help message

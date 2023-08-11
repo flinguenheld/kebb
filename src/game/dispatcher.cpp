@@ -2,34 +2,34 @@
 
 Dispatcher::Dispatcher(std::shared_ptr<OptionFile> options) : _engine(_seed()), _number_of_chars(0) {
 
-  if (std::stoi(options->get(OptionName::Letters))) {
+  if (options->get().letters) {
     for (uint16_t i = 10; i < 36; ++i) {
       _keycodes.emplace_back(i);
       ++_number_of_chars;
     }
   }
-  if (std::stoi(options->get(OptionName::Capitals))) {
+  if (options->get().capitals) {
     for (uint16_t i = 100; i < 126; ++i) {
       _keycodes.emplace_back(i);
       ++_number_of_chars;
     }
   }
-  if (std::stoi(options->get(OptionName::Numbers))) {
+  if (options->get().numbers) {
     for (uint16_t i = 500; i < 510; ++i) {
       _keycodes.emplace_back(i);
       ++_number_of_chars;
     }
   }
-  if (std::stoi(options->get(OptionName::Symbols))) {
+  if (options->get().symbols) {
     for (uint16_t i = 1000; i < 1032; ++i) {
       _keycodes.emplace_back(i);
       ++_number_of_chars;
     }
   }
-  if (std::stoi(options->get(OptionName::FrenchExtras))) {
+  if (options->get().french_extras) {
 
     uint16_t max = 2016;
-    if (options->get(OptionName::Layout) == "FR") // Avoid æ œ // NOTE: With other layouts ?
+    if (options->get().layout == "FR") // Avoid æ œ // NOTE: With other layouts ?
       max = 2114;
 
     for (uint16_t i = 2000; i < 2014; ++i) {
@@ -38,10 +38,10 @@ Dispatcher::Dispatcher(std::shared_ptr<OptionFile> options) : _engine(_seed()), 
     }
   }
 
-  if (std::stoi(options->get(OptionName::FrenchExtraCaps))) {
+  if (options->get().french_extra_caps) {
 
     uint16_t max = 2115;
-    if (options->get(OptionName::Layout) == "FR") // Avoid æ œ
+    if (options->get().layout == "FR") // Avoid æ œ
       max = 2113;
 
     for (uint16_t i = 2100; i < max; ++i) {
@@ -50,7 +50,7 @@ Dispatcher::Dispatcher(std::shared_ptr<OptionFile> options) : _engine(_seed()), 
     }
   }
 
-  for (uint16_t i = 0; i < 360; i += 5)
+  for (uint16_t i = 0; i < 360; i += 10) // NOTE: 36 threads maxi !
     _angles.emplace_back(i);
 }
 

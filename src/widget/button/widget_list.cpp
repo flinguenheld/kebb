@@ -9,13 +9,13 @@ WidgetList::WidgetList(kebb::point pos_center, kebb::boxsize size_char, std::str
 }
 
 WidgetList::WidgetList(kebb::point pos_center, kebb::boxsize size_char, std::string &&text,
-                       int16_t range_start, int16_t range_stop, int16_t step, bool selected)
+                       uint16_t range_start, uint16_t range_stop, uint16_t step, bool selected)
 
     : WidgetSelection(pos_center, size_char, std::move(text), selected), _size_char(size_char),
       _longest_choice_width(0), _space(0) {
 
   for (; range_start <= range_stop; range_start += step)
-    _choices.emplace_back(SelectionItem{std::to_string(range_start), std::to_string(range_start)});
+    _choices.emplace_back(SelectionItem{.text = std::to_string(range_start), .value_uint = range_start});
 
   _it = _choices.begin();
 
@@ -52,7 +52,22 @@ void WidgetList::set_choice_by_value(const std::string &value) {
   _it = _choices.begin();
   while (_it != _choices.end()) {
 
-    if ((*_it).value == value) {
+    if ((*_it).value_string == value) {
+      display_current_it();
+      return;
+    }
+    ++_it;
+  }
+
+  _it = _choices.begin();
+}
+
+void WidgetList::set_choice_by_value(uint16_t value) { // TODO: Rewrite both ?
+
+  _it = _choices.begin();
+  while (_it != _choices.end()) {
+
+    if ((*_it).value_uint == value) {
       display_current_it();
       return;
     }

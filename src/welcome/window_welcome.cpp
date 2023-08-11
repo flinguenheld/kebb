@@ -1,13 +1,13 @@
 #include "window_welcome.h"
 
 WindowWelcome::WindowWelcome(kebb::boxsize screen_size, std::shared_ptr<kebb::WindowName> next_window,
-                             std::shared_ptr<Renderer> renderer)
-    : WidgetWindowSelection(next_window, renderer) {
+                             std::shared_ptr<Renderer> renderer, std::shared_ptr<OptionFile> options)
+    : WidgetWindowSelection(next_window, renderer), _options(options) {
 
-  _widget_menu = std::make_unique<WidgetMenu>(screen_size, renderer, "<ESC> Quit      <ENTER> Valid");
+  _widget_menu = std::make_unique<WidgetBottomMenu>(screen_size, renderer, "<ESC> Quit      <ENTER> Valid");
 
   // Geometry
-  kebb::boxsize char_size = _renderer->font_char_size(FontName::F_Menu); // NOTE: Use font menu ?
+  kebb::boxsize char_size = _renderer->font_char_size(FontName::F_Menu);
   kebb::boxsize bs_title;
   kebb::point pt;
 
@@ -36,13 +36,24 @@ WindowWelcome::WindowWelcome(kebb::boxsize screen_size, std::shared_ptr<kebb::Wi
 
   // ------------------------------------------------------------------------
   // Selection fields -------------------------------------------------------
-  kebb::boxsize bs_field = renderer->font_char_size(FontName::F_Menu).scale(1.7);
+  kebb::boxsize bs_field = renderer->font_char_size(FontName::F_Menu).scale(1.5);
   pt.x = screen_size.w / 2;
   pt.y += bs_logo.h * 1.7;
 
-  _widget_select_fields.emplace_back(std::make_unique<WidgetSelection>(pt, bs_field, "Play", true));
+  // Set the current selection based on the last game
+  bool first_sel = _options->get().last_mode == uint16_t(kebb::GameMode::M_Survival);
+
+  _widget_select_fields.emplace_back(
+      std::make_unique<WidgetSelection>(pt, bs_field, "Survival mode", first_sel));
   pt.y += bs_field.h * 1.1;
+  _widget_select_fields.emplace_back(
+      std::make_unique<WidgetSelection>(pt, bs_field, "Timer mode", !first_sel));
+  pt.y += bs_field.h * 1.3;
+
+  bs_field = renderer->font_char_size(FontName::F_Menu).scale(1.2);
   _widget_select_fields.emplace_back(std::make_unique<WidgetSelection>(pt, bs_field, "Options"));
+  pt.y += bs_field.h * 1.1;
+  _widget_select_fields.emplace_back(std::make_unique<WidgetSelection>(pt, bs_field, "Records"));
   pt.y += bs_field.h * 1.1;
   _widget_select_fields.emplace_back(std::make_unique<WidgetSelection>(pt, bs_field, "About"));
 }
@@ -52,7 +63,7 @@ WindowWelcome::~WindowWelcome() {
   _thread.join();
 }
 
-void WindowWelcome::render() {
+void WindowWelcome::render() const {
 
   _renderer->clear_screen();
   _widget_title->render(_renderer->renderer(), _renderer->font(FontName::F_Menu));
@@ -73,9 +84,13 @@ void WindowWelcome::control_escape() { *_next_window = kebb::WindowName::W_Quit;
 void WindowWelcome::control_enter() {
 
   if (_widget_select_fields[0]->is_selected())
-    *_next_window = kebb::WindowName::W_Game;
+    *_next_window = kebb::WindowName::W_WelcomeSurvival;
   else if (_widget_select_fields[1]->is_selected())
-    *_next_window = kebb::WindowName::W_Option;
+    *_next_window = kebb::WindowName::W_WelcomeTimer;
   else if (_widget_select_fields[2]->is_selected())
+    *_next_window = kebb::WindowName::W_Option;
+  else if (_widget_select_fields[3]->is_selected())
+    *_next_window = kebb::WindowName::W_Record;
+  else if (_widget_select_fields[4]->is_selected())
     *_next_window = kebb::WindowName::W_About;
 }

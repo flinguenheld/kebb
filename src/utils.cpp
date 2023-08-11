@@ -1,5 +1,12 @@
 #include "utils.h"
 
+std::string kebb::adapt_string_length(std::string &&text, uint8_t text_length, char c) {
+  while (text.length() < text_length)
+    text.insert(0, 1, c);
+
+  return std::move(text); // NOTE: Is move here farfetch ?
+}
+
 // clang-format off
 std::string kebb::keycode_to_string(uint16_t val) {
 

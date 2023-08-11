@@ -7,35 +7,31 @@
 #include "SDL_ttf.h"
 #include "about/window_about.h"
 #include "controller.h"
-#include "game/dispatcher.h"
-#include "game/target.h"
-#include "game/window_game.h"
-#include "option/option_file.h"
+#include "file/option_file.h"
+#include "file/record_file.h"
+#include "game/window/survival_mode/window_survival_mode.h"
+#include "game/window/survival_mode/window_welcome_survival.h"
+#include "game/window/timer_mode/window_timer_mode.h"
+#include "game/window/timer_mode/window_welcome_timer.h"
+#include "game/window/window_gameover.h"
 #include "option/window_option.h"
-#include "pause/window_pause.h"
+#include "record/window_record.h"
 #include "renderer.h"
-#include "score/score.h"
 #include "welcome/window_welcome.h"
-#include "widget/widget_base.h"
-#include "widget/widget_window.h"
-#include <memory>
 
 class Loop {
 public:
-  Loop(kebb::boxsize screen_size, std::shared_ptr<Score> score, std::shared_ptr<Renderer> renderer,
-       std::shared_ptr<OptionFile> options);
+  Loop(kebb::boxsize screen_size, std::shared_ptr<Renderer> renderer, std::shared_ptr<OptionFile> options);
 
   void run(Controller &controller);
 
 private:
   std::shared_ptr<WidgetWindow> _current_window; // Shared with the controller
 
-  std::vector<Target> _targets;
-  std::shared_ptr<Dispatcher> _dispatcher;
-  std::shared_ptr<Score> _score;
-  std::shared_ptr<Renderer> _renderer;
+  std::shared_ptr<RecordFile> _records; // Created here to avoid repetitive read/write actions
   std::shared_ptr<OptionFile> _options;
 
+  std::shared_ptr<Renderer> _renderer;
   const kebb::boxsize _screen_size;
 };
 

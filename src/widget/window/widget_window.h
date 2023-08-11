@@ -27,7 +27,8 @@ public:
   virtual void control_others(uint16_t keycode){};
 
   virtual void controller(){};
-  virtual void render(){};
+  virtual void logic(){};
+  virtual void render() const {};
 
 protected:
   std::shared_ptr<kebb::WindowName> _next_window;
@@ -47,6 +48,8 @@ public:
 
   virtual void control_up() override;
   virtual void control_down() override;
+  virtual void control_left() override;
+  virtual void control_right() override;
 
 protected:
   std::vector<std::unique_ptr<WidgetSelection>> _widget_select_fields;

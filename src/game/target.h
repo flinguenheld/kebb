@@ -3,7 +3,7 @@
 
 #include "SDL.h"
 #include "dispatcher.h"
-#include "score/score.h"
+#include "game/score.h"
 #include "utils.h"
 #include "widget/widget_base.h"
 #include "widget/widget_textbox.h"
@@ -21,11 +21,13 @@
  */
 class Target : public WidgetTextBox {
 public:
-  Target(kebb::point center_area, uint16_t radius_area, kebb::boxsize char_size, uint16_t waiting_time,
+  Target(kebb::point center_area, uint16_t radius_area, kebb::boxsize char_size, uint16_t speed,
          std::shared_ptr<Dispatcher> dispatcher, std::shared_ptr<Score> score);
 
   void update();
   void stop();
+
+  void set_speed(uint16_t t); // Only updated by init()
 
   bool check_keycode(uint16_t k);
 
@@ -40,7 +42,9 @@ private:
   uint16_t _keycode;
   uint16_t _angle;
 
-  const uint16_t _waiting_time;
+  uint16_t _waiting_time;
+  uint16_t _new_waiting_time;
+
   const kebb::point _center_area;
   const uint16_t _radius_area;
 

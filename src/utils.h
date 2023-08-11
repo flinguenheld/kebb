@@ -34,6 +34,28 @@ namespace kebb {
     };
   };
 
+  /*
+   * Allow to make a string longer with the char 'c'.
+   * Useful to align text.
+   */
+  std::string adapt_string_length(std::string &&text, uint8_t text_length, char c = ' ');
+
+  // ----------------------------------------------------------------------------------------------------
+  // GAME MODES -----------------------------------------------------------------------------------------
+  enum class GameMode {
+    M_Survival = 10,
+    M_Timer = 11,
+  };
+
+  // ----------------------------------------------------------------------------------------------------
+  // GAME STATUS ----------------------------------------------------------------------------------------
+  enum class GameStatus {
+    S_Win = 10,
+    S_Loose = 11,
+    S_TimeUp = 12,
+    S_Quit = 13,
+  };
+
   // ----------------------------------------------------------------------------------------------------
   // WINDOWNAME (used to navigate) ----------------------------------------------------------------------
   enum class WindowName {
@@ -41,10 +63,14 @@ namespace kebb {
     W_Quit,
 
     W_About,
-    W_Game,
+    W_GameOver,
+    W_GameSurvival,
+    W_GameTimer,
     W_Option,
-    W_Pause,
+    W_Record,
     W_Welcome,
+    W_WelcomeTimer,
+    W_WelcomeSurvival,
   };
 
   // ----------------------------------------------------------------------------------------------------

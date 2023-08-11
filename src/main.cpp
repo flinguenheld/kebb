@@ -1,6 +1,6 @@
 #include "controller.h"
+#include "file/option_file.h"
 #include "loop.h"
-#include "option/option_file.h"
 #include "renderer.h"
 #include "utils.h"
 #include "widget/widget_base.h"
@@ -11,10 +11,9 @@
 
 int main() {
   auto options = std::make_shared<OptionFile>();
-  options->read();
 
   // Resolution & scale --
-  auto resolution_option = options->get(OptionName::Resolution);
+  auto resolution_option = options->get().resolution;
   auto hyphen_position = resolution_option.find('-');
   uint16_t res = std::stoi(resolution_option.substr(0, hyphen_position));
 
@@ -28,12 +27,13 @@ int main() {
 
   auto renderer = std::make_shared<Renderer>(screen_size, scale_factor, target_font_size, score_font_size,
                                              menu_font_size);
-  auto score = std::make_shared<Score>();
 
-  Controller controller(options);
-  Loop game(screen_size.scale(scale_factor), score, renderer, options);
-  game.run(controller);
+  if (renderer->init_ok()) {
 
-  // std::cout << "Kebb has terminated successfully!\n";
+    Controller controller(options);
+    Loop game(screen_size.scale(scale_factor), renderer, options);
+    game.run(controller);
+  }
+
   return 0;
 }
