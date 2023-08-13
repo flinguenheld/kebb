@@ -1,4 +1,5 @@
 #include "controller.h"
+#include "file/layout_file.h"
 #include "file/option_file.h"
 #include "loop.h"
 #include "renderer.h"
@@ -11,6 +12,8 @@
 
 int main() {
   auto options = std::make_shared<OptionFile>();
+  auto layouts = std::make_shared<LayoutFile>();
+  layouts->set_layout(options->get().layout);
 
   // Resolution & scale --
   auto resolution_option = options->get().resolution;
@@ -30,9 +33,9 @@ int main() {
 
   if (renderer->init_ok()) {
 
-    Controller controller(options);
-    Loop game(screen_size.scale(scale_factor), renderer, options);
-    game.run(controller);
+    Controller controller(layouts);
+    Loop loop(screen_size.scale(scale_factor), renderer, options, layouts);
+    loop.run(controller);
   }
 
   return 0;

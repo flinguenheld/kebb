@@ -6,9 +6,9 @@
 #include "SDL_keyboard.h"
 #include "SDL_keycode.h"
 #include "SDL_stdinc.h"
+#include "file/layout_file.h"
 #include "file/option_file.h"
 #include "game/target.h"
-#include "languages/language.h"
 #include "widget/window/widget_window.h"
 #include <SDL_keycode.h>
 #include <cstdint>
@@ -18,8 +18,10 @@
 
 class Controller {
 public:
-  Controller(std::shared_ptr<OptionFile> options);
+  Controller(std::shared_ptr<LayoutFile> layouts);
   void handle_input(bool &running, std::shared_ptr<WidgetWindow> window);
+
+  void set_language();
 
 private:
   uint16_t convert_us(SDL_Event &e);
@@ -35,9 +37,7 @@ private:
   uint16_t _dead_key;
   bool _dead_key_deactivation;
 
-  std::shared_ptr<OptionFile> _options;
-
-  std::vector<Key> _keys;
+  std::shared_ptr<LayoutFile> _layouts;
 };
 
 #endif

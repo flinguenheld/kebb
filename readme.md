@@ -30,7 +30,6 @@ Pre-built package for Debian is available on the [Releases](https://github.com/f
   - [CMake install](https://cmake.org/install/)
 - **g++:**
   - Mac: [install Xcode command line tools to get make](https://developer.apple.com/xcode/features/)
-  - Windows: [Click here for installation instructions](https://gnuwin32.sourceforge.net/packages/make.htm)
 - **SDL (>= 2.0.12):**
   - All OSes: [SDL install](https://wiki.libsdl.org/SDL2/Installation)
 - **SDL TTF (>= 2.0.15):**

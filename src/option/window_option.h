@@ -1,6 +1,7 @@
 #ifndef WINDOW_OPTION_H
 #define WINDOW_OPTION_H
 
+#include "file/layout_file.h"
 #include "file/option_file.h"
 #include "utils.h"
 #include "widget/button/widget_boolean.h"
@@ -16,7 +17,8 @@
 class WindowOption : public WidgetWindowSelection {
 public:
   WindowOption(kebb::boxsize screen_size, std::shared_ptr<kebb::WindowName> next_window,
-               std::shared_ptr<Renderer> renderer, std::shared_ptr<OptionFile> options);
+               std::shared_ptr<Renderer> renderer, std::shared_ptr<OptionFile> options,
+               std::shared_ptr<LayoutFile> layouts);
   virtual ~WindowOption() override;
 
   virtual void control_escape() override;
@@ -30,7 +32,9 @@ private:
   std::unique_ptr<WidgetTextBox> _widget_title;
   std::unique_ptr<WidgetTextBox> _widget_message;
   std::unique_ptr<WidgetBottomMenu> _widget_menu;
+
   std::shared_ptr<OptionFile> _options;
+  std::shared_ptr<LayoutFile> _layouts;
 
   // Help message
   void display_message(std::string &&message);

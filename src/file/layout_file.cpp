@@ -1,0 +1,97 @@
+#include "layout_file.h"
+
+// TODO: Windows path ?
+LayoutFile::LayoutFile() : delimiter(',') {
+
+#ifdef RELEASE_LINUX
+  _path = "/usr/share/kebb/layout";
+#else
+  _path = "./layout";
+#endif
+}
+
+// ----------------------------------------------------------------------------------------------------
+// LIST LAYOUT FOLDER ---------------------------------------------------------------------------------
+std::vector<std::string> LayoutFile::list_layouts() const {
+
+  const std::filesystem::path folder{_path};
+  std::vector<std::string> file_names;
+
+  for (auto const &dir_entry : std::filesystem::directory_iterator{folder})
+    file_names.emplace_back(dir_entry.path().filename());
+
+  return file_names;
+}
+
+// ----------------------------------------------------------------------------------------------------
+// READ LAYOUT FILE -----------------------------------------------------------------------------------
+void LayoutFile::set_layout(const std::string &file_name) {
+
+  auto file = std::ifstream(_path + "/" + file_name, std::ios::in);
+
+  if (!file.is_open()) {
+    std::cout << "Error: Layout file '" << file_name << "' doesn't exist!" << std::endl;
+
+  } else {
+
+    std::string line;
+    while (getline(file, line)) {
+
+      if (line.length() != 0) {
+        if (line[0] != '/' && line[1] != '/') {
+
+          Key new_key;
+
+          size_t pos = 0;
+          uint16_t field_index = 0;
+          std::string field;
+
+          while ((pos = line.find(delimiter)) != std::string::npos) {
+
+            field = line.substr(0, pos);
+
+            switch (field_index) {
+            case 0:
+              // Letter
+              break;
+            case 1:
+              new_key.kebb = std::stoi(field);
+              break;
+            case 2:
+              new_key.sym = std::stoi(field);
+              break;
+            case 3:
+              new_key.shift = std::stoi(field);
+              break;
+            case 4:
+              new_key.alt = std::stoi(field);
+              break;
+            case 5:
+              new_key.altgr = std::stoi(field);
+              break;
+            case 6:
+              new_key.dead = std::stoi(field);
+              break;
+            case 7:
+              new_key.is_dead = std::stoi(field);
+              break;
+            }
+
+            line.erase(0, pos + 1);
+            ++field_index;
+          }
+
+          _keys.emplace_back(new_key);
+        }
+      }
+    }
+  }
+
+  // for (auto &k : keys) {
+  //   std::cout << "key: " << k.kebb << " " << k.sym << " " << k.shift << std::endl;
+  // }
+}
+
+// ----------------------------------------------------------------------------------------------------
+// ACCESSORS ------------------------------------------------------------------------------------------
+const std::vector<Key> &LayoutFile::keys() const { return _keys; }

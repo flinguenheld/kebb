@@ -6,7 +6,7 @@
 
 struct Options {
   std::string resolution = "480-20";
-  std::string layout = "US";
+  std::string layout = "qwerty";
   uint16_t timer_countdown = 30;
   uint16_t timer_speed = 6;
   uint16_t timer_nb_targets = 5;

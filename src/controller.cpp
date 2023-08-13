@@ -1,17 +1,9 @@
 #include "controller.h"
-#include "languages/language.h"
-#include <SDL_keycode.h>
-#include <SDL_video.h>
+#include "file/layout_file.h"
 
-Controller::Controller(std::shared_ptr<OptionFile> options)
-    : _options(options), _dead_key(0), _dead_key_deactivation(false), _circumflex(false), _grave(false),
-      _diaeresis(false), _mask_mod(0x3FF) {
-
-  // FIX: TEMPORARY PLACE !!!!
-  Language test_language("test_qwerty.kebb");
-  // std::vector<Key> keys;
-  test_language.read_file(_keys);
-}
+Controller::Controller(std::shared_ptr<LayoutFile> layouts)
+    : _layouts(layouts), _dead_key(0), _dead_key_deactivation(false), _circumflex(false), _grave(false),
+      _diaeresis(false), _mask_mod(0x3FF) {} // FIX: Clean
 
 void Controller::handle_input(bool &running, std::shared_ptr<WidgetWindow> window) {
 
@@ -65,16 +57,13 @@ void Controller::handle_input(bool &running, std::shared_ptr<WidgetWindow> windo
 
         const bool shift = (e.key.keysym.mod & KMOD_LSHIFT) == KMOD_LSHIFT ||
                            (e.key.keysym.mod & KMOD_RSHIFT) == KMOD_RSHIFT;
-
         const bool alt = (e.key.keysym.mod & KMOD_LALT) == KMOD_LALT;
         const bool ralt = (e.key.keysym.mod & KMOD_RALT) == KMOD_RALT;
 
-        for (const auto &k : _keys) {
+        for (const auto &k : _layouts->keys()) {
 
           if (k.shift == shift && k.alt == alt && k.altgr == ralt) {
             if (e.key.keysym.sym == k.sym) {
-
-              // FIX: HOW to deactivate the dead key ??d??
 
               if (k.is_dead) {
                 _dead_key = k.kebb;
@@ -89,13 +78,13 @@ void Controller::handle_input(bool &running, std::shared_ptr<WidgetWindow> windo
           }
         }
 
+        // The dead key has to run only for the next key.
         if (_dead_key != 0) {
           if (_dead_key_deactivation) {
             _dead_key = 0;
             _dead_key_deactivation = false;
-          } else {
+          } else
             _dead_key_deactivation = true;
-          }
         }
       }
     }
