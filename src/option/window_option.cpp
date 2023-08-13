@@ -77,12 +77,12 @@ WindowOption::WindowOption(kebb::boxsize screen_size, std::shared_ptr<kebb::Wind
   _widget_select_fields.back()->set_bool(_options->get().symbols);
 
   pt.y += y_medium_space;
-  _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "French extras"));
-  _widget_select_fields.back()->set_bool(_options->get().french_extras);
+  _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "Extras"));
+  _widget_select_fields.back()->set_bool(_options->get().extras);
 
   pt.y += y_small_space;
-  _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "French extra caps"));
-  _widget_select_fields.back()->set_bool(_options->get().french_extra_caps);
+  _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "Extra caps"));
+  _widget_select_fields.back()->set_bool(_options->get().extra_caps);
 
   // ------------------------------------------------------------------------
   // Message ----------------------------------------------------------------
@@ -92,7 +92,7 @@ WindowOption::WindowOption(kebb::boxsize screen_size, std::shared_ptr<kebb::Wind
   _widget_message->set_color(kebb::color(kebb::ColorName::C_Yellow));
 
   // Display help on start --
-  check_french_extra();
+  check_qwerty_extra();
 }
 
 WindowOption::~WindowOption() {}
@@ -137,11 +137,11 @@ void WindowOption::check_new_resolution() {
     _message_displayed = true;
   }
 }
-void WindowOption::check_french_extra() {
+void WindowOption::check_qwerty_extra() {
 
   if ((_widget_select_fields[6]->get_bool() || _widget_select_fields[7]->get_bool()) &&
-      _widget_select_fields[1]->get_choice().value_string == "US") {
-    display_message("  French extras requier the US Altgr-intl layout  ");
+      _widget_select_fields[1]->get_choice().value_string == "qwerty") {
+    display_message("  Extras requier the US Altgr-intl layout  ");
     _message_displayed = true;
   }
 }
@@ -166,8 +166,8 @@ void WindowOption::control_enter() {
     _options->set().capitals = _widget_select_fields[3]->get_bool();
     _options->set().numbers = _widget_select_fields[4]->get_bool();
     _options->set().symbols = _widget_select_fields[5]->get_bool();
-    _options->set().french_extras = _widget_select_fields[6]->get_bool();
-    _options->set().french_extra_caps = _widget_select_fields[7]->get_bool();
+    _options->set().extras = _widget_select_fields[6]->get_bool();
+    _options->set().extra_caps = _widget_select_fields[7]->get_bool();
 
     *_next_window = kebb::WindowName::W_Welcome;
   } else
@@ -181,7 +181,7 @@ void WindowOption::control_left() {
     if (w->is_selected()) {
       w->action_left();
 
-      check_french_extra();
+      check_qwerty_extra();
       check_new_resolution();
       return;
     }
@@ -194,7 +194,7 @@ void WindowOption::control_right() {
     if (w->is_selected()) {
       w->action_right();
 
-      check_french_extra();
+      check_qwerty_extra();
       check_new_resolution();
       return;
     }

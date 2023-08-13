@@ -1,6 +1,7 @@
 #ifndef LAYOUT_FILE_H
 #define LAYOUT_FILE_H
 
+#include <cstdint>
 #include <filesystem>
 #include <fstream>
 #include <iostream>
@@ -9,6 +10,7 @@
 
 struct Key {
 
+  std::string letter;
   uint16_t kebb = 0;
   uint16_t sym;
   bool shift = false;
@@ -16,6 +18,7 @@ struct Key {
   bool altgr = false;
   uint16_t dead = 0;
   bool is_dead = false;
+  uint16_t type = 0;
 };
 
 /*
@@ -30,6 +33,7 @@ public:
   void set_layout(const std::string &file_name);
 
   const std::vector<Key> &keys() const;
+  std::string keycode_to_string(uint16_t keycode) const;
 
 private:
   std::string _path;

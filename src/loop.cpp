@@ -44,11 +44,11 @@ void Loop::run(Controller &controller) {
         break;
       case kebb::WindowName::W_GameSurvival:
         _current_window = std::make_shared<WindowSurvivalMode>(_screen_size, next_window_name, _renderer,
-                                                               _records, _options);
+                                                               _records, _options, _layouts);
         break;
       case kebb::WindowName::W_GameTimer:
-        _current_window =
-            std::make_shared<WindowTimerMode>(_screen_size, next_window_name, _renderer, _records, _options);
+        _current_window = std::make_shared<WindowTimerMode>(_screen_size, next_window_name, _renderer,
+                                                            _records, _options, _layouts);
         break;
       case kebb::WindowName::W_Option:
         _current_window =

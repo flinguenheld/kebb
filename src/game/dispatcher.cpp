@@ -1,57 +1,41 @@
 #include "dispatcher.h"
 
-Dispatcher::Dispatcher(std::shared_ptr<OptionFile> options) : _engine(_seed()), _number_of_chars(0) {
+Dispatcher::Dispatcher(std::shared_ptr<OptionFile> options, std::shared_ptr<LayoutFile> layouts)
+    : _layouts(layouts), _engine(_seed()), _number_of_chars(0) {
 
-  if (options->get().letters) {
-    for (uint16_t i = 10; i < 36; ++i) {
-      _keycodes.emplace_back(i);
-      ++_number_of_chars;
-    }
-  }
-  if (options->get().capitals) {
-    for (uint16_t i = 100; i < 126; ++i) {
-      _keycodes.emplace_back(i);
-      ++_number_of_chars;
-    }
-  }
-  if (options->get().numbers) {
-    for (uint16_t i = 500; i < 510; ++i) {
-      _keycodes.emplace_back(i);
-      ++_number_of_chars;
-    }
-  }
-  if (options->get().symbols) {
-    for (uint16_t i = 1000; i < 1032; ++i) {
-      _keycodes.emplace_back(i);
-      ++_number_of_chars;
-    }
-  }
-  if (options->get().french_extras) {
+  if (options->get().letters)
+    add(1);
 
-    uint16_t max = 2016;
-    if (options->get().layout == "FR") // Avoid æ œ // NOTE: With other layouts ?
-      max = 2114;
+  if (options->get().capitals)
+    add(2);
 
-    for (uint16_t i = 2000; i < 2014; ++i) {
-      _keycodes.emplace_back(i);
-      ++_number_of_chars;
-    }
-  }
+  if (options->get().numbers)
+    add(3);
 
-  if (options->get().french_extra_caps) {
+  if (options->get().symbols)
+    add(4);
 
-    uint16_t max = 2115;
-    if (options->get().layout == "FR") // Avoid æ œ
-      max = 2113;
+  if (options->get().extras)
+    add(5);
 
-    for (uint16_t i = 2100; i < max; ++i) {
-      _keycodes.emplace_back(i);
-      ++_number_of_chars;
-    }
-  }
+  if (options->get().extra_caps) // FIX: Rename !!!
+    add(6);
 
   for (uint16_t i = 0; i < 360; i += 10) // NOTE: 36 threads maxi !
     _angles.emplace_back(i);
+}
+
+/*
+ * Add a type of letters (see layouts)
+ */
+void Dispatcher::add(uint16_t key_type) {
+
+  for (const auto &k : _layouts->keys()) {
+    if (k.type == key_type) {
+      _keycodes.emplace_back(k.kebb);
+      ++_number_of_chars;
+    }
+  }
 }
 
 /*

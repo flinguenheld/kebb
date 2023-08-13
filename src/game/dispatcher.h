@@ -1,6 +1,7 @@
 #ifndef DISPATCHER_H
 #define DISPATCHER_H
 
+#include "file/layout_file.h"
 #include "file/option_file.h"
 #include <iostream>
 #include <memory>
@@ -16,7 +17,7 @@
  */
 class Dispatcher {
 public:
-  Dispatcher(std::shared_ptr<OptionFile> options);
+  Dispatcher(std::shared_ptr<OptionFile> options, std::shared_ptr<LayoutFile> layouts);
 
   uint16_t get_angle();
   void release_angle(uint16_t angle);
@@ -27,6 +28,9 @@ public:
   uint16_t number_of_chars() const;
 
 private:
+  std::shared_ptr<LayoutFile> _layouts;
+  void add(uint16_t key_type);
+
   std::vector<uint16_t> _angles;
   std::vector<uint16_t> _keycodes;
 

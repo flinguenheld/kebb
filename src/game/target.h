@@ -22,7 +22,8 @@
 class Target : public WidgetTextBox {
 public:
   Target(kebb::point center_area, uint16_t radius_area, kebb::boxsize char_size, uint16_t speed,
-         std::shared_ptr<Dispatcher> dispatcher, std::shared_ptr<Score> score);
+         std::shared_ptr<Dispatcher> dispatcher, std::shared_ptr<Score> score,
+         std::shared_ptr<LayoutFile> layouts);
 
   void update();
   void stop();
@@ -38,6 +39,7 @@ private:
 
   std::shared_ptr<Dispatcher> _dispatcher;
   std::shared_ptr<Score> _score;
+  std::shared_ptr<LayoutFile> _layouts;
 
   uint16_t _keycode;
   uint16_t _angle;

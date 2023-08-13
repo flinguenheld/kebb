@@ -39,7 +39,7 @@ private:
   // Help message
   void display_message(std::string &&message);
   void check_new_resolution();
-  void check_french_extra();
+  void check_qwerty_extra();
   bool _message_displayed;
 
   const kebb::boxsize _screen_size;

@@ -52,7 +52,7 @@ void LayoutFile::set_layout(const std::string &file_name) {
 
             switch (field_index) {
             case 0:
-              // Letter
+              new_key.letter = field;
               break;
             case 1:
               new_key.kebb = std::stoi(field);
@@ -75,6 +75,8 @@ void LayoutFile::set_layout(const std::string &file_name) {
             case 7:
               new_key.is_dead = std::stoi(field);
               break;
+            case 8:
+              new_key.type = std::stoi(field);
             }
 
             line.erase(0, pos + 1);
@@ -87,11 +89,20 @@ void LayoutFile::set_layout(const std::string &file_name) {
     }
   }
 
-  // for (auto &k : keys) {
-  //   std::cout << "key: " << k.kebb << " " << k.sym << " " << k.shift << std::endl;
-  // }
+  for (auto &k : _keys) {
+    std::cout << "key: " << k.kebb << " " << k.sym << " " << k.shift << " type: " << k.type << std::endl;
+  }
 }
 
 // ----------------------------------------------------------------------------------------------------
 // ACCESSORS ------------------------------------------------------------------------------------------
 const std::vector<Key> &LayoutFile::keys() const { return _keys; }
+
+std::string LayoutFile::keycode_to_string(uint16_t keycode) const {
+  for (const auto &k : _keys) {
+    if (k.kebb == keycode)
+      return k.letter;
+  }
+
+  return "None";
+}

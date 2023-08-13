@@ -2,7 +2,7 @@
 
 // clang-format off
 Target::Target(kebb::point center_area, uint16_t radius_area, kebb::boxsize char_size, uint16_t speed,
-    std::shared_ptr<Dispatcher> dispatcher, std::shared_ptr<Score> score) :
+    std::shared_ptr<Dispatcher> dispatcher, std::shared_ptr<Score> score,std::shared_ptr<LayoutFile> layouts) :
 
   WidgetTextBox(center_area, char_size),
       _active(true), _ok(false),
@@ -12,6 +12,7 @@ Target::Target(kebb::point center_area, uint16_t radius_area, kebb::boxsize char
       _new_waiting_time(0),
       _dispatcher(dispatcher),
       _score(score),
+      _layouts(layouts),
       _move_x(1), _move_y(1),
       _keycode(0), _angle(-1)
 // clang-format on
@@ -109,7 +110,8 @@ void Target::init() {
 
   _angle = _dispatcher->get_angle();
   _keycode = _dispatcher->get_keycode();
-  _text = kebb::keycode_to_string(_keycode);
+  // _text = kebb::keycode_to_string(_keycode);
+  _text = std::move(_layouts->keycode_to_string(_keycode));
 
   const float angle_rad = _angle * 3.14 / 180; // High precision is useless
 

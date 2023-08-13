@@ -24,8 +24,8 @@ void OptionFile::save() const {
         << _options.capitals << '\n'
         << _options.numbers << '\n'
         << _options.symbols << '\n'
-        << _options.french_extras << '\n'
-        << _options.french_extra_caps;
+        << _options.extras << '\n'
+        << _options.extra_caps;
 }
 
 void OptionFile::read() {
@@ -33,7 +33,7 @@ void OptionFile::read() {
   istrm >> _options.resolution >> _options.layout >> _options.timer_countdown >> _options.timer_nb_targets >>
       _options.timer_speed >> _options.survival_nb_targets >> _options.survival_speed >> _options.last_mode >>
       _options.letters >> _options.capitals >> _options.numbers >> _options.symbols >>
-      _options.french_extras >> _options.french_extra_caps;
+      _options.extras >> _options.extra_caps;
 }
 
 // ----------------------------------------------------------------------------------------------------
