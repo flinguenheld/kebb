@@ -13,6 +13,8 @@ std::string kebb::keycode_to_string(uint16_t val) {
   switch (val) {
 
     case 5000:     return "^";
+    case 5001:     return "`";
+    case 5002:     return "¨";
 
     case 10:       return "a";
     case 11:       return "b";

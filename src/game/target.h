@@ -13,7 +13,7 @@
 #include <thread>
 
 /*
- * Target is the logic part of a keycode (a character).
+ * Target is the logical part of a keycode (a character).
  * The update method contains a while loop which is in charge of updating the object position. And thus the
  * color, the state ...
  * Once it's necessary, the init method is called. The latter will call the dispatcher to release the current
