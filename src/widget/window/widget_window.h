@@ -24,7 +24,7 @@ public:
   virtual void control_enter(){};
   virtual void control_escape(){};
 
-  virtual void control_others(uint16_t keycode){};
+  virtual void control_others(const std::string &character){};
 
   virtual void controller(){};
   virtual void logic(){};

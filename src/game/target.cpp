@@ -14,7 +14,7 @@ Target::Target(kebb::point center_area, uint16_t radius_area, kebb::boxsize char
       _score(score),
       _layouts(layouts),
       _move_x(1), _move_y(1),
-      _keycode(0), _angle(-1)
+       _angle(-1)
 // clang-format on
 {
   set_speed(speed);
@@ -24,9 +24,9 @@ Target::Target(kebb::point center_area, uint16_t radius_area, kebb::boxsize char
   _white = kebb::color(kebb::ColorName::C_Text);
 }
 
-bool Target::check_keycode(uint16_t k) {
+bool Target::check_key(const std::string &c) {
 
-  if (_keycode == k && !_ok) {
+  if (_text == c && !_ok) {
     _ok = true;
     return true;
   }
@@ -55,7 +55,7 @@ void Target::update() {
 
       if (_color_text.a <= 5) {
         _dispatcher->release_angle(_angle);
-        _dispatcher->release_keycode(_keycode);
+        _dispatcher->release_character(std::move(_text));
 
         _ok = false;
         distance = 0;
@@ -79,7 +79,7 @@ void Target::update() {
 
       } else if (distance > _radius_area) {
         _dispatcher->release_angle(_angle);
-        _dispatcher->release_keycode(_keycode);
+        _dispatcher->release_character(std::move(_text));
 
         _score->up_miss();
         init();
@@ -109,9 +109,7 @@ void Target::init() {
   _position.y = _center_area.y - _size.h / 2;
 
   _angle = _dispatcher->get_angle();
-  _keycode = _dispatcher->get_keycode();
-  // _text = kebb::keycode_to_string(_keycode);
-  _text = std::move(_layouts->keycode_to_string(_keycode));
+  _dispatcher->get_character(_text);
 
   const float angle_rad = _angle * 3.14 / 180; // High precision is useless
 

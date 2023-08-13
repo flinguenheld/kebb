@@ -1,4 +1,5 @@
 #include "dispatcher.h"
+#include <string>
 
 Dispatcher::Dispatcher(std::shared_ptr<OptionFile> options, std::shared_ptr<LayoutFile> layouts)
     : _layouts(layouts), _engine(_seed()), _number_of_chars(0) {
@@ -18,10 +19,10 @@ Dispatcher::Dispatcher(std::shared_ptr<OptionFile> options, std::shared_ptr<Layo
   if (options->get().extras)
     add(5);
 
-  if (options->get().extra_caps) // FIX: Rename !!!
+  if (options->get().extra_caps)
     add(6);
 
-  for (uint16_t i = 0; i < 360; i += 10) // NOTE: 36 threads maxi !
+  for (uint16_t i = 0; i < 360; i += 12) // NOTE: 30 threads maxi !
     _angles.emplace_back(i);
 }
 
@@ -32,7 +33,7 @@ void Dispatcher::add(uint16_t key_type) {
 
   for (const auto &k : _layouts->keys()) {
     if (k.type == key_type) {
-      _keycodes.emplace_back(k.kebb);
+      _characters.emplace_back(k.text);
       ++_number_of_chars;
     }
   }
@@ -67,24 +68,22 @@ void Dispatcher::release_angle(uint16_t angle) {
 }
 
 /*
- * Select a keycode in the list, erase and return it.
+ * Select a character in the list, erase and move it.
  */
-uint16_t Dispatcher::get_keycode() {
+void Dispatcher::get_character(std::string &text) {
   std::unique_lock<std::mutex> ul(_mutex);
 
-  std::uniform_int_distribution<uint16_t> random_keycodes(0, _keycodes.size() - 1);
-  std::vector<uint16_t>::iterator it = std::next(_keycodes.begin(), random_keycodes(_engine));
+  std::uniform_int_distribution<uint16_t> random_char(0, _characters.size() - 1);
+  std::vector<std::string>::iterator it = std::next(_characters.begin(), random_char(_engine));
 
-  const uint16_t selected_keycode = *it;
-  _keycodes.erase(it);
-
-  return selected_keycode;
+  text = std::move(*it);
+  _characters.erase(it);
 };
 
 /*
  * Get it back in the char list
  */
-void Dispatcher::release_keycode(uint16_t k) {
+void Dispatcher::release_character(std::string &&k) {
   std::unique_lock<std::mutex> ul(_mutex);
-  _keycodes.emplace_back(k);
+  _characters.emplace_back(std::move(k));
 }

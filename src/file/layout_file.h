@@ -10,14 +10,13 @@
 
 struct Key {
 
-  std::string letter;
-  uint16_t kebb = 0;
+  std::string text;
   uint16_t sym;
   bool shift = false;
   bool alt = false;
   bool altgr = false;
   uint16_t dead = 0;
-  bool is_dead = false;
+  uint16_t is_dead = 0;
   uint16_t type = 0;
 };
 
@@ -33,7 +32,6 @@ public:
   void set_layout(const std::string &file_name);
 
   const std::vector<Key> &keys() const;
-  std::string keycode_to_string(uint16_t keycode) const;
 
 private:
   std::string _path;

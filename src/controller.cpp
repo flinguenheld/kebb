@@ -66,12 +66,12 @@ void Controller::handle_input(bool &running, std::shared_ptr<WidgetWindow> windo
             if (e.key.keysym.sym == k.sym) {
 
               if (k.is_dead) {
-                _dead_key = k.kebb;
+                _dead_key = k.is_dead; // FIX: find a way to manage
                 break;
               }
 
               if (_dead_key == 0 || (_dead_key != 0 && k.dead == _dead_key)) {
-                window->control_others(k.kebb);
+                window->control_others(k.text);
                 break;
               }
             }

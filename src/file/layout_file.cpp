@@ -52,30 +52,30 @@ void LayoutFile::set_layout(const std::string &file_name) {
 
             switch (field_index) {
             case 0:
-              new_key.letter = field;
+              if (field == "comma") // , is the separator
+                field = ",";
+
+              new_key.text = field;
               break;
             case 1:
-              new_key.kebb = std::stoi(field);
-              break;
-            case 2:
               new_key.sym = std::stoi(field);
               break;
-            case 3:
+            case 2:
               new_key.shift = std::stoi(field);
               break;
-            case 4:
+            case 3:
               new_key.alt = std::stoi(field);
               break;
-            case 5:
+            case 4:
               new_key.altgr = std::stoi(field);
               break;
-            case 6:
+            case 5:
               new_key.dead = std::stoi(field);
               break;
-            case 7:
+            case 6:
               new_key.is_dead = std::stoi(field);
               break;
-            case 8:
+            case 7:
               new_key.type = std::stoi(field);
             }
 
@@ -89,20 +89,12 @@ void LayoutFile::set_layout(const std::string &file_name) {
     }
   }
 
-  for (auto &k : _keys) {
-    std::cout << "key: " << k.kebb << " " << k.sym << " " << k.shift << " type: " << k.type << std::endl;
-  }
+  // for (auto &k : _keys) {
+  //   std::cout << "key: "
+  //             << " " << k.text << " " << k.shift << " type: " << k.type << std::endl;
+  // }
 }
 
 // ----------------------------------------------------------------------------------------------------
 // ACCESSORS ------------------------------------------------------------------------------------------
 const std::vector<Key> &LayoutFile::keys() const { return _keys; }
-
-std::string LayoutFile::keycode_to_string(uint16_t keycode) const {
-  for (const auto &k : _keys) {
-    if (k.kebb == keycode)
-      return k.letter;
-  }
-
-  return "None";
-}

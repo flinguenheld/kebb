@@ -28,7 +28,7 @@ public:
   virtual ~WindowGame() override;
 
   virtual void control_escape() override;
-  virtual void control_others(uint16_t keycode) override;
+  virtual void control_others(const std::string &character) override;
   virtual void render() const override;
 
   void stop_game();

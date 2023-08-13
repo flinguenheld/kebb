@@ -61,12 +61,12 @@ void WindowGame::control_escape() {
   stop_game();
   *_next_window = kebb::WindowName::W_GameOver;
 }
-void WindowGame::control_others(uint16_t keycode) {
+void WindowGame::control_others(const std::string &character) {
 
   // Loop in all targets, if ok, up the loop
   for (auto &target : _targets) {
 
-    if (target->check_keycode(keycode))
+    if (target->check_key(character))
       return;
   }
 

@@ -10,10 +10,10 @@
 #include <vector>
 
 /*
- * Dispatcher class: its role is to distribute random keycodes and angles to threads in a
+ * Dispatcher class: its role is to distribute random characters and angles to threads in a
  * safe way.
- * Once a thread has taken a keycode/angle, they are erase from lists.
- * This latter has to get it back with relase methods.
+ * Once a thread has taken a character/angle, they are erase from lists.
+ * This latter has to get it back with the relase methods.
  */
 class Dispatcher {
 public:
@@ -22,8 +22,8 @@ public:
   uint16_t get_angle();
   void release_angle(uint16_t angle);
 
-  uint16_t get_keycode();
-  void release_keycode(uint16_t k);
+  void get_character(std::string &text);
+  void release_character(std::string &&k);
 
   uint16_t number_of_chars() const;
 
@@ -32,7 +32,7 @@ private:
   void add(uint16_t key_type);
 
   std::vector<uint16_t> _angles;
-  std::vector<uint16_t> _keycodes;
+  std::vector<std::string> _characters;
 
   uint16_t _number_of_chars;
 
