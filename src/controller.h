@@ -8,8 +8,10 @@
 #include "SDL_stdinc.h"
 #include "file/option_file.h"
 #include "game/target.h"
+#include "languages/language.h"
 #include "widget/window/widget_window.h"
 #include <SDL_keycode.h>
+#include <cstdint>
 #include <iostream>
 #include <memory>
 #include <vector>
@@ -30,7 +32,12 @@ private:
   bool _grave;
   bool _diaeresis;
 
+  uint16_t _dead_key;
+  bool _dead_key_deactivation;
+
   std::shared_ptr<OptionFile> _options;
+
+  std::vector<Key> _keys;
 };
 
 #endif

@@ -1,10 +1,20 @@
 #include "controller.h"
+#include "languages/language.h"
+#include <SDL_keycode.h>
 #include <SDL_video.h>
 
 Controller::Controller(std::shared_ptr<OptionFile> options)
-    : _options(options), _circumflex(false), _grave(false), _diaeresis(false), _mask_mod(0x3FF) {}
+    : _options(options), _dead_key(0), _dead_key_deactivation(false), _circumflex(false), _grave(false),
+      _diaeresis(false), _mask_mod(0x3FF) {
+
+  // FIX: TEMPORARY PLACE !!!!
+  Language test_language("test_qwerty.kebb");
+  // std::vector<Key> keys;
+  test_language.read_file(_keys);
+}
 
 void Controller::handle_input(bool &running, std::shared_ptr<WidgetWindow> window) {
+
   SDL_Event e;
   while (SDL_PollEvent(&e)) {
 
@@ -52,12 +62,41 @@ void Controller::handle_input(bool &running, std::shared_ptr<WidgetWindow> windo
         break;
 
       default:
-        if (_options->get().layout == "US")
-          window->control_others(convert_us(e));
-        else if (_options->get().layout == "FR")
-          window->control_others(convert_fr(e));
-        else
-          window->control_others(convert_bepo(e));
+
+        const bool shift = (e.key.keysym.mod & KMOD_LSHIFT) == KMOD_LSHIFT ||
+                           (e.key.keysym.mod & KMOD_RSHIFT) == KMOD_RSHIFT;
+
+        const bool alt = (e.key.keysym.mod & KMOD_LALT) == KMOD_LALT;
+        const bool ralt = (e.key.keysym.mod & KMOD_RALT) == KMOD_RALT;
+
+        for (const auto &k : _keys) {
+
+          if (k.shift == shift && k.alt == alt && k.altgr == ralt) {
+            if (e.key.keysym.sym == k.sym) {
+
+              // FIX: HOW to deactivate the dead key ??d??
+
+              if (k.is_dead) {
+                _dead_key = k.kebb;
+                break;
+              }
+
+              if (_dead_key == 0 || (_dead_key != 0 && k.dead == _dead_key)) {
+                window->control_others(k.kebb);
+                break;
+              }
+            }
+          }
+        }
+
+        if (_dead_key != 0) {
+          if (_dead_key_deactivation) {
+            _dead_key = 0;
+            _dead_key_deactivation = false;
+          } else {
+            _dead_key_deactivation = true;
+          }
+        }
       }
     }
   }
@@ -500,9 +539,19 @@ uint16_t Controller::convert_bepo(SDL_Event &e) {
                            // std::cout << "mode: " << (e.key.keysym.mod & mask) << std::endl;
 
   // clang-format off
-  // std::cout << "BÉPO" << std::endl;
-  // std::cout << "mode: " << e.key.keysym.mod << std::endl;
-  // std::cout << "keysym: " << e.key.keysym.sym << std::endl;
+  std::cout << "BÉPO" << std::endl;
+  std::cout << "mode: " << e.key.keysym.mod << std::endl;
+  std::cout << "keysym: " << e.key.keysym.sym << std::endl;
+
+  if ((e.key.keysym.mod & KMOD_LCTRL) == KMOD_LCTRL && (e.key.keysym.mod & KMOD_LSHIFT) == KMOD_LSHIFT) {
+
+    std::cout << "control is pressed ! and shift !!!" << std::endl;
+
+
+
+
+
+  }
 
   // --------------------------------------------------
   // French specials ----------------------------------

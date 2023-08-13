@@ -25,6 +25,9 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/sdl2)
 
 include_directories(src)
 add_executable(${PROJECT_NAME} src/main.cpp
+
+                               src/languages/language.cpp
+
                                src/controller.cpp
                                src/loop.cpp
                                src/utils.cpp
