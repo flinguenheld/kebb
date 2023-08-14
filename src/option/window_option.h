@@ -26,6 +26,7 @@ public:
   virtual void control_left() override;
   virtual void control_right() override;
 
+  virtual void logic() override;
   virtual void render() const override;
 
 private:

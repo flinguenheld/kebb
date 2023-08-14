@@ -1,4 +1,5 @@
 #include "window_option.h"
+#include "file/layout_file.h"
 
 WindowOption::WindowOption(kebb::boxsize screen_size, std::shared_ptr<kebb::WindowName> next_window,
                            std::shared_ptr<Renderer> renderer, std::shared_ptr<OptionFile> options,
@@ -76,6 +77,10 @@ WindowOption::WindowOption(kebb::boxsize screen_size, std::shared_ptr<kebb::Wind
   _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "Symbols"));
   _widget_select_fields.back()->set_bool(_options->get().symbols);
 
+  pt.y += y_small_space;
+  _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "Symbols plus"));
+  _widget_select_fields.back()->set_bool(_options->get().symbols_plus);
+
   pt.y += y_medium_space;
   _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "Extras"));
   _widget_select_fields.back()->set_bool(_options->get().extras);
@@ -86,7 +91,7 @@ WindowOption::WindowOption(kebb::boxsize screen_size, std::shared_ptr<kebb::Wind
 
   // ------------------------------------------------------------------------
   // Message ----------------------------------------------------------------
-  pt.y += y_long_space;
+  pt.y += y_small_space;
   _widget_message = std::make_unique<WidgetTextBox>(pt, bs_field);
   _widget_message->set_color_text(kebb::color(kebb::ColorName::C_Base));
   _widget_message->set_color(kebb::color(kebb::ColorName::C_Yellow));
@@ -97,6 +102,33 @@ WindowOption::WindowOption(kebb::boxsize screen_size, std::shared_ptr<kebb::Wind
 
 WindowOption::~WindowOption() {}
 
+// ----------------------------------------------------------------------------------------------------
+// LOGIC ----------------------------------------------------------------------------------------------
+void WindowOption::logic() {
+
+  // std::cout << "layout: " << _widget_select_fields[1]->get_choice().value_string << std::endl;
+
+  // Check the layout value
+  _widget_select_fields[2]->set_visible(
+      _layouts->are_there(_widget_select_fields[1]->get_choice().value_string, TypeChar::Letter));
+  _widget_select_fields[3]->set_visible(
+      _layouts->are_there(_widget_select_fields[1]->get_choice().value_string, TypeChar::Letter_cap));
+  _widget_select_fields[4]->set_visible(
+      _layouts->are_there(_widget_select_fields[1]->get_choice().value_string, TypeChar::Number));
+  _widget_select_fields[5]->set_visible(
+      _layouts->are_there(_widget_select_fields[1]->get_choice().value_string, TypeChar::Symbol));
+  _widget_select_fields[6]->set_visible(
+      _layouts->are_there(_widget_select_fields[1]->get_choice().value_string, TypeChar::Symbol_plus));
+  _widget_select_fields[7]->set_visible(
+      _layouts->are_there(_widget_select_fields[1]->get_choice().value_string, TypeChar::Extra));
+  _widget_select_fields[8]->set_visible(
+      _layouts->are_there(_widget_select_fields[1]->get_choice().value_string, TypeChar::Extra_cap));
+
+  // Adapt the visibility of widgets
+}
+
+// ----------------------------------------------------------------------------------------------------
+// RENDER ---------------------------------------------------------------------------------------------
 void WindowOption::render() const {
 
   _renderer->clear_screen();
@@ -151,9 +183,20 @@ void WindowOption::check_qwerty_extra() {
 void WindowOption::control_escape() { *_next_window = kebb::WindowName::W_Welcome; }
 void WindowOption::control_enter() {
   // Use has to select at least one target type
-  if (_widget_select_fields[2]->get_bool() == true || _widget_select_fields[3]->get_bool() == true ||
-      _widget_select_fields[4]->get_bool() == true || _widget_select_fields[5]->get_bool() == true ||
-      _widget_select_fields[6]->get_bool() == true || _widget_select_fields[7]->get_bool() == true) {
+  if ((_widget_select_fields[2]->get_bool() == true &&
+       _layouts->are_there(_widget_select_fields[1]->get_choice().value_string, TypeChar::Letter)) ||
+      (_widget_select_fields[3]->get_bool() == true &&
+       _layouts->are_there(_widget_select_fields[1]->get_choice().value_string, TypeChar::Letter_cap)) ||
+      (_widget_select_fields[4]->get_bool() == true &&
+       _layouts->are_there(_widget_select_fields[1]->get_choice().value_string, TypeChar::Number)) ||
+      (_widget_select_fields[5]->get_bool() == true &&
+       _layouts->are_there(_widget_select_fields[1]->get_choice().value_string, TypeChar::Symbol)) ||
+      (_widget_select_fields[6]->get_bool() == true &&
+       _layouts->are_there(_widget_select_fields[1]->get_choice().value_string, TypeChar::Symbol_plus)) ||
+      (_widget_select_fields[7]->get_bool() == true &&
+       _layouts->are_there(_widget_select_fields[1]->get_choice().value_string, TypeChar::Extra)) ||
+      (_widget_select_fields[8]->get_bool() == true &&
+       _layouts->are_there(_widget_select_fields[1]->get_choice().value_string, TypeChar::Extra_cap))) {
 
     // Update the layout ?
     if (_widget_select_fields[1]->get_choice().value_string != _options->get().layout)
@@ -166,8 +209,9 @@ void WindowOption::control_enter() {
     _options->set().capitals = _widget_select_fields[3]->get_bool();
     _options->set().numbers = _widget_select_fields[4]->get_bool();
     _options->set().symbols = _widget_select_fields[5]->get_bool();
-    _options->set().extras = _widget_select_fields[6]->get_bool();
-    _options->set().extra_caps = _widget_select_fields[7]->get_bool();
+    _options->set().symbols_plus = _widget_select_fields[6]->get_bool();
+    _options->set().extras = _widget_select_fields[7]->get_bool();
+    _options->set().extra_caps = _widget_select_fields[8]->get_bool();
 
     *_next_window = kebb::WindowName::W_Welcome;
   } else

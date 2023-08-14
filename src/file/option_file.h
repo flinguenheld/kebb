@@ -17,6 +17,7 @@ struct Options {
   bool capitals = false;
   bool numbers = true;
   bool symbols = false;
+  bool symbols_plus = false;
   bool extras = false;
   bool extra_caps = false;
 };

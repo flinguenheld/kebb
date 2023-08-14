@@ -5,7 +5,6 @@
 #include <filesystem>
 #include <fstream>
 #include <iostream>
-#include <string>
 #include <vector>
 
 struct Key {
@@ -20,6 +19,17 @@ struct Key {
   uint16_t type = 0;
 };
 
+enum class TypeChar {
+  Ignored = 0,
+  Letter = 1,
+  Letter_cap = 2,
+  Number = 3,
+  Symbol = 4,
+  Symbol_plus = 5,
+  Extra = 6,
+  Extra_cap = 7,
+};
+
 /*
  * Used to list and read layout files.
  * set_layout() fills the vector _keys which is used by the controller to check user's entries.
@@ -32,6 +42,7 @@ public:
   void set_layout(const std::string &file_name);
 
   const std::vector<Key> &keys() const;
+  bool are_there(const std::string &file_name, TypeChar) const;
 
 private:
   std::string _path;

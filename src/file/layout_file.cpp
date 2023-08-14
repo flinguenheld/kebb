@@ -90,10 +90,28 @@ void LayoutFile::set_layout(const std::string &file_name) {
     }
   }
 
-  for (auto &k : _keys) {
-    std::cout << "key: "
-              << " " << k.text << " " << k.shift << " type: " << k.type << std::endl;
+  // for (auto &k : _keys) {
+  //   std::cout << "key: "
+  //             << " " << k.text << " " << k.shift << " type: " << k.type << std::endl;
+  // }
+}
+
+/*
+ * Open the file to read the first line.
+ * Then check if the value of t is in the line.
+ */
+bool LayoutFile::are_there(const std::string &file_name, TypeChar t) const {
+
+  auto file = std::ifstream(_path + "/" + file_name, std::ios::in);
+  if (file.is_open()) {
+
+    std::string line;
+    getline(file, line);
+
+    return (line.find(std::to_string((uint16_t)t)) != std::string::npos);
   }
+
+  return false;
 }
 
 // ----------------------------------------------------------------------------------------------------

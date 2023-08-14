@@ -17,27 +17,30 @@ void WidgetTextBox::set_color_text(SDL_Color &&color) { _color_text = std::move(
 // RENDER ---------------------------------------------------------------------------------------------
 void WidgetTextBox::render(SDL_Renderer *renderer, TTF_Font *font) const {
 
-  SDL_Surface *new_textSurface = TTF_RenderUTF8_Shaded(font, _text.c_str(), _color_text, _color);
+  if (_visible) {
 
-  if (new_textSurface == NULL)
-    printf("Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError());
-  else {
+    SDL_Surface *new_textSurface = TTF_RenderUTF8_Shaded(font, _text.c_str(), _color_text, _color);
 
-    auto new_texture = SDL_CreateTextureFromSurface(renderer, new_textSurface);
-    if (new_texture == NULL)
-      printf("Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError());
+    if (new_textSurface == NULL)
+      printf("Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError());
     else {
 
-      SDL_Rect renderQuad = {_position.x, _position.y, _size.w, _size.h};
-      SDL_Point center = {};
-      SDL_RendererFlip flip = {};
+      auto new_texture = SDL_CreateTextureFromSurface(renderer, new_textSurface);
+      if (new_texture == NULL)
+        printf("Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError());
+      else {
 
-      SDL_RenderCopyEx(renderer, new_texture, nullptr, &renderQuad, 0, &center, flip);
+        SDL_Rect renderQuad = {_position.x, _position.y, _size.w, _size.h};
+        SDL_Point center = {};
+        SDL_RendererFlip flip = {};
 
-      // Get rid of elements
-      SDL_DestroyTexture(new_texture);
+        SDL_RenderCopyEx(renderer, new_texture, nullptr, &renderQuad, 0, &center, flip);
+
+        // Get rid of elements
+        SDL_DestroyTexture(new_texture);
+      }
+
+      SDL_FreeSurface(new_textSurface);
     }
-
-    SDL_FreeSurface(new_textSurface);
   }
 }

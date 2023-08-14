@@ -1,26 +1,31 @@
 #include "dispatcher.h"
+#include "file/layout_file.h"
+#include <cstdint>
 #include <string>
 
 Dispatcher::Dispatcher(std::shared_ptr<OptionFile> options, std::shared_ptr<LayoutFile> layouts)
     : _layouts(layouts), _engine(_seed()), _number_of_chars(0) {
 
   if (options->get().letters)
-    add(1);
+    add(uint16_t(TypeChar::Letter));
 
   if (options->get().capitals)
-    add(2);
+    add(uint16_t(TypeChar::Letter_cap));
 
   if (options->get().numbers)
-    add(3);
+    add(uint16_t(TypeChar::Number));
 
   if (options->get().symbols)
-    add(4);
+    add(uint16_t(TypeChar::Symbol));
+
+  if (options->get().symbols_plus)
+    add(uint16_t(TypeChar::Symbol_plus));
 
   if (options->get().extras)
-    add(5);
+    add(uint16_t(TypeChar::Extra));
 
   if (options->get().extra_caps)
-    add(6);
+    add(uint16_t(TypeChar::Extra_cap));
 
   for (uint16_t i = 0; i < 360; i += 12) // NOTE: 30 threads maxi !
     _angles.emplace_back(i);
