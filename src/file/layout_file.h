@@ -11,7 +11,7 @@
 struct Key {
 
   std::string text;
-  uint16_t sym;
+  uint32_t sym;
   bool shift = false;
   bool alt = false;
   bool altgr = false;

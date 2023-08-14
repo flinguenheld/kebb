@@ -152,8 +152,8 @@ void WindowOption::control_escape() { *_next_window = kebb::WindowName::W_Welcom
 void WindowOption::control_enter() {
   // Use has to select at least one target type
   if (_widget_select_fields[2]->get_bool() == true || _widget_select_fields[3]->get_bool() == true ||
-      _widget_select_fields[4]->get_bool() == true || _widget_select_fields[4]->get_bool() == true ||
-      _widget_select_fields[5]->get_bool() == true || _widget_select_fields[6]->get_bool() == true) {
+      _widget_select_fields[4]->get_bool() == true || _widget_select_fields[5]->get_bool() == true ||
+      _widget_select_fields[6]->get_bool() == true || _widget_select_fields[7]->get_bool() == true) {
 
     // Update the layout ?
     if (_widget_select_fields[1]->get_choice().value_string != _options->get().layout)

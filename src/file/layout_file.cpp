@@ -27,8 +27,9 @@ std::vector<std::string> LayoutFile::list_layouts() const {
 // READ LAYOUT FILE -----------------------------------------------------------------------------------
 void LayoutFile::set_layout(const std::string &file_name) {
 
-  auto file = std::ifstream(_path + "/" + file_name, std::ios::in);
+  _keys.clear();
 
+  auto file = std::ifstream(_path + "/" + file_name, std::ios::in);
   if (!file.is_open()) {
     std::cout << "Error: Layout file '" << file_name << "' doesn't exist!" << std::endl;
 
@@ -89,10 +90,10 @@ void LayoutFile::set_layout(const std::string &file_name) {
     }
   }
 
-  // for (auto &k : _keys) {
-  //   std::cout << "key: "
-  //             << " " << k.text << " " << k.shift << " type: " << k.type << std::endl;
-  // }
+  for (auto &k : _keys) {
+    std::cout << "key: "
+              << " " << k.text << " " << k.shift << " type: " << k.type << std::endl;
+  }
 }
 
 // ----------------------------------------------------------------------------------------------------
