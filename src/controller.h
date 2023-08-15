@@ -2,19 +2,8 @@
 #define CONTROLLER_H
 
 #include "SDL.h"
-#include "SDL_events.h"
-#include "SDL_keyboard.h"
-#include "SDL_keycode.h"
-#include "SDL_stdinc.h"
 #include "file/layout_file.h"
-#include "file/option_file.h"
-#include "game/target.h"
 #include "widget/window/widget_window.h"
-#include <SDL_keycode.h>
-#include <cstdint>
-#include <iostream>
-#include <memory>
-#include <vector>
 
 class Controller {
 public:
@@ -24,17 +13,7 @@ public:
   void set_language();
 
 private:
-  uint16_t convert_us(SDL_Event &e);
-  uint16_t convert_fr(SDL_Event &e);
-  uint16_t convert_bepo(SDL_Event &e);
-
-  const uint16_t _mask_mod; // Remove the first sixth bits (NUM/CAP/GUI) of mods
-
-  bool _circumflex;
-  bool _grave;
-  bool _diaeresis;
-
-  uint16_t _dead_key;
+  uint16_t _dead_key; // Memorise the current dead key's value (see layout files)
   bool _dead_key_deactivation;
 
   std::shared_ptr<LayoutFile> _layouts;
