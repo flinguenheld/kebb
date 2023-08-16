@@ -1,57 +1,47 @@
 #include "dispatcher.h"
+#include "file/layout_file.h"
+#include <cstdint>
+#include <string>
 
-Dispatcher::Dispatcher(std::shared_ptr<OptionFile> options) : _engine(_seed()), _number_of_chars(0) {
+Dispatcher::Dispatcher(std::shared_ptr<OptionFile> options, std::shared_ptr<LayoutFile> layouts)
+    : _layouts(layouts), _engine(_seed()), _number_of_chars(0) {
 
-  if (options->get().letters) {
-    for (uint16_t i = 10; i < 36; ++i) {
-      _keycodes.emplace_back(i);
-      ++_number_of_chars;
-    }
-  }
-  if (options->get().capitals) {
-    for (uint16_t i = 100; i < 126; ++i) {
-      _keycodes.emplace_back(i);
-      ++_number_of_chars;
-    }
-  }
-  if (options->get().numbers) {
-    for (uint16_t i = 500; i < 510; ++i) {
-      _keycodes.emplace_back(i);
-      ++_number_of_chars;
-    }
-  }
-  if (options->get().symbols) {
-    for (uint16_t i = 1000; i < 1032; ++i) {
-      _keycodes.emplace_back(i);
-      ++_number_of_chars;
-    }
-  }
-  if (options->get().french_extras) {
+  if (options->get().letters)
+    add(uint16_t(TypeChar::Letter));
 
-    uint16_t max = 2016;
-    if (options->get().layout == "FR") // Avoid æ œ // NOTE: With other layouts ?
-      max = 2114;
+  if (options->get().capitals)
+    add(uint16_t(TypeChar::Letter_cap));
 
-    for (uint16_t i = 2000; i < 2014; ++i) {
-      _keycodes.emplace_back(i);
-      ++_number_of_chars;
-    }
-  }
+  if (options->get().numbers)
+    add(uint16_t(TypeChar::Number));
 
-  if (options->get().french_extra_caps) {
+  if (options->get().symbols)
+    add(uint16_t(TypeChar::Symbol));
 
-    uint16_t max = 2115;
-    if (options->get().layout == "FR") // Avoid æ œ
-      max = 2113;
+  if (options->get().symbols_plus)
+    add(uint16_t(TypeChar::Symbol_plus));
 
-    for (uint16_t i = 2100; i < max; ++i) {
-      _keycodes.emplace_back(i);
-      ++_number_of_chars;
-    }
-  }
+  if (options->get().extras)
+    add(uint16_t(TypeChar::Extra));
 
-  for (uint16_t i = 0; i < 360; i += 10) // NOTE: 36 threads maxi !
+  if (options->get().extra_caps)
+    add(uint16_t(TypeChar::Extra_cap));
+
+  for (uint16_t i = 0; i < 360; i += 12) // NOTE: 30 threads maxi !
     _angles.emplace_back(i);
+}
+
+/*
+ * Add a type of letters (see layouts)
+ */
+void Dispatcher::add(uint16_t key_type) {
+
+  for (const auto &k : _layouts->keys()) {
+    if (k.type == key_type) {
+      _characters.emplace_back(k.text);
+      ++_number_of_chars;
+    }
+  }
 }
 
 /*
@@ -83,24 +73,22 @@ void Dispatcher::release_angle(uint16_t angle) {
 }
 
 /*
- * Select a keycode in the list, erase and return it.
+ * Select a character in the list, erase and move it.
  */
-uint16_t Dispatcher::get_keycode() {
+void Dispatcher::get_character(std::string &text) {
   std::unique_lock<std::mutex> ul(_mutex);
 
-  std::uniform_int_distribution<uint16_t> random_keycodes(0, _keycodes.size() - 1);
-  std::vector<uint16_t>::iterator it = std::next(_keycodes.begin(), random_keycodes(_engine));
+  std::uniform_int_distribution<uint16_t> random_char(0, _characters.size() - 1);
+  std::vector<std::string>::iterator it = std::next(_characters.begin(), random_char(_engine));
 
-  const uint16_t selected_keycode = *it;
-  _keycodes.erase(it);
-
-  return selected_keycode;
+  text = std::move(*it);
+  _characters.erase(it);
 };
 
 /*
  * Get it back in the char list
  */
-void Dispatcher::release_keycode(uint16_t k) {
+void Dispatcher::release_character(std::string &&k) {
   std::unique_lock<std::mutex> ul(_mutex);
-  _keycodes.emplace_back(k);
+  _characters.emplace_back(std::move(k));
 }

@@ -1,24 +1,25 @@
 #include "window_timer_mode.h"
+#include "file/layout_file.h"
 
 // clang-format off
 WindowTimerMode::WindowTimerMode(kebb::boxsize screen_size,
                        std::shared_ptr<kebb::WindowName> next_window,
                        std::shared_ptr<Renderer> renderer,
                        std::shared_ptr<RecordFile> records,
-                       std::shared_ptr<OptionFile> options)
-    : WindowGame(screen_size, next_window, renderer, records, options)
+                       std::shared_ptr<OptionFile> options,
+                       std::shared_ptr<LayoutFile> layouts)
+    : WindowGame(screen_size, next_window, renderer, records, options, layouts)
 // clang-format on
 {
 
   // Limit the amount of threads if needed
-  uint16_t nb_targets = options->get().timer_nb_targets;
-  if (nb_targets >= _dispatcher->number_of_chars())
-    nb_targets = _dispatcher->number_of_chars() * 0.6; // Remove to create a difficulty
+  const auto nb_targets =
+      (_nb_max_target < options->get().timer_nb_targets) ? _nb_max_target : options->get().timer_nb_targets;
 
   for (uint8_t i = 0; i < nb_targets; ++i)
-    _targets.emplace_back(std::make_shared<Target>(_target_center_aera, _target_radius_aera,
-                                                   _renderer->font_char_size(FontName::F_Target),
-                                                   options->get().timer_speed, _dispatcher, _score));
+    _targets.emplace_back(std::make_shared<Target>(
+        _target_center_aera, _target_radius_aera, _renderer->font_char_size(FontName::F_Target),
+        options->get().timer_speed, _dispatcher, _score, _layouts));
 
   // Start !
   for (auto &t : _targets)

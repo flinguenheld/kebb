@@ -1,18 +1,21 @@
 #include "window_game.h"
+#include "file/layout_file.h"
 
 // clang-format off
 WindowGame::WindowGame(kebb::boxsize screen_size,
                        std::shared_ptr<kebb::WindowName> next_window,
                        std::shared_ptr<Renderer> renderer,
                        std::shared_ptr<RecordFile> records,
-                       std::shared_ptr<OptionFile> options)
+                       std::shared_ptr<OptionFile> options,
+                       std::shared_ptr<LayoutFile> layouts)
     : WidgetWindow(next_window, renderer),
       _records(records),
       _options(options),
+      _layouts(layouts),
       _game_status(kebb::GameStatus::S_Quit) {
   // clang-format on
 
-  _dispatcher = std::make_shared<Dispatcher>(options);
+  _dispatcher = std::make_shared<Dispatcher>(options, layouts);
   _nb_max_target = _dispatcher->number_of_chars() * 0.6; // Prevent the same targets/thread amount.
 
   _score = std::make_shared<Score>();
@@ -58,12 +61,12 @@ void WindowGame::control_escape() {
   stop_game();
   *_next_window = kebb::WindowName::W_GameOver;
 }
-void WindowGame::control_others(uint16_t keycode) {
+void WindowGame::control_others(const std::string &character) {
 
   // Loop in all targets, if ok, up the loop
   for (auto &target : _targets) {
 
-    if (target->check_keycode(keycode))
+    if (target->check_key(character))
       return;
   }
 

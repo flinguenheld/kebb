@@ -53,28 +53,30 @@ void WidgetBoolean::action_right() { _status = true; }
 // Render -----------------------------------------------------------------
 void WidgetBoolean::render(SDL_Renderer *renderer, TTF_Font *font) const {
 
-  // ------------------------------------------------------------------------
-  // Text -------------------------------------------------------------------
-  WidgetTextBox::render(renderer, font);
+  if (_visible) {
+    // ------------------------------------------------------------------------
+    // Text -------------------------------------------------------------------
+    WidgetTextBox::render(renderer, font);
 
-  // ------------------------------------------------------------------------
-  // Button -----------------------------------------------------------------
-  if (_selected)
-    SDL_SetRenderDrawColor(renderer, _color_on.r, _color_on.g, _color_on.b, _color_on.a);
-  else
-    SDL_SetRenderDrawColor(renderer, _color_border.r, _color_border.g, _color_border.b, _color_border.a);
-  SDL_RenderFillRect(renderer, &_bt_border);
+    // ------------------------------------------------------------------------
+    // Button -----------------------------------------------------------------
+    if (_selected)
+      SDL_SetRenderDrawColor(renderer, _color_on.r, _color_on.g, _color_on.b, _color_on.a);
+    else
+      SDL_SetRenderDrawColor(renderer, _color_border.r, _color_border.g, _color_border.b, _color_border.a);
+    SDL_RenderFillRect(renderer, &_bt_border);
 
-  SDL_SetRenderDrawColor(renderer, _color_bg.r, _color_bg.g, _color_bg.b, _color_bg.a);
-  SDL_RenderFillRect(renderer, &_bt_background);
+    SDL_SetRenderDrawColor(renderer, _color_bg.r, _color_bg.g, _color_bg.b, _color_bg.a);
+    SDL_RenderFillRect(renderer, &_bt_background);
 
-  if (_status) {
-    SDL_SetRenderDrawColor(renderer, _color_bt_on.r, _color_bt_on.g, _color_bt_on.b, _color_bt_on.a);
-    SDL_RenderFillRect(renderer, &_bt_part_right);
-    SDL_SetRenderDrawColor(renderer, _color_bt.r, _color_bt.g, _color_bt.b, _color_bt.a);
-    SDL_RenderFillRect(renderer, &_bt_part_left);
-  } else {
-    SDL_SetRenderDrawColor(renderer, _color_bt.r, _color_bt.g, _color_bt.b, _color_bt.a);
-    SDL_RenderFillRect(renderer, &_bt_part_right);
+    if (_status) {
+      SDL_SetRenderDrawColor(renderer, _color_bt_on.r, _color_bt_on.g, _color_bt_on.b, _color_bt_on.a);
+      SDL_RenderFillRect(renderer, &_bt_part_right);
+      SDL_SetRenderDrawColor(renderer, _color_bt.r, _color_bt.g, _color_bt.b, _color_bt.a);
+      SDL_RenderFillRect(renderer, &_bt_part_left);
+    } else {
+      SDL_SetRenderDrawColor(renderer, _color_bt.r, _color_bt.g, _color_bt.b, _color_bt.a);
+      SDL_RenderFillRect(renderer, &_bt_part_right);
+    }
   }
 }

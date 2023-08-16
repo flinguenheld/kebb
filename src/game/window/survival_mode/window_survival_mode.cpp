@@ -6,8 +6,9 @@ WindowSurvivalMode::WindowSurvivalMode(kebb::boxsize screen_size,
                        std::shared_ptr<kebb::WindowName> next_window,
                        std::shared_ptr<Renderer> renderer,
                        std::shared_ptr<RecordFile> records,
-                       std::shared_ptr<OptionFile> options)
-    : WindowGame(screen_size, next_window, renderer, records, options),
+                       std::shared_ptr<OptionFile> options,
+                       std::shared_ptr<LayoutFile> layouts)
+    : WindowGame(screen_size, next_window, renderer, records, options, layouts),
     _previous_fail(0),
     _previous_miss(0),
     _previous_success(0),
@@ -59,12 +60,13 @@ WindowSurvivalMode::WindowSurvivalMode(kebb::boxsize screen_size,
   }
 
   // First level --
-  // Threads
-  for (uint8_t i = 0; i < _levels[0].nb_target; ++i)
+  const auto nb_targets_first_level =
+      (_nb_max_target < _levels[0].nb_target) ? _nb_max_target : _levels[0].nb_target;
+
+  for (uint8_t i = 0; i < nb_targets_first_level; ++i)
     _targets.emplace_back(std::make_shared<Target>(_target_center_aera, _target_radius_aera,
                                                    _renderer->font_char_size(FontName::F_Target),
-                                                   _levels[0].speed, _dispatcher, _score));
-
+                                                   _levels[0].speed, _dispatcher, _score, _layouts));
   // Start !
   for (auto &t : _targets)
     _threads.emplace_back(std::thread(&Target::update, t));
@@ -83,7 +85,7 @@ void WindowSurvivalMode::add_target(uint16_t waiting_time) {
 
     auto new_target = std::make_shared<Target>(Target(_target_center_aera, _target_radius_aera,
                                                       _renderer->font_char_size(FontName::F_Target),
-                                                      waiting_time, _dispatcher, _score));
+                                                      waiting_time, _dispatcher, _score, _layouts));
 
     _threads.emplace_back(std::thread(&Target::update, new_target));
     _targets.emplace_back(new_target);

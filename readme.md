@@ -3,7 +3,7 @@
 Kebb is a game for keyboard enthusiasts which allows you to test and improve your typing skills. :rocket:  
 Go to options to select the amount of letters, the speed and try to press all of the letters !
 
-It currently works with QWERTY, AZERTY and BÉPO layouts.
+It currently works with QWERTY, AZERTY, BÉPO and optimot layouts.
 
 <div align="center">
    <img src="./image/example_timer_1.gif" width="250" />
@@ -30,7 +30,6 @@ Pre-built package for Debian is available on the [Releases](https://github.com/f
   - [CMake install](https://cmake.org/install/)
 - **g++:**
   - Mac: [install Xcode command line tools to get make](https://developer.apple.com/xcode/features/)
-  - Windows: [Click here for installation instructions](https://gnuwin32.sourceforge.net/packages/make.htm)
 - **SDL (>= 2.0.12):**
   - All OSes: [SDL install](https://wiki.libsdl.org/SDL2/Installation)
 - **SDL TTF (>= 2.0.15):**

@@ -7,6 +7,7 @@
 #include "SDL_ttf.h"
 #include "about/window_about.h"
 #include "controller.h"
+#include "file/layout_file.h"
 #include "file/option_file.h"
 #include "file/record_file.h"
 #include "game/window/survival_mode/window_survival_mode.h"
@@ -21,7 +22,8 @@
 
 class Loop {
 public:
-  Loop(kebb::boxsize screen_size, std::shared_ptr<Renderer> renderer, std::shared_ptr<OptionFile> options);
+  Loop(kebb::boxsize screen_size, std::shared_ptr<Renderer> renderer, std::shared_ptr<OptionFile> options,
+       std::shared_ptr<LayoutFile> layouts);
 
   void run(Controller &controller);
 
@@ -30,6 +32,7 @@ private:
 
   std::shared_ptr<RecordFile> _records; // Created here to avoid repetitive read/write actions
   std::shared_ptr<OptionFile> _options;
+  std::shared_ptr<LayoutFile> _layouts;
 
   std::shared_ptr<Renderer> _renderer;
   const kebb::boxsize _screen_size;

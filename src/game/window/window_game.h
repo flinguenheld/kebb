@@ -24,11 +24,11 @@ class WindowGame : public WidgetWindow {
 public:
   WindowGame(kebb::boxsize screen_size, std::shared_ptr<kebb::WindowName> next_window,
              std::shared_ptr<Renderer> renderer, std::shared_ptr<RecordFile> records,
-             std::shared_ptr<OptionFile> options);
+             std::shared_ptr<OptionFile> options, std::shared_ptr<LayoutFile> layouts);
   virtual ~WindowGame() override;
 
   virtual void control_escape() override;
-  virtual void control_others(uint16_t keycode) override;
+  virtual void control_others(const std::string &character) override;
   virtual void render() const override;
 
   void stop_game();
@@ -39,6 +39,7 @@ protected:
   std::shared_ptr<Dispatcher> _dispatcher;
   std::shared_ptr<OptionFile> _options;
   std::shared_ptr<RecordFile> _records;
+  std::shared_ptr<LayoutFile> _layouts;
 
   std::shared_ptr<Score> _score;
   std::unique_ptr<WidgetScore> _widget_score;

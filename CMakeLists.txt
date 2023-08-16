@@ -25,6 +25,9 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/sdl2)
 
 include_directories(src)
 add_executable(${PROJECT_NAME} src/main.cpp
+
+                               src/file/layout_file.cpp
+
                                src/controller.cpp
                                src/loop.cpp
                                src/utils.cpp
@@ -65,5 +68,6 @@ target_link_libraries(${PROJECT_NAME} SDL2::Main)
 find_package(SDL2_ttf REQUIRED)
 target_link_libraries(${PROJECT_NAME} SDL2::TTF)
 
-# Copy fonts
+# Copy files
 file(COPY font DESTINATION ${CMAKE_BINARY_DIR})
+file(COPY layout DESTINATION ${CMAKE_BINARY_DIR})

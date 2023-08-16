@@ -2,10 +2,11 @@
 
 // clang-format off
 Loop::Loop(kebb::boxsize screen_size, std::shared_ptr<Renderer> renderer,
-           std::shared_ptr<OptionFile> options) :
+           std::shared_ptr<OptionFile> options, std::shared_ptr<LayoutFile> layouts) :
       _screen_size(screen_size),
       _renderer(renderer),
-      _options(options)
+      _options(options),
+      _layouts(layouts)
 {
   _records = std::make_shared<RecordFile>();
 }
@@ -42,14 +43,15 @@ void Loop::run(Controller &controller) {
         break;
       case kebb::WindowName::W_GameSurvival:
         _current_window = std::make_shared<WindowSurvivalMode>(_screen_size, next_window_name, _renderer,
-                                                               _records, _options);
+                                                               _records, _options, _layouts);
         break;
       case kebb::WindowName::W_GameTimer:
-        _current_window =
-            std::make_shared<WindowTimerMode>(_screen_size, next_window_name, _renderer, _records, _options);
+        _current_window = std::make_shared<WindowTimerMode>(_screen_size, next_window_name, _renderer,
+                                                            _records, _options, _layouts);
         break;
       case kebb::WindowName::W_Option:
-        _current_window = std::make_shared<WindowOption>(_screen_size, next_window_name, _renderer, _options);
+        _current_window =
+            std::make_shared<WindowOption>(_screen_size, next_window_name, _renderer, _options, _layouts);
         break;
       case kebb::WindowName::W_Record:
         _current_window = std::make_shared<WindowRecord>(_screen_size, next_window_name, _renderer, _records);

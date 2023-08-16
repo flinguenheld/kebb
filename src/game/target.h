@@ -13,23 +13,23 @@
 #include <thread>
 
 /*
- * Target is the logic part of a keycode (a character).
+ * Target is the logical part of a character.
  * The update method contains a while loop which is in charge of updating the object position. And thus the
  * color, the state ...
  * Once it's necessary, the init method is called. The latter will call the dispatcher to release the current
- * keycode/angle and ask for a new one.
+ * char/angle and ask for a new one.
  */
 class Target : public WidgetTextBox {
 public:
   Target(kebb::point center_area, uint16_t radius_area, kebb::boxsize char_size, uint16_t speed,
-         std::shared_ptr<Dispatcher> dispatcher, std::shared_ptr<Score> score);
+         std::shared_ptr<Dispatcher> dispatcher, std::shared_ptr<Score> score,
+         std::shared_ptr<LayoutFile> layouts);
 
   void update();
   void stop();
 
   void set_speed(uint16_t t); // Only updated by init()
-
-  bool check_keycode(uint16_t k);
+  bool check_key(const std::string &c);
 
 private:
   void init();
@@ -38,8 +38,8 @@ private:
 
   std::shared_ptr<Dispatcher> _dispatcher;
   std::shared_ptr<Score> _score;
+  std::shared_ptr<LayoutFile> _layouts;
 
-  uint16_t _keycode;
   uint16_t _angle;
 
   uint16_t _waiting_time;

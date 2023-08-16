@@ -27,11 +27,13 @@ public:
   void set_h(uint16_t h);
   void set_size(const kebb::boxsize &s);
   void set_color(const SDL_Color &c);
+  void set_visible(bool v);
 
 protected:
   kebb::point _position;
   kebb::boxsize _size;
   SDL_Color _color;
+  bool _visible;
 };
 
 #endif // !WIDGET_BASE_H
