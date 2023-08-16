@@ -17,13 +17,14 @@ void WidgetTextBox::set_color_text(SDL_Color &&color) { _color_text = std::move(
 // RENDER ---------------------------------------------------------------------------------------------
 void WidgetTextBox::render(SDL_Renderer *renderer, TTF_Font *font) const {
 
-  if (_visible) {
+  if (_visible && !_text.empty()) {
 
     SDL_Surface *new_textSurface = TTF_RenderUTF8_Shaded(font, _text.c_str(), _color_text, _color);
 
-    if (new_textSurface == NULL)
-      printf("Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError());
-    else {
+    if (new_textSurface == NULL) {
+      printf("Unable to render text surface! SDL_ttf Error: %s with the value: %s\n", TTF_GetError(),
+             _text.c_str());
+    } else {
 
       auto new_texture = SDL_CreateTextureFromSurface(renderer, new_textSurface);
       if (new_texture == NULL)

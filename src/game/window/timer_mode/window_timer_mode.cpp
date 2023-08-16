@@ -13,9 +13,8 @@ WindowTimerMode::WindowTimerMode(kebb::boxsize screen_size,
 {
 
   // Limit the amount of threads if needed
-  uint16_t nb_targets = options->get().timer_nb_targets;
-  if (nb_targets >= _dispatcher->number_of_chars())
-    nb_targets = _dispatcher->number_of_chars() * 0.6; // Remove to create a difficulty
+  const auto nb_targets =
+      (_nb_max_target < options->get().timer_nb_targets) ? _nb_max_target : options->get().timer_nb_targets;
 
   for (uint8_t i = 0; i < nb_targets; ++i)
     _targets.emplace_back(std::make_shared<Target>(

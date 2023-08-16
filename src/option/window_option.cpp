@@ -1,5 +1,4 @@
 #include "window_option.h"
-#include "file/layout_file.h"
 
 WindowOption::WindowOption(kebb::boxsize screen_size, std::shared_ptr<kebb::WindowName> next_window,
                            std::shared_ptr<Renderer> renderer, std::shared_ptr<OptionFile> options,
@@ -61,7 +60,7 @@ WindowOption::WindowOption(kebb::boxsize screen_size, std::shared_ptr<kebb::Wind
       std::make_unique<WidgetList>(pt, bs_field, "Keyboard layout:", std::move(list_layouts)));
   _widget_select_fields.back()->set_choice_by_value(_options->get().layout);
 
-  pt.y += y_long_space;
+  pt.y += y_medium_space;
   _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "Letters"));
   _widget_select_fields.back()->set_bool(_options->get().letters);
 
@@ -73,7 +72,7 @@ WindowOption::WindowOption(kebb::boxsize screen_size, std::shared_ptr<kebb::Wind
   _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "Numbers"));
   _widget_select_fields.back()->set_bool(_options->get().numbers);
 
-  pt.y += y_small_space;
+  pt.y += y_medium_space;
   _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "Symbols"));
   _widget_select_fields.back()->set_bool(_options->get().symbols);
 

@@ -60,12 +60,13 @@ WindowSurvivalMode::WindowSurvivalMode(kebb::boxsize screen_size,
   }
 
   // First level --
-  // Threads
-  for (uint8_t i = 0; i < _levels[0].nb_target; ++i)
+  const auto nb_targets_first_level =
+      (_nb_max_target < _levels[0].nb_target) ? _nb_max_target : _levels[0].nb_target;
+
+  for (uint8_t i = 0; i < nb_targets_first_level; ++i)
     _targets.emplace_back(std::make_shared<Target>(_target_center_aera, _target_radius_aera,
                                                    _renderer->font_char_size(FontName::F_Target),
                                                    _levels[0].speed, _dispatcher, _score, _layouts));
-
   // Start !
   for (auto &t : _targets)
     _threads.emplace_back(std::thread(&Target::update, t));

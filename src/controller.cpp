@@ -1,7 +1,7 @@
 #include "controller.h"
 
 Controller::Controller(std::shared_ptr<LayoutFile> layouts)
-    : _layouts(layouts), _dead_key(0), _dead_key_deactivation(false) {}
+    : _layouts(layouts), _dead_key_activated(0), _dead_key_deactivation(false) {}
 
 void Controller::handle_input(bool &running, std::shared_ptr<WidgetWindow> window) {
 
@@ -69,12 +69,12 @@ void Controller::handle_input(bool &running, std::shared_ptr<WidgetWindow> windo
           if (k.shift == shift && k.alt == alt && k.altgr == ralt) {
             if (e.key.keysym.sym == k.sym) {
 
-              if (k.is_dead != 0) {
-                _dead_key = k.is_dead;
+              if (k.is_dead != 0 && _dead_key_activated == 0) { // Allows to press a deadkey twice
+                _dead_key_activated = k.is_dead;
                 break;
               }
 
-              if (_dead_key == 0 || (_dead_key != 0 && k.dead == _dead_key)) {
+              if (_dead_key_activated == 0 || (_dead_key_activated != 0 && k.dead == _dead_key_activated)) {
                 window->control_others(k.text);
                 break;
               }
@@ -83,9 +83,9 @@ void Controller::handle_input(bool &running, std::shared_ptr<WidgetWindow> windo
         }
 
         // The dead key has to run only for the next key.
-        if (_dead_key != 0) {
+        if (_dead_key_activated != 0) {
           if (_dead_key_deactivation) {
-            _dead_key = 0;
+            _dead_key_activated = 0;
             _dead_key_deactivation = false;
           } else
             _dead_key_deactivation = true;

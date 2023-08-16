@@ -3,7 +3,7 @@
 Kebb is a game for keyboard enthusiasts which allows you to test and improve your typing skills. :rocket:  
 Go to options to select the amount of letters, the speed and try to press all of the letters !
 
-It currently works with QWERTY, AZERTY and BÉPO layouts.
+It currently works with QWERTY, AZERTY, BÉPO and optimot layouts.
 
 <div align="center">
    <img src="./image/example_timer_1.gif" width="250" />

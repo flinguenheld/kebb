@@ -13,7 +13,7 @@ public:
   void set_language();
 
 private:
-  uint16_t _dead_key; // Memorise the current dead key's value (see layout files)
+  uint16_t _dead_key_activated; // Memorise the current dead key's value (see layout files)
   bool _dead_key_deactivation;
 
   std::shared_ptr<LayoutFile> _layouts;

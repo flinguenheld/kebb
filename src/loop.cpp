@@ -1,5 +1,4 @@
 #include "loop.h"
-#include "file/layout_file.h"
 
 // clang-format off
 Loop::Loop(kebb::boxsize screen_size, std::shared_ptr<Renderer> renderer,
