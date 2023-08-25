@@ -1,4 +1,3 @@
-
 cmake_minimum_required(VERSION 3.24)
 
 set(PROJECT_NAME kebb)
@@ -95,12 +94,6 @@ target_link_libraries(
     SDL2
     SDL2_ttf
 )
-
-# find_package(SDL2 REQUIRED)
-# target_link_libraries(${PROJECT_NAME} SDL2::Main)
-#
-# find_package(SDL2_ttf REQUIRED)
-# target_link_libraries(${PROJECT_NAME} SDL2::TTF)
 
 # Copy files
 file(COPY font DESTINATION ${CMAKE_BINARY_DIR})
