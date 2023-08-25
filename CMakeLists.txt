@@ -1,10 +1,39 @@
-project(kebb)
 
-cmake_minimum_required(VERSION 3.7)
-set(CMAKE_CXX_STANDARD 17)
+cmake_minimum_required(VERSION 3.24)
+
+set(PROJECT_NAME kebb)
+
+project(${PROJECT_NAME} VERSION 1.0.0 LANGUAGES C CXX)
+
+set(CMAKE_CXX_STANDARD          20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS        OFF)
 
-add_definitions(-std=c++17)
+
+include(FetchContent)
+
+message("Fetch sdl ----------")
+FetchContent_Declare(
+    SDL2
+    GIT_REPOSITORY  https://github.com/libsdl-org/SDL
+    # GIT_TAG         release-2.26.3
+    GIT_TAG         release-2.0.22
+    GIT_PROGRESS    TRUE
+)
+FetchContent_MakeAvailable(SDL2)
+
+message("Fetch sdl ttf ------")
+FetchContent_Declare(
+  SDL2_ttf
+    GIT_REPOSITORY https://github.com/libsdl-org/SDL_ttf
+    GIT_TAG release-2.20.2
+    GIT_SHALLOW TRUE
+    GIT_PROGRESS TRUE)
+
+FetchContent_MakeAvailable(SDL2_ttf)
+
+
+
 
 set(CXX_FLAGS "-Wall")
 set(CMAKE_CXX_FLAGS, "${CXX_FLAGS}")
@@ -20,8 +49,6 @@ if (DEBUG)
   add_definitions(-DDEBUG)
 endif()
 
-# Add SDL2 CMake modules
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/sdl2)
 
 include_directories(src)
 add_executable(${PROJECT_NAME} src/main.cpp
@@ -62,11 +89,18 @@ add_executable(${PROJECT_NAME} src/main.cpp
 find_package(Threads)
 target_link_libraries(${PROJECT_NAME} Threads::Threads)
 
-find_package(SDL2 REQUIRED)
-target_link_libraries(${PROJECT_NAME} SDL2::Main)
 
-find_package(SDL2_ttf REQUIRED)
-target_link_libraries(${PROJECT_NAME} SDL2::TTF)
+target_link_libraries(
+  ${PROJECT_NAME}
+    SDL2
+    SDL2_ttf
+)
+
+# find_package(SDL2 REQUIRED)
+# target_link_libraries(${PROJECT_NAME} SDL2::Main)
+#
+# find_package(SDL2_ttf REQUIRED)
+# target_link_libraries(${PROJECT_NAME} SDL2::TTF)
 
 # Copy files
 file(COPY font DESTINATION ${CMAKE_BINARY_DIR})
