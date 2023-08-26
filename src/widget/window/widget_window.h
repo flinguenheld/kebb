@@ -1,9 +1,8 @@
 #ifndef WIDGET_WINDOW_H
 #define WIDGET_WINDOW_H
 
+#include "button/widget_selection.h"
 #include "renderer.h"
-#include "widget/button/widget_selection.h"
-#include "widget/widget_base.h"
 #include <memory>
 
 /*

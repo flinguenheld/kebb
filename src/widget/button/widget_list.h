@@ -1,11 +1,8 @@
 #ifndef WIDGET_LIST_H
 #define WIDGET_LIST_H
 
-#include "renderer.h"
-#include "utils.h"
-#include "widget/button/widget_selection.h"
-#include "widget/widget_textbox.h"
-#include <algorithm>
+#include "button/widget_selection.h"
+#include "widget_textbox.h"
 #include <memory>
 #include <vector>
 

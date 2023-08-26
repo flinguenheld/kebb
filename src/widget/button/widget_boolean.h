@@ -1,9 +1,8 @@
 #ifndef WIDGET_BOOLEAN_H
 #define WIDGET_BOOLEAN_H
 
-#include "SDL_render.h"
-#include "widget/button/widget_selection.h"
-#include "widget/widget_textbox.h"
+#include "button/widget_selection.h"
+#include "widget_textbox.h"
 
 /*
  * Based on a WidgetSelection which is itself based on WidgetTextBox, this class displays a text and a button

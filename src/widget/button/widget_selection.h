@@ -1,9 +1,7 @@
 #ifndef WIDGET_SELECTION_H
 #define WIDGET_SELECTION_H
 
-#include "SDL_pixels.h"
-#include "widget/widget_textbox.h"
-#include <cstdint>
+#include "widget_textbox.h"
 
 // Use by child WidgetList
 struct SelectionItem {

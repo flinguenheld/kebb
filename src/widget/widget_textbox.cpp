@@ -1,5 +1,4 @@
 #include "widget_textbox.h"
-#include "utils.h"
 
 WidgetTextBox::WidgetTextBox(kebb::point position, kebb::boxsize size)
     : WidgetBase(position, size), _text("") {
