@@ -1,7 +1,7 @@
 #ifndef WINDOW_TIMER_MODE_H
 #define WINDOW_TIMER_MODE_H
 
-#include "file/layout_file.h"
+#include "file_layout.h"
 #include "game/window/window_game.h"
 
 class WindowTimerMode : public WindowGame {

@@ -1,8 +1,8 @@
 #ifndef DISPATCHER_H
 #define DISPATCHER_H
 
-#include "file/layout_file.h"
-#include "file/option_file.h"
+#include "file_layout.h"
+#include "file_option.h"
 #include <mutex>
 #include <random>
 #include <vector>

@@ -3,9 +3,9 @@
 
 #include "about/window_about.h"
 #include "controller.h"
-#include "file/layout_file.h"
-#include "file/option_file.h"
-#include "file/record_file.h"
+#include "file_layout.h"
+#include "file_option.h"
+#include "file_record.h"
 #include "game/window/survival_mode/window_survival_mode.h"
 #include "game/window/survival_mode/window_welcome_survival.h"
 #include "game/window/timer_mode/window_timer_mode.h"

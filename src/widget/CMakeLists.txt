@@ -18,7 +18,7 @@ set(LIB_WIDGET_HEADERS
 
 set(LIB_WIDGET_INCLUDES
     ./
-    ${CMAKE_BINARY_DIR}/include/widget)
+    ${CMAKE_BINARY_DIR}/include/${LIBRARY_WIDGET})
 
 add_library(${LIBRARY_WIDGET} STATIC
             ${LIB_WIDGET_SOURCES}

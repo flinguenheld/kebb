@@ -1,7 +1,7 @@
 #ifndef WINDOW_RECORD
 #define WINDOW_RECORD
 
-#include "file/record_file.h"
+#include "file_record.h"
 #include "window/widget_bottom_menu.h"
 #include "window/widget_window.h"
 

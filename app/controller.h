@@ -1,7 +1,7 @@
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
 
-#include "file/layout_file.h"
+#include "file_layout.h"
 #include "window/widget_window.h"
 
 class Controller {

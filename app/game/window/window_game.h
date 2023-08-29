@@ -1,8 +1,8 @@
 #ifndef WINDOW_GAME_H
 #define WINDOW_GAME_H
 
-#include "file/option_file.h"
-#include "file/record_file.h"
+#include "file_option.h"
+#include "file_record.h"
 #include "game/score.h"
 #include "game/target.h"
 #include "game/window/widget_score.h"

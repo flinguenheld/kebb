@@ -1,6 +1,6 @@
 #include "controller.h"
-#include "file/layout_file.h"
-#include "file/option_file.h"
+#include "file_layout.h"
+#include "file_option.h"
 #include "loop.h"
 #include "widget_base.h"
 

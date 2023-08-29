@@ -2,7 +2,7 @@
 #define WINDOW_WELCOME_H
 
 #include "button/widget_selection.h"
-#include "file/option_file.h"
+#include "file_option.h"
 #include "welcome/widget_logo.h"
 #include "widget_textbox.h"
 #include "window/widget_bottom_menu.h"
