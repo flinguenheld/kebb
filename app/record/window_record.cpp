@@ -8,46 +8,33 @@ WindowRecord::WindowRecord(kebb::boxsize screen_size, std::shared_ptr<kebb::Wind
 
   // Geometry
   kebb::boxsize char_size = _renderer->font_char_size(FontName::F_Menu);
-  kebb::boxsize bs;
   kebb::point pt;
 
   // ------------------------------------------------------------------------
   // Title ------------------------------------------------------------------
   char_size.set_scale(3);
-  bs.w = char_size.w * 7;
-  bs.h = char_size.h;
+  pt.x = screen_size.w / 2;
+  pt.y = char_size.h * 0.5;
 
-  pt.x = screen_size.w / 2 - bs.w / 2;
-  pt.y = bs.h * 0.05;
+  _widget_title = std::make_unique<WidgetTextBox>(pt, char_size, TextBoxAlign::TB_Center, "Records",
+                                                  kebb::color(kebb::ColorName::C_Peach));
 
-  _widget_title = std::make_unique<WidgetTextBox>(pt, bs);
-  _widget_title->set_text("Records");
-  _widget_title->set_color_text(kebb::color(kebb::ColorName::C_Peach));
-
-  pt.y += bs.h * 0.9;
+  pt.y += char_size.h * 0.5;
 
   // ------------------------------------------------------------------------
   // Text -------------------------------------------------------------------
-  char_size = _renderer->font_char_size(FontName::F_Menu).scale(1.2);
+  char_size = _renderer->font_char_size(FontName::F_Menu).scale(1.1);
 
-  bs.w = char_size.w * 18;
-  bs.h = char_size.h;
+  _widget_title2 = std::make_unique<WidgetTextBox>(
+      pt, char_size, TextBoxAlign::TB_Center, "Last fifteen games", kebb::color(kebb::ColorName::C_Peach));
 
-  pt.x = screen_size.w / 2 - bs.w / 2;
-
-  _widget_title2 = std::make_unique<WidgetTextBox>(pt, bs);
-  _widget_title2->set_text("Last fifteen games");
-  _widget_title2->set_color_text(kebb::color(kebb::ColorName::C_Peach));
-
-  pt.y += bs.h * 1.4;
+  pt.y += char_size.h * 1.4;
 
   // ------------------------------------------------------------------------
   // Entries ----------------------------------------------------------------
   char_size = _renderer->font_char_size(FontName::F_Menu).scale(0.75);
-  bs.h = char_size.h;
 
   for (const auto &e : _records->records()) {
-
     std::string text;
 
     // Date
@@ -93,18 +80,15 @@ WindowRecord::WindowRecord(kebb::boxsize screen_size, std::shared_ptr<kebb::Wind
     text += " M" + std::to_string(e.miss);
 
     // Up size & position
-    bs.w = char_size.w * text.length();
-    pt.x = screen_size.w / 2 - bs.w / 2;
-
-    _entries.emplace_back(std::make_unique<WidgetTextBox>(pt, bs));
-    _entries.back()->set_text(std::move(text));
+    _entries.emplace_back(std::make_unique<WidgetTextBox>(pt, char_size, TextBoxAlign::TB_Center));
+    _entries.back()->move_text(std::move(text));
 
     if ((kebb::GameMode)e.mode == kebb::GameMode::M_Survival)
       _entries.back()->set_color_text(kebb::color(kebb::ColorName::C_Text));
     else
       _entries.back()->set_color_text(kebb::color(kebb::ColorName::C_Sky));
 
-    pt.y += bs.h * 1.15;
+    pt.y += char_size.h * 1.15;
   }
 }
 

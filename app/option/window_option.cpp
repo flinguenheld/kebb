@@ -10,34 +10,28 @@ WindowOption::WindowOption(kebb::boxsize screen_size, std::shared_ptr<kebb::Wind
 
   // Geometry
   kebb::boxsize char_size = _renderer->font_char_size(FontName::F_Menu);
-  kebb::boxsize bs_title;
   kebb::point pt;
 
   // ------------------------------------------------------------------------
   // Title ------------------------------------------------------------------
   char_size.set_scale(3);
-  bs_title.w = char_size.w * 7;
-  bs_title.h = char_size.h;
+  pt.x = screen_size.w / 2;
+  pt.y = char_size.h * 0.5;
 
-  pt.x = screen_size.w / 2 - bs_title.w / 2;
-  pt.y = bs_title.h * 0.05;
+  _widget_title = std::make_unique<WidgetTextBox>(pt, char_size, TextBoxAlign::TB_Center, "Options",
+                                                  kebb::color(kebb::ColorName::C_Peach));
 
-  _widget_title = std::make_unique<WidgetTextBox>(pt, bs_title);
-  _widget_title->set_text("Options");
-  _widget_title->set_color_text(kebb::color(kebb::ColorName::C_Peach));
+  pt.y += char_size.h;
 
   // ------------------------------------------------------------------------
   // Selection fields -------------------------------------------------------
-  const kebb::boxsize bs_field = renderer->font_char_size(FontName::F_Menu).scale(1.1);
-  const uint16_t y_long_space = bs_field.h * 2;
-  const uint16_t y_medium_space = bs_field.h * 1.5;
-  const uint16_t y_small_space = bs_field.h * 1.03;
-
-  pt.x = screen_size.w / 2;
-  pt.y += bs_title.h * 1.5;
+  char_size = _renderer->font_char_size(FontName::F_Menu).scale(1.1);
+  const uint16_t y_long_space = char_size.h * 2;
+  const uint16_t y_medium_space = char_size.h * 1.5;
+  const uint16_t y_small_space = char_size.h * 1.03;
 
   _widget_select_fields.emplace_back(
-      std::make_unique<WidgetList>(pt, bs_field, "Resolution:",
+      std::make_unique<WidgetList>(pt, char_size, "Resolution:",
                                    // std::vector<SelectionItem>{{"480x480", "480-25"}, // Logic: ~12 000
                                    //                            {"640x640", "640-19"},
                                    //                            {"800x800", "800-15"},
@@ -47,7 +41,6 @@ WindowOption::WindowOption(kebb::boxsize screen_size, std::shared_ptr<kebb::Wind
                                                               {"640x640", "640-15"},
                                                               {"800x800", "800-12"},
                                                               {"1024x1024", "1024-9"}},
-
                                    true));
   _widget_select_fields.back()->set_choice_by_value(_options->get().resolution);
 
@@ -57,41 +50,42 @@ WindowOption::WindowOption(kebb::boxsize screen_size, std::shared_ptr<kebb::Wind
     list_layouts.emplace_back(SelectionItem{.text = l, .value_string = l});
 
   _widget_select_fields.emplace_back(
-      std::make_unique<WidgetList>(pt, bs_field, "Keyboard layout:", std::move(list_layouts)));
+      std::make_unique<WidgetList>(pt, char_size, "Keyboard layout:", std::move(list_layouts)));
   _widget_select_fields.back()->set_choice_by_value(_options->get().layout);
 
   pt.y += y_medium_space;
-  _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "Letters"));
+  _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, char_size, "Letters"));
   _widget_select_fields.back()->set_bool(_options->get().letters);
 
   pt.y += y_small_space;
-  _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "Capitals"));
+  _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, char_size, "Capitals"));
   _widget_select_fields.back()->set_bool(_options->get().capitals);
 
   pt.y += y_small_space;
-  _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "Numbers"));
+  _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, char_size, "Numbers"));
   _widget_select_fields.back()->set_bool(_options->get().numbers);
 
   pt.y += y_medium_space;
-  _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "Symbols"));
+  _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, char_size, "Symbols"));
   _widget_select_fields.back()->set_bool(_options->get().symbols);
 
   pt.y += y_small_space;
-  _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "Symbols plus"));
+  _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, char_size, "Symbols plus"));
   _widget_select_fields.back()->set_bool(_options->get().symbols_plus);
 
   pt.y += y_medium_space;
-  _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "Extras"));
+  _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, char_size, "Extras"));
   _widget_select_fields.back()->set_bool(_options->get().extras);
 
   pt.y += y_small_space;
-  _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, bs_field, "Extra caps"));
+  _widget_select_fields.emplace_back(std::make_unique<WidgetBoolean>(pt, char_size, "Extra caps"));
   _widget_select_fields.back()->set_bool(_options->get().extra_caps);
 
   // ------------------------------------------------------------------------
   // Message ----------------------------------------------------------------
-  pt.y += y_small_space;
-  _widget_message = std::make_unique<WidgetTextBox>(pt, bs_field);
+  pt.y += y_long_space;
+  char_size = _renderer->font_char_size(FontName::F_Menu).scale(0.8);
+  _widget_message = std::make_unique<WidgetTextBox>(pt, char_size, TextBoxAlign::TB_Center);
   _widget_message->set_color_text(kebb::color(kebb::ColorName::C_Base));
   _widget_message->set_color(kebb::color(kebb::ColorName::C_Yellow));
 
@@ -104,8 +98,6 @@ WindowOption::~WindowOption() {}
 // ----------------------------------------------------------------------------------------------------
 // LOGIC ----------------------------------------------------------------------------------------------
 void WindowOption::logic() {
-
-  // std::cout << "layout: " << _widget_select_fields[1]->get_choice().value_string << std::endl;
 
   // Check the layout value
   _widget_select_fields[2]->set_visible(
@@ -122,8 +114,6 @@ void WindowOption::logic() {
       _layouts->are_there(_widget_select_fields[1]->get_choice().value_string, TypeChar::Extra));
   _widget_select_fields[8]->set_visible(
       _layouts->are_there(_widget_select_fields[1]->get_choice().value_string, TypeChar::Extra_cap));
-
-  // Adapt the visibility of widgets
 }
 
 // ----------------------------------------------------------------------------------------------------
@@ -147,24 +137,10 @@ void WindowOption::render() const {
 
 // ----------------------------------------------------------------------------------------------------
 // MESSAGE --------------------------------------------------------------------------------------------
-/*
- * Resize the _Widget_message and set the text.
- */
-void WindowOption::display_message(std::string &&message) {
-
-  kebb::boxsize char_size = _renderer->font_char_size(FontName::F_Menu);
-  char_size.set_scale(0.8);
-  _widget_message->set_w(char_size.w * message.length());
-  _widget_message->set_text(std::move(message));
-
-  _widget_message->set_x(_screen_size.w / 2 - _widget_message->size().w / 2);
-  _message_displayed = true;
-}
-
 void WindowOption::check_new_resolution() {
 
   if (_options->get().resolution != _widget_select_fields[0]->get_choice().value_string) {
-    display_message("  Restart the application to set the new resolution.  ");
+    _widget_message->move_text("  Restart the application to set the new resolution.  ");
     _message_displayed = true;
   }
 }
@@ -172,7 +148,7 @@ void WindowOption::check_qwerty_extra() {
 
   if ((_widget_select_fields[6]->get_bool() || _widget_select_fields[7]->get_bool()) &&
       _widget_select_fields[1]->get_choice().value_string == "qwerty") {
-    display_message("  Extras requier the US Altgr-intl layout  ");
+    _widget_message->move_text("  Extras requier the US Altgr-intl layout  ");
     _message_displayed = true;
   }
 }
@@ -214,7 +190,7 @@ void WindowOption::control_enter() {
 
     *_next_window = kebb::WindowName::W_Welcome;
   } else
-    display_message("  At least one target type is requiered.  ");
+    _widget_message->move_text("  At least one target type is requiered.  ");
 }
 
 void WindowOption::control_left() {

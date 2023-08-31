@@ -4,7 +4,6 @@ WidgetGauge::WidgetGauge(kebb::boxsize screen_size, std::shared_ptr<Renderer> re
     : _renderer(renderer), _gauge_alpha(100) {
 
   _gauge_color = kebb::color(kebb::ColorName::C_Teal);
-  auto text_color = kebb::color(kebb::ColorName::C_Blue);
 
   // Geometry
   _char_size = _renderer->font_char_size(FontName::F_Game);
@@ -17,9 +16,8 @@ WidgetGauge::WidgetGauge(kebb::boxsize screen_size, std::shared_ptr<Renderer> re
                    static_cast<uint16_t>(screen_size.h - size.h - margin)};
   kebb::point pt_text = {static_cast<uint16_t>(_pt_insertion.x + (5.5 * _char_size.w)), _pt_insertion.y};
 
-  _textbox_level = std::make_unique<WidgetTextBox>(pt_text, text_size);
-  _textbox_level->set_color_text(std::move(text_color));
-  _textbox_level->set_text("00");
+  _textbox_level = std::make_unique<WidgetTextBox>(pt_text, _char_size, TextBoxAlign::TB_Left, "00",
+                                                   kebb::color(kebb::ColorName::C_Blue));
 
   // Gauge --
   _padding_y_txt = _char_size.h * 0.2;
@@ -68,7 +66,7 @@ void WidgetGauge::set_level(uint16_t val) {
   if (level.size() == 1)
     level = "0" + level;
 
-  _textbox_level->set_text(std::move(level));
+  _textbox_level->move_text(std::move(level));
 }
 
 uint16_t WidgetGauge::get_level() const { return std::stoi(_textbox_level->get_text()); }

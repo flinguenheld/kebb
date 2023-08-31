@@ -32,8 +32,8 @@ private:
   SDL_Color _color_border;
   SDL_Color _color_bg;
 
-  uint16_t _space_width;
-  uint16_t _total_width; // Textbox + space + button
+  // uint16_t _space_width;
+  // uint16_t _total_width; // Textbox + space + button
 
   SDL_Rect _bt_border;
   SDL_Rect _bt_background;

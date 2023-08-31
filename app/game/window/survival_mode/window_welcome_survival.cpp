@@ -10,64 +10,68 @@ WindowWelcomeSurvival::WindowWelcomeSurvival(kebb::boxsize screen_size,
 
   // Geometry
   kebb::boxsize char_size = _renderer->font_char_size(FontName::F_Menu);
-  kebb::boxsize bs_title;
   kebb::point pt;
 
   // ------------------------------------------------------------------------
   // Title ------------------------------------------------------------------
   char_size.set_scale(3.1);
-  bs_title.w = char_size.w * 13;
-  bs_title.h = char_size.h;
+  pt.x = screen_size.w / 2;
+  pt.y = char_size.h * 1.1;
 
-  pt.x = screen_size.w / 2 - bs_title.w / 2;
-  pt.y = bs_title.h * 0.5;
-
-  _textbox_title = std::make_unique<WidgetTextBox>(pt, bs_title);
-  _textbox_title->set_text("Survival mode");
-  _textbox_title->set_color_text(kebb::color(kebb::ColorName::C_Peach));
+  _textbox_title = std::make_unique<WidgetTextBox>(pt, char_size, TextBoxAlign::TB_Center, "Survival mode",
+                                                   kebb::color(kebb::ColorName::C_Peach));
+  pt.y += char_size.h * 1.5;
 
   // ------------------------------------------------------------------------
   // Selection fields -------------------------------------------------------
-  kebb::boxsize bs = renderer->font_char_size(FontName::F_Menu).scale(1.5);
-  const uint16_t y_space = bs.h * 1.2;
+  char_size = _renderer->font_char_size(FontName::F_Menu).scale(1.3);
 
-  pt.x = screen_size.w / 2;
-  pt.y += bs_title.h * 2;
+  _widget_select_fields.emplace_back(std::make_unique<WidgetList>(
+      pt, char_size, "Difficulty:",
+      std::vector<SelectionItem>{{.text = "Very easy", .value_string = "Very easy"},
+                                 {.text = "Easy", .value_string = "Easy"},
+                                 {.text = "Normal", .value_string = "Normal"},
+                                 {.text = "Hard", .value_string = "Hard"},
+                                 {.text = "Very hard", .value_string = "Very hard"},
+                                 {.text = "Impossible", .value_string = "Impossible"}},
+      true)); // Selected !
+  _widget_select_fields.back()->set_choice_by_value(_options->get().survival_difficulty);
 
-  _widget_select_fields.emplace_back(std::make_unique<WidgetList>(pt, bs, "Nb targets:", 2, 15, 1, true));
+  pt.y += char_size.h * 1.2;
+  _widget_select_fields.emplace_back(std::make_unique<WidgetList>(pt, char_size, "Nb targets:", 2, 15, 1));
   _widget_select_fields.back()->set_choice_by_value(_options->get().survival_nb_targets);
 
-  pt.y += y_space;
-  _widget_select_fields.emplace_back(std::make_unique<WidgetList>(pt, bs, "Speed", 1, 15, 1));
+  pt.y += char_size.h * 1.2;
+  _widget_select_fields.emplace_back(std::make_unique<WidgetList>(pt, char_size, "Speed:", 1, 15, 1));
   _widget_select_fields.back()->set_choice_by_value(_options->get().survival_speed);
 
-  pt.y += y_space * 1.8;
+  pt.y += char_size.h * 2;
 
   // ------------------------------------------------------------------------
   // Explanations -----------------------------------------------------------
-  std::string explanation_l1 = "Select starting options and try";
-  std::string explanation_l2 = "to reach the twelfth level !";
-
+  // FIX: INCOMPLETE
   char_size = _renderer->font_char_size(FontName::F_Menu);
-  bs.h = char_size.h;
 
-  bs.w = char_size.w * explanation_l1.length();
-  pt.x = screen_size.w / 2 - bs.w / 2;
-
-  _textbox_explanation_l1 = std::make_unique<WidgetTextBox>(pt, bs);
-  _textbox_explanation_l1->set_text(std::move(explanation_l1));
-  _textbox_explanation_l1->set_color_text(kebb::color(kebb::ColorName::C_Overlay1));
-
-  pt.y += bs.h;
-  bs.w = char_size.w * explanation_l2.length();
-  pt.x = screen_size.w / 2 - bs.w / 2;
-
-  _textbox_explanation_l2 = std::make_unique<WidgetTextBox>(pt, bs);
-  _textbox_explanation_l2->set_text(std::move(explanation_l2));
-  _textbox_explanation_l2->set_color_text(kebb::color(kebb::ColorName::C_Overlay1));
+  _textbox_explanation_l1 = std::make_unique<WidgetTextBox>(pt, char_size, TextBoxAlign::TB_Center,
+                                                            "Select starting options and try",
+                                                            kebb::color(kebb::ColorName::C_Overlay1));
+  pt.y += char_size.h;
+  _textbox_explanation_l2 =
+      std::make_unique<WidgetTextBox>(pt, char_size, TextBoxAlign::TB_Center, "to reach the twelfth level !",
+                                      kebb::color(kebb::ColorName::C_Overlay1));
 }
 
 WindowWelcomeSurvival::~WindowWelcomeSurvival() {}
+
+// ----------------------------------------------------------------------------------------------------
+// LOGIC ----------------------------------------------------------------------------------------------
+void WindowWelcomeSurvival::logic() {
+
+  _textbox_explanation_l2->move_text(
+      std::move("Next level with " + std::to_string(next_level("Normal")) + " points."));
+  _textbox_explanation_l2->move_text(std::move(std::to_string(max_fail("Normal")) + " fail & " +
+                                               std::to_string(max_miss("Normal")) + " misses maximum"));
+}
 
 // ----------------------------------------------------------------------------------------------------
 // RENDER ---------------------------------------------------------------------------------------------
@@ -94,9 +98,63 @@ void WindowWelcomeSurvival::control_escape() { *_next_window = kebb::WindowName:
 void WindowWelcomeSurvival::control_enter() {
 
   // Up options, save and launch the game !
-  _options->set().survival_nb_targets = _widget_select_fields[0]->get_choice().value_uint;
-  _options->set().survival_speed = _widget_select_fields[1]->get_choice().value_uint;
+  _options->set().survival_difficulty = _widget_select_fields[0]->get_choice().value_string;
+  _options->set().survival_max_fail = max_fail(_widget_select_fields[0]->get_choice().value_string);
+  _options->set().survival_max_miss = max_miss(_widget_select_fields[0]->get_choice().value_string);
+  _options->set().survival_next_level = next_level(_widget_select_fields[0]->get_choice().value_string);
+
+  _options->set().survival_nb_targets = _widget_select_fields[1]->get_choice().value_uint;
+  _options->set().survival_speed = _widget_select_fields[2]->get_choice().value_uint;
+
   _options->set().last_mode = uint16_t(kebb::GameMode::M_Survival);
 
   *_next_window = kebb::WindowName::W_GameSurvival;
+}
+
+// ----------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------
+uint16_t WindowWelcomeSurvival::max_fail(const std::string &difficulty) {
+
+  if (_options->get().survival_difficulty == "Very easy")
+    return 10;
+  else if (_options->get().survival_difficulty == "Easy")
+    return 10;
+  else if (_options->get().survival_difficulty == "Normal")
+    return 10;
+  else if (_options->get().survival_difficulty == "Hard")
+    return 10;
+  else if (_options->get().survival_difficulty == "Very hard")
+    return 10;
+  else
+    return 10;
+}
+uint16_t WindowWelcomeSurvival::max_miss(const std::string &difficulty) {
+
+  if (_options->get().survival_difficulty == "Very easy")
+    return 10;
+  else if (_options->get().survival_difficulty == "Easy")
+    return 10;
+  else if (_options->get().survival_difficulty == "Normal")
+    return 10;
+  else if (_options->get().survival_difficulty == "Hard")
+    return 10;
+  else if (_options->get().survival_difficulty == "Very hard")
+    return 10;
+  else
+    return 10;
+}
+uint16_t WindowWelcomeSurvival::next_level(const std::string &difficulty) {
+
+  if (_options->get().survival_difficulty == "Very easy")
+    return 10;
+  else if (_options->get().survival_difficulty == "Easy")
+    return 10;
+  else if (_options->get().survival_difficulty == "Normal")
+    return 10;
+  else if (_options->get().survival_difficulty == "Hard")
+    return 10;
+  else if (_options->get().survival_difficulty == "Very hard")
+    return 10;
+  else
+    return 10;
 }

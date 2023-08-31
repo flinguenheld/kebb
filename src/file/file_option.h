@@ -6,11 +6,18 @@
 struct Options {
   std::string resolution = "480-20";
   std::string layout = "qwerty";
+
   uint16_t timer_countdown = 30;
   uint16_t timer_speed = 6;
   uint16_t timer_nb_targets = 5;
+
   uint16_t survival_nb_targets = 5;
   uint16_t survival_speed = 10;
+  std::string survival_difficulty = "normal";
+  uint16_t survival_max_fail = 10; // FIX: Adapt
+  uint16_t survival_max_miss = 10;
+  uint16_t survival_next_level = 50;
+
   uint16_t last_mode = 10;
   bool letters = true;
   bool capitals = false;

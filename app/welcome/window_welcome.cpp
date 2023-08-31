@@ -8,35 +8,30 @@ WindowWelcome::WindowWelcome(kebb::boxsize screen_size, std::shared_ptr<kebb::Wi
 
   // Geometry
   kebb::boxsize char_size = _renderer->font_char_size(FontName::F_Menu);
-  kebb::boxsize bs_title;
   kebb::point pt;
 
   // ------------------------------------------------------------------------
   // Title ------------------------------------------------------------------
   char_size.set_scale(5);
-  bs_title.w = char_size.w * 4;
-  bs_title.h = char_size.h;
+  pt.x = screen_size.w / 2;
+  pt.y = char_size.h * 0.5;
 
-  pt.x = screen_size.w / 2 - bs_title.w / 2;
-  pt.y = bs_title.h * 0.05;
-
-  _widget_title = std::make_unique<WidgetTextBox>(pt, bs_title);
-  _widget_title->set_text("Kebb");
-  _widget_title->set_color_text(kebb::color(kebb::ColorName::C_Peach));
+  _widget_title = std::make_unique<WidgetTextBox>(pt, char_size, TextBoxAlign::TB_Center, "Kebb",
+                                                  kebb::color(kebb::ColorName::C_Peach));
 
   // ------------------------------------------------------------------------
   // Logo -------------------------------------------------------------------
   kebb::boxsize bs_logo = {static_cast<uint16_t>(screen_size.w / 3),
                            static_cast<uint16_t>(screen_size.w / 7.5)};
   pt.x = screen_size.w / 2 - bs_logo.w / 2;
-  pt.y += bs_title.h * 1.05;
+  pt.y += char_size.h * 0.5;
 
   _widget_logo = std::make_shared<WidgetLogo>(pt, bs_logo);
   _thread = std::thread(&WidgetLogo::update, _widget_logo);
 
   // ------------------------------------------------------------------------
   // Selection fields -------------------------------------------------------
-  kebb::boxsize bs_field = renderer->font_char_size(FontName::F_Menu).scale(1.5);
+  char_size = _renderer->font_char_size(FontName::F_Menu).scale(1.5);
   pt.x = screen_size.w / 2;
   pt.y += bs_logo.h * 1.7;
 
@@ -44,18 +39,18 @@ WindowWelcome::WindowWelcome(kebb::boxsize screen_size, std::shared_ptr<kebb::Wi
   bool first_sel = _options->get().last_mode == uint16_t(kebb::GameMode::M_Survival);
 
   _widget_select_fields.emplace_back(
-      std::make_unique<WidgetSelection>(pt, bs_field, "Survival mode", first_sel));
-  pt.y += bs_field.h * 1.1;
+      std::make_unique<WidgetSelection>(pt, char_size, "Survival mode", first_sel));
+  pt.y += char_size.h * 1.1;
   _widget_select_fields.emplace_back(
-      std::make_unique<WidgetSelection>(pt, bs_field, "Timer mode", !first_sel));
-  pt.y += bs_field.h * 1.3;
+      std::make_unique<WidgetSelection>(pt, char_size, "Timer mode", !first_sel));
+  pt.y += char_size.h * 1.3;
 
-  bs_field = renderer->font_char_size(FontName::F_Menu).scale(1.2);
-  _widget_select_fields.emplace_back(std::make_unique<WidgetSelection>(pt, bs_field, "Options"));
-  pt.y += bs_field.h * 1.1;
-  _widget_select_fields.emplace_back(std::make_unique<WidgetSelection>(pt, bs_field, "Records"));
-  pt.y += bs_field.h * 1.1;
-  _widget_select_fields.emplace_back(std::make_unique<WidgetSelection>(pt, bs_field, "About"));
+  char_size = renderer->font_char_size(FontName::F_Menu).scale(1.2);
+  _widget_select_fields.emplace_back(std::make_unique<WidgetSelection>(pt, char_size, "Options"));
+  pt.y += char_size.h * 1.1;
+  _widget_select_fields.emplace_back(std::make_unique<WidgetSelection>(pt, char_size, "Records"));
+  pt.y += char_size.h * 1.1;
+  _widget_select_fields.emplace_back(std::make_unique<WidgetSelection>(pt, char_size, "About"));
 }
 
 WindowWelcome::~WindowWelcome() {

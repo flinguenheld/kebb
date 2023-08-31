@@ -14,15 +14,16 @@ WidgetBoolean::WidgetBoolean(kebb::point pos_center, kebb::boxsize size_char, st
   _bt_border.w = size_char.w * 6;
   _bt_border.h = size_char.h * 0.85;
 
-  _space_width = size_char.w * 3;
-  _total_width = _size.w + _space_width + _bt_border.w;
+  const uint16_t _space_width = size_char.w * 2;
+  const uint16_t _total_width = _size.w + _space_width + _bt_border.w;
+  const uint16_t x_left = pos_center.x - _total_width / 2;
 
-  _position.x = pos_center.x - _total_width / 2;
-  _bt_border.x = _position.x + _size.w + _space_width;
-  _bt_border.y = _position.y + (size_char.h - _bt_border.h) / 2;
+  _position.x = x_left + _size.w / 2; // Text position
 
-  // -------------------------------------------
-  // ------------------------------
+  // Button --
+  _bt_border.x = x_left + _size.w + _space_width;
+  _bt_border.y = _position.y - _size.h * 0.4;
+
   _bt_background.w = _bt_border.w * 0.90;
   _bt_background.h = _bt_border.h * 0.80;
   _bt_background.x = _bt_border.x + (_bt_border.w - _bt_background.w) / 2;

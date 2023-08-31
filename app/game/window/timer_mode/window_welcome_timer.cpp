@@ -10,32 +10,24 @@ WindowWelcomeTimer::WindowWelcomeTimer(kebb::boxsize screen_size,
 
   // Geometry
   kebb::boxsize char_size = _renderer->font_char_size(FontName::F_Menu);
-  kebb::boxsize bs_title;
   kebb::point pt;
 
   // ------------------------------------------------------------------------
   // Title ------------------------------------------------------------------
-  char_size.set_scale(3.5);
-  bs_title.w = char_size.w * 10;
-  bs_title.h = char_size.h;
+  char_size.set_scale(3.2);
+  pt.x = screen_size.w / 2;
+  pt.y = char_size.h * 1.1;
 
-  pt.x = screen_size.w / 2 - bs_title.w / 2;
-  pt.y = bs_title.h * 0.5;
-
-  _textbox_title = std::make_unique<WidgetTextBox>(pt, bs_title);
-  _textbox_title->set_text("Timer mode");
-  _textbox_title->set_color_text(kebb::color(kebb::ColorName::C_Peach));
+  _textbox_title = std::make_unique<WidgetTextBox>(pt, char_size, TextBoxAlign::TB_Center, "Timer mode",
+                                                   kebb::color(kebb::ColorName::C_Peach));
+  pt.y += char_size.h * 1.5;
 
   // ------------------------------------------------------------------------
   // Selection fields -------------------------------------------------------
-  const kebb::boxsize bs_field = renderer->font_char_size(FontName::F_Menu).scale(1.5);
-  const uint16_t y_space = bs_field.h * 1.2;
-
-  pt.x = screen_size.w / 2;
-  pt.y += bs_title.h * 2;
+  char_size = _renderer->font_char_size(FontName::F_Menu).scale(1.4);
 
   _widget_select_fields.emplace_back(
-      std::make_unique<WidgetList>(pt, bs_field, "Countdown:",
+      std::make_unique<WidgetList>(pt, char_size, "Countdown:",
                                    std::vector<SelectionItem>{{.text = "15s", .value_uint = 15},
                                                               {.text = "30s", .value_uint = 30},
                                                               {.text = "45s", .value_uint = 45},
@@ -52,17 +44,19 @@ WindowWelcomeTimer::WindowWelcomeTimer(kebb::boxsize screen_size,
                                    true)); // Selected !
   _widget_select_fields.back()->set_choice_by_value(_options->get().timer_countdown);
 
-  pt.y += y_space;
-  _widget_select_fields.emplace_back(std::make_unique<WidgetList>(pt, bs_field, "Nb targets:", 1, 20, 1));
+  pt.y += char_size.h * 1.2;
+  _widget_select_fields.emplace_back(std::make_unique<WidgetList>(pt, char_size, "Nb targets:", 1, 20, 1));
   _widget_select_fields.back()->set_choice_by_value(_options->get().timer_nb_targets);
 
-  pt.y += y_space;
-  _widget_select_fields.emplace_back(std::make_unique<WidgetList>(pt, bs_field, "Speed", 1, 20, 1));
+  pt.y += char_size.h * 1.2;
+  _widget_select_fields.emplace_back(std::make_unique<WidgetList>(pt, char_size, "Speed:", 1, 20, 1));
   _widget_select_fields.back()->set_choice_by_value(_options->get().timer_speed);
 }
 
 WindowWelcomeTimer::~WindowWelcomeTimer() {}
 
+// ----------------------------------------------------------------------------------------------------
+// RENDER ---------------------------------------------------------------------------------------------
 void WindowWelcomeTimer::render() const {
 
   _renderer->clear_screen();

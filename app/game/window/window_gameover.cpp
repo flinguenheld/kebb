@@ -1,4 +1,5 @@
 #include "window_gameover.h"
+#include "widget_textbox.h"
 
 WindowGameOver::WindowGameOver(kebb::boxsize screen_size, std::shared_ptr<kebb::WindowName> next_window,
                                std::shared_ptr<Renderer> renderer, std::shared_ptr<RecordFile> records,
@@ -7,7 +8,6 @@ WindowGameOver::WindowGameOver(kebb::boxsize screen_size, std::shared_ptr<kebb::
 
   // Geometry
   kebb::boxsize char_size = _renderer->font_char_size(FontName::F_Menu);
-  kebb::boxsize bs;
   kebb::point pt;
 
   if (_records->records().empty()) {
@@ -41,17 +41,14 @@ WindowGameOver::WindowGameOver(kebb::boxsize screen_size, std::shared_ptr<kebb::
       title_color = kebb::color(kebb::ColorName::C_Sky);
     }
     char_size.set_scale(3);
-    bs.w = char_size.w * title.length();
-    bs.h = char_size.h;
 
-    pt.x = screen_size.w / 2 - bs.w / 2;
-    pt.y = bs.h * 0.2;
+    const uint16_t space(char_size.h * 0.6);
 
-    _textbox_title = std::make_unique<WidgetTextBox>(pt, bs);
-    _textbox_title->set_text(std::move(title));
-    _textbox_title->set_color_text(std::move(title_color));
-
-    pt.y += bs.h * 1.3;
+    pt.x = screen_size.w / 2;
+    pt.y += char_size.h * 0.6;
+    _textbox_title = std::make_unique<WidgetTextBox>(pt, char_size, TextBoxAlign::TB_Center, std::move(title),
+                                                     kebb::color(kebb::ColorName::C_Peach));
+    pt.y += space;
 
     // ------------------------------------------------------------------------
     // Separation -------------------------------------------------------------
@@ -63,7 +60,7 @@ WindowGameOver::WindowGameOver(kebb::boxsize screen_size, std::shared_ptr<kebb::
     _separation_0.x = screen_size.w / 2 - _separation_0.w / 2;
     _separation_0.y = pt.y;
 
-    pt.y += _separation_0.h * 2;
+    pt.y += space;
 
     // ------------------------------------------------------------------------
     // Mode -------------------------------------------------------------------
@@ -73,19 +70,10 @@ WindowGameOver::WindowGameOver(kebb::boxsize screen_size, std::shared_ptr<kebb::
     else
       mode = "Timer mode";
 
-    char_size = _renderer->font_char_size(FontName::F_Menu);
-    char_size.set_scale(1.3);
-    bs.w = char_size.w * mode.length();
-    bs.h = char_size.h;
-
-    pt.x = screen_size.w / 2 - bs.w / 2;
-    pt.y += bs.h * 0.05;
-
-    _textbox_mode = std::make_unique<WidgetTextBox>(pt, bs);
-    _textbox_mode->set_text(std::move(mode));
-    _textbox_mode->set_color_text(kebb::color(kebb::ColorName::C_Text));
-
-    pt.y += bs.h;
+    char_size = _renderer->font_char_size(FontName::F_Menu).scale(1.3);
+    _textbox_mode = std::make_unique<WidgetTextBox>(pt, char_size, TextBoxAlign::TB_Center, std::move(mode),
+                                                    kebb::color(kebb::ColorName::C_Text));
+    pt.y += char_size.h;
 
     // ------------------------------------------------------------------------
     // Difficulty -------------------------------------------------------------
@@ -112,76 +100,49 @@ WindowGameOver::WindowGameOver(kebb::boxsize screen_size, std::shared_ptr<kebb::
                    std::to_string(_records->records()[0].timer_speed);
     }
 
-    char_size = _renderer->font_char_size(FontName::F_Menu);
-    char_size.set_scale(1.2);
-    bs.w = char_size.w * difficulty.length();
-    bs.h = char_size.h;
+    char_size = _renderer->font_char_size(FontName::F_Menu).scale(1.2);
 
-    pt.x = screen_size.w / 2 - bs.w / 2;
-    pt.y += bs.h * 0.05;
+    _textbox_difficulty = std::make_unique<WidgetTextBox>(
+        pt, char_size, TextBoxAlign::TB_Center, std::move(difficulty), kebb::color(kebb::ColorName::C_Text));
+    pt.y += space * 0.8;
 
-    _textbox_difficulty = std::make_unique<WidgetTextBox>(pt, bs);
-    _textbox_difficulty->set_text(std::move(difficulty));
-    _textbox_difficulty->set_color_text(kebb::color(kebb::ColorName::C_Text));
+    // ------------------------------------------------------------------------
+    // Separation -------------------------------------------------------------
+    _separation_1 = _separation_0;
+    _separation_1.y = pt.y;
+    pt.y += space;
 
-    pt.y += bs.h * 1.5;
+    // ------------------------------------------------------------------------
+    // Timer ------------------------------------------------------------------
+    int t = _records->records()[0].time_game;
+    char_size = _renderer->font_char_size(FontName::F_Menu).scale(2.3);
+
+    _textbox_time =
+        std::make_unique<WidgetTextBox>(pt, char_size, TextBoxAlign::TB_Center,
+                                        kebb::adapt_string_length(std::to_string(t / 60), 2, '0') + ":" +
+                                            kebb::adapt_string_length(std::to_string(t % 60), 2, '0'),
+                                        kebb::color(kebb::ColorName::C_Peach));
+    pt.y += char_size.h;
+
+    // ------------------------------------------------------------------------
+    // Success / Fail / Miss --------------------------------------------------
+    char_size = _renderer->font_char_size(FontName::F_Menu).scale(1.2);
+
+    _textbox_success = std::make_unique<WidgetTextBox>(
+        pt, char_size, TextBoxAlign::TB_Center,
+        "Success " + kebb::adapt_string_length(std::to_string(_records->records()[0].success), 5),
+        kebb::color(kebb::ColorName::C_Blue));
+    pt.y += char_size.h;
+    _textbox_fail = std::make_unique<WidgetTextBox>(
+        pt, char_size, TextBoxAlign::TB_Center,
+        "Fail " + kebb::adapt_string_length(std::to_string(_records->records()[0].fail), 8),
+        kebb::color(kebb::ColorName::C_Blue));
+    pt.y += char_size.h;
+    _textbox_miss = std::make_unique<WidgetTextBox>(
+        pt, char_size, TextBoxAlign::TB_Center,
+        "Miss " + kebb::adapt_string_length(std::to_string(_records->records()[0].miss), 8),
+        kebb::color(kebb::ColorName::C_Blue));
   }
-
-  // ------------------------------------------------------------------------
-  // Separation -------------------------------------------------------------
-  _separation_1 = _separation_0;
-  _separation_1.y = pt.y;
-
-  pt.y += _separation_1.h * 2;
-
-  // ------------------------------------------------------------------------
-  // Timer ------------------------------------------------------------------
-  char_size = _renderer->font_char_size(FontName::F_Menu);
-
-  char_size.set_scale(2.4);
-  bs.w = char_size.w * 5;
-  bs.h = char_size.h;
-
-  pt.x = screen_size.w / 2 - bs.w / 2;
-  pt.y += char_size.h * 0.05;
-
-  _textbox_time = std::make_unique<WidgetTextBox>(pt, bs);
-  _textbox_time->set_color_text(kebb::color(kebb::ColorName::C_Peach));
-
-  pt.y += bs.h * 1.1;
-
-  // ------------------------------------------------------------------------
-  // Success / Fail / Miss --------------------------------------------------
-  char_size = _renderer->font_char_size(FontName::F_Menu);
-  char_size.set_scale(1.5);
-
-  bs.w = char_size.w * 13; // 13 chars in total for all lines to align
-  bs.h = char_size.h;
-
-  pt.x = screen_size.w / 2 - bs.w / 2;
-  pt.y += bs.h * 0.05;
-
-  _textbox_success = std::make_unique<WidgetTextBox>(pt, bs);
-  pt.y += char_size.h;
-  _textbox_fail = std::make_unique<WidgetTextBox>(pt, bs);
-  pt.y += char_size.h;
-  _textbox_miss = std::make_unique<WidgetTextBox>(pt, bs);
-
-  _textbox_success->set_color_text(kebb::color(kebb::ColorName::C_Blue));
-  _textbox_fail->set_color_text(kebb::color(kebb::ColorName::C_Blue));
-  _textbox_miss->set_color_text(kebb::color(kebb::ColorName::C_Blue));
-
-  _textbox_success->set_text("Success " +
-                             kebb::adapt_string_length(std::to_string(_records->records()[0].success), 5));
-  _textbox_fail->set_text("Fail " +
-                          kebb::adapt_string_length(std::to_string(_records->records()[0].fail), 8));
-  _textbox_miss->set_text("Miss " +
-                          kebb::adapt_string_length(std::to_string(_records->records()[0].miss), 8));
-
-  int t = _records->records()[0].time_game;
-  _textbox_time->set_text(kebb::adapt_string_length(std::to_string(t / 60), 2, '0') + ":" +
-                          kebb::adapt_string_length(std::to_string(t % 60), 2, '0'));
-
   // ------------------------------------------------------------------------
   // Menu -------------------------------------------------------------------
   _widget_menu = std::make_unique<WidgetBottomMenu>(screen_size, renderer, "<ESC> Quit      <ENTER> Restart");

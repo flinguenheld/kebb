@@ -19,6 +19,7 @@ public:
   virtual void control_escape() override;
   virtual void control_enter() override;
 
+  virtual void logic() override;
   virtual void render() const override;
 
 private:
@@ -28,5 +29,9 @@ private:
 
   std::unique_ptr<WidgetBottomMenu> _widget_menu;
   std::shared_ptr<OptionFile> _options;
+
+  uint16_t max_fail(const std::string &difficulty);
+  uint16_t max_miss(const std::string &difficulty);
+  uint16_t next_level(const std::string &difficulty);
 };
 #endif // !WINDOW_WELCOME_SURVIVAL_H

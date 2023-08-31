@@ -14,11 +14,18 @@ void OptionFile::save() const {
   std::ofstream ostrm(_filename);
   ostrm << _options.resolution << '\n'
         << _options.layout << '\n'
+
         << _options.timer_countdown << '\n'
         << _options.timer_nb_targets << '\n'
         << _options.timer_speed << '\n'
+
         << _options.survival_nb_targets << '\n'
         << _options.survival_speed << '\n'
+        << _options.survival_difficulty << '\n'
+        << _options.survival_max_fail << '\n'
+        << _options.survival_max_miss << '\n'
+        << _options.survival_next_level << '\n'
+
         << _options.last_mode << '\n'
         << _options.letters << '\n'
         << _options.capitals << '\n'
@@ -29,13 +36,31 @@ void OptionFile::save() const {
         << _options.extra_caps;
 }
 
-void OptionFile::read() {
+void OptionFile::read() { // clang-format off
   std::ifstream istrm(_filename);
-  istrm >> _options.resolution >> _options.layout >> _options.timer_countdown >> _options.timer_nb_targets >>
-      _options.timer_speed >> _options.survival_nb_targets >> _options.survival_speed >> _options.last_mode >>
-      _options.letters >> _options.capitals >> _options.numbers >> _options.symbols >>
-      _options.symbols_plus >> _options.extras >> _options.extra_caps;
-}
+  istrm >> _options.resolution
+        >> _options.layout
+
+        >> _options.timer_countdown
+        >> _options.timer_nb_targets
+        >> _options.timer_speed
+
+        >> _options.survival_nb_targets
+        >> _options.survival_speed
+        >> _options.survival_difficulty
+        >> _options.survival_max_fail
+        >> _options.survival_max_miss
+        >> _options.survival_next_level
+
+        >> _options.last_mode
+        >> _options.letters
+        >> _options.capitals
+        >> _options.numbers
+        >> _options.symbols
+        >> _options.symbols_plus
+        >> _options.extras
+        >> _options.extra_caps;
+} // clang-format on
 
 // ----------------------------------------------------------------------------------------------------
 // ACCESSORS ------------------------------------------------------------------------------------------

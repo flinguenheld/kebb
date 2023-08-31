@@ -113,6 +113,19 @@ void Renderer::clear_screen() {
 
 // ----------------------------------------------------------------------------------------------------
 // FONTS ----------------------------------------------------------------------------------------------
+
+kebb_font Renderer::font_blabla(FontName font_name) {
+
+  switch (font_name) {
+  case FontName::F_Target:
+    return {_font_target, _char_size_target};
+  case FontName::F_Menu:
+    return {_font_menu, _char_size_menu};
+  default:
+    return {_font_game, _char_size_game};
+  }
+}
+
 TTF_Font *Renderer::font(FontName fn) {
   switch (fn) {
   case FontName::F_Target:

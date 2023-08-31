@@ -4,7 +4,7 @@
 Target::Target(kebb::point center_area, uint16_t radius_area, kebb::boxsize char_size, uint16_t speed,
     std::shared_ptr<Dispatcher> dispatcher, std::shared_ptr<Score> score,std::shared_ptr<LayoutFile> layouts) :
 
-  WidgetTextBox(center_area, char_size),
+  WidgetTextBox(center_area, char_size, TextBoxAlign::TB_Center),
       _active(true), _ok(false),
       _center_area(center_area),
       _radius_area(radius_area),
@@ -14,7 +14,7 @@ Target::Target(kebb::point center_area, uint16_t radius_area, kebb::boxsize char
       _score(score),
       _layouts(layouts),
       _move_x(1), _move_y(1),
-       _angle(-1)
+      _angle(-1)
 // clang-format on
 {
   set_speed(speed);

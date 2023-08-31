@@ -2,12 +2,11 @@
 #define WIDGET_LIST_H
 
 #include "button/widget_selection.h"
-#include "widget_textbox.h"
 #include <memory>
 #include <vector>
 
 /*
- * Based on WidgetSelection, this class add another WidgetTextBox to display an range of strings.
+ * Based on WidgetSelection, this class add another WidgetTextBox to display a range of strings.
  * Values (string or uint) are stored in a vector of SelectionItem struct (see the mother).
  * Use action_left/action_right methods to change the current value.
  */
@@ -34,10 +33,6 @@ private:
   std::vector<SelectionItem> _choices;
   std::vector<SelectionItem>::iterator _it;
   std::unique_ptr<WidgetTextBox> _tb_choice;
-  void display_current_it();
-
-  uint16_t _longest_choice_width;
-  uint16_t _space;
 
   const kebb::boxsize _size_char;
 };

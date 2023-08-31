@@ -1,14 +1,33 @@
 #include "widget_textbox.h"
 
-WidgetTextBox::WidgetTextBox(kebb::point position, kebb::boxsize size)
-    : WidgetBase(position, size), _text("") {
+WidgetTextBox::WidgetTextBox(kebb::point position, kebb::boxsize char_size) // FIX: REMOVE
+    : WidgetBase(position, char_size), _text(""), _char_size(char_size), _alignment(TextBoxAlign::TB_Left) {
   _color_text = kebb::color(kebb::ColorName::C_Text);
 }
+
+WidgetTextBox::WidgetTextBox(kebb::point position, kebb::boxsize char_size, TextBoxAlign alignment)
+    : WidgetBase(position, char_size), _text(""), _char_size(char_size), _alignment(alignment) {
+  _color_text = kebb::color(kebb::ColorName::C_Text);
+}
+
+WidgetTextBox::WidgetTextBox(kebb::point position, kebb::boxsize char_size, TextBoxAlign alignment,
+                             std::string &&text, SDL_Color &&color_text)
+    : WidgetBase(position, char_size), _text(""), _char_size(char_size), _alignment(alignment) {
+  move_text(std::move(text));
+  set_color_text(std::move(color_text));
+}
+
 WidgetTextBox::~WidgetTextBox() {}
 
 // ----------------------------------------------------------------------------------------------------
 // ACCESSORS ------------------------------------------------------------------------------------------
-void WidgetTextBox::set_text(std::string &&text) { _text = std::move(text); }
+void WidgetTextBox::move_text(std::string &&text) {
+  _text = std::move(text);
+  _size.w = _char_size.w * _text.length();
+  _size.h = _char_size.h;
+}
+void WidgetTextBox::set_text(std::string txt) { move_text(std::move(txt)); }
+
 std::string WidgetTextBox::get_text() const { return _text; }
 void WidgetTextBox::set_color_text(SDL_Color &&color) { _color_text = std::move(color); }
 
@@ -30,7 +49,12 @@ void WidgetTextBox::render(SDL_Renderer *renderer, TTF_Font *font) const {
         printf("Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError());
       else {
 
-        SDL_Rect renderQuad = {_position.x, _position.y, _size.w, _size.h};
+        SDL_Rect renderQuad;
+        if (_alignment == TextBoxAlign::TB_Center)
+          renderQuad = {_position.x - _size.w / 2, _position.y - _size.h / 2, _size.w, _size.h};
+        else
+          renderQuad = {_position.x, _position.y, _size.w, _size.h};
+
         SDL_Point center = {};
         SDL_RendererFlip flip = {};
 

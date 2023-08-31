@@ -35,7 +35,6 @@ private:
   std::shared_ptr<LayoutFile> _layouts;
 
   // Help message
-  void display_message(std::string &&message);
   void check_new_resolution();
   void check_qwerty_extra();
   bool _message_displayed;

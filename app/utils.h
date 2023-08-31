@@ -7,6 +7,8 @@
 #include <math.h>
 #include <string>
 
+// FIX: Rename the namespace and move it into widget lib ?
+
 // clang-format off
 namespace kebb {
 
