@@ -15,3 +15,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
                       ${LIBRARY_FILE}
                       SDL2
                       SDL2_ttf)
+
+target_include_directories(${PROJECT_NAME} PUBLIC
+  ${CMAKE_BINARY_DIR}/configured_files/include
+)

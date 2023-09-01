@@ -2,6 +2,7 @@
 #define WINDOW_WELCOME_H
 
 #include "button/widget_selection.h"
+#include "config.h"
 #include "file_option.h"
 #include "kebb.h"
 #include "welcome/widget_logo.h"

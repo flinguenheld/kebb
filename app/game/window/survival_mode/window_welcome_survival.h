@@ -28,12 +28,14 @@ private:
   std::unique_ptr<WidgetTextBox> _widget_title;
   std::unique_ptr<WidgetTextBox> _widget_explanation_l1;
   std::unique_ptr<WidgetTextBox> _widget_explanation_l2;
+  std::unique_ptr<WidgetTextBox> _widget_explanation_l3;
 
   std::unique_ptr<WidgetBottomMenu> _widget_menu;
   std::shared_ptr<OptionFile> _options;
 
-  uint16_t max_fail(const std::string &difficulty);
-  uint16_t max_miss(const std::string &difficulty);
-  uint16_t next_level(const std::string &difficulty);
+  void difficulty(uint16_t difficulty);
+  uint16_t _max_fail, _max_miss;
+  uint16_t _cost_fail, _cost_miss;
+  uint16_t _next_level;
 };
 #endif // !WINDOW_WELCOME_SURVIVAL_H

@@ -15,7 +15,8 @@ struct Record {
   int time_game;
   uint16_t survival_nb_targets;
   uint16_t survival_speed;
-  uint16_t survival_level;
+  uint16_t survival_level_reached;
+  uint16_t survival_difficulty;
   uint16_t timer_speed;
   uint16_t timer_nb_target;
 };

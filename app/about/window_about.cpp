@@ -22,12 +22,13 @@ WindowAbout::WindowAbout(widget::boxsize screen_size, std::shared_ptr<uint8_t> n
 
   // ------------------------------------------------------------------------
   // Text -------------------------------------------------------------------
-  char_size = _renderer->font_char_size(FontName::F_Menu).scale(1.8);
-  _widget_version = std::make_unique<WidgetTextBox>(pt, char_size, TextBoxAlign::TB_Center, "Kebb 1.2.0",
+  char_size = _renderer->font_char_size(FontName::F_Menu).scale(1.9);
+  _widget_version = std::make_unique<WidgetTextBox>(pt, char_size, TextBoxAlign::TB_Center,
+                                                    PROJECT_NAME + " " + PROJECT_VERSION,
                                                     widget::color(widget::ColorName::C_Yellow));
-  pt.y += char_size.h * 1.1;
-  char_size = _renderer->font_char_size(FontName::F_Menu).scale(1.5);
-  _widget_date = std::make_unique<WidgetTextBox>(pt, char_size, TextBoxAlign::TB_Center, "2023-08-29",
+  pt.y += char_size.h * 1;
+  char_size = _renderer->font_char_size(FontName::F_Menu).scale(1.7);
+  _widget_date = std::make_unique<WidgetTextBox>(pt, char_size, TextBoxAlign::TB_Center, "2023",
                                                  widget::color(widget::ColorName::C_Yellow));
   pt.y += char_size.h * 2.5;
   char_size = _renderer->font_char_size(FontName::F_Menu);

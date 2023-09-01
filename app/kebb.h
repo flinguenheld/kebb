@@ -1,20 +1,14 @@
 #ifndef KEBB_H
 #define KEBB_H
 
-#include <string>
-
 // clang-format off
 namespace kebb {
 
-  // ----------------------------------------------------------------------------------------------------
-  // GAME MODES -----------------------------------------------------------------------------------------
   enum class GameMode {
     M_Survival = 10,
     M_Timer = 11,
   };
 
-  // ----------------------------------------------------------------------------------------------------
-  // GAME STATUS ----------------------------------------------------------------------------------------
   enum class GameStatus {
     S_Win = 10,
     S_Loose = 11,
@@ -22,9 +16,16 @@ namespace kebb {
     S_Quit = 13,
   };
 
-  // ----------------------------------------------------------------------------------------------------
-  // WINDOWNAME (used to navigate) ----------------------------------------------------------------------
-  enum class WindowName : uint8_t {
+  enum class SurvivalDifficulty {
+    D_VeryEasy = 10,
+    D_Easy = 20,
+    D_Normal = 30,
+    D_Hard = 40,
+    D_VeryHard = 50,
+    D_Impossible = 60,
+  };
+
+  enum class WindowName  {
     W_None = 0,
     W_Quit = 1,
 

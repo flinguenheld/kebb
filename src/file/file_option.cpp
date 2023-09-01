@@ -22,8 +22,10 @@ void OptionFile::save() const {
         << _options.survival_nb_targets << '\n'
         << _options.survival_speed << '\n'
         << _options.survival_difficulty << '\n'
-        << _options.survival_max_fail << '\n'
-        << _options.survival_max_miss << '\n'
+        << _options.survival_max_fails << '\n'
+        << _options.survival_max_misses << '\n'
+        << _options.survival_cost_fails << '\n'
+        << _options.survival_cost_misses << '\n'
         << _options.survival_next_level << '\n'
 
         << _options.last_mode << '\n'
@@ -48,8 +50,10 @@ void OptionFile::read() { // clang-format off
         >> _options.survival_nb_targets
         >> _options.survival_speed
         >> _options.survival_difficulty
-        >> _options.survival_max_fail
-        >> _options.survival_max_miss
+        >> _options.survival_max_fails
+        >> _options.survival_max_misses
+        >> _options.survival_cost_fails
+        >> _options.survival_cost_misses
         >> _options.survival_next_level
 
         >> _options.last_mode

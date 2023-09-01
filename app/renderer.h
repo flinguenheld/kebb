@@ -5,6 +5,7 @@
 #include "SDL_pixels.h"
 #include "SDL_render.h"
 #include "SDL_ttf.h"
+#include "config.h"
 #include "utils.h"
 #include <iostream>
 #include <memory>

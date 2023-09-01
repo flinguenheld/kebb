@@ -39,8 +39,8 @@ Renderer::Renderer(widget::boxsize screen_size, uint16_t scale_factor, uint16_t 
         _char_size_menu = {static_cast<uint16_t>(w), static_cast<uint16_t>(h)};
 
         // Create Window
-        _window = SDL_CreateWindow("Kebb", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _screen_size.w,
-                                   _screen_size.h, SDL_WINDOW_SHOWN);
+        _window = SDL_CreateWindow(PROJECT_NAME.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+                                   _screen_size.w, _screen_size.h, SDL_WINDOW_SHOWN);
         if (_window != nullptr) {
 
           // Create renderer
@@ -99,7 +99,7 @@ bool Renderer::init_ok() const { return _init_ok; }
 SDL_Renderer *Renderer::renderer() { return _renderer; }
 
 void Renderer::update_window_title(uint16_t fps) {
-  std::string title{"Kebb - [" + std::to_string(fps) + (" fps]")};
+  std::string title{PROJECT_NAME + " - [" + std::to_string(fps) + (" fps]")};
   SDL_SetWindowTitle(_window, title.c_str());
 }
 

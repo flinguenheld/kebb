@@ -32,8 +32,8 @@ private:
 
   void up_points();
   int16_t _points;
-  uint16_t _price_fail; // Change according to the difficulty
-  uint16_t _price_miss;
+  uint16_t _cost_fail; // Change according to the difficulty
+  uint16_t _cost_miss;
 
   uint16_t _previous_miss; // Used for level calculations
   uint16_t _previous_fail;

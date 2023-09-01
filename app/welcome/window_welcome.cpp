@@ -16,8 +16,9 @@ WindowWelcome::WindowWelcome(widget::boxsize screen_size, std::shared_ptr<uint8_
   pt.x = screen_size.w / 2;
   pt.y = char_size.h * 0.5;
 
-  _widget_title = std::make_unique<WidgetTextBox>(pt, char_size, TextBoxAlign::TB_Center, "Kebb",
-                                                  widget::color(widget::ColorName::C_Peach));
+  _widget_title =
+      std::make_unique<WidgetTextBox>(pt, char_size, TextBoxAlign::TB_Center, std::string(PROJECT_NAME),
+                                      widget::color(widget::ColorName::C_Peach));
 
   // ------------------------------------------------------------------------
   // Logo -------------------------------------------------------------------

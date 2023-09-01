@@ -1,5 +1,4 @@
 #include "window_survival_mode.h"
-#include <cstdint>
 
 // clang-format off
 WindowSurvivalMode::WindowSurvivalMode(widget::boxsize screen_size,
@@ -24,25 +23,19 @@ WindowSurvivalMode::WindowSurvivalMode(widget::boxsize screen_size,
   uint16_t speed = _options->get().survival_speed;
   uint16_t next_level = 0;
 
-  _price_fail = ((speed + nb_targets) / 3 < 1) ? 1 : (speed + nb_targets) / 3;
-  _price_miss = ((speed + nb_targets) / 8 < 1) ? 1 : (speed + nb_targets) / 8;
-
-  _max_fail = 10;
-  _max_miss = 20;
-
 #ifdef DEBUG
   std::cout << "--------------------------------------------------\n";
   std::cout << "- Start with " << nb_targets << " targets - "
             << " Speed: " << speed << std::endl;
 
-  std::cout << "- price fail: " << _price_fail << std::endl;
-  std::cout << "- price miss: " << _price_miss << std::endl;
-  std::cout << "- max fail: " << _max_fail << std::endl;
-  std::cout << "- max miss: " << _max_miss << std::endl;
+  std::cout << "- max fail: " << _options->get().survival_max_fails << std::endl;
+  std::cout << "- max miss: " << _options->get().survival_max_misses << std::endl;
+  std::cout << "- price fail: " << _options->get().survival_cost_fails << std::endl;
+  std::cout << "- price miss: " << _options->get().survival_cost_misses << std::endl;
 #endif
 
   for (uint16_t i = 0; i < 12; ++i) {
-    next_level += (nb_targets + speed) * 4; // NOTE: Add another option ?
+    next_level += _options->get().survival_next_level;
 
     if (i != 0) {
       if (i % 2 == 0)
@@ -115,8 +108,8 @@ void WindowSurvivalMode::up_points() {
   auto new_fail = (fail > _previous_fail) ? fail - _previous_fail : 0;
   auto new_success = (success > _previous_success) ? success - _previous_success : 0;
 
-  _points -= new_miss * _price_miss;
-  _points -= new_fail * _price_fail;
+  _points -= new_miss * _options->get().survival_cost_misses;
+  _points -= new_fail * _options->get().survival_cost_fails;
   _points += new_success;
 
   if (_points < 0)
@@ -131,11 +124,11 @@ void WindowSurvivalMode::up_points() {
 // LOGIC ----------------------------------------------------------------------------------------------
 void WindowSurvivalMode::logic() {
 
-  if (_score->miss() >= _max_miss) {
+  if (_score->miss() > _options->get().survival_max_misses) {
     _game_status = kebb::GameStatus::S_Loose;
     control_escape();
   }
-  if (_score->fail() >= _max_fail) {
+  if (_score->fail() > _options->get().survival_max_fails) {
     _game_status = kebb::GameStatus::S_Loose;
     control_escape();
   }
@@ -204,5 +197,6 @@ void WindowSurvivalMode::save_record() const {
                  .time_game = _score->seconds_spent(),
                  .survival_nb_targets = _options->get().survival_nb_targets,
                  .survival_speed = _options->get().survival_speed,
-                 .survival_level = _widget_gauge->get_level()});
+                 .survival_level_reached = static_cast<uint16_t>(_widget_gauge->get_level() - 1),
+                 .survival_difficulty = _options->get().survival_difficulty});
 }

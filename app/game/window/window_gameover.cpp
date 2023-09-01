@@ -79,21 +79,28 @@ WindowGameOver::WindowGameOver(widget::boxsize screen_size, std::shared_ptr<uint
     std::string difficulty;
     if ((kebb::GameMode)_records->records()[0].mode == kebb::GameMode::M_Survival) {
 
-      if (_records->records()[0].survival_speed + _records->records()[0].survival_nb_targets < 5)
+      switch (_records->records()[0].survival_difficulty) {
+      case uint16_t(kebb::SurvivalDifficulty::D_VeryEasy):
         difficulty += "Very easy";
-      else if (_records->records()[0].survival_speed + _records->records()[0].survival_nb_targets < 10)
+        break;
+      case uint16_t(kebb::SurvivalDifficulty::D_Easy):
         difficulty += "Easy";
-      else if (_records->records()[0].survival_speed + _records->records()[0].survival_nb_targets < 15)
+        break;
+      case uint16_t(kebb::SurvivalDifficulty::D_Normal):
         difficulty += "Normal";
-      else if (_records->records()[0].survival_speed + _records->records()[0].survival_nb_targets < 20)
+        break;
+      case uint16_t(kebb::SurvivalDifficulty::D_Hard):
         difficulty += "Hard";
-      else if (_records->records()[0].survival_speed + _records->records()[0].survival_nb_targets < 25)
+        break;
+      case uint16_t(kebb::SurvivalDifficulty::D_VeryHard):
         difficulty += "Very hard";
-      else
+        break;
+      default:
         difficulty += "Impossible";
+      }
 
-      difficulty += " (" + std::to_string(_records->records()[0].survival_nb_targets) + "/" +
-                    std::to_string(_records->records()[0].survival_speed) + ")";
+      difficulty += " (level reached " + std::to_string(_records->records()[0].survival_level_reached) + ")";
+
     } else {
       difficulty = std::to_string(_records->records()[0].timer_nb_target) + " targets - speed " +
                    std::to_string(_records->records()[0].timer_speed);

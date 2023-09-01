@@ -1,0 +1,7 @@
+#pragma once
+
+#include <cctype>
+#include <string>
+
+static const std::string PROJECT_NAME = "@PROJECT_NAME@";
+static const std::string PROJECT_VERSION = "@PROJECT_VERSION@";

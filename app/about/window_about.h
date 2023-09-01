@@ -1,6 +1,7 @@
 #ifndef WINDOW_ABOUT
 #define WINDOW_ABOUT
 
+#include "config.h"
 #include "kebb.h"
 #include "window/widget_bottom_menu.h"
 #include "window/widget_window.h"

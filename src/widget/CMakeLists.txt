@@ -27,7 +27,9 @@ add_library(${LIBRARY_WIDGET} STATIC
             ${LIB_WIDGET_HEADERS})
 
 target_include_directories(${LIBRARY_WIDGET} PUBLIC
-                           ${LIB_WIDGET_INCLUDES})
+                           ${LIB_WIDGET_INCLUDES}
+                           ${CMAKE_BINARY_DIR}/configured_files/include
+)
 
 target_link_libraries(${LIBRARY_WIDGET} PUBLIC
                       SDL2

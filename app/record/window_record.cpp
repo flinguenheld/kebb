@@ -1,5 +1,4 @@
 #include "window_record.h"
-#include <cstdint>
 
 WindowRecord::WindowRecord(widget::boxsize screen_size, std::shared_ptr<uint8_t> next_window_id,
                            std::shared_ptr<Renderer> renderer, std::shared_ptr<RecordFile> records)
@@ -34,7 +33,7 @@ WindowRecord::WindowRecord(widget::boxsize screen_size, std::shared_ptr<uint8_t>
 
   // ------------------------------------------------------------------------
   // Entries ----------------------------------------------------------------
-  char_size = _renderer->font_char_size(FontName::F_Menu).scale(0.75);
+  char_size = _renderer->font_char_size(FontName::F_Menu).scale(0.73);
 
   for (const auto &e : _records->records()) {
     std::string text;
@@ -50,8 +49,30 @@ WindowRecord::WindowRecord(widget::boxsize screen_size, std::shared_ptr<uint8_t>
 
     // Text - mode & difficulty
     if ((kebb::GameMode)e.mode == kebb::GameMode::M_Survival) {
-      text += "Survival: " + std::to_string(e.survival_nb_targets) + "/" + std::to_string(e.survival_speed);
-      text += " lvl " + std::to_string(e.survival_level);
+      text += "Survival: ";
+
+      switch (e.survival_difficulty) {
+      case uint16_t(kebb::SurvivalDifficulty::D_VeryEasy):
+        text += "VEasy";
+        break;
+      case uint16_t(kebb::SurvivalDifficulty::D_Easy):
+        text += "Easy";
+        break;
+      case uint16_t(kebb::SurvivalDifficulty::D_Normal):
+        text += "Norm";
+        break;
+      case uint16_t(kebb::SurvivalDifficulty::D_Hard):
+        text += "Hard";
+        break;
+      case uint16_t(kebb::SurvivalDifficulty::D_VeryHard):
+        text += "VHard";
+        break;
+      default: // Impossible
+        text += "Imp";
+      }
+
+      text += " " + std::to_string(e.survival_nb_targets) + "/" + std::to_string(e.survival_speed);
+      text += " lvl " + std::to_string(e.survival_level_reached);
 
     } else
       text += "Timer: " + std::to_string(e.timer_nb_target) + "/" + std::to_string(e.timer_speed);
