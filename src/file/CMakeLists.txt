@@ -4,13 +4,13 @@ set(LIB_FILE_SOURCES
     file_option.cpp
     file_record.cpp)
 
-  set(LIB_HEADERS
+set(LIB_FILE_HEADERS
     file.h
     file_layout.h
     file_option.h
     file_record.h)
 
-  set(LIB_FILE_INCLUDES
+set(LIB_FILE_INCLUDES
     ./
     ${CMAKE_BINARY_DIR}/include/${LIBRARY_FILE})
 

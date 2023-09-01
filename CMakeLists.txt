@@ -8,13 +8,11 @@ set(CMAKE_CXX_STANDARD          20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS        OFF)
 
-
 set(LIBRARY_WIDGET widget)
 set(LIBRARY_FILE file)
 
 set(CXX_FLAGS "-Wall")
 set(CMAKE_CXX_FLAGS, "${CXX_FLAGS}")
-
 
 message("-- Fetch SDL ----------")
 include(FetchContent)

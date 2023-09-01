@@ -12,9 +12,9 @@
  */
 class WidgetList : public WidgetSelection {
 public:
-  WidgetList(kebb::point pos_center, kebb::boxsize size_char, std::string &&text,
+  WidgetList(widget::point pos_center, widget::boxsize size_char, std::string &&text,
              std::vector<SelectionItem> &&choices, bool selected = false);
-  WidgetList(kebb::point pos_center, kebb::boxsize size_char, std::string &&text, uint16_t range_start,
+  WidgetList(widget::point pos_center, widget::boxsize size_char, std::string &&text, uint16_t range_start,
              uint16_t range_stop, uint16_t step, bool selected = false);
   virtual ~WidgetList() override;
 
@@ -28,13 +28,13 @@ public:
   virtual void render(SDL_Renderer *renderer, TTF_Font *font) const override;
 
 private:
-  void init(kebb::point pos_center);
+  void init(widget::point pos_center);
 
   std::vector<SelectionItem> _choices;
   std::vector<SelectionItem>::iterator _it;
   std::unique_ptr<WidgetTextBox> _tb_choice;
 
-  const kebb::boxsize _size_char;
+  const widget::boxsize _size_char;
 };
 
 #endif // !WIDGET_LIST_H

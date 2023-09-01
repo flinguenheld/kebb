@@ -1,6 +1,6 @@
 #include "widget_list.h"
 
-WidgetList::WidgetList(kebb::point pos_center, kebb::boxsize size_char, std::string &&text,
+WidgetList::WidgetList(widget::point pos_center, widget::boxsize size_char, std::string &&text,
                        std::vector<SelectionItem> &&choices, bool selected)
     : WidgetSelection(pos_center, size_char, std::move(text), selected), _choices(std::move(choices)),
       _it(_choices.begin()), _size_char(size_char) {
@@ -8,7 +8,7 @@ WidgetList::WidgetList(kebb::point pos_center, kebb::boxsize size_char, std::str
   init(pos_center);
 }
 
-WidgetList::WidgetList(kebb::point pos_center, kebb::boxsize size_char, std::string &&text,
+WidgetList::WidgetList(widget::point pos_center, widget::boxsize size_char, std::string &&text,
                        uint16_t range_start, uint16_t range_stop, uint16_t step, bool selected)
 
     : WidgetSelection(pos_center, size_char, std::move(text), selected), _size_char(size_char) {
@@ -23,7 +23,7 @@ WidgetList::WidgetList(kebb::point pos_center, kebb::boxsize size_char, std::str
 
 WidgetList::~WidgetList() {}
 
-void WidgetList::init(kebb::point pos_center) {
+void WidgetList::init(widget::point pos_center) {
 
   uint16_t longest_choice_width = 0;
 
@@ -40,13 +40,13 @@ void WidgetList::init(kebb::point pos_center) {
   const uint16_t x_left = pos_center.x - width_total / 2;
 
   _position.x = x_left + _size.w / 2;
-  kebb::point pt_choices = {static_cast<uint16_t>(x_left + _size.w + space + longest_choice_width / 2),
+  widget::point pt_choices = {static_cast<uint16_t>(x_left + _size.w + space + longest_choice_width / 2),
                             pos_center.y};
 
   // Create the second textbox
-  kebb::boxsize size_choices = {longest_choice_width, _size_char.h};
+  widget::boxsize size_choices = {longest_choice_width, _size_char.h};
   _tb_choice = std::make_unique<WidgetTextBox>(pt_choices, _size_char, TextBoxAlign::TB_Center);
-  _tb_choice->set_color_text(kebb::color(kebb::ColorName::C_Teal));
+  _tb_choice->set_color_text(widget::color(widget::ColorName::C_Teal));
 }
 
 // ------------------------------------------------------------------------

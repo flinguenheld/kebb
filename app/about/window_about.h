@@ -1,12 +1,13 @@
 #ifndef WINDOW_ABOUT
 #define WINDOW_ABOUT
 
+#include "kebb.h"
 #include "window/widget_bottom_menu.h"
 #include "window/widget_window.h"
 
 class WindowAbout : public WidgetWindow {
 public:
-  WindowAbout(kebb::boxsize screen_size, std::shared_ptr<kebb::WindowName> next_window,
+  WindowAbout(widget::boxsize screen_size, std::shared_ptr<uint8_t> next_window_id,
               std::shared_ptr<Renderer> renderer);
   virtual ~WindowAbout() override;
 

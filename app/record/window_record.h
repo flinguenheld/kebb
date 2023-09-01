@@ -2,6 +2,7 @@
 #define WINDOW_RECORD
 
 #include "file_record.h"
+#include "kebb.h"
 #include "window/widget_bottom_menu.h"
 #include "window/widget_window.h"
 
@@ -10,7 +11,7 @@
  */
 class WindowRecord : public WidgetWindow {
 public:
-  WindowRecord(kebb::boxsize screen_size, std::shared_ptr<kebb::WindowName> next_window,
+  WindowRecord(widget::boxsize screen_size, std::shared_ptr<uint8_t> next_window_id,
                std::shared_ptr<Renderer> renderer, std::shared_ptr<RecordFile> records);
   virtual ~WindowRecord() override;
 

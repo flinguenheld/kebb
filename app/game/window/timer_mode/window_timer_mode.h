@@ -3,10 +3,11 @@
 
 #include "file_layout.h"
 #include "game/window/window_game.h"
+#include <cstdint>
 
 class WindowTimerMode : public WindowGame {
 public:
-  WindowTimerMode(kebb::boxsize screen_size, std::shared_ptr<kebb::WindowName> next_window,
+  WindowTimerMode(widget::boxsize screen_size, std::shared_ptr<uint8_t> next_window_id,
                   std::shared_ptr<Renderer> renderer, std::shared_ptr<RecordFile> records,
                   std::shared_ptr<OptionFile> options, std::shared_ptr<LayoutFile> layouts);
 

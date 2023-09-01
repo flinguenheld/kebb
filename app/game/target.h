@@ -15,7 +15,7 @@
  */
 class Target : public WidgetTextBox {
 public:
-  Target(kebb::point center_area, uint16_t radius_area, kebb::boxsize char_size, uint16_t speed,
+  Target(widget::point center_area, uint16_t radius_area, widget::boxsize char_size, uint16_t speed,
          std::shared_ptr<Dispatcher> dispatcher, std::shared_ptr<Score> score,
          std::shared_ptr<LayoutFile> layouts);
 
@@ -39,7 +39,7 @@ private:
   uint16_t _waiting_time;
   uint16_t _new_waiting_time;
 
-  const kebb::point _center_area;
+  const widget::point _center_area;
   const uint16_t _radius_area;
 
   uint16_t _move_x, _move_y; // Increments set according to the angle

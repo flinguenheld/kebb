@@ -1,7 +1,6 @@
 set(EXE_SOURCES main.cpp
                 controller.cpp
                 loop.cpp
-                utils.cpp
                 renderer.cpp)
 
 add_subdirectory(about)

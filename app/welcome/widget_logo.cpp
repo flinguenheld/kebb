@@ -1,10 +1,10 @@
 #include "widget_logo.h"
 
-WidgetLogo::WidgetLogo(kebb::point position, kebb::boxsize size)
+WidgetLogo::WidgetLogo(widget::point position, widget::boxsize size)
     : WidgetBase(position, size), _nb_colums(12), _nb_lines(4), _engine(_seed()), _continue(true) {
 
-  _color_border = kebb::color(kebb::ColorName::C_Surface1);
-  _color_key = kebb::color(kebb::ColorName::C_Surface0);
+  _color_border = widget::color(widget::ColorName::C_Surface1);
+  _color_key = widget::color(widget::ColorName::C_Surface0);
 
   // ------------------------------------------------------------------------
   // Geometry ---------------------------------------------------------------
@@ -34,20 +34,20 @@ WidgetLogo::WidgetLogo(kebb::point position, kebb::boxsize size)
   std::uniform_int_distribution<uint16_t> _random_color(0, 13); // Which color ?
   switch (_random_color(_engine)) {
     // clang-format off
-    case 0:  _color_current = kebb::color(kebb::ColorName::C_Flamingo); break;
-    case 1:  _color_current = kebb::color(kebb::ColorName::C_Pink); break;
-    case 2:  _color_current = kebb::color(kebb::ColorName::C_Mauve); break;
-    case 3:  _color_current = kebb::color(kebb::ColorName::C_Red); break;
-    case 4:  _color_current = kebb::color(kebb::ColorName::C_Maroon); break;
-    case 5:  _color_current = kebb::color(kebb::ColorName::C_Peach); break;
-    case 6:  _color_current = kebb::color(kebb::ColorName::C_Yellow); break;
-    case 7:  _color_current = kebb::color(kebb::ColorName::C_Green); break;
-    case 8:  _color_current = kebb::color(kebb::ColorName::C_Teal); break;
-    case 9:  _color_current = kebb::color(kebb::ColorName::C_Sky); break;
-    case 10: _color_current = kebb::color(kebb::ColorName::C_Sapphire); break;
-    case 11: _color_current = kebb::color(kebb::ColorName::C_Blue); break;
-    case 12: _color_current = kebb::color(kebb::ColorName::C_Lavender); break;
-    default: _color_current = kebb::color(kebb::ColorName::C_Text); break;
+    case 0:  _color_current = widget::color(widget::ColorName::C_Flamingo); break;
+    case 1:  _color_current = widget::color(widget::ColorName::C_Pink); break;
+    case 2:  _color_current = widget::color(widget::ColorName::C_Mauve); break;
+    case 3:  _color_current = widget::color(widget::ColorName::C_Red); break;
+    case 4:  _color_current = widget::color(widget::ColorName::C_Maroon); break;
+    case 5:  _color_current = widget::color(widget::ColorName::C_Peach); break;
+    case 6:  _color_current = widget::color(widget::ColorName::C_Yellow); break;
+    case 7:  _color_current = widget::color(widget::ColorName::C_Green); break;
+    case 8:  _color_current = widget::color(widget::ColorName::C_Teal); break;
+    case 9:  _color_current = widget::color(widget::ColorName::C_Sky); break;
+    case 10: _color_current = widget::color(widget::ColorName::C_Sapphire); break;
+    case 11: _color_current = widget::color(widget::ColorName::C_Blue); break;
+    case 12: _color_current = widget::color(widget::ColorName::C_Lavender); break;
+    default: _color_current = widget::color(widget::ColorName::C_Text); break;
     // clang-format on
   }
 

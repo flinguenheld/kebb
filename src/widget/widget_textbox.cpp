@@ -1,16 +1,11 @@
 #include "widget_textbox.h"
 
-WidgetTextBox::WidgetTextBox(kebb::point position, kebb::boxsize char_size) // FIX: REMOVE
-    : WidgetBase(position, char_size), _text(""), _char_size(char_size), _alignment(TextBoxAlign::TB_Left) {
-  _color_text = kebb::color(kebb::ColorName::C_Text);
-}
-
-WidgetTextBox::WidgetTextBox(kebb::point position, kebb::boxsize char_size, TextBoxAlign alignment)
+WidgetTextBox::WidgetTextBox(widget::point position, widget::boxsize char_size, TextBoxAlign alignment)
     : WidgetBase(position, char_size), _text(""), _char_size(char_size), _alignment(alignment) {
-  _color_text = kebb::color(kebb::ColorName::C_Text);
+  _color_text = widget::color(widget::ColorName::C_Text);
 }
 
-WidgetTextBox::WidgetTextBox(kebb::point position, kebb::boxsize char_size, TextBoxAlign alignment,
+WidgetTextBox::WidgetTextBox(widget::point position, widget::boxsize char_size, TextBoxAlign alignment,
                              std::string &&text, SDL_Color &&color_text)
     : WidgetBase(position, char_size), _text(""), _char_size(char_size), _alignment(alignment) {
   move_text(std::move(text));

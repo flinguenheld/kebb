@@ -1,14 +1,15 @@
 #include "window_record.h"
+#include <cstdint>
 
-WindowRecord::WindowRecord(kebb::boxsize screen_size, std::shared_ptr<kebb::WindowName> next_window,
+WindowRecord::WindowRecord(widget::boxsize screen_size, std::shared_ptr<uint8_t> next_window_id,
                            std::shared_ptr<Renderer> renderer, std::shared_ptr<RecordFile> records)
-    : WidgetWindow(next_window, renderer), _records(records) {
+    : WidgetWindow(next_window_id, renderer), _records(records) {
 
   _widget_menu = std::make_unique<WidgetBottomMenu>(screen_size, renderer, "<ESC> Quit");
 
   // Geometry
-  kebb::boxsize char_size = _renderer->font_char_size(FontName::F_Menu);
-  kebb::point pt;
+  widget::boxsize char_size = _renderer->font_char_size(FontName::F_Menu);
+  widget::point pt;
 
   // ------------------------------------------------------------------------
   // Title ------------------------------------------------------------------
@@ -17,7 +18,7 @@ WindowRecord::WindowRecord(kebb::boxsize screen_size, std::shared_ptr<kebb::Wind
   pt.y = char_size.h * 0.5;
 
   _widget_title = std::make_unique<WidgetTextBox>(pt, char_size, TextBoxAlign::TB_Center, "Records",
-                                                  kebb::color(kebb::ColorName::C_Peach));
+                                                  widget::color(widget::ColorName::C_Peach));
 
   pt.y += char_size.h * 0.5;
 
@@ -25,8 +26,9 @@ WindowRecord::WindowRecord(kebb::boxsize screen_size, std::shared_ptr<kebb::Wind
   // Text -------------------------------------------------------------------
   char_size = _renderer->font_char_size(FontName::F_Menu).scale(1.1);
 
-  _widget_title2 = std::make_unique<WidgetTextBox>(
-      pt, char_size, TextBoxAlign::TB_Center, "Last fifteen games", kebb::color(kebb::ColorName::C_Peach));
+  _widget_title2 =
+      std::make_unique<WidgetTextBox>(pt, char_size, TextBoxAlign::TB_Center, "Last fifteen games",
+                                      widget::color(widget::ColorName::C_Peach));
 
   pt.y += char_size.h * 1.4;
 
@@ -71,8 +73,8 @@ WindowRecord::WindowRecord(kebb::boxsize screen_size, std::shared_ptr<kebb::Wind
     }
 
     // Time
-    text += kebb::adapt_string_length(std::to_string(e.time_game / 60), 2, '0') + ":" +
-            kebb::adapt_string_length(std::to_string(e.time_game % 60), 2, '0');
+    text += widget::adapt_string_length(std::to_string(e.time_game / 60), 2, '0') + ":" +
+            widget::adapt_string_length(std::to_string(e.time_game % 60), 2, '0');
 
     // Text - scores
     text += " S" + std::to_string(e.success);
@@ -84,11 +86,11 @@ WindowRecord::WindowRecord(kebb::boxsize screen_size, std::shared_ptr<kebb::Wind
     _entries.back()->move_text(std::move(text));
 
     if ((kebb::GameMode)e.mode == kebb::GameMode::M_Survival)
-      _entries.back()->set_color_text(kebb::color(kebb::ColorName::C_Text));
+      _entries.back()->set_color_text(widget::color(widget::ColorName::C_Text));
     else
-      _entries.back()->set_color_text(kebb::color(kebb::ColorName::C_Sky));
+      _entries.back()->set_color_text(widget::color(widget::ColorName::C_Sky));
 
-    pt.y += char_size.h * 1.15;
+    pt.y += char_size.h * 1.2;
   }
 }
 
@@ -115,4 +117,4 @@ void WindowRecord::render() const {
 
 // ----------------------------------------------------------------------------------------------------
 // CONTROLS -------------------------------------------------------------------------------------------
-void WindowRecord::control_escape() { *_next_window = kebb::WindowName::W_Welcome; }
+void WindowRecord::control_escape() { *_next_window_id = uint8_t(kebb::WindowName::W_Welcome); }

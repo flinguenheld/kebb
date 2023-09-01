@@ -12,7 +12,7 @@
  */
 class WidgetGauge {
 public:
-  WidgetGauge(kebb::boxsize screen_size, std::shared_ptr<Renderer> renderer);
+  WidgetGauge(widget::boxsize screen_size, std::shared_ptr<Renderer> renderer);
 
   void render() const;
 
@@ -21,7 +21,7 @@ public:
   uint16_t get_level() const;
 
 private:
-  std::unique_ptr<WidgetTextBox> _textbox_level;
+  std::unique_ptr<WidgetTextBox> _widget_level;
   std::shared_ptr<Renderer> _renderer;
 
   std::vector<SDL_Vertex> _triangle;
@@ -29,8 +29,8 @@ private:
   SDL_Color _gauge_color;
   const uint8_t _gauge_alpha;
 
-  kebb::boxsize _char_size;
-  kebb::point _pt_insertion; // Top left
+  widget::boxsize _char_size;
+  widget::point _pt_insertion; // Top left
   float _padding_y_txt;      // Used to reduce the gauge height
   float _x_hundred;          // x value for 100%
 };

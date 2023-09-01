@@ -3,13 +3,14 @@
 
 #include "file_option.h"
 #include "file_record.h"
+#include "kebb.h"
 #include "widget_textbox.h"
 #include "window/widget_bottom_menu.h"
 #include "window/widget_window.h"
 
 class WindowGameOver : public WidgetWindow {
 public:
-  WindowGameOver(kebb::boxsize screen_size, std::shared_ptr<kebb::WindowName> next_window,
+  WindowGameOver(widget::boxsize screen_size, std::shared_ptr<uint8_t> next_window_id,
                  std::shared_ptr<Renderer> renderer, std::shared_ptr<RecordFile> records,
                  std::shared_ptr<OptionFile> options);
   virtual ~WindowGameOver() override;
@@ -24,14 +25,14 @@ private:
   std::shared_ptr<RecordFile> _records;
   std::shared_ptr<OptionFile> _options;
 
-  std::unique_ptr<WidgetTextBox> _textbox_title;
-  std::unique_ptr<WidgetTextBox> _textbox_mode;
-  std::unique_ptr<WidgetTextBox> _textbox_difficulty;
+  std::unique_ptr<WidgetTextBox> _widget_title;
+  std::unique_ptr<WidgetTextBox> _widget_mode;
+  std::unique_ptr<WidgetTextBox> _widget_difficulty;
 
-  std::unique_ptr<WidgetTextBox> _textbox_time;
-  std::unique_ptr<WidgetTextBox> _textbox_success;
-  std::unique_ptr<WidgetTextBox> _textbox_fail;
-  std::unique_ptr<WidgetTextBox> _textbox_miss;
+  std::unique_ptr<WidgetTextBox> _widget_time;
+  std::unique_ptr<WidgetTextBox> _widget_success;
+  std::unique_ptr<WidgetTextBox> _widget_fail;
+  std::unique_ptr<WidgetTextBox> _widget_miss;
 
   std::unique_ptr<WidgetBottomMenu> _widget_menu;
 

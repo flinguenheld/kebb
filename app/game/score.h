@@ -1,7 +1,6 @@
 #ifndef SCORE_H
 #define SCORE_H
 
-#include "utils.h"
 #include <chrono>
 #include <mutex>
 

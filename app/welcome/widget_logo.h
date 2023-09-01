@@ -13,7 +13,7 @@
  */
 class WidgetLogo : public WidgetBase {
 public:
-  WidgetLogo(kebb::point position, kebb::boxsize size);
+  WidgetLogo(widget::point position, widget::boxsize size);
   virtual ~WidgetLogo() override;
 
   void update();
@@ -26,7 +26,7 @@ private:
   const uint16_t _nb_colums;
   const uint16_t _nb_lines;
 
-  kebb::boxsize _key_size;
+  widget::boxsize _key_size;
 
   uint16_t _border_thickness;
   uint16_t _space_w;

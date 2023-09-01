@@ -1,13 +1,14 @@
 #include "window_game.h"
+#include <cstdint>
 
 // clang-format off
-WindowGame::WindowGame(kebb::boxsize screen_size,
-                       std::shared_ptr<kebb::WindowName> next_window,
+WindowGame::WindowGame(widget::boxsize screen_size,
+                       std::shared_ptr<uint8_t> next_window_id,
                        std::shared_ptr<Renderer> renderer,
                        std::shared_ptr<RecordFile> records,
                        std::shared_ptr<OptionFile> options,
                        std::shared_ptr<LayoutFile> layouts)
-    : WidgetWindow(next_window, renderer),
+    : WidgetWindow(next_window_id, renderer),
       _records(records),
       _options(options),
       _layouts(layouts),
@@ -58,7 +59,7 @@ void WindowGame::render() const {
 // CONTROLS -------------------------------------------------------------------------------------------
 void WindowGame::control_escape() {
   stop_game();
-  *_next_window = kebb::WindowName::W_GameOver;
+  *_next_window_id = uint8_t(kebb::WindowName::W_GameOver);
 }
 void WindowGame::control_others(const std::string &character) {
 

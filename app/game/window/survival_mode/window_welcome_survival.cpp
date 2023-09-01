@@ -1,16 +1,17 @@
 #include "window_welcome_survival.h"
+#include <cstdint>
 
-WindowWelcomeSurvival::WindowWelcomeSurvival(kebb::boxsize screen_size,
-                                             std::shared_ptr<kebb::WindowName> next_window,
+WindowWelcomeSurvival::WindowWelcomeSurvival(widget::boxsize screen_size,
+                                             std::shared_ptr<uint8_t> next_window_id,
                                              std::shared_ptr<Renderer> renderer,
                                              std::shared_ptr<OptionFile> options)
-    : WidgetWindowSelection(next_window, renderer), _options(options) {
+    : WidgetWindowSelection(next_window_id, renderer), _options(options) {
 
   _widget_menu = std::make_unique<WidgetBottomMenu>(screen_size, renderer, "<ESC> Cancel     <ENTER> Go !");
 
   // Geometry
-  kebb::boxsize char_size = _renderer->font_char_size(FontName::F_Menu);
-  kebb::point pt;
+  widget::boxsize char_size = _renderer->font_char_size(FontName::F_Menu);
+  widget::point pt;
 
   // ------------------------------------------------------------------------
   // Title ------------------------------------------------------------------
@@ -18,8 +19,8 @@ WindowWelcomeSurvival::WindowWelcomeSurvival(kebb::boxsize screen_size,
   pt.x = screen_size.w / 2;
   pt.y = char_size.h * 1.1;
 
-  _textbox_title = std::make_unique<WidgetTextBox>(pt, char_size, TextBoxAlign::TB_Center, "Survival mode",
-                                                   kebb::color(kebb::ColorName::C_Peach));
+  _widget_title = std::make_unique<WidgetTextBox>(pt, char_size, TextBoxAlign::TB_Center, "Survival mode",
+                                                  widget::color(widget::ColorName::C_Peach));
   pt.y += char_size.h * 1.5;
 
   // ------------------------------------------------------------------------
@@ -52,13 +53,13 @@ WindowWelcomeSurvival::WindowWelcomeSurvival(kebb::boxsize screen_size,
   // FIX: INCOMPLETE
   char_size = _renderer->font_char_size(FontName::F_Menu);
 
-  _textbox_explanation_l1 = std::make_unique<WidgetTextBox>(pt, char_size, TextBoxAlign::TB_Center,
-                                                            "Select starting options and try",
-                                                            kebb::color(kebb::ColorName::C_Overlay1));
+  _widget_explanation_l1 = std::make_unique<WidgetTextBox>(pt, char_size, TextBoxAlign::TB_Center,
+                                                           "Select starting options and try",
+                                                           widget::color(widget::ColorName::C_Overlay1));
   pt.y += char_size.h;
-  _textbox_explanation_l2 =
+  _widget_explanation_l2 =
       std::make_unique<WidgetTextBox>(pt, char_size, TextBoxAlign::TB_Center, "to reach the twelfth level !",
-                                      kebb::color(kebb::ColorName::C_Overlay1));
+                                      widget::color(widget::ColorName::C_Overlay1));
 }
 
 WindowWelcomeSurvival::~WindowWelcomeSurvival() {}
@@ -67,10 +68,10 @@ WindowWelcomeSurvival::~WindowWelcomeSurvival() {}
 // LOGIC ----------------------------------------------------------------------------------------------
 void WindowWelcomeSurvival::logic() {
 
-  _textbox_explanation_l2->move_text(
+  _widget_explanation_l2->move_text(
       std::move("Next level with " + std::to_string(next_level("Normal")) + " points."));
-  _textbox_explanation_l2->move_text(std::move(std::to_string(max_fail("Normal")) + " fail & " +
-                                               std::to_string(max_miss("Normal")) + " misses maximum"));
+  _widget_explanation_l2->move_text(std::move(std::to_string(max_fail("Normal")) + " fail & " +
+                                              std::to_string(max_miss("Normal")) + " misses maximum"));
 }
 
 // ----------------------------------------------------------------------------------------------------
@@ -78,13 +79,13 @@ void WindowWelcomeSurvival::logic() {
 void WindowWelcomeSurvival::render() const {
 
   _renderer->clear_screen();
-  _textbox_title->render(_renderer->renderer(), _renderer->font(FontName::F_Menu));
+  _widget_title->render(_renderer->renderer(), _renderer->font(FontName::F_Menu));
 
   for (auto &w : _widget_select_fields)
     w->render(_renderer->renderer(), _renderer->font(FontName::F_Menu));
 
-  _textbox_explanation_l1->render(_renderer->renderer(), _renderer->font(FontName::F_Menu));
-  _textbox_explanation_l2->render(_renderer->renderer(), _renderer->font(FontName::F_Menu));
+  _widget_explanation_l1->render(_renderer->renderer(), _renderer->font(FontName::F_Menu));
+  _widget_explanation_l2->render(_renderer->renderer(), _renderer->font(FontName::F_Menu));
 
   _widget_menu->render();
 
@@ -94,7 +95,7 @@ void WindowWelcomeSurvival::render() const {
 
 // ----------------------------------------------------------------------------------------------------
 // CONTROLS -------------------------------------------------------------------------------------------
-void WindowWelcomeSurvival::control_escape() { *_next_window = kebb::WindowName::W_Welcome; }
+void WindowWelcomeSurvival::control_escape() { *_next_window_id = uint8_t(kebb::WindowName::W_Welcome); }
 void WindowWelcomeSurvival::control_enter() {
 
   // Up options, save and launch the game !
@@ -108,7 +109,7 @@ void WindowWelcomeSurvival::control_enter() {
 
   _options->set().last_mode = uint16_t(kebb::GameMode::M_Survival);
 
-  *_next_window = kebb::WindowName::W_GameSurvival;
+  *_next_window_id = uint8_t(kebb::WindowName::W_GameSurvival);
 }
 
 // ----------------------------------------------------------------------------------------------------

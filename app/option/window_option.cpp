@@ -1,16 +1,16 @@
 #include "window_option.h"
 
-WindowOption::WindowOption(kebb::boxsize screen_size, std::shared_ptr<kebb::WindowName> next_window,
+WindowOption::WindowOption(widget::boxsize screen_size, std::shared_ptr<uint8_t> next_window_id,
                            std::shared_ptr<Renderer> renderer, std::shared_ptr<OptionFile> options,
                            std::shared_ptr<LayoutFile> layouts)
-    : WidgetWindowSelection(next_window, renderer), _options(options), _layouts(layouts),
+    : WidgetWindowSelection(next_window_id, renderer), _options(options), _layouts(layouts),
       _message_displayed(false), _screen_size(screen_size) {
 
   _widget_menu = std::make_unique<WidgetBottomMenu>(screen_size, renderer, "<ESC> Cancel     <ENTER> Save");
 
   // Geometry
-  kebb::boxsize char_size = _renderer->font_char_size(FontName::F_Menu);
-  kebb::point pt;
+  widget::boxsize char_size = _renderer->font_char_size(FontName::F_Menu);
+  widget::point pt;
 
   // ------------------------------------------------------------------------
   // Title ------------------------------------------------------------------
@@ -19,7 +19,7 @@ WindowOption::WindowOption(kebb::boxsize screen_size, std::shared_ptr<kebb::Wind
   pt.y = char_size.h * 0.5;
 
   _widget_title = std::make_unique<WidgetTextBox>(pt, char_size, TextBoxAlign::TB_Center, "Options",
-                                                  kebb::color(kebb::ColorName::C_Peach));
+                                                  widget::color(widget::ColorName::C_Peach));
 
   pt.y += char_size.h;
 
@@ -86,8 +86,8 @@ WindowOption::WindowOption(kebb::boxsize screen_size, std::shared_ptr<kebb::Wind
   pt.y += y_long_space;
   char_size = _renderer->font_char_size(FontName::F_Menu).scale(0.8);
   _widget_message = std::make_unique<WidgetTextBox>(pt, char_size, TextBoxAlign::TB_Center);
-  _widget_message->set_color_text(kebb::color(kebb::ColorName::C_Base));
-  _widget_message->set_color(kebb::color(kebb::ColorName::C_Yellow));
+  _widget_message->set_color_text(widget::color(widget::ColorName::C_Base));
+  _widget_message->set_color(widget::color(widget::ColorName::C_Yellow));
 
   // Display help on start --
   check_qwerty_extra();
@@ -155,7 +155,7 @@ void WindowOption::check_qwerty_extra() {
 
 // ----------------------------------------------------------------------------------------------------
 // CONTROLS -------------------------------------------------------------------------------------------
-void WindowOption::control_escape() { *_next_window = kebb::WindowName::W_Welcome; }
+void WindowOption::control_escape() { *_next_window_id = uint8_t(kebb::WindowName::W_Welcome); }
 void WindowOption::control_enter() {
   // Use has to select at least one target type
   if ((_widget_select_fields[2]->get_bool() == true &&
@@ -188,7 +188,7 @@ void WindowOption::control_enter() {
     _options->set().extras = _widget_select_fields[7]->get_bool();
     _options->set().extra_caps = _widget_select_fields[8]->get_bool();
 
-    *_next_window = kebb::WindowName::W_Welcome;
+    *_next_window_id = uint8_t(kebb::WindowName::W_Welcome);
   } else
     _widget_message->move_text("  At least one target type is requiered.  ");
 }

@@ -1,13 +1,13 @@
 #include "widget_window.h"
 
-WidgetWindow::WidgetWindow(std::shared_ptr<kebb::WindowName> next_window, std::shared_ptr<Renderer> renderer)
-    : _next_window(next_window), _renderer(renderer) {}
+WidgetWindow::WidgetWindow(std::shared_ptr<uint8_t> next_window_id, std::shared_ptr<Renderer> renderer)
+    : _next_window_id(next_window_id), _renderer(renderer) {}
 
 // ----------------------------------------------------------------------------------------------------
 // WIDGET WINDOW SELECTION ----------------------------------------------------------------------------
-WidgetWindowSelection::WidgetWindowSelection(std::shared_ptr<kebb::WindowName> next_window,
+WidgetWindowSelection::WidgetWindowSelection(std::shared_ptr<uint8_t> next_window_id,
                                              std::shared_ptr<Renderer> renderer)
-    : WidgetWindow(next_window, renderer) {}
+    : WidgetWindow(next_window_id, renderer) {}
 
 WidgetWindowSelection::~WidgetWindowSelection() {}
 

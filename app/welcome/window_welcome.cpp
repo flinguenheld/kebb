@@ -1,14 +1,14 @@
 #include "window_welcome.h"
 
-WindowWelcome::WindowWelcome(kebb::boxsize screen_size, std::shared_ptr<kebb::WindowName> next_window,
+WindowWelcome::WindowWelcome(widget::boxsize screen_size, std::shared_ptr<uint8_t> next_window_id,
                              std::shared_ptr<Renderer> renderer, std::shared_ptr<OptionFile> options)
-    : WidgetWindowSelection(next_window, renderer), _options(options) {
+    : WidgetWindowSelection(next_window_id, renderer), _options(options) {
 
   _widget_menu = std::make_unique<WidgetBottomMenu>(screen_size, renderer, "<ESC> Quit      <ENTER> Valid");
 
   // Geometry
-  kebb::boxsize char_size = _renderer->font_char_size(FontName::F_Menu);
-  kebb::point pt;
+  widget::boxsize char_size = _renderer->font_char_size(FontName::F_Menu);
+  widget::point pt;
 
   // ------------------------------------------------------------------------
   // Title ------------------------------------------------------------------
@@ -17,12 +17,12 @@ WindowWelcome::WindowWelcome(kebb::boxsize screen_size, std::shared_ptr<kebb::Wi
   pt.y = char_size.h * 0.5;
 
   _widget_title = std::make_unique<WidgetTextBox>(pt, char_size, TextBoxAlign::TB_Center, "Kebb",
-                                                  kebb::color(kebb::ColorName::C_Peach));
+                                                  widget::color(widget::ColorName::C_Peach));
 
   // ------------------------------------------------------------------------
   // Logo -------------------------------------------------------------------
-  kebb::boxsize bs_logo = {static_cast<uint16_t>(screen_size.w / 3),
-                           static_cast<uint16_t>(screen_size.w / 7.5)};
+  widget::boxsize bs_logo = {static_cast<uint16_t>(screen_size.w / 3),
+                             static_cast<uint16_t>(screen_size.w / 7.5)};
   pt.x = screen_size.w / 2 - bs_logo.w / 2;
   pt.y += char_size.h * 0.5;
 
@@ -31,7 +31,7 @@ WindowWelcome::WindowWelcome(kebb::boxsize screen_size, std::shared_ptr<kebb::Wi
 
   // ------------------------------------------------------------------------
   // Selection fields -------------------------------------------------------
-  char_size = _renderer->font_char_size(FontName::F_Menu).scale(1.5);
+  char_size = _renderer->font_char_size(FontName::F_Menu).scale(1.6);
   pt.x = screen_size.w / 2;
   pt.y += bs_logo.h * 1.7;
 
@@ -45,7 +45,7 @@ WindowWelcome::WindowWelcome(kebb::boxsize screen_size, std::shared_ptr<kebb::Wi
       std::make_unique<WidgetSelection>(pt, char_size, "Timer mode", !first_sel));
   pt.y += char_size.h * 1.3;
 
-  char_size = renderer->font_char_size(FontName::F_Menu).scale(1.2);
+  char_size = renderer->font_char_size(FontName::F_Menu).scale(1.3);
   _widget_select_fields.emplace_back(std::make_unique<WidgetSelection>(pt, char_size, "Options"));
   pt.y += char_size.h * 1.1;
   _widget_select_fields.emplace_back(std::make_unique<WidgetSelection>(pt, char_size, "Records"));
@@ -75,17 +75,17 @@ void WindowWelcome::render() const {
 
 // ----------------------------------------------------------------------------------------------------
 // CONTROLS -------------------------------------------------------------------------------------------
-void WindowWelcome::control_escape() { *_next_window = kebb::WindowName::W_Quit; }
+void WindowWelcome::control_escape() { *_next_window_id = uint8_t(kebb::WindowName::W_Quit); }
 void WindowWelcome::control_enter() {
 
   if (_widget_select_fields[0]->is_selected())
-    *_next_window = kebb::WindowName::W_WelcomeSurvival;
+    *_next_window_id = uint8_t(kebb::WindowName::W_WelcomeSurvival);
   else if (_widget_select_fields[1]->is_selected())
-    *_next_window = kebb::WindowName::W_WelcomeTimer;
+    *_next_window_id = uint8_t(kebb::WindowName::W_WelcomeTimer);
   else if (_widget_select_fields[2]->is_selected())
-    *_next_window = kebb::WindowName::W_Option;
+    *_next_window_id = uint8_t(kebb::WindowName::W_Option);
   else if (_widget_select_fields[3]->is_selected())
-    *_next_window = kebb::WindowName::W_Record;
+    *_next_window_id = uint8_t(kebb::WindowName::W_Record);
   else if (_widget_select_fields[4]->is_selected())
-    *_next_window = kebb::WindowName::W_About;
+    *_next_window_id = uint8_t(kebb::WindowName::W_About);
 }

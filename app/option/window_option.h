@@ -6,6 +6,7 @@
 #include "button/widget_selection.h"
 #include "file_layout.h"
 #include "file_option.h"
+#include "kebb.h"
 #include "window/widget_bottom_menu.h"
 #include "window/widget_window.h"
 #include <thread>
@@ -13,7 +14,7 @@
 
 class WindowOption : public WidgetWindowSelection {
 public:
-  WindowOption(kebb::boxsize screen_size, std::shared_ptr<kebb::WindowName> next_window,
+  WindowOption(widget::boxsize screen_size, std::shared_ptr<uint8_t> next_window_id,
                std::shared_ptr<Renderer> renderer, std::shared_ptr<OptionFile> options,
                std::shared_ptr<LayoutFile> layouts);
   virtual ~WindowOption() override;
@@ -39,6 +40,6 @@ private:
   void check_qwerty_extra();
   bool _message_displayed;
 
-  const kebb::boxsize _screen_size;
+  const widget::boxsize _screen_size;
 };
 #endif // !WINDOW_OPTION_H

@@ -1,12 +1,12 @@
 #include "widget_selection.h"
 #include "widget_textbox.h"
 
-WidgetSelection::WidgetSelection(kebb::point pos_center, kebb::boxsize size_char, std::string &&text,
+WidgetSelection::WidgetSelection(widget::point pos_center, widget::boxsize size_char, std::string &&text,
                                  bool selected)
     : WidgetTextBox(pos_center, size_char, TextBoxAlign::TB_Center) {
 
-  _color_on = kebb::color(kebb::ColorName::C_Blue);
-  _color_off = kebb::color(kebb::ColorName::C_Text);
+  _color_on = widget::color(widget::ColorName::C_Blue);
+  _color_off = widget::color(widget::ColorName::C_Text);
 
   move_text(std::move(text));
   set_selected(selected);

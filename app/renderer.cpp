@@ -1,11 +1,11 @@
 #include "renderer.h"
 
-Renderer::Renderer(kebb::boxsize screen_size, uint16_t scale_factor, uint16_t font_size_target,
+Renderer::Renderer(widget::boxsize screen_size, uint16_t scale_factor, uint16_t font_size_target,
                    uint16_t font_size_game, uint16_t font_size_menu)
     : _screen_size(screen_size), _scale_factor(scale_factor), _font_target(nullptr), _font_game(nullptr),
       _font_menu(nullptr), _init_ok(false) {
 
-  _color_background = kebb::color(kebb::ColorName::C_Base);
+  _color_background = widget::color(widget::ColorName::C_Base);
 
   // Initialize SDL
   if (SDL_Init(SDL_INIT_VIDEO) >= 0) {
@@ -113,19 +113,6 @@ void Renderer::clear_screen() {
 
 // ----------------------------------------------------------------------------------------------------
 // FONTS ----------------------------------------------------------------------------------------------
-
-kebb_font Renderer::font_blabla(FontName font_name) {
-
-  switch (font_name) {
-  case FontName::F_Target:
-    return {_font_target, _char_size_target};
-  case FontName::F_Menu:
-    return {_font_menu, _char_size_menu};
-  default:
-    return {_font_game, _char_size_game};
-  }
-}
-
 TTF_Font *Renderer::font(FontName fn) {
   switch (fn) {
   case FontName::F_Target:
@@ -136,7 +123,7 @@ TTF_Font *Renderer::font(FontName fn) {
     return _font_game;
   }
 }
-kebb::boxsize Renderer::font_char_size(FontName fn) const {
+widget::boxsize Renderer::font_char_size(FontName fn) const {
   switch (fn) {
   case FontName::F_Target:
     return _char_size_target;

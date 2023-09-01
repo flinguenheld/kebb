@@ -6,6 +6,7 @@
 #include "game/score.h"
 #include "game/target.h"
 #include "game/window/widget_score.h"
+#include "kebb.h"
 #include "window/widget_window.h"
 
 /*
@@ -15,7 +16,7 @@
 class WindowGame : public WidgetWindow {
 
 public:
-  WindowGame(kebb::boxsize screen_size, std::shared_ptr<kebb::WindowName> next_window,
+  WindowGame(widget::boxsize screen_size, std::shared_ptr<uint8_t> next_window_id,
              std::shared_ptr<Renderer> renderer, std::shared_ptr<RecordFile> records,
              std::shared_ptr<OptionFile> options, std::shared_ptr<LayoutFile> layouts);
   virtual ~WindowGame() override;
@@ -37,7 +38,7 @@ protected:
   std::shared_ptr<Score> _score;
   std::unique_ptr<WidgetScore> _widget_score;
 
-  kebb::point _target_center_aera;
+  widget::point _target_center_aera;
   uint16_t _target_radius_aera;
 
   uint16_t _nb_max_target;

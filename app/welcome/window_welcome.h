@@ -3,6 +3,7 @@
 
 #include "button/widget_selection.h"
 #include "file_option.h"
+#include "kebb.h"
 #include "welcome/widget_logo.h"
 #include "widget_textbox.h"
 #include "window/widget_bottom_menu.h"
@@ -11,7 +12,7 @@
 
 class WindowWelcome : public WidgetWindowSelection {
 public:
-  WindowWelcome(kebb::boxsize screen_size, std::shared_ptr<kebb::WindowName> next_window,
+  WindowWelcome(widget::boxsize screen_size, std::shared_ptr<uint8_t> next_window_id,
                 std::shared_ptr<Renderer> renderer, std::shared_ptr<OptionFile> options);
   virtual ~WindowWelcome() override;
 

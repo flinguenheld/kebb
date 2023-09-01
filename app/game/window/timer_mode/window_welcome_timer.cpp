@@ -1,16 +1,15 @@
 #include "window_welcome_timer.h"
 
-WindowWelcomeTimer::WindowWelcomeTimer(kebb::boxsize screen_size,
-                                       std::shared_ptr<kebb::WindowName> next_window,
+WindowWelcomeTimer::WindowWelcomeTimer(widget::boxsize screen_size, std::shared_ptr<uint8_t> next_window_id,
                                        std::shared_ptr<Renderer> renderer,
                                        std::shared_ptr<OptionFile> options)
-    : WidgetWindowSelection(next_window, renderer), _options(options) {
+    : WidgetWindowSelection(next_window_id, renderer), _options(options) {
 
   _widget_menu = std::make_unique<WidgetBottomMenu>(screen_size, renderer, "<ESC> Cancel     <ENTER> Go !");
 
   // Geometry
-  kebb::boxsize char_size = _renderer->font_char_size(FontName::F_Menu);
-  kebb::point pt;
+  widget::boxsize char_size = _renderer->font_char_size(FontName::F_Menu);
+  widget::point pt;
 
   // ------------------------------------------------------------------------
   // Title ------------------------------------------------------------------
@@ -18,8 +17,8 @@ WindowWelcomeTimer::WindowWelcomeTimer(kebb::boxsize screen_size,
   pt.x = screen_size.w / 2;
   pt.y = char_size.h * 1.1;
 
-  _textbox_title = std::make_unique<WidgetTextBox>(pt, char_size, TextBoxAlign::TB_Center, "Timer mode",
-                                                   kebb::color(kebb::ColorName::C_Peach));
+  _widget_title = std::make_unique<WidgetTextBox>(pt, char_size, TextBoxAlign::TB_Center, "Timer mode",
+                                                  widget::color(widget::ColorName::C_Peach));
   pt.y += char_size.h * 1.5;
 
   // ------------------------------------------------------------------------
@@ -60,7 +59,7 @@ WindowWelcomeTimer::~WindowWelcomeTimer() {}
 void WindowWelcomeTimer::render() const {
 
   _renderer->clear_screen();
-  _textbox_title->render(_renderer->renderer(), _renderer->font(FontName::F_Menu));
+  _widget_title->render(_renderer->renderer(), _renderer->font(FontName::F_Menu));
 
   for (auto &w : _widget_select_fields)
     w->render(_renderer->renderer(), _renderer->font(FontName::F_Menu));
@@ -73,7 +72,7 @@ void WindowWelcomeTimer::render() const {
 
 // ----------------------------------------------------------------------------------------------------
 // CONTROLS -------------------------------------------------------------------------------------------
-void WindowWelcomeTimer::control_escape() { *_next_window = kebb::WindowName::W_Welcome; }
+void WindowWelcomeTimer::control_escape() { *_next_window_id = uint8_t(kebb::WindowName::W_Welcome); }
 void WindowWelcomeTimer::control_enter() {
 
   // Up options, save and launch the game !
@@ -82,5 +81,5 @@ void WindowWelcomeTimer::control_enter() {
   _options->set().timer_speed = _widget_select_fields[2]->get_choice().value_uint;
   _options->set().last_mode = uint16_t(kebb::GameMode::M_Timer);
 
-  *_next_window = kebb::WindowName::W_GameTimer;
+  *_next_window_id = uint8_t(kebb::WindowName::W_GameTimer);
 }

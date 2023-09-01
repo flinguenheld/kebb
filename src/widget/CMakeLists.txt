@@ -2,6 +2,7 @@ set(LIB_WIDGET_SOURCES
     button/widget_selection.cpp
     button/widget_boolean.cpp
     button/widget_list.cpp
+    utils.cpp
     widget_base.cpp
     widget_textbox.cpp
     window/widget_bottom_menu.cpp
@@ -11,6 +12,7 @@ set(LIB_WIDGET_HEADERS
     button/widget_selection.h
     button/widget_boolean.h
     button/widget_list.h
+    utils.h
     widget_base.h
     widget_textbox.h
     window/widget_bottom_menu.h

@@ -1,13 +1,14 @@
 #include "window_survival_mode.h"
+#include <cstdint>
 
 // clang-format off
-WindowSurvivalMode::WindowSurvivalMode(kebb::boxsize screen_size,
-                       std::shared_ptr<kebb::WindowName> next_window,
+WindowSurvivalMode::WindowSurvivalMode(widget::boxsize screen_size,
+                       std::shared_ptr<uint8_t> next_window_id,
                        std::shared_ptr<Renderer> renderer,
                        std::shared_ptr<RecordFile> records,
                        std::shared_ptr<OptionFile> options,
                        std::shared_ptr<LayoutFile> layouts)
-    : WindowGame(screen_size, next_window, renderer, records, options, layouts),
+    : WindowGame(screen_size, next_window_id, renderer, records, options, layouts),
     _previous_fail(0),
     _previous_miss(0),
     _previous_success(0),

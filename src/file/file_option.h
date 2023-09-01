@@ -13,7 +13,7 @@ struct Options {
 
   uint16_t survival_nb_targets = 5;
   uint16_t survival_speed = 10;
-  std::string survival_difficulty = "normal";
+  std::string survival_difficulty = "Normal";
   uint16_t survival_max_fail = 10; // FIX: Adapt
   uint16_t survival_max_miss = 10;
   uint16_t survival_next_level = 50;

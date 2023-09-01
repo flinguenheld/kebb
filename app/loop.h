@@ -17,7 +17,7 @@
 
 class Loop {
 public:
-  Loop(kebb::boxsize screen_size, std::shared_ptr<Renderer> renderer, std::shared_ptr<OptionFile> options,
+  Loop(widget::boxsize screen_size, std::shared_ptr<Renderer> renderer, std::shared_ptr<OptionFile> options,
        std::shared_ptr<LayoutFile> layouts);
 
   void run(Controller &controller);
@@ -30,7 +30,7 @@ private:
   std::shared_ptr<LayoutFile> _layouts;
 
   std::shared_ptr<Renderer> _renderer;
-  const kebb::boxsize _screen_size;
+  const widget::boxsize _screen_size;
 };
 
 #endif

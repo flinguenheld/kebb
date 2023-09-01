@@ -1,7 +1,7 @@
 #include "target.h"
 
 // clang-format off
-Target::Target(kebb::point center_area, uint16_t radius_area, kebb::boxsize char_size, uint16_t speed,
+Target::Target(widget::point center_area, uint16_t radius_area, widget::boxsize char_size, uint16_t speed,
     std::shared_ptr<Dispatcher> dispatcher, std::shared_ptr<Score> score,std::shared_ptr<LayoutFile> layouts) :
 
   WidgetTextBox(center_area, char_size, TextBoxAlign::TB_Center),
@@ -19,9 +19,9 @@ Target::Target(kebb::point center_area, uint16_t radius_area, kebb::boxsize char
 {
   set_speed(speed);
 
-  _green = kebb::color(kebb::ColorName::C_Green);
-  _red = kebb::color(kebb::ColorName::C_Red);
-  _white = kebb::color(kebb::ColorName::C_Text);
+  _green = widget::color(widget::ColorName::C_Green);
+  _red = widget::color(widget::ColorName::C_Red);
+  _white = widget::color(widget::ColorName::C_Text);
 }
 
 bool Target::check_key(const std::string &c) {
@@ -66,8 +66,8 @@ void Target::update() {
       _position.y += _move_y;
 
       // Distance to the text center
-      distance = _center_area.distance(kebb::point{static_cast<uint16_t>(_position.x + _size.w / 2),
-                                                   static_cast<uint16_t>(_position.y + _size.h / 2)});
+      distance = _center_area.distance(widget::point{static_cast<uint16_t>(_position.x + _size.w / 2),
+                                                     static_cast<uint16_t>(_position.y + _size.h / 2)});
 
       if (distance <= _radius_area * 0.2) {
         _color_text.a = _color_text.a > 200 ? 200 : _color_text.a + 5;

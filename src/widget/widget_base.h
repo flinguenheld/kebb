@@ -7,31 +7,30 @@
 #include "utils.h"
 #include <iostream>
 #include <math.h>
-#include <string>
 #include <vector>
 
 class WidgetBase {
 public:
-  WidgetBase(kebb::point position, kebb::boxsize size);
+  WidgetBase(widget::point position, widget::boxsize size);
   virtual ~WidgetBase();
-  virtual void render(SDL_Renderer *renderer, TTF_Font *font) const {}
   virtual void render(SDL_Renderer *renderer) const {}
+  virtual void render(SDL_Renderer *renderer, TTF_Font *font) const {}
 
-  kebb::point position() const;
-  kebb::boxsize size() const;
+  widget::point position() const;
+  widget::boxsize size() const;
   SDL_Color color() const;
 
   void set_x(uint16_t x);
   void set_y(uint16_t y);
   void set_w(uint16_t w);
   void set_h(uint16_t h);
-  void set_size(const kebb::boxsize &s);
+  void set_size(const widget::boxsize &s);
   void set_color(const SDL_Color &c);
   void set_visible(bool v);
 
 protected:
-  kebb::point _position;
-  kebb::boxsize _size;
+  widget::point _position;
+  widget::boxsize _size;
   SDL_Color _color;
   bool _visible;
 };

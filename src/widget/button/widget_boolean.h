@@ -12,7 +12,7 @@
 class WidgetBoolean : public WidgetSelection {
 
 public:
-  WidgetBoolean(kebb::point pos_center, kebb::boxsize size_char, std::string &&text, bool selected = false,
+  WidgetBoolean(widget::point pos_center, widget::boxsize size_char, std::string &&text, bool selected = false,
                 bool status = false);
   virtual ~WidgetBoolean() override;
 

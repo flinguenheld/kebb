@@ -1,13 +1,13 @@
 #include "widget_boolean.h"
 
-WidgetBoolean::WidgetBoolean(kebb::point pos_center, kebb::boxsize size_char, std::string &&text,
+WidgetBoolean::WidgetBoolean(widget::point pos_center, widget::boxsize size_char, std::string &&text,
                              bool selected, bool status)
     : WidgetSelection(pos_center, size_char, std::move(text), selected), _status(status) {
 
-  _color_bt_on = kebb::color(kebb::ColorName::C_Sky);
-  _color_bt = kebb::color(kebb::ColorName::C_Surface0);
-  _color_bg = kebb::color(kebb::ColorName::C_Surface2);
-  _color_border = kebb::color(kebb::ColorName::C_Surface1);
+  _color_bt_on = widget::color(widget::ColorName::C_Sky);
+  _color_bt = widget::color(widget::ColorName::C_Surface0);
+  _color_bg = widget::color(widget::ColorName::C_Surface2);
+  _color_border = widget::color(widget::ColorName::C_Surface1);
 
   // ------------------------------------------------------------------------
   // Geometry ---------------------------------------------------------------
