@@ -18,7 +18,7 @@ It currently works with QWERTY, AZERTY, BÉPO and optimot layouts.
 
 #### Install from package
 
-Pre-built package for Debian is available on the [Releases](https://github.com/flinguenheld/kebb/releases) page.
+Pre-built packages for Debian & Arch based distributions are available on the [Releases](https://github.com/flinguenheld/kebb/releases) page.
 
 ---
 
@@ -26,10 +26,9 @@ Pre-built package for Debian is available on the [Releases](https://github.com/f
 
 ##### Dependencies
 
-- **CMake >= 3.7**:
-  - [CMake install](https://cmake.org/install/)
-- **g++:**
-  - Mac: [install Xcode command line tools to get make](https://developer.apple.com/xcode/features/)
+- Make
+- CMake >= 3.24
+- g++
 
 ##### Build
 

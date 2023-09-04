@@ -148,7 +148,7 @@ void WindowSurvivalMode::logic() {
 
   auto percentage = (_points - previous_level) * 100 / (((*it).points_next_level) - previous_level);
   _widget_gauge->set_percentage(percentage);
-  _widget_gauge->set_level(it - _levels.begin() + 1);
+  _widget_gauge->set_level(it - _levels.begin());
 
   // Last level !
   if (it == _levels.end() - 1) {
@@ -197,6 +197,6 @@ void WindowSurvivalMode::save_record() const {
                  .time_game = _score->seconds_spent(),
                  .survival_nb_targets = _options->get().survival_nb_targets,
                  .survival_speed = _options->get().survival_speed,
-                 .survival_level_reached = static_cast<uint16_t>(_widget_gauge->get_level() - 1),
+                 .survival_level_reached = static_cast<uint16_t>(_widget_gauge->get_level()),
                  .survival_difficulty = _options->get().survival_difficulty});
 }
