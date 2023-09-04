@@ -1,28 +1,29 @@
 #include "widget_boolean.h"
 
-WidgetBoolean::WidgetBoolean(kebb::point pos_center, kebb::boxsize size_char, std::string &&text,
+WidgetBoolean::WidgetBoolean(widget::point pos_center, widget::boxsize size_char, std::string &&text,
                              bool selected, bool status)
     : WidgetSelection(pos_center, size_char, std::move(text), selected), _status(status) {
 
-  _color_bt_on = kebb::color(kebb::ColorName::C_Sky);
-  _color_bt = kebb::color(kebb::ColorName::C_Surface0);
-  _color_bg = kebb::color(kebb::ColorName::C_Surface2);
-  _color_border = kebb::color(kebb::ColorName::C_Surface1);
+  _color_bt_on = widget::color(widget::ColorName::C_Sky);
+  _color_bt = widget::color(widget::ColorName::C_Surface0);
+  _color_bg = widget::color(widget::ColorName::C_Surface2);
+  _color_border = widget::color(widget::ColorName::C_Surface1);
 
   // ------------------------------------------------------------------------
   // Geometry ---------------------------------------------------------------
   _bt_border.w = size_char.w * 6;
   _bt_border.h = size_char.h * 0.85;
 
-  _space_width = size_char.w * 3;
-  _total_width = _size.w + _space_width + _bt_border.w;
+  const uint16_t _space_width = size_char.w * 2;
+  const uint16_t _total_width = _size.w + _space_width + _bt_border.w;
+  const uint16_t x_left = pos_center.x - _total_width / 2;
 
-  _position.x = pos_center.x - _total_width / 2;
-  _bt_border.x = _position.x + _size.w + _space_width;
-  _bt_border.y = _position.y + (size_char.h - _bt_border.h) / 2;
+  _position.x = x_left + _size.w / 2; // Text position
 
-  // -------------------------------------------
-  // ------------------------------
+  // Button --
+  _bt_border.x = x_left + _size.w + _space_width;
+  _bt_border.y = _position.y - _size.h * 0.4;
+
   _bt_background.w = _bt_border.w * 0.90;
   _bt_background.h = _bt_border.h * 0.80;
   _bt_background.x = _bt_border.x + (_bt_border.w - _bt_background.w) / 2;

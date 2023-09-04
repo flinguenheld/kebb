@@ -1,9 +1,7 @@
 #ifndef WIDGET_SELECTION_H
 #define WIDGET_SELECTION_H
 
-#include "SDL_pixels.h"
-#include "widget/widget_textbox.h"
-#include <cstdint>
+#include "widget_textbox.h"
 
 // Use by child WidgetList
 struct SelectionItem {
@@ -19,7 +17,7 @@ struct SelectionItem {
  */
 class WidgetSelection : public WidgetTextBox {
 public:
-  WidgetSelection(kebb::point pos_center, kebb::boxsize size_char, std::string &&text, bool selected = false);
+  WidgetSelection(widget::point pos_center, widget::boxsize size_char, std::string &&text, bool selected = false);
   virtual ~WidgetSelection() override;
 
   void set_selected(bool val);

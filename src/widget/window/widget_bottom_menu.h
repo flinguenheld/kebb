@@ -2,7 +2,7 @@
 #define WIDGET_BOTTOM_MENU_H
 
 #include "renderer.h"
-#include "widget/widget_textbox.h"
+#include "widget_textbox.h"
 #include <memory>
 
 /*
@@ -10,7 +10,7 @@
  */
 class WidgetBottomMenu {
 public:
-  WidgetBottomMenu(kebb::boxsize screen_size, std::shared_ptr<Renderer> renderer, std::string &&text);
+  WidgetBottomMenu(widget::boxsize screen_size, std::shared_ptr<Renderer> renderer, std::string &&text);
   void render() const;
 
 private:

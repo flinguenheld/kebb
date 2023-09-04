@@ -1,9 +1,8 @@
 #ifndef WIDGET_BOOLEAN_H
 #define WIDGET_BOOLEAN_H
 
-#include "SDL_render.h"
-#include "widget/button/widget_selection.h"
-#include "widget/widget_textbox.h"
+#include "button/widget_selection.h"
+#include "widget_textbox.h"
 
 /*
  * Based on a WidgetSelection which is itself based on WidgetTextBox, this class displays a text and a button
@@ -13,7 +12,7 @@
 class WidgetBoolean : public WidgetSelection {
 
 public:
-  WidgetBoolean(kebb::point pos_center, kebb::boxsize size_char, std::string &&text, bool selected = false,
+  WidgetBoolean(widget::point pos_center, widget::boxsize size_char, std::string &&text, bool selected = false,
                 bool status = false);
   virtual ~WidgetBoolean() override;
 
@@ -33,8 +32,8 @@ private:
   SDL_Color _color_border;
   SDL_Color _color_bg;
 
-  uint16_t _space_width;
-  uint16_t _total_width; // Textbox + space + button
+  // uint16_t _space_width;
+  // uint16_t _total_width; // Textbox + space + button
 
   SDL_Rect _bt_border;
   SDL_Rect _bt_background;

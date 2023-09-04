@@ -1,18 +1,17 @@
 #include "widget_list.h"
 
-WidgetList::WidgetList(kebb::point pos_center, kebb::boxsize size_char, std::string &&text,
+WidgetList::WidgetList(widget::point pos_center, widget::boxsize size_char, std::string &&text,
                        std::vector<SelectionItem> &&choices, bool selected)
     : WidgetSelection(pos_center, size_char, std::move(text), selected), _choices(std::move(choices)),
-      _it(_choices.begin()), _size_char(size_char), _longest_choice_width(0), _space(0) {
+      _it(_choices.begin()), _size_char(size_char) {
 
   init(pos_center);
 }
 
-WidgetList::WidgetList(kebb::point pos_center, kebb::boxsize size_char, std::string &&text,
+WidgetList::WidgetList(widget::point pos_center, widget::boxsize size_char, std::string &&text,
                        uint16_t range_start, uint16_t range_stop, uint16_t step, bool selected)
 
-    : WidgetSelection(pos_center, size_char, std::move(text), selected), _size_char(size_char),
-      _longest_choice_width(0), _space(0) {
+    : WidgetSelection(pos_center, size_char, std::move(text), selected), _size_char(size_char) {
 
   for (; range_start <= range_stop; range_start += step)
     _choices.emplace_back(SelectionItem{.text = std::to_string(range_start), .value_uint = range_start});
@@ -24,25 +23,30 @@ WidgetList::WidgetList(kebb::point pos_center, kebb::boxsize size_char, std::str
 
 WidgetList::~WidgetList() {}
 
-void WidgetList::init(kebb::point pos_center) {
+void WidgetList::init(widget::point pos_center) {
+
+  uint16_t longest_choice_width = 0;
 
   // Geometry --
-  // Find the longest word
+  // Find the longest choice
   for (const auto &item : _choices) {
-    if (item.text.length() * _size_char.w > _longest_choice_width)
-      _longest_choice_width = item.text.length() * _size_char.w;
+    if (item.text.length() * _size_char.w > longest_choice_width)
+      longest_choice_width = item.text.length() * _size_char.w;
   }
 
-  _space = _size_char.w * 2;
+  // Set text positions with the widest choice
+  const uint16_t space = _size_char.w * 2;
+  const uint16_t width_total = _size.w + space + longest_choice_width;
+  const uint16_t x_left = pos_center.x - width_total / 2;
 
-  // Set the global position with the widest choice
-  _position.x = pos_center.x - (_size.w + _space + _longest_choice_width) / 2;
+  _position.x = x_left + _size.w / 2;
+  widget::point pt_choices = {static_cast<uint16_t>(x_left + _size.w + space + longest_choice_width / 2),
+                            pos_center.y};
 
-  // The _tb_choice position and width will be updated by display_current_it()
-  kebb::boxsize size_choices = {_longest_choice_width, _size_char.h};
-  _tb_choice = std::make_unique<WidgetTextBox>(_position, size_choices);
-  _tb_choice->set_color_text(kebb::color(kebb::ColorName::C_Teal));
-  display_current_it();
+  // Create the second textbox
+  widget::boxsize size_choices = {longest_choice_width, _size_char.h};
+  _tb_choice = std::make_unique<WidgetTextBox>(pt_choices, _size_char, TextBoxAlign::TB_Center);
+  _tb_choice->set_color_text(widget::color(widget::ColorName::C_Teal));
 }
 
 // ------------------------------------------------------------------------
@@ -53,7 +57,7 @@ void WidgetList::set_choice_by_value(const std::string &value) {
   while (_it != _choices.end()) {
 
     if ((*_it).value_string == value) {
-      display_current_it();
+      _tb_choice->set_text((*_it).text);
       return;
     }
     ++_it;
@@ -68,7 +72,7 @@ void WidgetList::set_choice_by_value(uint16_t value) { // TODO: Rewrite both ?
   while (_it != _choices.end()) {
 
     if ((*_it).value_uint == value) {
-      display_current_it();
+      _tb_choice->set_text((*_it).text);
       return;
     }
     ++_it;
@@ -86,7 +90,7 @@ void WidgetList::action_left() {
 
   --_it;
 
-  display_current_it();
+  _tb_choice->set_text((*_it).text);
 }
 void WidgetList::action_right() {
 
@@ -94,20 +98,7 @@ void WidgetList::action_right() {
   if (_it == _choices.end())
     _it = _choices.begin();
 
-  display_current_it();
-}
-
-/*
- * Take the current text, resize tb_choice and set the text.
- */
-void WidgetList::display_current_it() {
-  std::string new_choice((*_it).text);
-
-  uint16_t new_width = new_choice.length() * _size_char.w;
-
-  _tb_choice->set_w(new_width);
-  _tb_choice->set_x(_position.x + _size.w + _space + (_longest_choice_width - new_width) / 2);
-  _tb_choice->set_text(std::move(new_choice));
+  _tb_choice->set_text((*_it).text);
 }
 
 // ------------------------------------------------------------------------

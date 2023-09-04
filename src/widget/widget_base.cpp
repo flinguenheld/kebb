@@ -1,14 +1,14 @@
 #include "widget_base.h"
 
-WidgetBase::WidgetBase(kebb::point position, kebb::boxsize size)
+WidgetBase::WidgetBase(widget::point position, widget::boxsize size)
     : _position(position), _size(size), _color({255, 255, 255, 1}), _visible(true) {}
 WidgetBase::~WidgetBase() {}
 
-kebb::point WidgetBase::position() const { return _position; };
-kebb::boxsize WidgetBase::size() const { return _size; }
+widget::point WidgetBase::position() const { return _position; };
+widget::boxsize WidgetBase::size() const { return _size; }
 SDL_Color WidgetBase::color() const { return _color; }
 
-void WidgetBase::set_size(const kebb::boxsize &s) { _size = s; }
+void WidgetBase::set_size(const widget::boxsize &s) { _size = s; }
 void WidgetBase::set_color(const SDL_Color &c) { _color = c; }
 void WidgetBase::set_visible(bool v) { _visible = v; }
 
