@@ -14,3 +14,12 @@
 
 5. Check:  
    `lintian kebb.deb`
+
+#### Arch:
+
+1. List dependencies:  
+   `readelf -d kebb | grep NEEDED`
+   `find-libdeps .tar.gz`
+
+2. Create .zst
+   `makepkg`
