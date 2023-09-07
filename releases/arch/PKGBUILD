@@ -9,8 +9,7 @@ license=('GPL')
 depends=('sdl2_ttf' 'sdl2' 'gcc-libs' 'glibc' 'lib32-gcc-libs')
 makedepends=('make' 'cmake' 'gcc')
 source=("$pkgname-$pkgver::https://github.com/flinguenheld/kebb/archive/refs/tags/v$pkgver.tar.gz")
-md5sums=('b7fed80e3974101677e05615b8672fc0')
-
+md5sums=('9f465c647c6023976cd1bdf61b58f020')
 
 build() {
 	cd "$srcdir/$pkgname-$pkgver"
@@ -29,6 +28,10 @@ package() {
 	cd ..
 	mkdir -p "$pkgdir/usr/share/$pkgname/font"
 	mkdir -p "$pkgdir/usr/share/$pkgname/layout"
+	mkdir -p "$pkgdir/usr/share/applications"
 	cp -R font/ "$pkgdir/usr/share/$pkgname"
 	cp -R layout/ "$pkgdir/usr/share/$pkgname"
+
+	cp icon/kebb.png "$pkgdir/usr/share/$pkgname/"
+	cp icon/kebb.desktop "$pkgdir/usr/share/applications/"
 }

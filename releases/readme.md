@@ -21,5 +21,5 @@
    `readelf -d kebb | grep NEEDED`
    `find-libdeps .tar.gz`
 
-2. Create .zst
+2. Create .zst  
    `makepkg`
