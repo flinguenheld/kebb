@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.3.0
+Name=kebb
+Comment=Improve your typing skills
+Exec=kebb
+Icon=/usr/share/kebb/kebb.png
+Terminal=false
+Type=Application
+StartupNotify=true
